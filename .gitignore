@@ -3,3 +3,4 @@ __pycache__/
 .ipynb_checkpoints/
 .env
 hedge_fund.db
+paper_trading.db
