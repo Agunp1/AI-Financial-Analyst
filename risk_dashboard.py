@@ -265,7 +265,7 @@ def render_risk_dashboard():
 
         except ValueError as error:
             st.warning(f"Historical VaR unavailable: {error}")
-            
+
     holdings = report["holdings"]
 
         # Day 38 — Portfolio Stress Testing
