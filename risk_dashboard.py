@@ -10,7 +10,7 @@ from risk_engine import (
     MAX_POSITION_WEIGHT,
     MIN_CASH_RESERVE,
 )
-
+from stress_engine import run_stress_tests
 
 BASE_DIR = Path(__file__).resolve().parent
 PAPER_DB = BASE_DIR / "paper_trading.db"
@@ -225,7 +225,38 @@ def render_risk_dashboard():
             "cash-reserve or position-concentration limits."
         )
 
+    
+
     holdings = report["holdings"]
+
+        # Day 38 — Portfolio Stress Testing
+    st.divider()
+    st.subheader("Portfolio Stress Testing")
+
+    st.caption(
+        "Hypothetical market-decline scenarios applied "
+        "to simulated holdings. Not a forecast."
+    )
+
+    stress_results = run_stress_tests(report)
+
+    st.dataframe(
+        stress_results.round(2),
+        width="stretch",
+        hide_index=True,
+    )
+
+    stress_fig = px.bar(
+        stress_results,
+        x="Scenario",
+        y="Portfolio P&L ($)",
+        title="Portfolio Impact Under Market Stress",
+    )
+
+    st.plotly_chart(
+        stress_fig,
+        width="stretch",
+    )
 
     if holdings.empty:
         st.info(
@@ -314,4 +345,3 @@ if __name__ == "__main__":
         layout="wide",
     )
     render_risk_dashboard()
-    
