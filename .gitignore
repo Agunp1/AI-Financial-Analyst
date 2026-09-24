@@ -1,6 +1,11 @@
 .venv/
-__pycache__/
-.ipynb_checkpoints/
 .env
-hedge_fund.db
-paper_trading.db
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Local databases and backups
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
