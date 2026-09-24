@@ -1,9 +1,12 @@
 
 import sqlite3
+from pathlib import Path
 
 import pandas as pd
 import plotly.express as px
 import streamlit as st
+
+from paper_dashboard import show_paper_dashboard
 
 
 # ==================================================
@@ -17,6 +20,7 @@ st.set_page_config(
 )
 
 st.title("Vittantra")
+
 st.caption(
     "AI-powered investment research, portfolio analytics "
     "and simulated trading"
@@ -24,14 +28,33 @@ st.caption(
 
 
 # ==================================================
-# LOAD EXISTING DATABASE
+# DATABASE CONFIGURATION
 # ==================================================
 
-with sqlite3.connect("hedge_fund.db") as conn:
+PROJECT_DIR = Path(__file__).resolve().parent
+
+HEDGE_FUND_DB = PROJECT_DIR / "hedge_fund.db"
+
+
+# ==================================================
+# LOAD HISTORICAL MARKET AND ECONOMIC DATA
+# ==================================================
+
+if not HEDGE_FUND_DB.exists():
+    st.error("hedge_fund.db was not found in the project folder.")
+    st.stop()
+
+with sqlite3.connect(
+    f"{HEDGE_FUND_DB.as_uri()}?mode=ro",
+    uri=True
+) as conn:
 
     prices = pd.read_sql_query(
         """
-        SELECT date, ticker, close_price
+        SELECT
+            date,
+            ticker,
+            close_price
         FROM daily_prices
         ORDER BY date, ticker
         """,
@@ -52,7 +75,7 @@ with sqlite3.connect("hedge_fund.db") as conn:
     )
 
 
-# Convert date columns into datetime objects.
+# Convert database dates to pandas datetime.
 
 prices["date"] = pd.to_datetime(
     prices["date"]
@@ -78,14 +101,15 @@ section = st.sidebar.radio(
     [
         "Market Overview",
         "Economic Indicators",
-        "Portfolio Analytics"
+        "Portfolio Analytics",
+        "Paper Trading"
     ]
 )
 
 st.sidebar.divider()
 
 st.sidebar.caption(
-    "Historical research and simulated portfolio analysis. "
+    "Historical investment research and simulated trading. "
     "Not live investment advice."
 )
 
@@ -97,6 +121,10 @@ st.sidebar.caption(
 if section == "Market Overview":
 
     st.header("Market Overview")
+
+    if prices.empty:
+        st.warning("No historical stock prices are available.")
+        st.stop()
 
     tickers = sorted(
         prices["ticker"].unique()
@@ -115,23 +143,25 @@ if section == "Market Overview":
         .copy()
     )
 
-    latest_price = stock["close_price"].iloc[-1]
+    latest_price = float(
+        stock["close_price"].iloc[-1]
+    )
 
     latest_date = stock["date"].iloc[-1]
 
     col1, col2 = st.columns(2)
 
     col1.metric(
-        "Latest historical closing price",
+        "Latest Historical Closing Price",
         f"${latest_price:,.2f}"
     )
 
     col2.metric(
-        "Latest available date",
+        "Latest Available Date",
         latest_date.strftime("%b %d, %Y")
     )
 
-    fig = px.line(
+    price_fig = px.line(
         stock,
         x="date",
         y="close_price",
@@ -146,7 +176,7 @@ if section == "Market Overview":
     )
 
     st.plotly_chart(
-        fig,
+        price_fig,
         width="stretch"
     )
 
@@ -161,6 +191,11 @@ if section == "Market Overview":
         hide_index=True
     )
 
+    st.caption(
+        "These are stored historical closing prices, "
+        "not live market quotes."
+    )
+
 
 # ==================================================
 # PAGE 2 — ECONOMIC INDICATORS
@@ -172,9 +207,13 @@ elif section == "Economic Indicators":
 
     st.caption(
         "Historical economic data using the latest "
-        "stored vintage of each observation. "
+        "stored vintage for each observation. "
         "This page is not a point-in-time backtest."
     )
+
+    if economic.empty:
+        st.warning("No economic indicators are available.")
+        st.stop()
 
     indicators = sorted(
         economic["indicator"].unique()
@@ -198,23 +237,27 @@ elif section == "Economic Indicators":
         .copy()
     )
 
+    if series.empty:
+        st.warning("No observations found.")
+        st.stop()
+
     latest_observation = series.iloc[-1]
 
     col1, col2 = st.columns(2)
 
     col1.metric(
-        "Latest stored observation",
+        "Latest Stored Observation",
         f"{latest_observation['value']:,.2f}"
     )
 
     col2.metric(
-        "Observation date",
+        "Observation Date",
         latest_observation[
             "observation_date"
         ].strftime("%b %d, %Y")
     )
 
-    fig = px.line(
+    economic_fig = px.line(
         series,
         x="observation_date",
         y="value",
@@ -230,7 +273,7 @@ elif section == "Economic Indicators":
     )
 
     st.plotly_chart(
-        fig,
+        economic_fig,
         width="stretch"
     )
 
@@ -255,13 +298,12 @@ elif section == "Portfolio Analytics":
     st.header("Portfolio Analytics")
 
     st.caption(
-        "Historical equal-weight buy-and-hold simulation "
-        "using five stocks. Not live prices or actual "
-        "trading performance."
+        "Historical equal-weight buy-and-hold simulation. "
+        "Not actual trading performance."
     )
 
     # ----------------------------------------------
-    # PREPARE PORTFOLIO PRICES
+    # HISTORICAL PRICE MATRIX
     # ----------------------------------------------
 
     tickers = [
@@ -282,6 +324,19 @@ elif section == "Portfolio Analytics":
         .sort_index()
     )
 
+    missing_tickers = [
+        ticker
+        for ticker in tickers
+        if ticker not in portfolio_prices.columns
+    ]
+
+    if missing_tickers:
+        st.error(
+            "Missing historical prices for: "
+            + ", ".join(missing_tickers)
+        )
+        st.stop()
+
     portfolio_prices = (
         portfolio_prices[tickers]
         .dropna()
@@ -294,7 +349,7 @@ elif section == "Portfolio Analytics":
         st.stop()
 
     # ----------------------------------------------
-    # INITIAL INVESTMENT
+    # INITIAL PORTFOLIO
     # ----------------------------------------------
 
     starting_capital = 100_000
@@ -309,7 +364,7 @@ elif section == "Portfolio Analytics":
     )
 
     # Fractional shares are permitted.
-    # No dividends, fees or taxes are included.
+    # Dividends, fees and taxes are excluded.
 
     shares = (
         initial_investment
@@ -317,7 +372,7 @@ elif section == "Portfolio Analytics":
     )
 
     # ----------------------------------------------
-    # BUY-AND-HOLD PORTFOLIO
+    # BUY-AND-HOLD SIMULATION
     # ----------------------------------------------
 
     holdings_values = (
@@ -356,15 +411,15 @@ elif section == "Portfolio Analytics":
     # SUMMARY METRICS
     # ----------------------------------------------
 
-    final_equity = (
+    final_equity = float(
         portfolio_equity.iloc[-1]
     )
 
-    total_return = (
+    total_return = float(
         cumulative_return.iloc[-1]
     )
 
-    max_drawdown = (
+    max_drawdown = float(
         drawdown.min()
     )
 
@@ -423,9 +478,7 @@ elif section == "Portfolio Analytics":
         ),
         labels={
             "date": "Date",
-            "Portfolio Value": (
-                "Portfolio Value ($)"
-            )
+            "Portfolio Value": "Portfolio Value ($)"
         }
     )
 
@@ -435,7 +488,7 @@ elif section == "Portfolio Analytics":
     )
 
     # ----------------------------------------------
-    # PORTFOLIO DRAWDOWN CHART
+    # DRAWDOWN CHART
     # ----------------------------------------------
 
     st.subheader(
@@ -453,9 +506,7 @@ elif section == "Portfolio Analytics":
         drawdown_df,
         x="date",
         y="Drawdown (%)",
-        title=(
-            "Historical Portfolio Drawdown"
-        ),
+        title="Historical Portfolio Drawdown",
         labels={
             "date": "Date",
             "Drawdown (%)": "Drawdown (%)"
@@ -513,3 +564,12 @@ elif section == "Portfolio Analytics":
         "fractional shares and no rebalancing. "
         "Dividends, fees and taxes are excluded."
     )
+
+
+# ==================================================
+# PAGE 4 — PAPER TRADING
+# ==================================================
+
+elif section == "Paper Trading":
+
+    show_paper_dashboard(prices)
