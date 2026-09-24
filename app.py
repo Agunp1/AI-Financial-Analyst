@@ -7,7 +7,7 @@ import plotly.express as px
 import streamlit as st
 
 from paper_dashboard import show_paper_dashboard
-
+from risk_dashboard import render_risk_dashboard
 
 # ==================================================
 # VITTANTRA — PAGE CONFIGURATION
@@ -102,7 +102,8 @@ section = st.sidebar.radio(
         "Market Overview",
         "Economic Indicators",
         "Portfolio Analytics",
-        "Paper Trading"
+        "Paper Trading",
+        "Risk Monitoring",
     ]
 )
 
@@ -571,5 +572,7 @@ elif section == "Portfolio Analytics":
 # ==================================================
 
 elif section == "Paper Trading":
-
     show_paper_dashboard(prices)
+
+elif section == "Risk Monitoring":
+    render_risk_dashboard()
