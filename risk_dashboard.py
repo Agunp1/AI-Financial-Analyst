@@ -12,6 +12,7 @@ from risk_engine import (
 )
 from stress_engine import run_stress_tests
 from var_engine import calculate_historical_var
+from var_backtesting import backtest_historical_var
 
 BASE_DIR = Path(__file__).resolve().parent
 PAPER_DB = BASE_DIR / "paper_trading.db"
@@ -265,7 +266,84 @@ def render_risk_dashboard():
 
         except ValueError as error:
             st.warning(f"Historical VaR unavailable: {error}")
+        # Day 40 — Historical VaR Backtesting
+    st.divider()
+    st.subheader("Historical VaR Backtesting")
+    st.caption(
+        "Rolling one-day historical VaR compared with subsequent "
+        "historical portfolio returns. Research only; not a forecast."
+    )
 
+    try:
+        # Align historical prices for the stocks currently held.
+        held_tickers = report["holdings"]["ticker"].unique()
+
+        price_matrix = (
+            price_history[
+                price_history["ticker"].isin(held_tickers)
+            ]
+            .pivot(
+                index="date",
+                columns="ticker",
+                values="close_price",
+            )
+            .sort_index()
+            .dropna()
+        )
+
+        # Use current holding values as fixed portfolio weights.
+        holding_values = (
+            report["holdings"]
+            .groupby("ticker")["market_value"]
+            .sum()
+        )
+
+        weights = holding_values / holding_values.sum()
+
+        daily_returns = price_matrix.pct_change().dropna()
+
+        portfolio_returns = (
+            daily_returns[weights.index]
+            .mul(weights, axis=1)
+            .sum(axis=1)
+        )
+
+        backtest_results, backtest_summary = backtest_historical_var(
+            portfolio_returns=portfolio_returns,
+            confidence=0.95,
+            window=60,
+            portfolio_value=float(holding_values.sum()),
+        )
+
+        col1, col2, col3 = st.columns(3)
+
+        col1.metric(
+            "Backtest Observations",
+            f"{backtest_summary['Observations']:,}",
+        )
+
+        col2.metric(
+            "VaR Exceptions",
+            f"{backtest_summary['Exceptions']:,}",
+        )
+
+        col3.metric(
+            "Observed Exception Rate",
+            f"{backtest_summary['Observed Exception Rate']:.2%}",
+        )
+
+        st.caption(
+            "Expected exception rate at 95% confidence: 5%. "
+            "Historical results do not guarantee future risk."
+        )
+
+        st.dataframe(
+            backtest_results,
+            width="stretch",
+        )
+
+    except (ValueError, KeyError) as error:
+        st.warning(f"VaR backtesting unavailable: {error}")
     holdings = report["holdings"]
 
         # Day 38 — Portfolio Stress Testing
