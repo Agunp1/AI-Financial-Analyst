@@ -11,6 +11,7 @@ from risk_engine import (
     MIN_CASH_RESERVE,
 )
 from stress_engine import run_stress_tests
+from var_engine import calculate_historical_var
 
 BASE_DIR = Path(__file__).resolve().parent
 PAPER_DB = BASE_DIR / "paper_trading.db"
@@ -65,8 +66,16 @@ def load_risk_data():
             """,
             conn,
         )
-
-    return account, positions, prices
+    with sqlite3.connect(MARKET_DB) as conn:
+        price_history = pd.read_sql_query(
+        """
+        SELECT date, ticker, close_price
+        FROM daily_prices
+        ORDER BY date, ticker
+        """,
+        conn,
+    )
+    return account, positions, prices, price_history
 
 
 def build_risk_report(account, positions, prices):
@@ -178,7 +187,7 @@ def render_risk_dashboard():
     )
 
     try:
-        account, positions, prices = load_risk_data()
+        account, positions, prices, price_history = load_risk_data()
         report = build_risk_report(
             account, positions, prices
         )
@@ -226,7 +235,37 @@ def render_risk_dashboard():
         )
 
     
+        st.divider()
+    st.subheader("Historical Value at Risk")
+    st.caption(
+        "One-day historical VaR and Expected Shortfall using "
+        "stored closing prices. Estimates are not forecasts."
+    )
 
+    if report["holdings"].empty:
+        st.info("Open a simulated position to calculate historical VaR.")
+    else:
+        try:
+            var_results, daily_losses = calculate_historical_var(
+                report["holdings"],
+                price_history,
+            )
+
+            st.dataframe(
+                var_results.round(2),
+                width="stretch",
+                hide_index=True,
+            )
+
+            st.caption(
+                f"Based on {len(daily_losses)} historical daily observations. "
+                "Historical VaR assumes past returns are informative "
+                "about potential future losses."
+            )
+
+        except ValueError as error:
+            st.warning(f"Historical VaR unavailable: {error}")
+            
     holdings = report["holdings"]
 
         # Day 38 — Portfolio Stress Testing
