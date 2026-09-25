@@ -2,8 +2,37 @@
 import unittest
 
 from var_validation import kupiec_pof_test
+from var_validation import conditional_coverage_test
 
+class TestConditionalCoverage(unittest.TestCase):
 
+    def test_valid_result(self):
+        exceptions = [0, 0, 1, 1, 0, 1, 0]
+
+        result = conditional_coverage_test(exceptions)
+
+        self.assertIn("Conditional Coverage LR", result)
+        self.assertIn("P-Value", result)
+        self.assertIn("Reject at 5%", result)
+
+        self.assertGreaterEqual(result["Conditional Coverage LR"], 0)
+        self.assertGreaterEqual(result["P-Value"], 0)
+        self.assertLessEqual(result["P-Value"], 1)
+
+    def test_combined_statistic(self):
+        exceptions = [0, 0, 1, 1, 0, 1, 0]
+
+        result = conditional_coverage_test(exceptions)
+
+        self.assertAlmostEqual(
+            result["Conditional Coverage LR"],
+            9.5036,
+            places=3,
+        )
+
+    def test_insufficient_history(self):
+        with self.assertRaises(ValueError):
+            conditional_coverage_test([])
 class TestKupiecPOF(unittest.TestCase):
 
     def test_existing_backtest(self):

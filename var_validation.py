@@ -130,3 +130,36 @@ def christoffersen_independence_test(exception_series):
         "P-Value": p_value,
         "Reject at 5%": p_value < 0.05,
     }
+from scipy.stats import chi2
+
+
+def conditional_coverage_test(exceptions, confidence=0.95):
+    """
+    Combine Kupiec unconditional coverage and
+    Christoffersen independence tests.
+    """
+    exceptions = list(exceptions)
+
+    if len(exceptions) < 3:
+        raise ValueError("At least 3 observations are required.")
+
+    kupiec = kupiec_pof_test(
+        sum(exceptions),
+        len(exceptions),
+        confidence
+    )
+
+    independence = christoffersen_independence_test(exceptions)
+
+    lr_cc = (
+        kupiec["Kupiec LR Statistic"]
+       + independence["LR Independence"]
+    )
+
+    p_value = float(chi2.sf(lr_cc, df=2))
+
+    return {
+        "Conditional Coverage LR": lr_cc,
+        "P-Value": p_value,
+        "Reject at 5%": p_value < 0.05,
+    }
