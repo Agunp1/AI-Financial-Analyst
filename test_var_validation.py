@@ -57,5 +57,41 @@ class TestKupiecPOF(unittest.TestCase):
             kupiec_pof_test(5, 100, 1.0)
 
 
+from var_validation import christoffersen_independence_test
+
+class TestChristoffersenIndependence(unittest.TestCase):
+
+    def test_insufficient_history(self):
+        with self.assertRaises(ValueError):
+            christoffersen_independence_test([])
+
+    def test_transition_counts(self):
+        exceptions = [0, 0, 1, 1, 0, 1, 0]
+
+        result = christoffersen_independence_test(exceptions)
+
+        self.assertEqual(result["N00"], 1)
+        self.assertEqual(result["N01"], 2)
+        self.assertEqual(result["N10"], 2)
+        self.assertEqual(result["N11"], 1)
+    def test_valid_p_value(self):
+        result = christoffersen_independence_test(
+            [0, 1, 0, 0, 1, 0, 1, 0]
+        )
+        self.assertGreaterEqual(result["P-Value"], 0)
+        self.assertLessEqual(result["P-Value"], 1)
+
+    def test_insufficient_history(self):
+        with self.assertRaises(ValueError):
+            christoffersen_independence_test([0, 1])
+
+    def test_missing_transition_state(self):
+        with self.assertRaises(ValueError):
+            christoffersen_independence_test([0, 0, 0, 0])
+
+    def test_invalid_exception_values(self):
+        with self.assertRaises(ValueError):
+            christoffersen_independence_test([0, 1, 2, 0])
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -61,3 +61,72 @@ def kupiec_pof_test(exceptions, observations, confidence=0.95):
         "P-Value": p_value,
         "Reject at 5%": p_value < 0.05,
     }
+
+import numpy as np
+from scipy.stats import chi2
+
+
+def christoffersen_independence_test(exception_series):
+    """
+    Test whether consecutive VaR exceptions are independent.
+
+    exception_series: chronological sequence of booleans
+                      (True = VaR breach).
+    """
+    exceptions = np.asarray(exception_series, dtype=int)
+
+    if exceptions.ndim != 1 or len(exceptions) < 3:
+        raise ValueError("At least three chronological observations are required.")
+
+    if not np.isin(exceptions, [0, 1]).all():
+        raise ValueError("Exceptions must contain only True/False or 0/1.")
+
+    previous = exceptions[:-1]
+    current = exceptions[1:]
+
+    n00 = int(((previous == 0) & (current == 0)).sum())
+    n01 = int(((previous == 0) & (current == 1)).sum())
+    n10 = int(((previous == 1) & (current == 0)).sum())
+    n11 = int(((previous == 1) & (current == 1)).sum())
+
+    if n00 + n01 == 0 or n10 + n11 == 0:
+        raise ValueError(
+            "Both breach and non-breach states need outgoing transitions."
+        )
+
+    p01 = n01 / (n00 + n01)
+    p11 = n11 / (n10 + n11)
+    p = (n01 + n11) / (n00 + n01 + n10 + n11)
+
+    def log_likelihood(successes, failures, probability):
+        terms = 0.0
+        if successes:
+            if probability == 0:
+                return float("-inf")
+            terms += successes * np.log(probability)
+        if failures:
+            if probability == 1:
+                return float("-inf")
+            terms += failures * np.log1p(-probability)
+        return terms
+
+    log_null = log_likelihood(n01 + n11, n00 + n10, p)
+    log_alt = (
+        log_likelihood(n01, n00, p01)
+        + log_likelihood(n11, n10, p11)
+    )
+
+    lr_statistic = max(0.0, 2 * (log_alt - log_null))
+    p_value = float(chi2.sf(lr_statistic, df=1))
+
+    return {
+        "N00": n00,
+        "N01": n01,
+        "N10": n10,
+        "N11": n11,
+        "P01": p01,
+        "P11": p11,
+        "LR Independence": lr_statistic,
+        "P-Value": p_value,
+        "Reject at 5%": p_value < 0.05,
+    }
