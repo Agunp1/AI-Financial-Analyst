@@ -1,4 +1,3 @@
-
 import sqlite3
 from pathlib import Path
 
@@ -6,13 +5,11 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from risk_engine import (
-    MAX_POSITION_WEIGHT,
-    MIN_CASH_RESERVE,
-)
+from risk_engine import MAX_POSITION_WEIGHT, MIN_CASH_RESERVE
 from stress_engine import run_stress_tests
 from var_engine import calculate_historical_var
 from var_backtesting import backtest_historical_var
+from var_validation import kupiec_pof_test
 
 BASE_DIR = Path(__file__).resolve().parent
 PAPER_DB = BASE_DIR / "paper_trading.db"
@@ -20,11 +17,9 @@ MARKET_DB = BASE_DIR / "hedge_fund.db"
 
 
 def load_risk_data():
-    """Read the simulated account and historical prices."""
-
+    """Read the simulated account and historical prices without modifying them."""
     if not PAPER_DB.exists():
         raise FileNotFoundError("paper_trading.db is missing.")
-
     if not MARKET_DB.exists():
         raise FileNotFoundError("hedge_fund.db is missing.")
 
@@ -38,7 +33,6 @@ def load_risk_data():
             """,
             conn,
         )
-
         positions = pd.read_sql_query(
             """
             SELECT ticker, quantity, average_cost
@@ -67,104 +61,67 @@ def load_risk_data():
             """,
             conn,
         )
-    with sqlite3.connect(MARKET_DB) as conn:
         price_history = pd.read_sql_query(
-        """
-        SELECT date, ticker, close_price
-        FROM daily_prices
-        ORDER BY date, ticker
-        """,
-        conn,
-    )
+            """
+            SELECT date, ticker, close_price
+            FROM daily_prices
+            ORDER BY date, ticker
+            """,
+            conn,
+        )
+
     return account, positions, prices, price_history
 
 
 def build_risk_report(account, positions, prices):
-    """Calculate risk metrics without modifying either database."""
-
+    """Calculate simulated risk metrics without modifying either database."""
     cash = float(account.iloc[0]["cash_balance"])
 
     if positions.empty:
         holdings = pd.DataFrame(
             columns=[
-                "ticker",
-                "quantity",
-                "average_cost",
-                "date",
-                "close_price",
-                "market_value",
-                "cost_basis",
-                "unrealized_pnl",
-                "portfolio_weight",
-                "limit_breached",
+                "ticker", "quantity", "average_cost", "date", "close_price",
+                "market_value", "cost_basis", "unrealized_pnl",
+                "portfolio_weight", "limit_breached",
             ]
         )
     else:
         holdings = positions.merge(
-            prices,
-            on="ticker",
-            how="left",
-            validate="many_to_one",
+            prices, on="ticker", how="left", validate="many_to_one"
         )
-
         if holdings["close_price"].isna().any():
             missing = holdings.loc[
                 holdings["close_price"].isna(), "ticker"
             ].tolist()
             raise ValueError(
-                "Missing historical prices for: "
-                + ", ".join(missing)
+                "Missing historical prices for: " + ", ".join(missing)
             )
-
-        holdings["market_value"] = (
-            holdings["quantity"] * holdings["close_price"]
-        )
-
-        holdings["cost_basis"] = (
-            holdings["quantity"] * holdings["average_cost"]
-        )
-
+        holdings["market_value"] = holdings["quantity"] * holdings["close_price"]
+        holdings["cost_basis"] = holdings["quantity"] * holdings["average_cost"]
         holdings["unrealized_pnl"] = (
             holdings["market_value"] - holdings["cost_basis"]
         )
 
-    holdings_value = float(
-        holdings["market_value"].sum()
-    )
-
+    holdings_value = float(holdings["market_value"].sum())
     equity = cash + holdings_value
-
     if equity <= 0:
-        raise ValueError(
-            "Estimated account equity must be positive."
-        )
+        raise ValueError("Estimated account equity must be positive.")
 
-    holdings["portfolio_weight"] = (
-        holdings["market_value"] / equity
-    )
-
+    holdings["portfolio_weight"] = holdings["market_value"] / equity
     holdings["limit_breached"] = (
         holdings["portfolio_weight"] > MAX_POSITION_WEIGHT
     )
-
     cash_weight = cash / equity
-    unrealized_pnl = float(
-        holdings["unrealized_pnl"].sum()
-    )
+    unrealized_pnl = float(holdings["unrealized_pnl"].sum())
 
     alerts = []
-
     if cash < MIN_CASH_RESERVE:
-        alerts.append(
-            f"Cash reserve below ${MIN_CASH_RESERVE:,.2f}."
-        )
-
+        alerts.append(f"Cash reserve below ${MIN_CASH_RESERVE:,.2f}.")
     for _, position in holdings.iterrows():
         if position["limit_breached"]:
             alerts.append(
                 f"{position['ticker']} exceeds the "
-                f"{MAX_POSITION_WEIGHT:.0%} "
-                "single-position limit."
+                f"{MAX_POSITION_WEIGHT:.0%} single-position limit."
             )
 
     return {
@@ -179,217 +136,175 @@ def build_risk_report(account, positions, prices):
 
 
 def render_risk_dashboard():
-    """Render the Day 36 simulated risk dashboard."""
-
+    """Render the simulated risk dashboard, including VaR validation."""
     st.header("Risk Monitoring")
     st.caption(
-        "Simulated portfolio risk using stored historical "
-        "closing prices. Not live market data."
+        "Simulated portfolio risk using stored historical closing prices. "
+        "Not live market data."
     )
 
     try:
         account, positions, prices, price_history = load_risk_data()
-        report = build_risk_report(
-            account, positions, prices
-        )
-    except (
-        FileNotFoundError,
-        ValueError,
-        sqlite3.Error,
-    ) as error:
+        report = build_risk_report(account, positions, prices)
+    except (FileNotFoundError, ValueError, sqlite3.Error) as error:
         st.error(str(error))
         return
 
     st.subheader("Account Risk Overview")
-
     col1, col2, col3 = st.columns(3)
-
-    col1.metric(
-        "Estimated Account Equity",
-        f"${report['equity']:,.2f}",
-    )
-
-    col2.metric(
-        "Available Cash",
-        f"${report['cash']:,.2f}",
-    )
-
+    col1.metric("Estimated Account Equity", f"${report['equity']:,.2f}")
+    col2.metric("Available Cash", f"${report['cash']:,.2f}")
     col3.metric(
-        "Illustrative Unrealized P&L",
-        f"${report['unrealized_pnl']:,.2f}",
+        "Illustrative Unrealized P&L", f"${report['unrealized_pnl']:,.2f}"
     )
-
-    st.metric(
-        "Cash Allocation",
-        f"{report['cash_weight']:.2%}",
-    )
+    st.metric("Cash Allocation", f"{report['cash_weight']:.2%}")
 
     st.subheader("Risk Alerts")
-
     if report["alerts"]:
         for alert in report["alerts"]:
             st.error(alert)
     else:
         st.success(
-            "No breaches of the monitored Day 35 "
-            "cash-reserve or position-concentration limits."
+            "No breaches of the monitored Day 35 cash-reserve "
+            "or position-concentration limits."
         )
 
-    
-        st.divider()
+    holdings = report["holdings"]
+
+    st.divider()
     st.subheader("Historical Value at Risk")
     st.caption(
-        "One-day historical VaR and Expected Shortfall using "
-        "stored closing prices. Estimates are not forecasts."
+        "One-day historical VaR and Expected Shortfall using stored "
+        "closing prices. Estimates are not forecasts."
     )
-
-    if report["holdings"].empty:
+    if holdings.empty:
         st.info("Open a simulated position to calculate historical VaR.")
     else:
         try:
             var_results, daily_losses = calculate_historical_var(
-                report["holdings"],
-                price_history,
+                holdings, price_history
             )
-
-            st.dataframe(
-                var_results.round(2),
-                width="stretch",
-                hide_index=True,
-            )
-
+            st.dataframe(var_results.round(2), width="stretch", hide_index=True)
             st.caption(
                 f"Based on {len(daily_losses)} historical daily observations. "
                 "Historical VaR assumes past returns are informative "
                 "about potential future losses."
             )
-
         except ValueError as error:
             st.warning(f"Historical VaR unavailable: {error}")
-        # Day 40 — Historical VaR Backtesting
+
+    # Day 40 — Historical VaR backtesting
     st.divider()
     st.subheader("Historical VaR Backtesting")
     st.caption(
         "Rolling one-day historical VaR compared with subsequent "
         "historical portfolio returns. Research only; not a forecast."
     )
-
-    try:
-        # Align historical prices for the stocks currently held.
-        held_tickers = report["holdings"]["ticker"].unique()
-
-        price_matrix = (
-            price_history[
-                price_history["ticker"].isin(held_tickers)
-            ]
-            .pivot(
-                index="date",
-                columns="ticker",
-                values="close_price",
+    if holdings.empty:
+        st.info("Open a simulated position to run VaR backtesting.")
+    else:
+        try:
+            held_tickers = holdings["ticker"].unique()
+            price_matrix = (
+                price_history[price_history["ticker"].isin(held_tickers)]
+                .pivot(index="date", columns="ticker", values="close_price")
+                .sort_index()
+                .dropna()
             )
-            .sort_index()
-            .dropna()
-        )
+            holding_values = holdings.groupby("ticker")["market_value"].sum()
+            if holding_values.sum() <= 0:
+                raise ValueError("Positive stock exposure is required.")
+            weights = holding_values / holding_values.sum()
+            daily_returns = price_matrix.pct_change().dropna()
+            portfolio_returns = daily_returns[weights.index].mul(
+                weights, axis=1
+            ).sum(axis=1)
 
-        # Use current holding values as fixed portfolio weights.
-        holding_values = (
-            report["holdings"]
-            .groupby("ticker")["market_value"]
-            .sum()
-        )
+            backtest_results, backtest_summary = backtest_historical_var(
+                portfolio_returns=portfolio_returns,
+                confidence=0.95,
+                window=60,
+                portfolio_value=float(holding_values.sum()),
+            )
 
-        weights = holding_values / holding_values.sum()
+            col1, col2, col3 = st.columns(3)
+            col1.metric(
+                "Backtest Observations",
+                f"{backtest_summary['Observations']:,}",
+            )
+            col2.metric("VaR Exceptions", f"{backtest_summary['Exceptions']:,}")
+            col3.metric(
+                "Observed Exception Rate",
+                f"{backtest_summary['Observed Exception Rate']:.2%}",
+            )
+            st.caption(
+                "Expected exception rate at 95% confidence: 5%. "
+                "Historical results do not guarantee future risk."
+            )
+            st.dataframe(backtest_results, width="stretch")
 
-        daily_returns = price_matrix.pct_change().dropna()
+            # Day 41 — Kupiec proportion-of-failures test
+            st.subheader("VaR Model Validation")
+            validation = kupiec_pof_test(
+                exceptions=int(backtest_summary["Exceptions"]),
+                observations=int(backtest_summary["Observations"]),
+                confidence=0.95,
+            )
+            col1, col2, col3 = st.columns(3)
+            col1.metric(
+                "Kupiec LR Statistic",
+                f"{validation['Kupiec LR Statistic']:.4f}",
+            )
+            col2.metric("P-Value", f"{validation['P-Value']:.4f}")
+            col3.metric(
+                "Observed Exception Rate",
+                f"{validation['Observed Exception Rate']:.2%}",
+            )
+            if validation["Reject at 5%"]:
+                st.warning(
+                    "The Kupiec test rejects the expected exception "
+                    "rate at the 5% significance level."
+                )
+            else:
+                st.info(
+                    "The Kupiec test does not reject the expected "
+                    "exception rate at the 5% significance level."
+                )
+            st.caption(
+                "The Kupiec test assesses the overall frequency of VaR "
+                "exceptions. It does not test whether exceptions are "
+                "independent or clustered. A non-rejection does not "
+                "prove the model is accurate."
+            )
+        except (ValueError, KeyError) as error:
+            st.warning(f"VaR backtesting or validation unavailable: {error}")
 
-        portfolio_returns = (
-            daily_returns[weights.index]
-            .mul(weights, axis=1)
-            .sum(axis=1)
-        )
-
-        backtest_results, backtest_summary = backtest_historical_var(
-            portfolio_returns=portfolio_returns,
-            confidence=0.95,
-            window=60,
-            portfolio_value=float(holding_values.sum()),
-        )
-
-        col1, col2, col3 = st.columns(3)
-
-        col1.metric(
-            "Backtest Observations",
-            f"{backtest_summary['Observations']:,}",
-        )
-
-        col2.metric(
-            "VaR Exceptions",
-            f"{backtest_summary['Exceptions']:,}",
-        )
-
-        col3.metric(
-            "Observed Exception Rate",
-            f"{backtest_summary['Observed Exception Rate']:.2%}",
-        )
-
-        st.caption(
-            "Expected exception rate at 95% confidence: 5%. "
-            "Historical results do not guarantee future risk."
-        )
-
-        st.dataframe(
-            backtest_results,
-            width="stretch",
-        )
-
-    except (ValueError, KeyError) as error:
-        st.warning(f"VaR backtesting unavailable: {error}")
-    holdings = report["holdings"]
-
-        # Day 38 — Portfolio Stress Testing
+    # Day 38 — Portfolio stress testing
     st.divider()
     st.subheader("Portfolio Stress Testing")
-
     st.caption(
-        "Hypothetical market-decline scenarios applied "
-        "to simulated holdings. Not a forecast."
+        "Hypothetical market-decline scenarios applied to simulated "
+        "holdings. Not a forecast."
     )
-
     stress_results = run_stress_tests(report)
-
-    st.dataframe(
-        stress_results.round(2),
-        width="stretch",
-        hide_index=True,
-    )
-
+    st.dataframe(stress_results.round(2), width="stretch", hide_index=True)
     stress_fig = px.bar(
         stress_results,
         x="Scenario",
         y="Portfolio P&L ($)",
         title="Portfolio Impact Under Market Stress",
     )
-
-    st.plotly_chart(
-        stress_fig,
-        width="stretch",
-    )
+    st.plotly_chart(stress_fig, width="stretch")
 
     if holdings.empty:
         st.info(
-            "No open positions. Your simulated "
-            "account currently holds cash only."
+            "No open positions. Your simulated account currently holds cash only."
         )
         return
 
     st.subheader("Portfolio Concentration")
-
-    chart_data = holdings[
-        ["ticker", "portfolio_weight"]
-    ].copy()
-
+    chart_data = holdings[["ticker", "portfolio_weight"]].copy()
     chart_data["portfolio_weight"] *= 100
-
     fig = px.bar(
         chart_data,
         x="ticker",
@@ -400,35 +315,22 @@ def render_risk_dashboard():
             "portfolio_weight": "Portfolio Weight (%)",
         },
     )
-
     fig.add_hline(
         y=MAX_POSITION_WEIGHT * 100,
         line_dash="dash",
-        annotation_text=(
-            f"Limit: {MAX_POSITION_WEIGHT:.0%}"
-        ),
+        annotation_text=f"Limit: {MAX_POSITION_WEIGHT:.0%}",
     )
-
     st.plotly_chart(fig, width="stretch")
 
     st.subheader("Position Risk Details")
-
     display = holdings[
         [
-            "ticker",
-            "quantity",
-            "average_cost",
-            "date",
-            "close_price",
-            "market_value",
-            "unrealized_pnl",
-            "portfolio_weight",
+            "ticker", "quantity", "average_cost", "date", "close_price",
+            "market_value", "unrealized_pnl", "portfolio_weight",
             "limit_breached",
         ]
     ].copy()
-
     display["portfolio_weight"] *= 100
-
     display = display.rename(
         columns={
             "ticker": "Ticker",
@@ -442,23 +344,13 @@ def render_risk_dashboard():
             "limit_breached": "Concentration Breach",
         }
     )
-
-    st.dataframe(
-        display.round(2),
-        width="stretch",
-        hide_index=True,
-    )
-
+    st.dataframe(display.round(2), width="stretch", hide_index=True)
     st.caption(
-        "Risk limits are configurable simulation rules, "
-        "not regulatory limits. Historical prices may "
-        "be stale and differ from executable prices."
+        "Risk limits are configurable simulation rules, not regulatory "
+        "limits. Historical prices may be stale and differ from executable prices."
     )
 
 
 if __name__ == "__main__":
-    st.set_page_config(
-        page_title="Vittantra Risk Monitoring",
-        layout="wide",
-    )
+    st.set_page_config(page_title="Vittantra Risk Monitoring", layout="wide")
     render_risk_dashboard()
