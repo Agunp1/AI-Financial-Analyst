@@ -464,6 +464,18 @@ st.markdown(
 
 
 
+    div[data-testid="stMetricValue"],
+    div[data-testid="stMetricValue"] *,
+    div[data-testid="stMetricLabel"],
+    div[data-testid="stMetricLabel"] * {
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        line-height: 1.15;
+    }
+
+
+
     </style>
 
 
@@ -1896,7 +1908,7 @@ if page == "Command Center":
 
 
 
-    col1, col2, col3, col4, col5 = st.columns(5)
+    col1, col2, col3, col4, col5 = st.columns([1.35, 1, 1, 1, 1.35])
 
 
 
@@ -2048,6 +2060,14 @@ if page == "Command Center":
 
 
 
+        utilization_pct = current_max_utilization * 100
+        if utilization_pct > 100:
+            gauge_bar_color = "#E5484D"
+        elif utilization_pct >= 80:
+            gauge_bar_color = "#F5A524"
+        else:
+            gauge_bar_color = "#12A150"
+
         gauge = go.Figure(
 
 
@@ -2132,7 +2152,7 @@ if page == "Command Center":
 
 
 
-                    "bar": {},
+                    "bar": {"color": gauge_bar_color},
 
 
 
@@ -2145,6 +2165,7 @@ if page == "Command Center":
 
 
                             "range": [0, 80],
+                            "color": "rgba(0, 190, 120, 0.15)",
 
 
 
@@ -2157,6 +2178,7 @@ if page == "Command Center":
 
 
                             "range": [80, 100],
+                            "color": "rgba(255, 170, 0, 0.18)",
 
 
 
@@ -2193,6 +2215,7 @@ if page == "Command Center":
 
 
                             ],
+                            "color": "rgba(255, 75, 75, 0.15)",
 
 
 
@@ -2212,6 +2235,7 @@ if page == "Command Center":
 
 
 
+                            "color": "#B42318",
                             "width": 4,
 
 
@@ -2497,38 +2521,7 @@ if page == "Command Center":
 
 
     arrow.markdown(
-
-
-
-        """
-
-
-
-        <div style="
-
-
-
-            text-align:center;
-
-
-
-            font-size:2rem;
-
-
-
-            padding-top:1.2rem;">
-
-
-
-            →
-
-
-
-        </div>
-
-
-
-        """,
+        '<div style="text-align:center; font-size:2rem; padding-top:1.2rem;">→</div>',
 
 
 
