@@ -10,3 +10,5 @@ __pycache__/
 *.sqlite
 *.sqlite3
 paper_orders_backup_day35.py
+# Generated on every pipeline run
+day75_pipeline_log.csv

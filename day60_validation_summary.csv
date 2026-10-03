@@ -7,5 +7,5 @@ Fixed-income analytics work,True,4 of 4 bond metrics calculated,10,10,1.0
 Option Greeks framework works,True,5 of 5 Greeks calculated,10,10,1.0
 Asset-class exposure sums to 100%,True,weight sum = 1.00000000,10,10,1.0
 Unavailable metrics are explicitly explained,True,28 unavailable metrics carry explicit reasons,10,10,1.0
-Portfolio risk summary produced,True,13 portfolio summary metrics,10,10,1.0
+Portfolio risk summary produced,True,14 portfolio summary metrics,10,10,1.0
 Existing Vittantra VaR engine detected,True,var_engine.calculate_historical_var available,10,10,1.0

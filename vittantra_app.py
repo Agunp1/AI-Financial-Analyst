@@ -62,6 +62,8 @@ from typing import Optional
 
 
 
+import os
+
 import pandas as pd
 
 
@@ -516,7 +518,7 @@ st.markdown(
 
 
 
-@st.cache_data(show_spinner=False)
+@st.cache_data(show_spinner=False, ttl=60)
 
 
 
@@ -1785,6 +1787,18 @@ with st.sidebar:
 
 
         )
+
+    live_prices_df = load_csv(BASE_DIR / "day75_live_instrument_prices.csv")
+    if (
+        not live_prices_df.empty
+        and os.getenv("VITTANTRA_DATA_MODE", "live").lower() != "sample"
+    ):
+        st.caption(
+            "Data: LIVE (free sources, may be delayed) · as of "
+            f"{live_prices_df['as_of_date'].dropna().max()}"
+        )
+    else:
+        st.caption("Data: SAMPLE (illustrative prices, synthetic history)")
 
 
 
@@ -4922,6 +4936,52 @@ elif page == "System":
 
 
 
+
+    st.markdown("### Market Data")
+
+    market_df = load_csv(BASE_DIR / "day75_market_snapshot.csv")
+    macro_df = load_csv(BASE_DIR / "day75_macro_snapshot.csv")
+    data_validation_df = load_csv(BASE_DIR / "day75_validation_summary.csv")
+
+    if live_prices_df.empty:
+        st.info(
+            "No live data yet. Run `python vittantra_data_hub.py` "
+            "(or `python run_vittantra.py`) to download free market data."
+        )
+    else:
+        d1, d2, d3 = st.columns(3)
+        d1.metric(
+            "Tickers Priced",
+            f"{int(market_df['price'].notna().sum())}/{len(market_df)}",
+        )
+        d2.metric(
+            "Fresh",
+            f"{(market_df['status'] == 'FRESH').mean():.0%}",
+        )
+        d3.metric(
+            "Data Checks Passed",
+            f"{int(data_validation_df['passed'].sum())}/{len(data_validation_df)}"
+            if not data_validation_df.empty else "n/a",
+        )
+        st.markdown("**Risk-portfolio prices**")
+        st.dataframe(
+            live_prices_df[
+                ["symbol", "price", "sample_price", "as_of_date", "method", "source", "status"]
+            ],
+            width="stretch",
+            hide_index=True,
+        )
+        st.markdown("**Economic & rates (FRED)**")
+        st.dataframe(
+            macro_df[["series_id", "description", "latest_value", "latest_date"]],
+            width="stretch",
+            hide_index=True,
+        )
+        st.caption(
+            "Sources: Yahoo Finance and FRED (free; prices may be delayed ~15 minutes)."
+        )
+
+    st.divider()
 
     st.markdown("### Architecture")
 

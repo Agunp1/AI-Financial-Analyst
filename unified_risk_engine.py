@@ -52,6 +52,11 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 import numpy as np
 import pandas as pd
 
+from vittantra_live_inputs import (
+    live_valuation_date,
+    load_price_history,
+)
+
 from multi_asset_risk import (
     AssetClass,
     Instrument,
@@ -3075,8 +3080,20 @@ def enrich_sample_instruments(
     Adds illustrative model inputs only where needed to test
     calculation plumbing.
 
-    These are NOT live market observations.
+    These are NOT live market observations. Since Day 75, the option
+    underlying price, risk-free rate and BBB credit spread come from
+    live data (vittantra_data_hub.py) when it is available.
     """
+
+    from vittantra_live_inputs import load_live_macro, load_live_prices
+
+    live_prices = load_live_prices()
+    live_macro = load_live_macro()
+    underlying_price = float(
+        live_prices.get("AAPL", {}).get("price", 205.0)
+    )
+    risk_free_rate = live_macro.get("DGS3MO", 4.0) / 100
+    credit_spread_bps = live_macro.get("BAMLC0A4CBBB", 1.65) * 100
 
     for instrument in instruments:
 
@@ -3092,13 +3109,13 @@ def enrich_sample_instruments(
             instrument.metadata.update(
                 {
                     "underlying_price":
-                        205.0,
+                        underlying_price,
 
                     "implied_volatility":
                         0.28,
 
                     "risk_free_rate":
-                        0.04,
+                        risk_free_rate,
                 }
             )
 
@@ -3110,7 +3127,7 @@ def enrich_sample_instruments(
             instrument.metadata.update(
                 {
                     "credit_spread_bps":
-                        165.0,
+                        credit_spread_bps,
                 }
             )
 
@@ -3848,13 +3865,35 @@ def main() -> None:
     # Synthetic validation data
     # ----------------------------------------------------------
 
-    price_history = (
-        build_validation_price_history(
-            instruments=instruments,
-            observations=320,
-            seed=60,
-        )
+    price_history = load_price_history(
+
+        [instrument.symbol for instrument in instruments]
+
     )
+
+    data_mode = "LIVE" if price_history is not None else "SAMPLE"
+
+
+    if price_history is None:
+
+        price_history = (
+
+            build_validation_price_history(
+
+                instruments=instruments,
+
+                observations=320,
+
+                seed=60,
+
+            )
+
+        )
+
+
+    print(f"Data mode: {data_mode} "
+
+          f"({'real market history' if data_mode == 'LIVE' else 'synthetic validation history'})")
 
     benchmark_symbol = (
         "VITTANTRA_BENCHMARK"
@@ -3865,6 +3904,9 @@ def main() -> None:
     valuation_date = pd.Timestamp(
         "2026-10-02"
     )
+
+    if data_mode == "LIVE":
+        valuation_date = live_valuation_date() or valuation_date
 
     # ----------------------------------------------------------
     # Calculate instrument risk
@@ -3934,6 +3976,22 @@ def main() -> None:
             portfolio_var_result=portfolio_var_result,
             portfolio_var_message=portfolio_var_message,
         )
+    )
+
+    portfolio_summary = pd.concat(
+        [
+            portfolio_summary,
+            pd.DataFrame(
+                [
+                    {
+                        portfolio_summary.columns[0]: "data_mode",
+                        portfolio_summary.columns[1]: data_mode,
+                        portfolio_summary.columns[2]: "Diagnostic",
+                    }
+                ]
+            ),
+        ],
+        ignore_index=True,
     )
 
     # ----------------------------------------------------------

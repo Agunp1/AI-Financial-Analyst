@@ -27,6 +27,7 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 | 71–72 | `vittantra_app.py` | Streamlit app (7 pages) |
 | 73 | `vittantra_ai_analyst.py` | Analyst brief from Days 67–70 |
 | 74 | `vittantra_research_copilot.py` | NL Q&A over Vittantra data |
+| 75 | `vittantra_data_hub.py`, `vittantra_live_inputs.py`, `run_vittantra.py` | Free live data → risk chain; one-command pipeline |
 
 ## Non-negotiable rules
 
@@ -38,6 +39,16 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
   an answer, say so.
 - **No look-ahead bias** in research: point-in-time data, walk-forward splits.
 - Present backtests as historical research results, never as promised returns.
+
+## Data
+
+- Free sources only (Yahoo Finance via yfinance, FRED public CSV). The owner
+  cannot pay for data; do not add paid providers.
+- Data modes: LIVE when `day75_live_instrument_prices.csv` exists, SAMPLE
+  otherwise or with `VITTANTRA_DATA_MODE=sample`. Without live data the
+  Day 60 risk engine uses synthetic validation history; label it as such.
+- The cloud sandbox cannot reach Yahoo/FRED; test with the fake fetchers in
+  `test_data_hub.py`. Live downloads run on the owner's machine.
 
 ## Conventions
 
@@ -52,6 +63,8 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 pip install -r requirements.txt
 python -m unittest discover -p "test_*.py"
 streamlit run vittantra_app.py
+python run_vittantra.py              # refresh data + run Days 59-73
+python run_vittantra.py --sample     # original sample data
 python vittantra_ai_analyst.py
 python vittantra_research_copilot.py
 ```

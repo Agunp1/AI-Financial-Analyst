@@ -49,7 +49,24 @@ python -m unittest discover -p "test_*.py"   # run the test suite
 
 The app reads the `dayNN_*.csv` outputs committed in the repository, so it runs
 without re-generating the research pipeline. Local SQLite databases
-(`hedge_fund.db`, `paper_trading.db`) are intentionally not committed.
+(`hedge_fund.db`, `paper_trading.db`, `vittantra_market.db`) are intentionally
+not committed.
+
+### Live market data (free)
+
+```bash
+python run_vittantra.py            # download free market data, then run Days 59–73
+python run_vittantra.py --loop 15  # keep everything updated every 15 minutes
+python run_vittantra.py --sample   # original illustrative sample data
+```
+
+`vittantra_data_hub.py` collects prices for stocks, ETFs, futures, FX and crypto
+from Yahoo Finance and Treasury yields, credit spreads, VIX and economic series
+from FRED, with no paid subscription or API key needed. The bond and option in
+the risk portfolio are priced with models from live inputs (Treasury yield +
+BBB spread, Black-Scholes). Every number carries an as-of date and a
+FRESH / STALE / MISSING status. If a download fails, Vittantra keeps using the
+last good data. Free prices may be delayed by about 15 minutes.
 
 ---
 
@@ -67,7 +84,9 @@ without re-generating the research pipeline. Local SQLite databases
 | **AI Analyst** | Executive brief, risk drivers, priority queue and human-attention items |
 | **System** | Data sources and system state |
 
-**Current portfolio snapshot (from the committed outputs):**
+**Portfolio snapshot from the committed outputs.** These come from the
+illustrative sample portfolio with synthetic price history. Run
+`python run_vittantra.py` to recompute everything from live market data.
 
 | Metric | Value |
 |--------|------:|
@@ -121,7 +140,7 @@ Signal → Risk Check → Order Decision
 | `var_backtesting.py` | VaR exception backtesting |
 | `var_validation.py` | Kupiec POF, Christoffersen independence and conditional-coverage tests |
 
-All covered by unit tests (`test_*.py`, 44 tests).
+All covered by unit tests (`test_*.py`).
 
 ### Phase 6 — Machine-learning research (Days 46–54)
 A research pipeline rather than a single model: baseline (`ml_baseline.py`),
@@ -202,6 +221,13 @@ inventing one**.
 
 ---
 
+### Phase 12 — Live data & one-command pipeline (Day 75)
+| Module | Purpose |
+|--------|---------|
+| `vittantra_data_hub.py` | Free data collector (Yahoo Finance + FRED) → SQLite store, freshness checks, refresh audit log |
+| `vittantra_live_inputs.py` | Feeds live prices, rates, spreads and real history into the Day 59–70 risk chain |
+| `run_vittantra.py` | Runs data refresh → Days 59–70 → AI Analyst in order, on a schedule if wanted |
+
 ## Tech stack
 
 - **Python:** pandas, NumPy, SciPy, scikit-learn
@@ -221,7 +247,7 @@ inventing one**.
 
 ## Project status
 
-Days 1–74 complete. Next: continue extending the AI layer and the end-to-end
+Days 1–75 complete. Next: continue extending the AI layer and the end-to-end
 research-to-decision workflow through Day 90.
 
 ## Disclaimer

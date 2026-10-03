@@ -45,6 +45,7 @@ from typing import Dict, Iterable, List, Optional
 import numpy as np
 import pandas as pd
 
+from vittantra_live_inputs import load_price_history
 from multi_asset_risk import AssetClass, Instrument, build_sample_instruments
 
 from unified_risk_engine import (
@@ -1494,13 +1495,18 @@ def main() -> None:
     # Day 60. Day 61 does not require historical prices for the
     # deterministic shock itself, but constructing it verifies
     # compatibility with the existing unified-risk architecture.
-    price_history = (
-        build_validation_price_history(
-            instruments=instruments,
-            observations=320,
-            seed=60,
-        )
+    price_history = load_price_history(
+        [instrument.symbol for instrument in instruments]
     )
+
+    if price_history is None:
+        price_history = (
+            build_validation_price_history(
+                instruments=instruments,
+                observations=320,
+                seed=60,
+            )
+        )
 
     print_section(
         "PORTFOLIO FOUNDATION"

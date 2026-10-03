@@ -865,9 +865,16 @@ def calculate_basic_risk_results(
 # SAMPLE MULTI-ASSET PORTFOLIO
 # ==============================================================
 
-def build_sample_instruments() -> List[Instrument]:
-
-    return [
+def build_sample_instruments(
+    use_live_data: Optional[bool] = None,
+) -> List[Instrument]:
+    """
+    Day 59 example portfolio. Since Day 75, prices are replaced with
+    real market data from vittantra_data_hub.py when available
+    (see vittantra_live_inputs.py). Pass use_live_data=False for the
+    original illustrative prices.
+    """
+    instruments = [
 
         Instrument(
             instrument_id="EQ_AAPL",
@@ -976,6 +983,13 @@ def build_sample_instruments() -> List[Instrument]:
             price=100.0,
         ),
     ]
+
+    if use_live_data is False:
+        return instruments
+
+    from vittantra_live_inputs import apply_live_prices
+
+    return apply_live_prices(instruments)
 
 
 # ==============================================================

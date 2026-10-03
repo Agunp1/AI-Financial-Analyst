@@ -10,5 +10,6 @@ required_metric_coverage,0.8115942028985508,Calculated
 largest_asset_class,Future,Calculated
 largest_asset_class_weight,0.6762849413886384,Calculated
 existing_var_engine_available,True,Calculated
-existing_portfolio_var_result,"{'summary': [{'Confidence': '95%', 'Historical VaR ($)': 6217.807721469351, 'Expected Shortfall ($)': 8214.492985368594, 'Observations': 319}, {'Confidence': '99%', 'Historical VaR ($)': 9339.562275785498, 'Expected Shortfall ($)': 9837.068332755007, 'Observations': 319}], 'loss_observations': 319}",Calculated
+existing_portfolio_var_result,"{'summary': [{'Confidence': '95%', 'Historical VaR ($)': 6217.807721469351, 'Expected Shortfall ($)': 8214.49298536859, 'Observations': 319}, {'Confidence': '99%', 'Historical VaR ($)': 9339.562275785485, 'Expected Shortfall ($)': 9837.068332755007, 'Observations': 319}], 'loss_observations': 319}",Calculated
 existing_portfolio_var_message,Calculated using existing var_engine.calculate_historical_var().,Diagnostic
+data_mode,SAMPLE,Diagnostic
