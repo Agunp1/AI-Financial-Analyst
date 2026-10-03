@@ -77,4 +77,7 @@ These are acceptable for a research system but should be understood:
 | Fundamentals: debt | Debt = long-term + short-term borrowings; operating leases excluded | Include lease liabilities |
 | Fundamentals: REITs | P/E used; REITs are normally valued on FFO/AFFO | Add FFO from filings |
 | Fundamentals: EPS TTM | Diluted EPS TTM built with FY + YTD − prior YTD (approximation; EPS is not strictly additive) | Net income ÷ diluted shares per quarter |
-| Fundamentals: scoring | Universe percentiles (11 sectors × 3 stocks is too few for sector-neutral ranks) | Larger universe → sector-relative scores |
+| Fundamentals: scoring | 33-stock universe uses universe percentiles (3 per sector is too few) | Done for the US market engine: sector-relative percentiles |
+| US market engine | SEC frames carry the latest value per period (restatements included) and no filing date | Use the point-in-time Day 76 engine for backtests |
+| US market engine | SIC codes mapped to GICS-style sectors approximately | Licensed GICS classification |
+| US market engine | Shares from diluted weighted-average count when cover-page shares are unavailable | Period-end shares outstanding |

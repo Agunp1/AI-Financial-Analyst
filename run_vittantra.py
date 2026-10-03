@@ -19,6 +19,7 @@ python run_vittantra.py                # refresh data, then run the chain
 python run_vittantra.py --skip-data    # run the chain on existing data
 python run_vittantra.py --sample       # original illustrative sample data
 python run_vittantra.py --loop 15      # repeat every 15 minutes
+python run_vittantra.py --us-market    # also refresh all US-listed stocks (15-30 min)
 
 If the data refresh fails (for example, no internet), the chain still
 runs on the last successfully downloaded data.
@@ -89,7 +90,7 @@ def run_step(name: str, script: str, env: dict) -> dict:
     }
 
 
-def run_pipeline(skip_data: bool = False, sample: bool = False) -> bool:
+def run_pipeline(skip_data: bool = False, sample: bool = False, us_market: bool = False) -> bool:
     env = dict(os.environ)
     env["PYTHONIOENCODING"] = "utf-8"
     env["VITTANTRA_DATA_MODE"] = "sample" if sample else "live"
@@ -107,7 +108,9 @@ def run_pipeline(skip_data: bool = False, sample: bool = False) -> bool:
         print(f"[{result['status']:>6}] {result['step']:<36} {result['seconds']:>6.1f}s")
         if result["status"] != "OK":
             print("         Data refresh failed; continuing with the last saved data.")
-        for name, script in RESEARCH_STEPS:
+        steps = RESEARCH_STEPS + ([("Day 76b US market fundamentals", "us_fundamental_engine.py")]
+                                  if us_market else [])
+        for name, script in steps:
             result = run_step(name, script, env)
             results.append(result)
             print(f"[{result['status']:>6}] {result['step']:<36} {result['seconds']:>6.1f}s")
@@ -149,15 +152,17 @@ def main() -> None:
     parser.add_argument("--skip-data", action="store_true", help="do not refresh market data")
     parser.add_argument("--sample", action="store_true", help="use original illustrative sample data")
     parser.add_argument("--loop", type=float, metavar="MINUTES", help="repeat every N minutes")
+    parser.add_argument("--us-market", action="store_true",
+                        help="also refresh fundamentals for all US-listed stocks (slow)")
     args = parser.parse_args()
 
     if not args.loop:
-        sys.exit(0 if run_pipeline(args.skip_data, args.sample) else 1)
+        sys.exit(0 if run_pipeline(args.skip_data, args.sample, args.us_market) else 1)
 
     print(f"Running every {args.loop:g} minutes. Press Ctrl+C to stop.")
     try:
         while True:
-            run_pipeline(args.skip_data, args.sample)
+            run_pipeline(args.skip_data, args.sample, args.us_market)
             time.sleep(max(args.loop, 1) * 60)
     except KeyboardInterrupt:
         print("\nStopped.")

@@ -252,6 +252,13 @@ simplifications remain.
 | `fundamental_engine.py` | SEC EDGAR 10-K/10-Q data (free) → point-in-time valuation, growth, quality and financial-health metrics, percentile scores |
 | `vittantra_research_page.py` | Research page in the app: ranked universe and company detail |
 
+`us_fundamental_engine.py` applies the same engine to **every operating company
+listed on NYSE, Nasdaq and NYSE American (about 6,000, including REITs)**, using
+SEC XBRL frames (one request per line item and period for all companies),
+SEC industry codes mapped to sectors, Yahoo prices, and sector-relative
+percentile scores. SPACs and funds are excluded. Run
+`python us_fundamental_engine.py` (15–30 minutes the first time).
+
 Only filings published on or before the analysis date are used (no look-ahead),
 restatements replace earlier values only once filed, and flow items use
 trailing twelve months. Banks are scored without industrial ratios. Set

@@ -89,13 +89,21 @@ def render_research() -> None:
         "Scores are percentiles within the research universe (0–100)."
     )
 
-    scores = _load("day76_fundamental_scores.csv")
-    metrics = _load("day76_fundamental_metrics.csv")
-    validation = _load("day76_validation_summary.csv")
+    universe = st.radio(
+        "Universe",
+        ["Research universe (33 stocks)", "All US-listed stocks"],
+        horizontal=True,
+    )
+    us_market = universe.startswith("All US")
+    prefix = "day76_us_" if us_market else "day76_"
+    scores = _load(f"{prefix}fundamental_scores.csv")
+    metrics = _load(f"{prefix}fundamental_metrics.csv")
+    validation = _load(f"{prefix}validation_summary.csv")
     if scores.empty or metrics.empty:
+        command = "us_fundamental_engine.py" if us_market else "fundamental_engine.py"
         st.info(
             "No fundamental data yet. Add `SEC_USER_AGENT=Your Name your@email.com` "
-            "to your `.env` file, then run `python fundamental_engine.py`."
+            f"to your `.env` file, then run `python {command}`."
         )
         return
 
@@ -112,11 +120,32 @@ def render_research() -> None:
     )
 
     sectors = sorted(scores["sector"].dropna().unique())
-    chosen = st.multiselect("Sectors", sectors, default=sectors)
-    table = scores[scores["sector"].isin(chosen)].copy()
+    if us_market:
+        f1, f2, f3 = st.columns([2, 1, 1])
+        chosen = f1.multiselect("Sectors", sectors, default=[])
+        size = f2.selectbox("Market cap", ["All", "≥ $300M", "≥ $2B", "≥ $10B", "≥ $200B"], index=2)
+        search = f3.text_input("Find ticker or name").strip().lower()
+        minimum = {"All": 0, "≥ $300M": 3e8, "≥ $2B": 2e9, "≥ $10B": 1e10, "≥ $200B": 2e11}[size]
+        table = scores.copy()
+        if chosen:
+            table = table[table["sector"].isin(chosen)]
+        table = table[pd.to_numeric(table["market_cap"], errors="coerce").fillna(0) >= minimum]
+        if search:
+            mask = table.index.str.lower().str.contains(search, regex=False) | \
+                table["name"].str.lower().str.contains(search, regex=False)
+            table = table[mask]
+        st.caption(f"{len(table):,} companies match; scores are percentiles within each sector.")
+    else:
+        chosen = st.multiselect("Sectors", sectors, default=sectors)
+        table = scores[scores["sector"].isin(chosen)].copy()
     table = table.sort_values("fundamental_score", ascending=False)
-    display = table[["name", "sector", "fundamental_score", *PILLAR_LABELS]].rename(
-        columns={**PILLAR_LABELS, "fundamental_score": "Fundamental", "name": "Company", "sector": "Sector"}
+    columns = ["name", "sector", "fundamental_score", *PILLAR_LABELS]
+    if us_market:
+        table["market_cap_b"] = pd.to_numeric(table["market_cap"], errors="coerce") / 1e9
+        columns = ["name", "sector", "market_cap_b", "fundamental_score", *PILLAR_LABELS, "sector_rank"]
+    display = table[columns].head(500 if us_market else len(table)).rename(
+        columns={**PILLAR_LABELS, "fundamental_score": "Fundamental", "name": "Company",
+                 "sector": "Sector", "market_cap_b": "Mkt cap ($B)", "sector_rank": "Sector rank"}
     )
     score_columns = {
         label: st.column_config.ProgressColumn(label, min_value=0, max_value=100, format="%.0f")
@@ -127,15 +156,21 @@ def render_research() -> None:
     st.divider()
     ticker = st.selectbox(
         "Company detail",
-        table.index.tolist() or scores.index.tolist(),
+        display.index.tolist() or scores.index.tolist(),
         format_func=lambda t: f"{t} — {scores.loc[t, 'name']}",
     )
     row, score_row = metrics.loc[ticker], scores.loc[ticker]
 
     d1, d2, d3, d4 = st.columns(4)
     d1.metric("Fundamental score", _fmt(score_row["fundamental_score"], "{:.0f}"))
-    rank = score_row.get("fundamental_rank")
-    d2.metric("Rank", f"{int(rank)} of {int(scores['fundamental_score'].notna().sum())}" if pd.notna(rank) else "n/a")
+    if us_market:
+        rank = score_row.get("sector_rank")
+        peers = int(scores.loc[scores["sector"] == score_row["sector"], "fundamental_score"].notna().sum())
+        d2.metric("Sector rank", f"{int(rank)} of {peers}" if pd.notna(rank) else "n/a")
+    else:
+        rank = score_row.get("fundamental_rank")
+        d2.metric("Rank", f"{int(rank)} of {int(scores['fundamental_score'].notna().sum())}"
+                  if pd.notna(rank) else "n/a")
     d3.metric("Market cap", _money(row.get("market_cap")))
     d4.metric("Revenue (TTM)", _money(row.get("revenue_ttm")))
 
