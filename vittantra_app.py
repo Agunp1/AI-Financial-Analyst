@@ -86,6 +86,7 @@ from vittantra_ai_analyst import render_ai_analyst
 from vittantra_pm_page import render_portfolio_manager
 from vittantra_advisory_page import render_advisory
 from vittantra_copilot import render_copilot
+from vittantra_home_page import render_home
 
 
 
@@ -118,6 +119,20 @@ APP_NAME = "Vittantra"
 
 
 APP_SUBTITLE = "AI Investment Research & Portfolio Intelligence"
+APP_VERSION = "1.0"
+
+# Navigation: workflow order (research → portfolio → advisory → risk → learn)
+NAV_PAGES = [
+    "Home", "Command Center", "Research", "Markets", "Portfolio Manager", "Advisory", "Copilot",
+    "Risk Intelligence", "Portfolio", "Governance", "Remediation", "AI Analyst", "Academy", "System",
+]
+NAV_LABELS = {
+    "Home": "Home", "Command Center": "Command Center", "Research": "Research & Valuation",
+    "Markets": "Markets & World Brief", "Portfolio Manager": "Portfolio Manager", "Advisory": "Advisory",
+    "Copilot": "Copilot", "Risk Intelligence": "Risk Intelligence", "Portfolio": "Risk Budgets",
+    "Governance": "Governance", "Remediation": "Remediation", "AI Analyst": "AI Risk Analyst",
+    "Academy": "Academy (learn by doing)", "System": "System & Data",
+}
 
 
 
@@ -485,6 +500,32 @@ st.markdown(
 
 
 
+
+    .vt-hero {
+        padding: 2.2rem 2.4rem; border-radius: 1.1rem; margin-bottom: 1.4rem;
+        background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 55%, #2E6BE6 100%); color: #FFFFFF;
+    }
+    .vt-eyebrow { letter-spacing: 0.32em; font-size: 0.8rem; font-weight: 700; opacity: 0.8; }
+    .vt-hero-title { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin: 0.5rem 0 0.8rem 0;
+                     letter-spacing: -0.02em; max-width: 52rem; }
+    .vt-hero-sub { font-size: 1.05rem; opacity: 0.88; max-width: 52rem; line-height: 1.55; }
+    .vt-section { font-size: 1.15rem; font-weight: 700; margin: 1.6rem 0 0.7rem 0; }
+    .vt-card { border: 1px solid rgba(128,128,128,0.18); border-radius: 0.85rem; padding: 1rem 1.1rem;
+               min-height: 8.5rem; margin-bottom: 0.5rem; background: rgba(46,107,230,0.03); }
+    .vt-card-title { font-weight: 700; font-size: 1.02rem; margin-bottom: 0.35rem; }
+    .vt-card-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.65; }
+    .vt-card-value { font-size: 1.35rem; font-weight: 750; margin: 0.25rem 0; }
+    .vt-card-text { font-size: 0.9rem; opacity: 0.8; line-height: 1.45; }
+    .vt-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; }
+    .vt-step { padding: 0.45rem 0.9rem; border-radius: 999px; background: rgba(46,107,230,0.10);
+               border: 1px solid rgba(46,107,230,0.30); font-weight: 600; font-size: 0.9rem; }
+    .vt-arrow { opacity: 0.5; font-weight: 700; }
+    h3 { letter-spacing: -0.01em; }
+    [data-testid="stSidebar"] [role="radiogroup"] label { padding: 0.12rem 0; }
+    @media (max-width: 640px) {
+        .vt-hero { padding: 1.4rem 1.2rem; }
+        .vt-hero-title { font-size: 1.5rem; }
+    }
     </style>
 
 
@@ -1634,82 +1675,11 @@ with st.sidebar:
 
 
     page = st.radio(
-
-
-
         "Workspace",
-
-
-
-        [
-
-
-
-            "Command Center",
-
-
-
-
-
-            "Academy",
-
-
-
-            "Research",
-
-
-
-
-
-
-            "Markets",
-
-
-
-            "Portfolio Manager",
-
-
-
-            "Advisory",
-
-
-
-            "Portfolio",
-
-
-
-            "Risk Intelligence",
-
-
-
-            "Governance",
-
-
-
-            "Remediation",
-
-
-
-            "Copilot",
-
-
-
-            "AI Analyst",
-
-
-
-            "System",
-
-
-
-        ],
-
-
-
+        NAV_PAGES,
+        format_func=lambda name: NAV_LABELS.get(name, name),
+        key="nav",
         label_visibility="collapsed",
-
-
-
     )
 
 
@@ -1882,39 +1852,9 @@ with st.sidebar:
 
 
 
-st.markdown(
-
-
-
-    '<div class="vittantra-title">Vittantra</div>',
-
-
-
-    unsafe_allow_html=True,
-
-
-
-)
-
-
-
-
-
-
-
-st.markdown(
-
-
-
-    f'<div class="vittantra-subtitle">{APP_SUBTITLE}</div>',
-
-
-
-    unsafe_allow_html=True,
-
-
-
-)
+if page != "Home":
+    st.markdown('<div class="vittantra-title">Vittantra</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="vittantra-subtitle">{APP_SUBTITLE}</div>', unsafe_allow_html=True)
 
 
 
@@ -1942,7 +1882,12 @@ st.markdown(
 
 
 
-if page == "Command Center":
+if page == "Home":
+
+    render_home()
+
+
+elif page == "Command Center":
 
 
 
@@ -2921,7 +2866,7 @@ elif page == "Portfolio":
 
     if governance_df.empty:
 
-        st.info("Day 68 instrument governance data is unavailable.")
+        st.info("Governance data is unavailable — run `python run_vittantra.py`.")
 
     else:
 
@@ -3617,7 +3562,7 @@ elif page == "Portfolio":
 
             observations.append(
 
-                f"Day 69 remediation estimates maximum utilization moving "
+                f"Remediation estimates maximum utilization moving "
 
                 f"from {current_max_utilization * 100:,.1f}% to "
 
@@ -4281,7 +4226,7 @@ elif page == "Governance":
 
 
 
-            "Day 68 governance output is unavailable."
+            "Governance output is unavailable — run `python run_vittantra.py`."
 
 
 
@@ -4617,7 +4562,7 @@ elif page == "Remediation":
 
 
 
-            "Day 69 remediation summary is unavailable."
+            "Remediation summary is unavailable — run `python run_vittantra.py`."
 
 
 
@@ -5173,15 +5118,7 @@ st.divider()
 
 
 st.caption(
-
-
-
-    "Vittantra • Research & Portfolio Intelligence • "
-
-
-
-    "Day 73 AI Analyst Integration"
-
-
-
+    f"Vittantra {APP_VERSION} · Research, portfolio and advisory intelligence on free public data "
+    "(SEC EDGAR, FRED, Yahoo Finance, official RSS) · Research and education only — not investment advice. "
+    "Every recommendation needs human approval; nothing is executed automatically."
 )

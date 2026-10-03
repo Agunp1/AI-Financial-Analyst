@@ -692,9 +692,9 @@ class VittantraAIAnalyst:
             return " ".join(self.human_attention_items())
 
         return (
-            "The Day 73 analyst currently answers portfolio risk, governance, "
+            "The AI Risk Analyst answers portfolio risk, governance, "
             "remediation, approval/workflow and human-attention questions using "
-            "the loaded Vittantra outputs. It does not invent external market facts."
+            "the loaded Vittantra outputs. It does not invent external market facts. For research, markets and advisory questions, use the Copilot."
         )
 
 
@@ -804,7 +804,7 @@ def render_ai_analyst() -> None:
         st.write(analyst.answer(question))
 
     st.caption(
-        "Day 73 is a deterministic explanation layer over existing Vittantra "
+        "The AI Risk Analyst is a deterministic explanation layer over Vittantra's risk "
         "outputs. It does not fetch external market facts and does not execute trades."
     )
 

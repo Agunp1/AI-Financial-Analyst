@@ -134,7 +134,7 @@ def _attribution() -> None:
         st.line_chart(cumulative * 100, height=260)
     st.caption("Allocation = sector bets, selection = stock picking within sectors. Pillar attribution: "
                "cross-sectional regression of returns on the five scores each period. Historical research "
-               "results on the Day 77 backtest, not a promise of future returns.")
+               "results on the multi-factor backtest, not a promise of future returns.")
 
 
 def _what_if() -> None:

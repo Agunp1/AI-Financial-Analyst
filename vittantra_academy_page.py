@@ -217,7 +217,7 @@ def desk_portfolio_manager(progress):
                   "within limit" if result["within_turnover"] else "-over limit")
         rationale = st.text_area("Your rationale for the investment committee", key="pm-why")
         if st.button("Submit to committee", key="pm-submit", disabled=not rationale.strip()):
-            reference = ("Vittantra's own Day 65 rebalancer cuts the largest contributor until its Euler risk share is "
+            reference = ("Vittantra's exposure-aware rebalancer cuts the largest contributor until its Euler risk share is "
                          "at the 35% limit, recomputing every pass, while respecting turnover. A strong proposal "
                          "reaches the limit with the least trading, and explains what return is given up.")
             _submit(progress, role, task["title"], result["score"],
