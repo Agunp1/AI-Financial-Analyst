@@ -98,12 +98,17 @@ def render_ratings() -> None:
     c2.metric("Overweight", int((ratings["rating"] == "Overweight").sum()))
     c3.metric("Macro regime", str(ratings["regime"].iloc[0]).replace("_", "-"))
     c4.metric("Data checks", f"{int(validation['passed'].sum())}/{len(validation)}" if not validation.empty else "n/a")
-    view = ratings[["ticker", "name", "sector", "rating", "composite", *PILLAR_NAMES,
-                    "strongest_pillar", "weakest_pillar"]].rename(columns=str.title)
-    config = {name.title(): st.column_config.ProgressColumn(name.title(), min_value=0, max_value=100, format="%.0f")
-              for name in ["composite", *PILLAR_NAMES]}
+    basis = ratings["rating_basis"].iloc[0] if "rating_basis" in ratings else "composite"
+    score_columns = ["composite_ic_weighted", "composite"] if "composite_ic_weighted" in ratings else ["composite"]
+    view = ratings[["ticker", "name", "sector", "rating", *score_columns, *PILLAR_NAMES,
+                    "strongest_pillar", "weakest_pillar"]].rename(
+        columns=lambda c: {"composite_ic_weighted": "Score (IC-weighted)", "composite": "Equal-weight"}.get(c, c.title()))
+    config = {label: st.column_config.ProgressColumn(label, min_value=0, max_value=100, format="%.0f")
+              for label in ["Score (IC-weighted)", "Equal-weight", *[p.title() for p in PILLAR_NAMES]]}
     st.dataframe(view, width="stretch", hide_index=True, column_config=config)
-    st.caption("Overweight = top 30% of the composite score, Underweight = bottom 30%. Research labels, "
+    basis_text = ("the IC-weighted score (pillars weighted by how well they predicted returns in past, "
+                  "completed periods)" if basis == "composite_ic_weighted" else "the equal-weight composite")
+    st.caption(f"Overweight = top 30% of {basis_text}, Underweight = bottom 30%. Research labels, "
                "not trade instructions.")
     if not ic.empty:
         st.markdown("**Does each pillar predict returns?** Information coefficient = rank correlation between "
