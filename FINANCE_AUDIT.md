@@ -57,6 +57,7 @@ textbook values and independent calculations.
 | 9 | **Alpha reported without significance** | A coefficient means little without its standard error | OLS standard errors, t-statistics and p-values for alpha and every factor | Alpha 2.4%/yr, t = 0.40, p = 0.70 → **not significant** |
 | 10 | **Day 63 crashed on the sample portfolio** | Refused to run when a position already exceeded its cap | Moves toward targets within the turnover limit and flags the remaining breach | Pipeline runs end to end |
 | 11 | **Risk chain ran only on made-up data** | Day 60 used synthetic price history and fixed example prices | Day 75 data hub feeds real prices, rates, spreads and history | LIVE mode available |
+| 12 | **Macro drivers: prices one day behind rates** | Price dates carrying a time of day sorted after FRED's plain dates, so each price was carried to the next day; bond returns no longer lined up with yield changes | Both date indexes reduced to plain calendar dates; a lead-lag check (TLT vs 10Y change must peak at lag 0) is now part of validation | TLT rate beta ≈ 0 → ≈ −duration |
 
 ---
 

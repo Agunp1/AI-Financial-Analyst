@@ -86,13 +86,26 @@ OUTPUT_VALIDATION = "day76d_validation_summary.csv"
 # DATA
 # ==============================================================
 
+def _plain_dates(index) -> pd.DatetimeIndex:
+    dates = pd.to_datetime(pd.Index(index).astype(str).str[:10], errors="coerce")
+    return pd.DatetimeIndex(dates)
+
+
 def build_daily_frame(prices: pd.DataFrame, fred: pd.DataFrame):
     """Aligned business-day returns (instruments) and factor moves."""
-    calendar = pd.DatetimeIndex(fred.dropna(how="all").index)
-    if prices.empty or calendar.empty:
+    if prices.empty or fred.empty:
         return pd.DataFrame(), pd.DataFrame()
-    prices = prices.copy()
-    prices.index = pd.DatetimeIndex(prices.index)
+    # Plain calendar dates on both sides. A price stamped "2026-09-30 05:00"
+    # would otherwise sort after FRED's "2026-09-30" and be carried to the
+    # next day, putting every price one day behind the rates data.
+    fred, prices = fred.copy(), prices.copy()
+    fred.index = _plain_dates(fred.index)
+    prices.index = _plain_dates(prices.index)
+    fred = fred[~fred.index.duplicated(keep="last")]
+    prices = prices[~prices.index.duplicated(keep="last")].sort_index()
+    calendar = pd.DatetimeIndex(fred.dropna(how="all").index).sort_values()
+    if calendar.empty:
+        return pd.DataFrame(), pd.DataFrame()
     # Crypto trades at weekends: carry the latest price onto business days,
     # so weekend moves are included in Monday's return.
     aligned = prices.reindex(prices.index.union(calendar)).ffill(limit=4).reindex(calendar)
@@ -155,7 +168,21 @@ def narrative(name: str, row: dict, r_squared: float, window: str) -> str:
 # VALIDATION
 # ==============================================================
 
-def validate(betas: pd.DataFrame, factor_moves: pd.DataFrame, n_instruments: int) -> pd.DataFrame:
+def alignment_lags(returns: pd.DataFrame, factors: pd.DataFrame, symbol: str = "TLT",
+                   factor: str = "interest_rates", max_lag: int = 2) -> dict:
+    """Correlation of an instrument's returns with a factor shifted by each lag.
+
+    Bond prices and yields move together on the same day, so the strongest
+    (most negative) correlation must sit at lag 0. A peak at another lag
+    means the price and FRED dates are misaligned.
+    """
+    if symbol not in returns.columns or factor not in factors.columns:
+        return {}
+    return {lag: float(returns[symbol].corr(factors[factor].shift(lag))) for lag in range(-max_lag, max_lag + 1)}
+
+
+def validate(betas: pd.DataFrame, factor_moves: pd.DataFrame, n_instruments: int,
+             lags: Optional[dict] = None) -> pd.DataFrame:
     checks = []
 
     def add(name, passed, details):
@@ -174,6 +201,11 @@ def validate(betas: pd.DataFrame, factor_moves: pd.DataFrame, n_instruments: int
     if "GC=F" in betas.index and "beta_us_dollar" in betas.columns:
         add("Gold tends to move against the dollar", betas.loc["GC=F", "beta_us_dollar"] < 0,
             f"gold dollar beta {betas.loc['GC=F', 'beta_us_dollar']:.2f}")
+    if lags:
+        best = min(lags, key=lambda k: lags[k] if pd.notna(lags[k]) else 0)
+        add("Rates factor lines up with bond prices (strongest at lag 0)", best == 0,
+            "TLT vs 10Y change correlation by lag: "
+            + ", ".join(f"{k:+d}d {v:.2f}" for k, v in lags.items()))
     r2 = betas["r_squared"].dropna()
     add("R² between 0 and 1", r2.between(0, 1).all() if len(r2) else False,
         f"median R² {r2.median():.2f}" if len(r2) else "none")
@@ -234,7 +266,7 @@ def run_macro_drivers(prices: Optional[pd.DataFrame] = None, fred: Optional[pd.D
                         "story": narrative(betas.loc[symbol, "name"], row.iloc[0].to_dict(),
                                            betas.loc[symbol, "r_squared"], "1 month")})
     stories = pd.DataFrame(stories)
-    validation = validate(betas, factor_moves, returns.shape[1])
+    validation = validate(betas, factor_moves, returns.shape[1], alignment_lags(returns, factors))
 
     out_dir = Path(out_dir)
     betas.to_csv(out_dir / OUTPUT_BETAS)
