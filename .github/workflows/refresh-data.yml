@@ -56,5 +56,6 @@ jobs:
           git add -A -- '*.csv' '*.md'
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
           git commit -m "Data refresh $(date -u +%F)"
+          git stash --include-untracked || true      # leftover non-data files are not committed
           git pull --rebase -X theirs origin "${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"

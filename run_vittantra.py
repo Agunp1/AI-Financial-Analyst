@@ -126,7 +126,7 @@ def run_pipeline(skip_data: bool = False, sample: bool = False, us_market: bool 
             results.append(result)
             print(f"[{result['status']:>6}] {result['step']:<36} {result['seconds']:>6.1f}s")
             if result["status"] != "OK":
-                print("         " + result["last_output"][:150])
+                print("         " + result["error"].replace("\n", "\n         "))
                 print("         Research step failed; the risk chain continues.")
 
     ok = True

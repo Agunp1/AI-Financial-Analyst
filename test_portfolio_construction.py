@@ -93,6 +93,19 @@ class PortfolioTests(unittest.TestCase):
         tight = pc.build_portfolio(self.ratings, self.prices, ic=0.07, policy={"tracking_error_budget": 0.02})
         self.assertLessEqual(tight["summary"]["tracking_error"], 0.0201)
 
+    def test_staggered_price_rows_still_work(self):
+        # Free Yahoo data can leave tickers missing on alternate rows; the
+        # optimizer must align calendars instead of dropping every stock.
+        staggered = self.prices.copy()
+        staggered.iloc[::2, ::2] = np.nan
+        result = pc.build_portfolio(self.ratings, staggered, ic=0.07)
+        self.assertEqual(len(result["portfolio"]), len(self.ratings))
+        self.assertAlmostEqual(result["summary"]["tracking_error"], self.result["summary"]["tracking_error"], places=2)
+
+    def test_no_usable_prices_gives_clear_error(self):
+        with self.assertRaisesRegex(ValueError, "overlapping price history"):
+            pc.build_portfolio(self.ratings, self.prices.iloc[:, :1], ic=0.07)
+
     def test_never_executes(self):
         s = self.result["summary"]
         self.assertEqual(s["automatic_execution_authorized_count"], 0)

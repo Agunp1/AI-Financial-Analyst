@@ -153,12 +153,18 @@ def build_portfolio(ratings: pd.DataFrame, prices: pd.DataFrame, ic: Optional[fl
     p = {**POLICY, **(policy or {})}
     ratings = ratings.dropna(subset=["composite_ic_weighted"]).copy()
     prices = prices[[t for t in ratings.index if t in prices.columns]].sort_index()
+    # Align trading calendars: drop dates nobody traded, carry a close over short gaps
+    # (Yahoo rows can be staggered across tickers), never across long gaps.
+    prices = prices.dropna(how="all").ffill(limit=5)
     returns = prices.pct_change(fill_method=None).iloc[1:]
     ppy = periods_per_year(returns.index)
     window = int(p["estimation_days"] * ppy / 252) if ppy < 252 else p["estimation_days"]
     window = max(window, min(len(returns), 36))
     cov = shrunk_covariance(returns.tail(window), ppy)
     names = [t for t in ratings.index if t in cov.index]
+    if len(names) < 2:
+        raise ValueError(f"Too little overlapping price history: {len(names)} rated stocks usable "
+                         f"({prices.shape[1]} with prices, {len(returns)} return days).")
     ratings, cov = ratings.loc[names], cov.loc[names, names]
     vol = pd.Series(np.sqrt(np.diag(cov)), index=names)
     alpha = grinold_alpha(ratings["composite_ic_weighted"].astype(float), vol, ic)
