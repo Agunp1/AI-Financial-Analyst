@@ -47,6 +47,8 @@ def is_owner() -> bool:
 
 
 def password_matches(given: str, expected: str) -> bool:
+    """Exact match, ignoring spaces copied around the password by accident."""
+    given, expected = given.strip(), expected.strip()
     return bool(expected) and hmac.compare_digest(given.encode(), expected.encode())
 
 
