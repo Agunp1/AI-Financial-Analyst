@@ -2,4 +2,4 @@ scope,identifier,governance_status,governance_action,requires_review,block_incre
 PORTFOLIO,TOTAL_PORTFOLIO,CRITICAL,FREEZE_NEW_RISK,True,True,"Day 67 portfolio status is CRITICAL. | 2 instrument(s) are in critical risk state. | 2 position(s) require risk review. | Maximum risk-budget utilization is 700.00%, at or above the 120% critical threshold. | Average portfolio risk-budget utilization is 152.12%. | 1 instrument(s) are in watch status."
 INSTRUMENT,AAPL_CALL,CRITICAL,FREEZE_NEW_RISK,True,True,Risk-budget utilization 700.00% >= 120%. | Modeled risk exceeds budget by 0.300000. | Day 66 action: REDUCE_RISK.
 INSTRUMENT,ES,CRITICAL,FREEZE_NEW_RISK,True,True,Risk-budget utilization 583.33% >= 120%. | Modeled risk exceeds budget by 0.290000. | Day 66 action: REDUCE_RISK.
-INSTRUMENT,BTC,WATCH,MONITOR,True,False,Risk-budget utilization 83.84% is elevated. | Day 66 action: UNCHANGED.
+INSTRUMENT,BTC,WATCH,MONITOR,True,False,Risk-budget utilization 84.01% is elevated. | Day 66 action: UNCHANGED.

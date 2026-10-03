@@ -1,0 +1,11 @@
+check,passed,details,passed_tests,total_tests,pass_rate
+Universe size,True,4414 listed operating companies (expected at least 3000),7,10,0.7
+Sector classification,False,89.2% mapped from SIC codes,7,10,0.7
+TTM revenue coverage,False,75.3% of companies,7,10,0.7
+Price coverage,True,100.0% of companies,7,10,0.7
+Market cap coverage,True,93.0% of companies,7,10,0.7
+Gross margins plausible,False,1.05% outside ±100%,7,10,0.7
+Scores between 0 and 100,True,All percentile scores,7,10,0.7
+Composite score coverage,True,77.9% of companies,7,10,0.7
+Sector-relative ranking,True,100.0% ranked within their sector,7,10,0.7
+Research universe included,True,Missing: none,7,10,0.7

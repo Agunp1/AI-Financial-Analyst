@@ -5,8 +5,8 @@ Capital weights sum to one,True,Capital weight sum: 1.00000000,11,11,1.0
 Gross exposure weights sum to one,True,Gross exposure weight sum: 1.00000000,11,11,1.0
 Risk weights sum to one,True,Risk weight sum: 1.00000000,11,11,1.0
 ES recognized as future,True,ES must be treated as derivative exposure rather than ordinary fully funded equity.,11,11,1.0
-Derivative capital and notional separated,True,"ES capital exposure: $38,882.50; ES gross notional: $388,825.00",11,11,1.0
+Derivative capital and notional separated,True,"ES capital exposure: $38,886.25; ES gross notional: $388,862.50",11,11,1.0
 Asset-class exposure summary generated,True,Rows: 10,11,11,1.0
 Portfolio exposure summary generated,True,Rows: 1,11,11,1.0
 Concentration diagnostics generated,True,Checks: 10; instruments: 10,11,11,1.0
-Fully funded positions within capital policy,True,Largest applicable capital weight: 15.0964%; limit: 25.0000%,11,11,1.0
+Fully funded positions within capital policy,True,Largest applicable capital weight: 15.0638%; limit: 25.0000%,11,11,1.0
