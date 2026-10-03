@@ -96,7 +96,7 @@ deal information out of Vittantra (it stays on fictional cases and public data).
 
 ## 6. Show, don't tell
 
-- Open the deployed app (see `DEPLOY.md`) and run the **guided tour** on the
+- Open the live app at <https://vittantra.streamlit.app> and run the **guided tour** on the
   Home page in 5 minutes.
 - Bring two printed pages: one research note (Research → Valuation & reports →
   download) and one client proposal (Advisory → Clients → download).

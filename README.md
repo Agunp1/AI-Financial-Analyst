@@ -2,6 +2,8 @@
 
 ### Investment research you can trust — every number traced, every decision human
 
+**Live demo:** <https://vittantra.streamlit.app> (research and education only; sample clients and deals are fictional)
+
 Vittantra is an investment research and portfolio intelligence platform for the
 five desks of an investment firm, built in 90 days on **free public data**:
 
