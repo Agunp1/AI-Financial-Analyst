@@ -9,4 +9,4 @@ Derivative capital and notional separated,True,"ES capital exposure: $38,886.25;
 Asset-class exposure summary generated,True,Rows: 10,11,11,1.0
 Portfolio exposure summary generated,True,Rows: 1,11,11,1.0
 Concentration diagnostics generated,True,Checks: 10; instruments: 10,11,11,1.0
-Fully funded positions within capital policy,True,Largest applicable capital weight: 15.0638%; limit: 25.0000%,11,11,1.0
+Fully funded positions within capital policy,True,Largest applicable capital weight: 15.0614%; limit: 25.0000%,11,11,1.0

@@ -4,4 +4,4 @@ Scores between 0 and 100,True,All pillar and composite scores,6,6,1.0
 Rating distribution about 30 / 40 / 30,True,"{'Neutral': 0.42, 'Overweight': 0.3, 'Underweight': 0.27}",6,6,1.0
 Enough history for IC testing,True,39 dates,6,6,1.0
 Fundamentals point in time in backtest,True,"SEC facts for 33 of 33 stocks, filed ≤ each date",6,6,1.0
-Daily price history,True,hedge_fund.db daily prices + vittantra_market.db (Yahoo),6,6,1.0
+Daily price history,True,vittantra_market.db (Yahoo),6,6,1.0
