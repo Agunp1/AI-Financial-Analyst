@@ -1,0 +1,8 @@
+check,passed,details,passed_tests,total_tests,pass_rate
+VC method textbook,True,exit $200m × 70% retention ÷ 20× = $7m post; $5m pre,7,7,1.0
+Option-pool shuffle lowers effective pre-money,True,effective pre $7.0m,7,7,1.0
+1x non-participating takes preference in a low exit,True,A gets $8m of $10m,7,7,1.0
+…and converts in a high exit,True,A gets 20%,7,7,1.0
+LBO equity grows with EBITDA and paydown,True,"MOIC 1.79×, IRR 12.4%",7,7,1.0
+IRR solver,True,2× in 5 years = 14.9%,7,7,1.0
+Power law: top deal dominates,True,median top-deal share 35%,7,7,1.0

@@ -480,3 +480,97 @@ def ad_monte_carlo() -> str:
         lines.append(f"| {profiles.at[g.client_id, 'name']} | {profiles.at[g.client_id, 'goal']} | "
                      f"{pct(g.probability, 0)} | {money(g.median_real)} | {money(g.p10_real)} |")
     return "\n".join(lines) + "\n\n10,000 simulated paths per client; amounts in today's money."
+
+
+# ==============================================================
+# PRIVATE MARKETS (VC / PE) — fictional deals, real public comps
+# ==============================================================
+
+def _comps_line(sector: str) -> str:
+    import private_markets as pm
+    try:
+        comps = pm.public_comps().set_index("sector")
+    except FileNotFoundError:
+        return ""
+    if sector not in comps.index:
+        return ""
+    c = comps.loc[sector]
+    return (f" Listed {sector} companies in Vittantra trade at a median **{c['median_ev_revenue']:.1f}× revenue** "
+            f"({int(c['companies'])} companies, SEC data).")
+
+
+def pv_deal_flow() -> str:
+    import private_markets as pm
+    rows = ["| Company (fictional) | Stage | ARR | Growth | Burn multiple | Ask (× ARR) | Screen |",
+            "|---|---|---:|---:|---:|---:|---|"]
+    for d in pm.generate_deals():
+        s = pm.screen_deal(d)
+        rows.append(f"| {d['company']} · {d['sector']} | {d['stage']} | {money(d['arr'])} | "
+                    f"{d['arr_growth_multiple']:.1f}× | {s['burn_multiple']:.1f}× | {s['arr_multiple']:.0f}× | "
+                    f"{s['decision']} |")
+    return "\n".join(rows) + "\n\nToday's deal flow is generated for practice; the screen is one reasonable rubric."
+
+
+def pv_unit_economics() -> str:
+    import private_markets as pm
+    d = pm.generate_deals()[0]
+    arpu, cac = 400.0, 6000.0
+    u = pm.unit_economics(arpu, d["gross_margin"], d["monthly_churn"], cac, d["net_new_arr"], d["annual_net_burn"])
+    return (f"**{d['company']}** (fictional {d['sector']}): gross margin {pct(d['gross_margin'], 0)}, monthly churn "
+            f"{pct(d['monthly_churn'])}; assume ARPU $400/month and CAC $6,000.\n\n"
+            f"LTV = 400 × {d['gross_margin']:.2f} ÷ {d['monthly_churn']:.3f} = **{money(u['ltv'])}**, LTV/CAC "
+            f"**{u['ltv_to_cac']:.1f}×**, CAC payback **{u['cac_payback_months']:.0f} months**, burn multiple "
+            f"**{u['burn_multiple']:.1f}×**.")
+
+
+def pv_vc_method() -> str:
+    import private_markets as pm
+    d = next((x for x in pm.generate_deals() if x["stage"] == "Seed"), pm.generate_deals()[0])
+    post = d["pre_money_ask"] + d["raise"]
+    needed = pm.required_exit(post, 20, retention=0.6)
+    ownership = d["raise"] / post
+    return (f"**{d['company']}** (fictional {d['sector']}) asks {money(d['raise'])} at {money(d['pre_money_ask'])} "
+            f"pre-money → post-money {money(post)}, so you would own **{pct(ownership)}**.\n\n"
+            f"VC method in reverse: for a 20× return with 60% of your stake left after later rounds, the company must "
+            f"exit at **{money(needed)}** — about **{needed / d['arr']:,.0f}× today's ARR** of {money(d['arr'])}. At a "
+            f"6× revenue exit multiple it would need ARR of {money(needed / 6)}. Is that believable for this team "
+            f"and market?" + _comps_line(d["public_sector"]))
+
+
+def pv_waterfall() -> str:
+    import private_markets as pm
+    rows = ["| Exit value | Series A (1×, 20%) | Founders & employees |", "|---:|---:|---:|"]
+    for exit_value in (10e6, 20e6, 40e6, 100e6):
+        w = pm.waterfall(exit_value, [{"name": "Series A", "invested": 8e6, "shares": 2e6}], 8e6).set_index("class")
+        rows.append(f"| {money(exit_value)} | {money(w.at['Series A', 'proceeds'])} | "
+                    f"{money(w.at['Common (founders, employees)', 'proceeds'])} |")
+    return "\n".join(rows) + "\n\nBelow $40m the investor takes its $8m preference; above it, converting to 20% pays more."
+
+
+def pv_fund_math() -> str:
+    import private_markets as pm
+    f = pm.simulate_fund()
+    fund = pm.SMALL_FUND
+    return (f"Illustrative {money(fund['fund_size'])} fund, {fund['target_deals']} deals, power-law outcomes: median "
+            f"net TVPI **{f['median_net_tvpi']:.2f}×**, chance of losing money **{pct(f['p_lose_money'], 0)}**, "
+            f"chance of 3×+ **{pct(f['p_3x'], 0)}**. In a typical simulated fund the best deal is "
+            f"**{pct(f['median_top_deal_share'], 0)}** of all value returned. A fund returner needs an exit near "
+            f"**{money(f['fund_returner_exit'])}** (8% ownership, 40% dilution).")
+
+
+def pv_lbo() -> str:
+    import private_markets as pm
+    try:
+        comps = pm.public_comps().set_index("sector")
+        multiple = float(comps.loc["Industrials", "median_ev_ebitda"])
+        source = f"median listed Industrials EV/EBITDA in Vittantra ({multiple:.1f}×)"
+    except (FileNotFoundError, KeyError):
+        multiple, source = 10.0, "an assumed 10×"
+    multiple = round(min(max(multiple, 6.0), 14.0), 1)
+    deal = pm.lbo(10e6, multiple, 5.0, 0.08, 0.05, 5, multiple)
+    b = deal["bridge"]
+    return (f"Small industrial company, EBITDA $10m, bought and sold at {multiple:.1f}× ({source}), 5× debt at 8%, "
+            f"EBITDA +5% a year for 5 years.\n\nEntry equity {money(deal['entry_equity'])} → exit equity "
+            f"{money(deal['exit_equity'])}: **MOIC {deal['moic']:.2f}×, IRR {pct(deal['irr'])}**. Value creation: "
+            f"EBITDA growth {money(b['ebitda_growth'])}, debt paydown {money(b['debt_paydown'])}, multiple change "
+            f"{money(b['multiple_change'])}, fees {money(b['fees'])}.")

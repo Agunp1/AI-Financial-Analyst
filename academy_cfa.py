@@ -46,6 +46,8 @@ LESSON_CFA_TOPIC = {
     "AD1": "Ethical and Professional Standards", "AD2": "Portfolio Management",
     "AD3": "Quantitative Methods", "AD4": "Portfolio Management", "AD5": "Ethical and Professional Standards",
     "AD6": "Economics", "AD7": "Ethical and Professional Standards", "AD8": "Quantitative Methods",
+    "PV1": "Alternative Investments", "PV2": "Alternative Investments", "PV3": "Alternative Investments",
+    "PV4": "Alternative Investments", "PV5": "Alternative Investments", "PV6": "Alternative Investments",
 }
 
 
@@ -466,12 +468,51 @@ def item_advisory(day=None) -> dict:
             "vignette": vignette, "questions": questions}
 
 
+def item_private_equity(day=None) -> dict:
+    """CFA L2 Alternative Investments: VC method, ownership, dilution and LBO returns (fictional deal)."""
+    import private_markets as pm
+    rng = _rng("private_equity", day)
+    exit_value = rng.choice([150, 200, 250, 300, 400]) * 1e6
+    years = rng.choice([5, 6, 7])
+    rate = rng.choice([0.40, 0.45, 0.50])
+    invest = rng.choice([2, 3, 4, 5]) * 1e6
+    retention = rng.choice([0.6, 0.7, 0.75])
+    multiple = (1 + rate) ** years
+    v = pm.vc_method(exit_value, multiple, invest, retention)
+    deal = pm.lbo(10e6, 9.0, 5.0, 0.08, 0.06, 5, 9.0)
+    vignette = (f"A venture fund considers investing {money(invest)} in a fictional startup. It expects an exit "
+                f"value of {money(exit_value)} in {years} years, requires a {rate:.0%} annual return, and expects "
+                f"its stake to be diluted by later rounds so that it keeps {retention:.0%} of its ownership. "
+                f"Separately, a buyout fund models a company with $10m EBITDA bought at 9× with 5× debt at 8%, "
+                f"EBITDA growing 6% a year and an exit at 9× after 5 years.")
+    questions = [
+        _question("Using the VC method, the post-money valuation is closest to:",
+                  money(v["post_money"]), [money(exit_value / multiple), money(exit_value * retention / (1 + rate)),
+                                           money(v["post_money"] + invest)],
+                  f"Target multiple = (1 + {rate:.0%})^{years} = {multiple:.1f}×. Post = exit × retention ÷ multiple = "
+                  f"{money(exit_value)} × {retention:.2f} ÷ {multiple:.1f} = {money(v['post_money'])}. Ignoring "
+                  "dilution overstates the value you can pay.", rng),
+        _question("The ownership the fund needs at investment is closest to:",
+                  pct(v["ownership_needed"]), [pct(invest / (exit_value / multiple)), pct(invest / exit_value * multiple * 2)],
+                  f"Ownership = investment ÷ post-money = {money(invest)} ÷ {money(v['post_money'])} = "
+                  f"{pct(v['ownership_needed'])}.", rng),
+        _question("In the buyout, the equity multiple (MOIC) is closest to:",
+                  f"{deal['moic']:.2f}×", [f"{deal['exit_ev'] / deal['entry_ev']:.2f}×", f"{(deal['moic'] - 1) / 2 + 1:.2f}×"],
+                  f"Exit equity {money(deal['exit_equity'])} ÷ entry equity {money(deal['entry_equity'])} = "
+                  f"{deal['moic']:.2f}×. Leverage makes the equity multiple larger than the enterprise-value multiple "
+                  f"({deal['exit_ev'] / deal['entry_ev']:.2f}×).", rng),
+    ]
+    return {"topic": "Alternative Investments", "title": "Venture capital method and LBO returns",
+            "vignette": vignette, "questions": questions}
+
+
 ITEM_SETS: Dict[str, Callable] = {
     "fixed_income": item_fixed_income, "derivatives": item_derivatives,
     "portfolio_risk": item_portfolio_risk, "economics_fx": item_economics_fx,
     "equity": item_equity, "quant": item_quant, "real_estate": item_real_estate, "macro": item_macro,
     "equity_valuation": item_equity_valuation, "news_surprise": item_news_surprise,
     "active_management": item_active_management, "advisory": item_advisory,
+    "private_equity": item_private_equity,
 }
 
 DESK_ITEM_SETS = {
@@ -480,6 +521,7 @@ DESK_ITEM_SETS = {
     "portfolio_analyst": ["portfolio_risk", "fixed_income"],
     "portfolio_manager": ["active_management", "quant", "derivatives"],
     "advisor": ["advisory", "real_estate", "portfolio_risk"],
+    "private_markets_analyst": ["private_equity", "equity_valuation", "real_estate"],
 }
 
 

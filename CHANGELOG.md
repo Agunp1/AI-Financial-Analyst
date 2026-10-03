@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1 — Private markets desk (Day 91)
+- Sixth Academy role: PE / VC analyst at a small fund — deal screening, term sheet and waterfall, quick LBO,
+  mock interviews; six lessons (CFA L2 Alternative Investments) and a VC/LBO item set.
+- `private_markets.py`: VC method, priced rounds, cap table, exit waterfall, unit economics, fund power law, LBO.
+- Private-bank visual theme across the app.
+
 ## 1.0 — Vittantra release (Day 90)
 
 **Desks**

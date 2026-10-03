@@ -42,7 +42,8 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 | 85 | `vittantra_copilot.py` | Copilot across all desks: evidence retrieval with citations, refusals, optional free local LLM (Ollama) with a number-grounding check |
 | 86 | `test_governance_rules.py` | One test per non-negotiable rule, run on committed outputs |
 | 87–90 | `vittantra_home_page.py`, `case_studies.py`, `DEPLOY.md`, `CAREER_KIT.md`, `CHANGELOG.md` | Home page and polish, free deployment, data-generated case studies, career kit, v1.0 |
-| Academy | `academy_content.py`, `academy_live.py`, `academy_desk.py`, `vittantra_academy_page.py` | Learn-by-doing desk for 5 roles; progress in `academy_progress.json` |
+| 91 | `private_markets.py` | VC/PE desk: VC method, rounds and option-pool shuffle, cap table, exit waterfall, unit economics, power-law fund math, LBO; fictional deal simulator with real public comps |
+| Academy | `academy_content.py`, `academy_live.py`, `academy_desk.py`, `vittantra_academy_page.py` | Learn-by-doing desk for 6 roles (incl. PE/VC analyst at a small fund); progress in `academy_progress.json` |
 
 ## Non-negotiable rules
 

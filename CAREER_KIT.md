@@ -45,6 +45,7 @@ fictional sample clients**.
 | Portfolio management | Model portfolio within a 4% tracking-error budget; attribution | Grinold–Kahn alpha; shrinkage covariance; Brinson–Fachler; fundamental law (IR ≈ IC√breadth) |
 | Portfolio risk | VaR/ES with backtests, stress tests, risk budgets, remediation | Euler risk contributions; Kupiec and Christoffersen tests; delta-adjusted option exposure |
 | Advisory | Risk questionnaire, IPS, capital market assumptions, suitability, Monte Carlo | Willingness vs capacity; building-block expected returns; lognormal simulation; Standard III(C) |
+| PE / VC (small fund) | Deal screening, term sheets, exit waterfall, LBO, fund math (Academy → Private Equity / VC desk) | Burn multiple; VC method; pre/post-money and option-pool shuffle; 1× non-participating preference; power law and "return the fund"; MOIC/IRR |
 
 ## 4. Questions you will be asked (with honest answers)
 
@@ -78,7 +79,17 @@ statistically stronger. See `FINANCE_AUDIT.md`, *Known simplifications*.
 No. It's a research and education platform: recommendations go through an
 approval workflow to a human, and automatic execution is always zero.
 
-## 5. Show, don't tell
+## 5. For your VC / PE analyst role
+
+Practise daily on Academy → **Private Equity / Venture Capital Analyst**:
+screen the five fictional deals (Monday deal flow), check a term sheet, run a
+quick LBO, then answer one **mock interview** question out loud. The question
+bank covers "why VC", "pitch me a startup", sourcing, unit economics,
+dilution, liquidation preferences, the power law, LBOs and TVPI/DPI. Answer in
+your own words about your own firm's strategy — the desk uses a generic small
+fund, not your employer's real process.
+
+## 6. Show, don't tell
 
 - Open the deployed app (see `DEPLOY.md`) and run the **guided tour** on the
   Home page in 5 minutes.

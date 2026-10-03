@@ -43,3 +43,4 @@ Constraint: **free data sources only.**
 | 88 | Career | Case studies, one per desk | ✅ Done (`CASE_STUDIES.md`) |
 | 89 | Career | Interview scripts and Emergent Ventures application draft | ✅ Drafts ready |
 | 90 | Release | Vittantra v1.0 | ✅ Released |
+| 91 | Private markets | VC / PE analyst desk for a small fund: deal screening, term sheets, waterfall, LBO, fund math, mock interviews | ✅ Built |
