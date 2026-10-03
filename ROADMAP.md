@@ -23,8 +23,8 @@ Constraint: **free data sources only.**
 |-----|------|-------|--------|
 | 75 | Core | Free live data hub, one-command pipeline, data freshness in the app | ✅ Done |
 | 76 | Research | Fundamental engine (SEC EDGAR, free): valuation, growth, profitability, balance sheet | ✅ Done |
-| 76b | Research | Fundamentals for all US-listed stocks (~6,000, SEC frames) | ✅ Built — awaiting first real run |
-| 76c | Markets | Multi-asset universe: rates, credit, FX, commodities, digital assets, REITs, alternatives | ✅ Built — awaiting first real run |
+| 76b | Research | Fundamentals for all US-listed stocks (~6,000, SEC frames) | ✅ Built — run `python us_fundamental_engine.py` |
+| 76c | Markets | Multi-asset universe: rates, credit, FX, commodities, digital assets, REITs, alternatives | ✅ Done (9/9 on real data) |
 | Academy | Learning | Work Desk (5 roles, live tasks, grading), 25 lessons, role handbook, career levels, work record — then one new task/lesson with every feature | ✅ v1 built |
 | 76d | Markets | Macro drivers, economic dashboard, commercial real estate (hotels, motels, office, …), CFA Level II item sets | ✅ Done (7/7 on real data) |
 | 77 | Research | Multi-factor rating: fundamental + technical + quant + economic + risk, backtested; rated on the IC-weighted composite | ✅ Done (6/6 on real data) |
@@ -38,8 +38,8 @@ Constraint: **free data sources only.**
 | 84 | Advisory | Goals-based planning (Monte Carlo) and client reports | ✅ Built |
 | 85 | Core | Copilot across all desks, evidence-grounded (free; optional local LLM) | ✅ Built |
 | 86 | Core | Tests for every rule: suitability, risk limits, no auto-execution, no made-up answers | ✅ Built |
-| 87 | Core | Deploy online (free tier) | |
-| 87b | Core | **Professional polish:** one design system (colours, typography, icons), landing page with the Vittantra story, guided demo mode, consistent tables/charts, mobile-friendly layout, no debug output | |
-| 88 | Career | Case studies, one per desk | |
-| 89 | Career | Interview scripts and Emergent Ventures application draft | |
-| 90 | Release | Vittantra v1.0 | |
+| 87 | Core | Deploy online (free tier) | ✅ Guide ready (`DEPLOY.md`) |
+| 87b | Core | **Professional polish:** one design system (colours, typography, icons), landing page with the Vittantra story, guided demo mode, consistent tables/charts, mobile-friendly layout, no debug output | ✅ Done |
+| 88 | Career | Case studies, one per desk | ✅ Done (`CASE_STUDIES.md`) |
+| 89 | Career | Interview scripts and Emergent Ventures application draft | ✅ Drafts ready |
+| 90 | Release | Vittantra v1.0 | ✅ Released |

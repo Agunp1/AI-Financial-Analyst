@@ -326,8 +326,19 @@ def render_academy() -> None:
         col.metric(_role_label(key), level, f"{xp} XP" + (f" · {needed} to {nxt}" if nxt else ""),
                    delta_color="off")
 
-    work, handbook, lessons, cfa_tab, record = st.tabs(
-        ["🖥️ Work Desk", "📘 Role Handbook", "🎓 Lessons", "📗 CFA Level II", "🗂️ My Work Record"])
+    work, handbook, lessons, cfa_tab, cases, record = st.tabs(
+        ["🖥️ Work Desk", "📘 Role Handbook", "🎓 Lessons", "📗 CFA Level II", "📁 Case Studies", "🗂️ My Work Record"])
+
+    with cases:
+        try:
+            from case_studies import build_case_studies
+            text = build_case_studies()
+        except Exception as exc:  # data missing
+            text = f"Case studies need the pipeline outputs ({exc})."
+        st.caption("One case per desk, written from Vittantra's current data — use them in interviews. Numbers "
+                   "update with every data refresh.")
+        st.markdown(text.replace("$", "\\$"))
+        st.download_button("Download case studies (Markdown)", text, file_name="vittantra_case_studies.md")
 
     with work:
         role = st.radio("Today you are working as", ROLE_KEYS, format_func=_role_label,

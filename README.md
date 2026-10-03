@@ -1,112 +1,79 @@
-# Vittantra — Investment Intelligence System
+# Vittantra
 
-### A 90-day build: from Python fundamentals to a governed, explainable investment-research and risk platform
+### Investment research you can trust — every number traced, every decision human
 
-Vittantra (which began as *AI Financial Analyst*) is an end-to-end investment
-research and portfolio-intelligence system built in Python, SQL and Streamlit.
-It connects market and economic data, machine-learning research, portfolio
-construction, multi-asset risk, risk budgeting, governance, remediation and an
-approval workflow — and puts an AI analyst and research copilot on top so that
-quantitative output can be read and questioned in plain language.
+Vittantra is an investment research and portfolio intelligence platform for the
+five desks of an investment firm, built in 90 days on **free public data**:
 
-The guiding design principle is **human control**: the system detects,
-explains and recommends, but it never trades on its own.
+| Desk | What Vittantra does |
+|---|---|
+| **Investment analyst** | 201 instruments across equities, rates, credit, FX, commodities, digital assets, REITs (incl. hotels and motels) and alternatives; economic dashboard; macro factor attribution; a weekly World & Markets Brief |
+| **Equity research** | SEC EDGAR point-in-time fundamentals (33-stock research universe and all US-listed companies); five-pillar ratings tested with information coefficients; DCF, residual income and DDM valuation; evidence-linked research notes |
+| **Portfolio management** | Model portfolio from the ratings inside a tracking-error budget; Brinson and factor attribution; what-if scenarios with live risk |
+| **Portfolio risk** | Historical VaR/ES with Kupiec and Christoffersen backtests; full-revaluation stress tests; Euler risk budgets; governance, remediation and dual-approval workflow |
+| **Advisory** | Retail risk questionnaire and institutional IPS; capital market assumptions; suitability checks; Monte Carlo goal planning; client reports |
+
+On top sit a **copilot** that answers only from Vittantra's own evidence, with
+citations, and an **Academy** where you learn each role by doing its daily work,
+mapped to CFA Level II.
 
 ```
-Market & Economic Data
-        ↓
-Research & Machine Learning        Days 1–58
-        ↓
-Portfolio Construction
-        ↓
-Multi-Asset Risk Engine            Days 35–62
-        ↓
-Rebalancing & Exposure Control     Days 63–65
-        ↓
-Risk Budgeting & Monitoring        Days 66–67
-        ↓
-Governance → Remediation           Days 68–69
-        ↓
-Approval Workflow                  Day 70
-        ↓
-Vittantra App · AI Analyst · Research Copilot    Days 71–74
-        ↓
-HUMAN DECISION        (automatic execution authorized = 0)
+Free data (SEC EDGAR · FRED · Yahoo Finance · official RSS)
+   → Research & valuation → Portfolio construction → Risk & attribution
+   → Governance & suitability → Approval workflow → HUMAN DECISION
+                                          (automatic execution = 0, always)
 ```
 
----
+## Trust by design
+
+- **Sourced and labelled:** every dataset is free and named in the app.
+- **Point in time:** backtests only see facts filed by that date; signal weights
+  only use completed periods.
+- **Evidence-linked:** research claims and copilot answers cite file, field and
+  value; when the data does not cover a question, Vittantra says so.
+- **Textbook methods:** formulas are pinned to textbook values in
+  `test_finance_formulas.py`; every method, correction and simplification is in
+  [`FINANCE_AUDIT.md`](FINANCE_AUDIT.md).
+- **Governed:** suitability checks for advice, risk budgets for portfolios, and
+  one automated test per non-negotiable rule (`test_governance_rules.py`).
+- **Never trades:** proposals wait for human approval.
 
 ## Quick start
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate          # Windows: .venv\Scripts\activate
+.venv\Scripts\activate              # macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
-
-streamlit run vittantra_app.py     # launch the Vittantra Command Center
-python -m unittest discover -p "test_*.py"   # run the test suite
+streamlit run vittantra_app.py      # opens the Home page with a guided tour
+python -m unittest discover -p "test_*.py"
 ```
 
-The app reads the `dayNN_*.csv` outputs committed in the repository, so it runs
-without re-generating the research pipeline. Local SQLite databases
-(`hedge_fund.db`, `paper_trading.db`, `vittantra_market.db`) are intentionally
-not committed.
-
-### Live market data (free)
+The app runs on the committed `dayNN_*.csv` outputs. To refresh with live free
+data (add `SEC_USER_AGENT=Your Name your@email.com` and, optionally, a free
+`FRED_API_KEY` to `.env`):
 
 ```bash
-python run_vittantra.py            # download free market data, then run Days 59–73
-python run_vittantra.py --loop 15  # keep everything updated every 15 minutes
-python run_vittantra.py --sample   # original illustrative sample data
+python run_vittantra.py               # data → research → portfolio → advisory → risk chain
+python run_vittantra.py --us-market   # also score all US-listed companies (15–30 min)
+python run_vittantra.py --loop 15     # repeat every 15 minutes
 ```
 
-`vittantra_data_hub.py` collects prices for stocks, ETFs, futures, FX and crypto
-from Yahoo Finance and Treasury yields, credit spreads, VIX and economic series
-from FRED, with no paid subscription or API key needed. The bond and option in
-the risk portfolio are priced with models from live inputs (Treasury yield +
-BBB spread, Black-Scholes). Every number carries an as-of date and a
-FRESH / STALE / MISSING status. If a download fails, Vittantra keeps using the
-last good data. Free prices may be delayed by about 15 minutes.
+Deploy online for free: [`DEPLOY.md`](DEPLOY.md).
+
+## Documentation
+
+| File | Contents |
+|---|---|
+| [`FINANCE_AUDIT.md`](FINANCE_AUDIT.md) | Every method, what was corrected, known simplifications |
+| [`CASE_STUDIES.md`](CASE_STUDIES.md) | One case per desk, generated from current data |
+| [`CAREER_KIT.md`](CAREER_KIT.md) | Pitch, talking points and interview answers |
+| [`ROADMAP.md`](ROADMAP.md) | Days 75–90 plan and status |
+| [`CHANGELOG.md`](CHANGELOG.md) | Release notes |
+| [`CLAUDE.md`](CLAUDE.md) | Module map and project rules |
 
 ---
 
-## The Vittantra application
-
-`vittantra_app.py` brings the whole system into one Streamlit interface:
-
-| Page | What it shows |
-|------|---------------|
-| **Academy** | Work Desk for five investment roles, lessons with live examples, role handbook, work record |
-| **Markets** | All asset classes: yield curve, credit spreads, FX carry, commodities, digital assets, REITs, alternatives, equity indices |
-| **Research** | Fundamental scores for the 33-stock universe: value, growth, quality, financial health; company detail |
-| **Command Center** | Portfolio status, instrument count, approval queue, immediate priorities, maximum risk-budget utilization, workflow state |
-| **Portfolio** | Risk-budget rankings, asset-class risk allocation, modeled risk contribution, Top-1 / Top-3 risk share, effective risk positions, automated observations |
-| **Risk Intelligence** | Instrument- and asset-class-level risk monitoring and alerts |
-| **Governance** | Governance status, actions and reasons per instrument |
-| **Remediation** | Modeled risk-reduction actions and priorities |
-| **AI Analyst** | Executive brief, risk drivers, priority queue and human-attention items |
-| **System** | Data sources and system state |
-
-**Portfolio snapshot from the committed outputs: LIVE market data as of
-2 October 2026.** The positions are the illustrative Day 59 example portfolio,
-valued at real prices with real price history. Run `python run_vittantra.py`
-to refresh.
-
-| Metric | Value |
-|--------|------:|
-| Portfolio status | CRITICAL |
-| Instruments | 10 (8 within budget, 2 critical) |
-| Maximum risk-budget utilization | 700.0% (AAPL call, deep in the money, delta ≈ 1.0) |
-| Next highest | 583.3% (ES future) |
-| Single-name concentration | AAPL stock + AAPL call ≈ 42% of portfolio risk before rebalancing |
-| Portfolio value / 1-day 95% VaR | $626,307 / $9,341 (99% VaR $15,864) |
-| Estimated post-remediation max utilization | 100% |
-| Workflow | AWAITING DUAL APPROVAL |
-| Automatic execution authorized | **0** |
-
----
-
-## Project phases
+## Build history — 90 days
 
 ### Phase 1 — Python for financial analytics (Days 1–7)
 Returns, cumulative returns, volatility, Sharpe ratio, drawdowns, CAPM beta and
@@ -241,7 +208,7 @@ inventing one**.
 | `vittantra_live_inputs.py` | Feeds live prices, rates, spreads and real history into the Day 59–70 risk chain |
 | `run_vittantra.py` | Runs data refresh → Days 59–70 → AI Analyst in order, on a schedule if wanted |
 
-## Finance framework
+### Finance framework
 
 Every core formula is checked against textbook references in
 `test_finance_formulas.py`. [`FINANCE_AUDIT.md`](FINANCE_AUDIT.md) lists each
@@ -323,30 +290,57 @@ and advisor.
 - **Career and work record:** XP and levels (Junior → Analyst → Senior → Lead) per
   role, and a downloadable record of your work for interviews.
 
+
+### Phase 16 — Valuation and research notes (Days 78–78b)
+DCF (FCFF, three-stage), residual income and dividend discount models with a
+reverse DCF and sensitivity table (`valuation_engine.py`); evidence-linked
+research notes where every claim cites file, field and value
+(`research_report.py`); a World & Markets Brief linking each week's data moves
+to free news headlines and the economic calendar (`world_brief.py`).
+
+### Phase 17 — Portfolio management (Days 79–81)
+Grinold–Kahn alpha, Ledoit–Wolf shrinkage covariance and an optimizer inside a
+4% tracking-error budget (`portfolio_construction.py`); Brinson–Fachler and
+factor attribution (`performance_attribution.py`); a what-if tool with live
+VaR, beta, risk shares and macro scenarios (`whatif_engine.py`).
+
+### Phase 18 — Advisory (Days 82–84)
+Risk questionnaire and IPS, building-block capital market assumptions, model
+allocations, a suitability engine citing CFA Standard III(C), Monte Carlo goal
+planning and client reports (`advisory_engine.py`).
+
+### Phase 19 — Copilot, rule tests, deployment, polish (Days 85–87b)
+An evidence-grounded copilot across all desks (`vittantra_copilot.py`), one
+test per non-negotiable rule (`test_governance_rules.py`), free deployment
+(`DEPLOY.md`) and a professional Home page and design pass.
+
+### Phase 20 — Career and release (Days 88–90)
+Data-generated case studies (`case_studies.py` → `CASE_STUDIES.md`), the career
+kit (`CAREER_KIT.md`), an Emergent Ventures draft and Vittantra v1.0.
+
 ## Tech stack
 
-- **Python:** pandas, NumPy, SciPy, scikit-learn
-- **Application:** Streamlit, Plotly, Matplotlib
-- **Data:** SQLite, SQL window functions and CTEs, yfinance, economic data APIs
-- **Engineering:** unittest, Git/GitHub, modular pipeline with validation outputs
-- **Finance:** portfolio optimization, CAPM, VaR/ES and VaR backtesting, stress
-  and macro-scenario testing, factor attribution, risk budgeting, governance
+Python 3.11 · pandas · NumPy · SciPy · scikit-learn · Streamlit · Plotly ·
+SQLite · yfinance · requests · free data from SEC EDGAR, FRED, Yahoo Finance and
+official RSS feeds.
 
 ## Design principles
 
 1. **No look-ahead bias** — point-in-time data and walk-forward validation.
-2. **Challenge every result** — robustness and attribution before conclusions.
-3. **Risk before return** — every signal passes risk checks before it becomes an order.
+2. **Challenge every result** — test signals out of sample; a combination must beat its best input.
+3. **Risk before return** — every proposal passes risk budgets and suitability checks.
 4. **Governed, not automated** — recommendations become tickets that require human approval.
-5. **Explainable** — every governance action carries a reason; the AI layer cites evidence.
+5. **Explainable** — every number cites its source; the AI layer never invents data.
 
 ## Project status
 
-Days 1–77 complete. Next: continue extending the AI layer and the end-to-end
-research-to-decision workflow through Day 90.
+**Vittantra 1.0** — all 90 days complete. Next ideas: FFO-based REIT valuation,
+consensus-free earnings forecasts, a larger universe for stronger signal tests,
+and historical scenario replay.
 
 ## Disclaimer
 
-This repository is an educational research project. All backtests and model
-results are historical and simulated, depend on modeling assumptions, and do
-not predict future performance. Nothing here constitutes investment advice.
+Vittantra is a research and education project. Nothing in it is investment
+advice. Backtests are historical research results, not promises of future
+returns; sample clients are fictional. Market data from free sources may be
+delayed or incomplete. No trades are submitted or executed.
