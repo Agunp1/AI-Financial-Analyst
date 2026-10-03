@@ -1238,23 +1238,10 @@ def apply_turnover_limit(
         targets.copy()
     )
 
-    current_max = float(
-        result[
-            "current_weight"
-        ]
-        .max()
-    )
-
-    if (
-        current_max
-        > policy.max_position_weight
-        + 1e-8
-    ):
-
-        raise ValueError(
-            "Current portfolio already exceeds "
-            "the configured position cap."
-        )
+    # A portfolio that already breaches the position cap cannot always
+    # be brought inside it within one turnover-limited rebalance. Move
+    # toward the targets anyway and flag any remaining breach for review
+    # instead of aborting the whole pipeline.
 
     changes = (
         result[
@@ -1303,6 +1290,16 @@ def apply_turnover_limit(
         result[
             "turnover_scale"
         ] = 1.0
+
+    result[
+        "exceeds_position_cap"
+    ] = (
+        result[
+            "target_weight"
+        ]
+        > policy.max_position_weight
+        + 1e-8
+    )
 
     return result
 
