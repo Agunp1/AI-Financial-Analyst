@@ -92,3 +92,18 @@ you'll need to sign in again next time.
 
 **Secrets stay secret:** they live only in Streamlit Cloud, never in the code.
 If the token ever leaks, delete it on GitHub and make a new one.
+
+## Automatic data refresh (no laptop needed)
+
+`.github/workflows/refresh-data.yml` runs the pipeline on GitHub's free
+computers every weekday after the US close (and all US-listed stocks on
+Saturdays), checks the governance and formula tests, and commits the new
+CSVs; the online app then reloads with fresh data.
+
+One-time setup: GitHub repo → **Settings → Secrets and variables → Actions →
+New repository secret**, add:
+- `FRED_API_KEY` — the same value as in your `.env`
+- `SEC_USER_AGENT` — the same value as in your `.env` (e.g. `Your Name you@email.com`)
+
+To refresh now: repo → **Actions → Refresh data → Run workflow**. If a run
+fails, GitHub emails you and the app keeps the last good data.
