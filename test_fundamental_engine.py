@@ -218,6 +218,19 @@ class RealFilingTrapTests(unittest.TestCase):
         self.assertEqual(scores.loc["IND_A", "equity_to_assets_score"], 100.0)
 
 
+class ResilienceTests(unittest.TestCase):
+
+    def test_underivable_quarters_do_not_crash_company(self):
+        company = build_company(REVENUE)
+        # Revenue reported only as stray two-month periods: no TTM possible.
+        add_fact(company, "Revenues", [
+            {"start": "2025-05-01", "end": "2025-06-30", "val": 50.0,
+             "form": "10-Q", "filed": "2025-08-09"}])
+        m = fe.compute_company_metrics(company, pd.Timestamp("2025-09-01"), 10.0, "Energy")
+        self.assertIsNone(m["revenue_ttm"])
+        self.assertIsNotNone(m["net_income_ttm"])
+
+
 class EndToEndTests(unittest.TestCase):
 
     def test_scores_and_validation(self):

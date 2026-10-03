@@ -103,9 +103,18 @@ CONCEPTS: Dict[str, List[str]] = {
         "CashAndCashEquivalentsAtCarryingValue",
         "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
     ],
-    "long_term_debt_total": ["LongTermDebt"],
-    "long_term_debt_noncurrent": ["LongTermDebtNoncurrent"],
-    "long_term_debt_current": ["LongTermDebtCurrent"],
+    "long_term_debt_total": ["LongTermDebt", "DebtLongtermAndShorttermCombinedAmount"],
+    "long_term_debt_noncurrent": [
+        "LongTermDebtNoncurrent",
+        "LongTermDebtAndCapitalLeaseObligations",
+        "LongTermNotesPayable",
+        "SeniorNotes",
+    ],
+    "long_term_debt_current": [
+        "LongTermDebtCurrent",
+        "LongTermDebtAndCapitalLeaseObligationsCurrent",
+        "DebtCurrent",
+    ],
     "short_term_debt": ["ShortTermBorrowings", "CommercialPaper"],
 }
 
@@ -315,6 +324,8 @@ def ttm_value(df: pd.DataFrame, end: Optional[pd.Timestamp] = None) -> Optional[
             return float(fiscal_year["val"] + ytd["val"] - prior.iloc[-1]["val"])
 
     quarters = quarterly_series(durations)
+    if quarters.empty:
+        return None
     window = quarters[(quarters.index > end - pd.Timedelta(days=330))
                       & (quarters.index <= end + pd.Timedelta(days=7))]
     if len(window) >= 4:
@@ -350,6 +361,8 @@ def quarterly_series(durations: pd.DataFrame) -> pd.Series:
                       if longer["start"] < q < longer["end"] - pd.Timedelta(days=60)]
             if len(inside) == 3:
                 quarters[longer["end"]] = float(longer["val"] - sum(inside))
+    if not quarters:
+        return pd.Series(dtype=float, index=pd.DatetimeIndex([]))
     return pd.Series(quarters, dtype=float).sort_index()
 
 
@@ -427,6 +440,14 @@ def growth(current, previous) -> Optional[float]:
     return float((current - previous) / abs(previous))
 
 
+def safe_ttm(df: pd.DataFrame, end) -> Optional[float]:
+    """TTM that returns None instead of failing on an unusual filing pattern."""
+    try:
+        return ttm_value(df, end)
+    except Exception:
+        return None
+
+
 def compute_company_metrics(company_facts: dict, as_of: pd.Timestamp,
                             price: Optional[float], sector: str) -> dict:
     frames = {item: concept_frame(company_facts, item, as_of) for item in CONCEPTS}
@@ -442,17 +463,17 @@ def compute_company_metrics(company_facts: dict, as_of: pd.Timestamp,
     year_ago_end = None if latest_end is None else latest_end - pd.Timedelta(days=365)
     ttm, ttm_prior = {}, {}
     for item in FLOW_ITEMS:
-        ttm[item] = ttm_value(frames[item], latest_end) if latest_end is not None else None
+        ttm[item] = safe_ttm(frames[item], latest_end) if latest_end is not None else None
         if ttm[item] is None and not frames[item].empty and latest_end is not None:
             own_end = frames[item]["end"].max()
             if abs((own_end - latest_end).days) <= 100:
-                ttm[item] = ttm_value(frames[item], own_end)
+                ttm[item] = safe_ttm(frames[item], own_end)
         prior_end = None
         if year_ago_end is not None and not frames[item].empty:
             ends = frames[item]["end"]
             close = ends[_near(ends, year_ago_end, 20)]
             prior_end = close.iloc[-1] if len(close) else None
-        ttm_prior[item] = ttm_value(frames[item], prior_end) if prior_end is not None else None
+        ttm_prior[item] = safe_ttm(frames[item], prior_end) if prior_end is not None else None
 
     if ttm["gross_profit"] is None and ttm["revenue"] is not None and ttm["cost_of_revenue"] is not None:
         ttm["gross_profit"] = ttm["revenue"] - ttm["cost_of_revenue"]
