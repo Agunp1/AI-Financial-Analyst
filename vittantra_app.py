@@ -515,7 +515,7 @@ st.markdown(
     .vt-hero-sub { font-size: 1.05rem; opacity: 0.88; max-width: 52rem; line-height: 1.55; }
     .vt-section { font-size: 1.15rem; font-weight: 700; margin: 1.6rem 0 0.7rem 0; }
     .vt-card { border: 1px solid #E4E1D8; border-radius: 6px; padding: 1rem 1.1rem;
-               min-height: 8.5rem; margin-bottom: 0.5rem; background: #FFFFFF;
+               min-height: 9.6rem; hyphens: none; word-break: normal; overflow-wrap: normal; margin-bottom: 0.5rem; background: #FFFFFF;
                box-shadow: 0 1px 2px rgba(18,61,48,0.04); }
     .vt-card-title { font-weight: 700; font-size: 1.02rem; margin-bottom: 0.35rem; }
     .vt-card-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.65; }
@@ -533,6 +533,14 @@ st.markdown(
     }
 
     /* ---- Private-bank design system (overrides above) ---- */
+    .vt-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.75rem;
+                margin-bottom: 0.5rem; }
+    .vt-stat { background: #FFFFFF; border: 1px solid #E4E1D8; border-radius: 6px; padding: 0.85rem 1rem;
+               box-shadow: 0 1px 2px rgba(18,61,48,0.04); min-width: 0; }
+    .vt-stat-label { font-size: 0.78rem; color: #66736C; letter-spacing: 0.02em; white-space: nowrap;
+                     overflow: hidden; text-overflow: ellipsis; }
+    .vt-stat-value { font-size: 1.55rem; font-weight: 600; color: #123D30; white-space: nowrap;
+                     font-variant-numeric: tabular-nums; margin-top: 0.15rem; }
     .vittantra-title { font-family: "Source Serif 4", Georgia, serif; font-weight: 650; color: #123D30;
                        letter-spacing: -0.01em; }
     .vittantra-subtitle { color: #66736C; opacity: 1; }

@@ -27,6 +27,8 @@ DESKS = [
      "VaR and stress tests, Euler risk budgets, governance, remediation and dual-approval workflow."),
     ("Advisory", "Advisory",
      "Risk questionnaire and IPS, capital market assumptions, suitability checks and Monte Carlo goal plans."),
+    ("Private Equity / VC", "Academy",
+     "A small fund's analyst desk: deal screening, term sheets and waterfalls, LBOs, fund math and mock interviews."),
 ]
 
 TOUR = [
@@ -115,17 +117,22 @@ def render_home() -> None:
         unsafe_allow_html=True,
     )
     snapshot = _snapshot()
-    cols = st.columns(len(snapshot))
-    for col, (label, value) in zip(cols, snapshot.items()):
-        col.metric(label, value)
+    # A wrapping stat strip instead of fixed columns, so labels and numbers never truncate on narrow screens
+    short = {"US companies scored": "US companies", "Instruments tracked": "Instruments",
+             "Clients (sample)": "Sample clients", "Rule & formula tests": "Automated tests"}
+    st.markdown('<div class="vt-stats">' + "".join(
+        f'<div class="vt-stat"><div class="vt-stat-label">{short.get(label, label)}</div>'
+        f'<div class="vt-stat-value">{value}</div></div>' for label, value in snapshot.items()) + "</div>",
+        unsafe_allow_html=True)
 
-    st.markdown('<div class="vt-section">Five desks, one workflow</div>', unsafe_allow_html=True)
-    cols = st.columns(len(DESKS))
-    for col, (desk, page, text) in zip(cols, DESKS):
-        with col:
-            st.markdown(f'<div class="vt-card"><div class="vt-card-title">{desk}</div>'
-                        f'<div class="vt-card-text">{text}</div></div>', unsafe_allow_html=True)
-            st.button("Open", key=f"desk-{desk}", on_click=_go, args=(page,), width="stretch")
+    st.markdown('<div class="vt-section">Six desks, one workflow</div>', unsafe_allow_html=True)
+    for start in range(0, len(DESKS), 3):          # rows of three stay readable on laptop screens
+        cols = st.columns(3)
+        for col, (desk, page, text) in zip(cols, DESKS[start:start + 3]):
+            with col:
+                st.markdown(f'<div class="vt-card"><div class="vt-card-title">{desk}</div>'
+                            f'<div class="vt-card-text">{text}</div></div>', unsafe_allow_html=True)
+                st.button("Open", key=f"desk-{desk}", on_click=_go, args=(page,), width="stretch")
 
     st.markdown('<div class="vt-section">How it works</div>', unsafe_allow_html=True)
     steps = ["Free data", "Research & valuation", "Portfolio & risk", "Governance & approval", "Human decision"]
