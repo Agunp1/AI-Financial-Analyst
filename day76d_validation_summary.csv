@@ -1,8 +1,8 @@
 check,passed,details,passed_tests,total_tests,pass_rate
-Factors available,True,6 of 6 factors,6,7,0.8571428571428571
-Instruments modelled,True,173 of 175,6,7,0.8571428571428571
-Long Treasuries: rate beta ≈ −duration (−12 to −22),False,TLT rate beta -0.1 per +1pp,6,7,0.8571428571428571
-High-yield bonds fall when spreads widen,True,HYG credit beta -0.01,6,7,0.8571428571428571
-Gold tends to move against the dollar,True,gold dollar beta -1.82,6,7,0.8571428571428571
-Rates factor lines up with bond prices (strongest at lag 0),True,"TLT vs 10Y change correlation by lag: -2d -0.02, -1d 0.08, +0d -0.90, +1d 0.04, +2d 0.00",6,7,0.8571428571428571
-R² between 0 and 1,True,median R² 0.16,6,7,0.8571428571428571
+Factors available,True,6 of 6 factors,7,7,1.0
+Instruments modelled,True,173 of 175,7,7,1.0
+Long Treasuries: rate beta ≈ −duration (−12% to −22% per +1pp),True,TLT -13.4% per +1pp of 10Y yield (implied duration 13.4),7,7,1.0
+High-yield bonds fall when spreads widen,True,HYG -1.0% per +1pp of high-yield spread,7,7,1.0
+Gold tends to move against the dollar,True,gold dollar beta -1.82,7,7,1.0
+Rates factor lines up with bond prices (strongest at lag 0),True,"TLT vs 10Y change correlation by lag: -2d -0.02, -1d 0.08, +0d -0.90, +1d 0.04, +2d 0.00",7,7,1.0
+R² between 0 and 1,True,median R² 0.16,7,7,1.0

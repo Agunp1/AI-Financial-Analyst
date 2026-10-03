@@ -287,19 +287,19 @@ def item_real_estate(day=None) -> dict:
 def item_macro(day=None) -> dict:
     rng = _rng("macro", day)
     b = _csv("day76d_macro_betas.csv", "macro_drivers.py").set_index("symbol")
-    tlt = float(b.loc["TLT", "beta_interest_rates"])
+    tlt = float(b.loc["TLT", "beta_interest_rates"])   # decimal return per +1pp
     candidates = [s for s in ("EURUSD=X", "GC=F", "SPY") if s in b.index and "beta_us_dollar" in b.columns]
     dollar = {s: b.loc[s, "beta_us_dollar"] for s in candidates if pd.notna(b.loc[s, "beta_us_dollar"])}
     most = min(dollar, key=dollar.get) if dollar else "EURUSD=X"
     vignette = (f"A macro strategist estimates factor sensitivities from one year of daily data (Vittantra macro "
-                f"drivers). The long-Treasury ETF's beta to the 10-year yield is {tlt:.1f} per percentage point. "
+                f"drivers). The long-Treasury ETF's beta to the 10-year yield is {tlt:+.1%} per percentage point. "
                 "Dollar betas: " + ", ".join(f"{s} {v:.2f}" for s, v in dollar.items()) + ".")
     questions = [
         _question("If the 10-year yield rises 0.50 percentage points, the expected move in the Treasury ETF is "
                   "closest to:",
-                  f"{tlt * 0.5 / 100:.1%}" if abs(tlt) > 1 else f"{tlt * 0.5:.1%}",
-                  [f"{-tlt * 0.5 / 100:.1%}" if abs(tlt) > 1 else f"{-tlt * 0.5:.1%}", "0.0%"],
-                  f"Expected return ≈ β × Δy = {tlt:.1f} × 0.5 pp. The rate beta behaves like (negative) duration.", rng),
+                  f"{tlt * 0.5:.1%}", [f"{-tlt * 0.5:.1%}", "0.0%"],
+                  f"Expected return ≈ β × Δy = {tlt:+.1%} × 0.5 = {tlt * 0.5:.1%}. The rate beta behaves like "
+                  f"(negative) duration: an implied duration of about {-tlt * 100:.0f}.", rng),
         _question("Which instrument is most negatively exposed to a stronger US dollar?",
                   most, [s for s in dollar if s != most][:2] or ["SPY", "GC=F"],
                   "The most negative dollar beta falls the most when the dollar index rises.", rng),

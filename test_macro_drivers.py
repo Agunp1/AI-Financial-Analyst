@@ -26,8 +26,8 @@ def planted_market(n=320, seed=3):
     # The first day's return is lost when prices are rebuilt, so shift factors by one.
     returns = {
         "SPY": spy, "DX-Y.NYB": usd, "CL=F": oil,
-        "TLT": -17 * d10 + rng.normal(0, 0.001, n),
-        "HYG": 0.3 * spy - 4 * dhy + rng.normal(0, 0.001, n),
+        "TLT": -0.17 * d10 + rng.normal(0, 0.001, n),
+        "HYG": 0.3 * spy - 0.04 * dhy + rng.normal(0, 0.001, n),
         "GC=F": -0.9 * usd + 0.5 * dbe + rng.normal(0, 0.004, n),
     }
     prices = pd.DataFrame({k: path(v) for k, v in returns.items()}, index=dates)
@@ -53,10 +53,10 @@ class MacroDriverTests(unittest.TestCase):
         cls.tmp.cleanup()
 
     def test_recovers_duration_from_rate_beta(self):
-        self.assertAlmostEqual(self.betas.loc["TLT", "beta_interest_rates"], -17, delta=0.5)
+        self.assertAlmostEqual(self.betas.loc["TLT", "beta_interest_rates"], -0.17, delta=0.005)
 
     def test_recovers_credit_and_equity_betas(self):
-        self.assertAlmostEqual(self.betas.loc["HYG", "beta_credit_spreads"], -4, delta=0.2)
+        self.assertAlmostEqual(self.betas.loc["HYG", "beta_credit_spreads"], -0.04, delta=0.003)
         self.assertAlmostEqual(self.betas.loc["HYG", "beta_equity_market"], 0.3, delta=0.05)
 
     def test_gold_dollar_relationship(self):
@@ -72,7 +72,7 @@ class MacroDriverTests(unittest.TestCase):
 
     def test_rates_explain_treasury_move(self):
         row = self.attr[(self.attr["symbol"] == "TLT") & (self.attr["window"] == "1 month")].iloc[0]
-        self.assertLess(abs(row["unexplained"]), 0.01)
+        self.assertLess(abs(row["unexplained"]), 0.01)  # noise only: 0.1% a day
 
     def test_validation_passes(self):
         failed = self.validation[~self.validation["passed"]]
@@ -89,7 +89,7 @@ class AlignmentTests(unittest.TestCase):
         lags = md.alignment_lags(returns, factors)
         self.assertLess(lags[0], -0.9)
         betas = md.macro_betas(returns["TLT"], factors)
-        self.assertAlmostEqual(betas["beta_interest_rates"], -17, delta=0.5)
+        self.assertAlmostEqual(betas["beta_interest_rates"], -0.17, delta=0.005)
 
     def test_misaligned_dates_are_flagged(self):
         prices, fred, universe = planted_market()

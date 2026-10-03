@@ -58,6 +58,8 @@ textbook values and independent calculations.
 | 10 | **Day 63 crashed on the sample portfolio** | Refused to run when a position already exceeded its cap | Moves toward targets within the turnover limit and flags the remaining breach | Pipeline runs end to end |
 | 11 | **Risk chain ran only on made-up data** | Day 60 used synthetic price history and fixed example prices | Day 75 data hub feeds real prices, rates, spreads and history | LIVE mode available |
 | 12 | **Macro drivers: prices one day behind rates** | Price dates carrying a time of day sorted after FRED's plain dates, so each price was carried to the next day; bond returns no longer lined up with yield changes | Both date indexes reduced to plain calendar dates; a lead-lag check (TLT vs 10Y change must peak at lag 0) is now part of validation | TLT rate beta ≈ 0 → ≈ −duration |
+| 13 | **Macro drivers: rate-beta check in the wrong units** | Returns are decimals, so a duration of 17 shows as a beta of −0.17 per +1pp; the check expected −17, and the real −0.134 (t = −25) was reported as a failure | Check range −0.12 to −0.22, reported as % per +1pp with implied duration | TLT −13.4% per +1pp (implied duration 13.4) passes |
+| 14 | **Day 77 ran on coarse 20-day prices and no regime** | Needed hedge_fund.db or a stock price database that a fresh machine does not have; regime needed spread history | Free Yahoo daily prices and FRED spread/yield history downloaded and cached (`day77_price_history.csv`, `day77_macro_history.csv`); SEC facts downloaded once if missing (filing dates keep it point in time) | Technical, risk and economic pillars on daily data |
 
 ---
 
@@ -90,7 +92,7 @@ These are acceptable for a research system but should be understood:
 | Multi-asset: credit | No free prices for individual corporate bonds; spread indices and bond ETFs used. FRED's ICE BofA history is limited (about 3 years), so spread percentiles cover a short window | Licensed bond pricing (TRACE/ICE) |
 | Multi-asset: FX carry | OECD 3-month interbank rates are monthly and some countries lag or are discontinued | Daily deposit/forward rates |
 | Multi-asset: commodities | Front-month futures only; no roll yield / term structure | Second-month contracts |
-| Macro drivers | Linear, constant betas over one year; factors correlated (betas shift when factors move together); summed simple returns approximate compounding | Rolling/regime-dependent betas, orthogonalized factors |
+| Macro drivers | Linear, constant betas over one year; factors correlated (betas shift when factors move together — e.g. TLT's implied duration 13.4 vs ~16 actual, because inflation expectations and the equity factor share part of the rate move; HYG's credit beta is small because the equity factor absorbs most credit risk); summed simple returns approximate compounding | Rolling/regime-dependent betas, orthogonalized factors |
 | CRE | Listed REITs/brand owners proxy private CRE; no free occupancy/RevPAR or property NOI data | Licensed STR/CoStar data |
 | Multi-factor: sample | 33 stocks and ~3 years of monthly rebalances: IC t-statistics are noisy; economic pillar is a simple beta tilt | Larger universe (US engine), longer history, sector-macro sensitivities |
 | Multi-asset: alternatives | Listed proxies stand in for private equity, private credit and hedge funds | Fund-level data |

@@ -53,6 +53,10 @@ BASE_DIR = Path(__file__).resolve().parent
 HEDGE_FUND_DB = BASE_DIR / "hedge_fund.db"
 MARKET_DB = BASE_DIR / "vittantra_market.db"
 RANKINGS_FILE = BASE_DIR / "day55_cross_sectional_rankings.csv"
+PRICE_CACHE = BASE_DIR / "day77_price_history.csv"
+MACRO_CACHE = BASE_DIR / "day77_macro_history.csv"
+REGIME_SERIES = ["BAMLH0A0HYM2", "DGS10", "DGS3MO"]
+CACHE_MAX_AGE_DAYS = 1
 
 PILLARS = ["fundamental", "technical", "quant", "economic", "risk"]
 OVERWEIGHT_SHARE = 0.30
@@ -95,6 +99,10 @@ def load_prices() -> Tuple[pd.DataFrame, str]:
     usable = [(f, src) for f, src in zip(frames, sources)
               if f["ticker"].isin(universe).groupby(f["ticker"]).any().sum() >= len(universe) / 2]
     frames, sources = [f for f, _ in usable], [src for _, src in usable]
+    if not frames:
+        yahoo = load_yahoo_prices(sorted(universe | {"SPY"}))
+        if yahoo is not None:
+            frames, sources = [yahoo], ["Yahoo Finance daily (free)"]
     if frames:
         long = pd.concat(frames).dropna()
         long["date"] = pd.to_datetime(long["date"])
@@ -103,18 +111,67 @@ def load_prices() -> Tuple[pd.DataFrame, str]:
         return wide, " + ".join(sources)
     ranks = pd.read_csv(RANKINGS_FILE, parse_dates=["date"])
     wide = ranks.pivot(index="date", columns="ticker", values="close").sort_index()
-    return wide, "Day 55 closes (20-day sampling; coarse — run on a machine with hedge_fund.db)"
+    return wide, "Day 55 closes (20-day sampling; coarse — Yahoo download failed and no daily database)"
 
 
-def load_macro() -> Dict[str, pd.Series]:
-    if not MARKET_DB.exists():
-        return {}
-    try:
-        with sqlite3.connect(MARKET_DB) as conn:
-            df = pd.read_sql("SELECT series_id, date, value FROM macro_observations", conn, parse_dates=["date"])
-    except Exception:
-        return {}
-    return {s: g.set_index("date")["value"].sort_index() for s, g in df.groupby("series_id")}
+def _fresh(path: Path) -> bool:
+    import time
+    return path.exists() and (time.time() - path.stat().st_mtime) < CACHE_MAX_AGE_DAYS * 86400
+
+
+def load_yahoo_prices(tickers, fetch=None) -> Optional[pd.DataFrame]:
+    """Daily adjusted closes from Yahoo (long format), cached in day77_price_history.csv.
+
+    The history starts 13 months before the first ranking date so 12-1
+    momentum and one-year volatility exist at every backtest date. A failed
+    download falls back to the saved copy; an empty one never overwrites it.
+    """
+    if not _fresh(PRICE_CACHE):
+        try:
+            if fetch is None:
+                from vittantra_data_hub import fetch_price_history_yfinance as fetch
+            first = pd.read_csv(RANKINGS_FILE, usecols=["date"], parse_dates=["date"])["date"].min()
+            start = (first - pd.DateOffset(months=13)).strftime("%Y-%m-%d")
+            raw = fetch(list(tickers), start)
+            if raw is not None and not raw.empty:
+                raw = raw.assign(close=raw["adj_close"].fillna(raw["close"]))[["date", "ticker", "close"]]
+                wide = raw.pivot_table(index="date", columns="ticker", values="close").sort_index()
+                wide.round(6).to_csv(PRICE_CACHE, index_label="date")
+        except Exception as error:
+            print(f"Yahoo price download failed ({error}); using the saved copy if there is one.")
+    if not PRICE_CACHE.exists():
+        return None
+    wide = pd.read_csv(PRICE_CACHE, index_col=0, parse_dates=True)
+    wide.index.name, wide.columns.name = "date", "ticker"
+    return wide.stack().rename("close").reset_index()
+
+
+def load_macro(fetch=None) -> Dict[str, pd.Series]:
+    """Credit spread and Treasury yields for the regime: FRED (free, no key), cached."""
+    series: Dict[str, pd.Series] = {}
+    if MARKET_DB.exists():
+        try:
+            with sqlite3.connect(MARKET_DB) as conn:
+                df = pd.read_sql("SELECT series_id, date, value FROM macro_observations", conn,
+                                 parse_dates=["date"])
+            series = {s: g.set_index("date")["value"].sort_index() for s, g in df.groupby("series_id")}
+        except Exception:
+            pass
+    if not _fresh(MACRO_CACHE):
+        try:
+            if fetch is None:
+                from vittantra_data_hub import fetch_fred_series as fetch
+            frames = {sid: fetch(sid).set_index("date")["value"] for sid in REGIME_SERIES}
+            if all(len(f) for f in frames.values()):
+                pd.DataFrame(frames).sort_index().to_csv(MACRO_CACHE, index_label="date")
+        except Exception as error:
+            print(f"FRED download failed ({error}); using the saved copy if there is one.")
+    if MACRO_CACHE.exists():
+        saved = pd.read_csv(MACRO_CACHE, index_col=0, parse_dates=True)
+        for sid in saved.columns:
+            if sid not in series or len(saved[sid].dropna()) > len(series[sid]):
+                series[sid] = saved[sid].dropna()
+    return series
 
 
 def _on_or_before(series: pd.Series, date: pd.Timestamp) -> Optional[float]:
@@ -196,20 +253,35 @@ def fundamental_scores_at(date: pd.Timestamp, facts: Dict[str, dict], universe: 
     return fe.percentile_scores(metrics)["fundamental_score"]
 
 
-def load_point_in_time_facts(universe: Dict[str, dict]) -> Dict[str, dict]:
-    """SEC company facts from the local cache only (no downloads during a backtest)."""
-    facts = {}
+def load_point_in_time_facts(universe: Dict[str, dict]) -> Tuple[Dict[str, dict], str]:
+    """SEC company facts (local cache, downloaded once if missing) and a status note.
+
+    Downloading today does not create look-ahead: every fact carries its
+    filing date and only facts filed on or before each backtest date are used.
+    """
+    import json
+    facts, missing = {}, []
     try:
         ticker_map = fe.fetch_ticker_map()
-    except Exception:
-        return facts
+    except Exception as error:
+        return facts, f"SEC ticker map unavailable ({str(error).splitlines()[0]})"
     for ticker in universe:
-        cik = ticker_map.get(ticker)
-        path = fe.CACHE_DIR / f"CIK{cik:010d}.json" if cik else None
-        if path is not None and path.exists():
-            import json
-            facts[ticker] = json.loads(path.read_text())
-    return facts
+        cik = ticker_map.get(ticker.replace(".", "-").upper())
+        if not cik:
+            missing.append(ticker)
+            continue
+        try:
+            facts[ticker] = fe.fetch_company_facts(cik)
+        except Exception:
+            path = fe.CACHE_DIR / f"CIK{cik:010d}.json"
+            if path.exists():
+                facts[ticker] = json.loads(path.read_text())
+            else:
+                missing.append(ticker)
+    note = f"SEC facts for {len(facts)} of {len(universe)} stocks, filed ≤ each date"
+    if missing:
+        note += f" (missing: {', '.join(missing[:8])})"
+    return facts, note
 
 
 # ==============================================================
@@ -386,7 +458,7 @@ def portfolio_backtest(history: pd.DataFrame) -> pd.DataFrame:
 # ==============================================================
 
 def validate_day77(current: pd.DataFrame, history: pd.DataFrame, ic_sum: pd.DataFrame,
-                   price_source: str, facts_available: bool) -> pd.DataFrame:
+                   price_source: str, facts_available: bool, facts_note: str = "") -> pd.DataFrame:
     checks = []
 
     def add(name, passed, details):
@@ -402,8 +474,8 @@ def validate_day77(current: pd.DataFrame, history: pd.DataFrame, ic_sum: pd.Data
     composite_dates = int(ic_sum.set_index("signal").loc["composite", "dates"])
     add("Enough history for IC testing", composite_dates >= 20, f"{composite_dates} dates")
     add("Fundamentals point in time in backtest", facts_available,
-        "SEC facts filed ≤ each date" if facts_available else "SEC cache not found: fundamental pillar "
-        "excluded from the backtest (current rating still uses Day 76)")
+        facts_note if facts_available else f"{facts_note or 'No SEC facts'}: fundamental pillar excluded "
+        "from the backtest (current rating still uses Day 76)")
     add("Daily price history", "coarse" not in price_source, price_source)
     df = pd.DataFrame(checks)
     df["passed_tests"] = int(df["passed"].sum())
@@ -424,7 +496,10 @@ def run_multi_factor(out_dir: Path = BASE_DIR, prices: Optional[pd.DataFrame] = 
     if prices is None:
         prices, price_source = load_prices()
     macro = load_macro() if macro is None else macro
-    facts = load_point_in_time_facts(universe) if facts is None else facts
+    if facts is None:
+        facts, facts_note = load_point_in_time_facts(universe)
+    else:
+        facts_note = f"SEC facts for {len(facts)} of {len(universe)} stocks, filed ≤ each date"
     benchmark = prices["SPY"] if "SPY" in prices.columns else None
     stock_prices = prices[[t for t in prices.columns if t in universe]]
 
@@ -453,11 +528,12 @@ def run_multi_factor(out_dir: Path = BASE_DIR, prices: Optional[pd.DataFrame] = 
     current["weakest_pillar"] = current[PILLARS].idxmin(axis=1, skipna=True)
     current["regime"] = regime
     current["as_of"] = as_of.date()
+    current["quant_signal_as_of"] = rankings["date"].max().date()   # last Day 55 ML ranking
     current.insert(0, "sector", [universe[t]["sector"] for t in current.index])
     current.insert(0, "name", [universe[t]["name"] for t in current.index])
     current = current.sort_values("composite", ascending=False)
     current.index.name = "ticker"
-    validation = validate_day77(current, history, ic_sum, price_source, bool(facts))
+    validation = validate_day77(current, history, ic_sum, price_source, bool(facts), facts_note)
 
     out_dir = Path(out_dir)
     current.to_csv(out_dir / OUTPUT_RATINGS)

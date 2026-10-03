@@ -20,9 +20,10 @@ last year (multiple OLS with t-statistics):
 
     R_t = α + Σ_k β_k · ΔF_k,t + ε_t
 
-A rate beta of −17 means the instrument tends to lose ~17% when the 10-year
-yield rises 1 percentage point — for a long Treasury fund that is its
-duration. Attribution over a window splits the move into Σ β_k × (factor
+Returns are decimals and rate factors are in percentage points, so a rate
+beta of −0.17 means the instrument tends to lose ~17% when the 10-year
+yield rises 1 percentage point — for a long Treasury fund that is about
+its duration (17). Attribution over a window splits the move into Σ β_k × (factor
 move over the window) plus an unexplained part (stock-specific news,
 factors not modelled).
 
@@ -193,11 +194,12 @@ def validate(betas: pd.DataFrame, factor_moves: pd.DataFrame, n_instruments: int
     add("Instruments modelled", len(betas) >= 0.8 * n_instruments, f"{len(betas)} of {n_instruments}")
     if "TLT" in betas.index and "beta_interest_rates" in betas.columns:
         rate_beta = betas.loc["TLT", "beta_interest_rates"]
-        add("Long Treasuries: rate beta ≈ −duration (−12 to −22)", -22 <= rate_beta <= -12,
-            f"TLT rate beta {rate_beta:.1f} per +1pp")
+        # Returns are decimals: −0.17 = −17% per +1pp, i.e. a duration of about 17.
+        add("Long Treasuries: rate beta ≈ −duration (−12% to −22% per +1pp)", -0.22 <= rate_beta <= -0.12,
+            f"TLT {rate_beta:+.1%} per +1pp of 10Y yield (implied duration {-rate_beta * 100:.1f})")
     if "HYG" in betas.index and "beta_credit_spreads" in betas.columns:
         add("High-yield bonds fall when spreads widen", betas.loc["HYG", "beta_credit_spreads"] < 0,
-            f"HYG credit beta {betas.loc['HYG', 'beta_credit_spreads']:.2f}")
+            f"HYG {betas.loc['HYG', 'beta_credit_spreads']:+.1%} per +1pp of high-yield spread")
     if "GC=F" in betas.index and "beta_us_dollar" in betas.columns:
         add("Gold tends to move against the dollar", betas.loc["GC=F", "beta_us_dollar"] < 0,
             f"gold dollar beta {betas.loc['GC=F', 'beta_us_dollar']:.2f}")

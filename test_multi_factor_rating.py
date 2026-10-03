@@ -1,5 +1,6 @@
 """Tests for the Day 77 multi-factor rating, focused on look-ahead safety."""
 
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -86,6 +87,52 @@ class EndToEndTests(unittest.TestCase):
                 self.assertTrue((Path(tmp) / name).exists())
         self.assertEqual(len(current), 33)
         self.assertIn("composite_ic_weighted", set(ic_sum["signal"]))
+
+
+class FreeDataLoaderTests(unittest.TestCase):
+    """Yahoo and FRED loaders: cache, fallback, never overwrite with empty data."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        base = Path(self.tmp.name)
+        self.saved = (mfr.PRICE_CACHE, mfr.MACRO_CACHE, mfr.MARKET_DB)
+        mfr.PRICE_CACHE, mfr.MACRO_CACHE = base / "prices.csv", base / "macro.csv"
+        mfr.MARKET_DB = base / "missing.db"
+
+    def tearDown(self):
+        mfr.PRICE_CACHE, mfr.MACRO_CACHE, mfr.MARKET_DB = self.saved
+        self.tmp.cleanup()
+
+    @staticmethod
+    def fake_yahoo(tickers, start):
+        dates = pd.bdate_range(start, periods=5)
+        return pd.DataFrame([{"ticker": t, "date": d, "close": 10.0 + i, "adj_close": 9.0 + i}
+                             for t in tickers for i, d in enumerate(dates)])
+
+    def test_yahoo_prices_cached_and_adjusted(self):
+        long = mfr.load_yahoo_prices(["AAA", "SPY"], fetch=self.fake_yahoo)
+        self.assertEqual(set(long.columns), {"date", "ticker", "close"})
+        self.assertEqual(set(long["ticker"]), {"AAA", "SPY"})
+        self.assertEqual(long["close"].min(), 9.0)          # adjusted close used
+        self.assertTrue(mfr.PRICE_CACHE.exists())
+
+    def test_failed_download_keeps_saved_copy(self):
+        mfr.load_yahoo_prices(["AAA"], fetch=self.fake_yahoo)
+        os.utime(mfr.PRICE_CACHE, (0, 0))                  # make the cache stale
+        def broken(tickers, start):
+            raise ConnectionError("offline")
+        long = mfr.load_yahoo_prices(["AAA"], fetch=broken)
+        self.assertEqual(len(long), 5)
+        long = mfr.load_yahoo_prices(["AAA"], fetch=lambda t, s: pd.DataFrame())
+        self.assertEqual(len(long), 5)
+
+    def test_macro_regime_from_fred(self):
+        dates = pd.bdate_range(end="2026-10-01", periods=300)
+        values = {"BAMLH0A0HYM2": np.linspace(3, 5, 300), "DGS10": np.full(300, 4.0), "DGS3MO": np.full(300, 3.5)}
+        fake = lambda sid: pd.DataFrame({"date": dates, "value": values[sid]})
+        macro = mfr.load_macro(fetch=fake)
+        self.assertEqual(set(macro), set(mfr.REGIME_SERIES))
+        self.assertEqual(mfr.macro_regime(macro, dates[-1]), "risk_off")   # spreads above 1y median
 
 
 if __name__ == "__main__":
