@@ -29,6 +29,13 @@ import math
 import numpy as np
 import pandas as pd
 
+from vittantra_risk_model import (
+    economic_exposure,
+    load_enriched_instruments,
+    portfolio_risk_shares,
+    risk_model_label,
+)
+
 
 # ============================================================
 # CONFIGURATION
@@ -399,6 +406,24 @@ def calculate_instrument_exposures(
         * df["notional_factor"]
     )
 
+    # Options are measured by their delta-adjusted underlying exposure,
+    # not by the premium paid (standard economic-exposure convention).
+    enriched = load_enriched_instruments()
+    by_symbol = {
+        instrument.symbol: instrument
+        for instrument in enriched
+    }
+    exposure_basis = []
+    for idx, row in df.iterrows():
+        exposure, basis = economic_exposure(
+            by_symbol.get(row["symbol"]),
+            row["signed_notional_exposure"],
+            quantity=safe_float(row.get("quantity"), None),
+        )
+        df.at[idx, "signed_notional_exposure"] = exposure
+        exposure_basis.append(basis)
+    df["exposure_basis"] = exposure_basis
+
     df["gross_notional_exposure"] = (
         df["signed_notional_exposure"].abs()
     )
@@ -407,10 +432,19 @@ def calculate_instrument_exposures(
     # RISK-ADJUSTED EXPOSURE
     # --------------------------------------------------------
 
-    df["risk_exposure"] = (
-        df["gross_notional_exposure"]
-        * df["risk_multiplier"]
+    # Risk is measured with Euler risk contributions from the covariance
+    # of daily returns: RC_i = x_i (Σx)_i / σp, which sum to portfolio
+    # volatility σp. The asset-class risk multipliers above are kept for
+    # reference only.
+    risk_shares, portfolio_volatility, risk_source = portfolio_risk_shares(
+        dict(zip(df["symbol"], df["signed_notional_exposure"])),
+        enriched,
     )
+    df["risk_exposure"] = (
+        risk_shares.to_numpy()
+        * portfolio_volatility
+    )
+    df["risk_model"] = risk_model_label(risk_source)
 
     total_capital = df["capital_exposure"].sum()
     total_gross = df["gross_notional_exposure"].sum()
@@ -1259,9 +1293,11 @@ def main() -> None:
 
     print()
     print(
-        "Important: derivative capital factors and risk "
-        "multipliers are explicit research assumptions. "
-        "They are not exchange margin requirements."
+        "Important: risk weights are Euler covariance risk "
+        "contributions. The futures capital factor (10%) is an "
+        "explicit research assumption, not an exchange margin "
+        "requirement; asset-class risk multipliers are kept for "
+        "reference only."
     )
 
 

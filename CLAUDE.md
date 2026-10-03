@@ -40,6 +40,18 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 - **No look-ahead bias** in research: point-in-time data, walk-forward splits.
 - Present backtests as historical research results, never as promised returns.
 
+## Finance framework
+
+- Shared formulas live in `vittantra_pricing.py` (Black-Scholes, bond
+  analytics) and `vittantra_risk_model.py` (Euler covariance risk
+  contributions, delta-adjusted option exposure). Reuse them; don't
+  re-implement.
+- `test_finance_formulas.py` pins formulas to textbook values; keep it
+  green. `FINANCE_AUDIT.md` lists methods, fixes and known simplifications —
+  update it when a method changes.
+- Sharpe/Sortino use excess returns over the point-in-time T-bill rate for
+  long-only portfolios; costs apply to every dollar traded.
+
 ## Data
 
 - Free sources only (Yahoo Finance via yfinance, FRED public CSV). The owner

@@ -40,12 +40,13 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional
+from typing import Any, Dict, Iterable, List, Optional
 
 import numpy as np
 import pandas as pd
 
-from vittantra_live_inputs import load_price_history
+from vittantra_live_inputs import load_price_history, valuation_date
+from vittantra_pricing import black_scholes_price, bond_price
 from multi_asset_risk import AssetClass, Instrument, build_sample_instruments
 
 from unified_risk_engine import (
@@ -684,6 +685,88 @@ def calculate_option_volatility_effect(
     )
 
 
+
+# ==============================================================
+# FULL REVALUATION (BONDS AND OPTIONS)
+# ==============================================================
+
+def full_revaluation_effects(
+    instrument: Instrument,
+    scenario: StressScenario,
+) -> Optional[Dict[str, Any]]:
+    """
+    Reprice bonds and options under the scenario instead of applying a
+    flat percentage shock.
+
+    Bond:   P(y + Δrate + Δspread) / P(y) − 1, split into the rate part
+            and the credit-spread part.
+    Option: Black-Scholes at the shocked underlying (equity shock),
+            shocked volatility (× volatility multiplier) and shocked
+            rate, divided by the base Black-Scholes value, minus 1. The
+            underlying-price part is reported as the direct shock and the
+            volatility/rate part as the volatility effect.
+
+    Returns None when required inputs are missing, so the caller falls
+    back to the scenario's direct asset-class shock.
+    """
+
+    as_of = valuation_date()
+
+    if instrument.asset_class == AssetClass.FIXED_INCOME:
+        coupon = safe_float(instrument.coupon_rate)
+        ytm = safe_float(instrument.yield_to_maturity)
+        if coupon is None or ytm is None or not instrument.maturity_date:
+            return None
+        years = (pd.Timestamp(instrument.maturity_date) - as_of).days / 365.25
+        if years <= 0:
+            return None
+        rate_shift = scenario.interest_rate_shock_bps / 10000.0
+        spread_shift = scenario.credit_spread_shock_bps / 10000.0
+        base = bond_price(coupon, ytm, years)
+        after_rate = bond_price(coupon, ytm + rate_shift, years)
+        after_both = bond_price(coupon, ytm + rate_shift + spread_shift, years)
+        return {
+            "direct_shock": 0.0,
+            "rate_effect": after_rate / base - 1.0,
+            "credit_effect": (after_both - after_rate) / base,
+            "volatility_effect": 0.0,
+            "method": "Bond full revaluation at shocked yield (rates + credit spread)",
+        }
+
+    if instrument.asset_class == AssetClass.OPTION:
+        metadata = instrument.metadata or {}
+        spot = safe_float(metadata.get("underlying_price"))
+        vol = safe_float(metadata.get("implied_volatility"))
+        rate = safe_float(metadata.get("risk_free_rate"))
+        strike = safe_float(instrument.strike)
+        if None in (spot, vol, rate, strike) or not instrument.expiration_date:
+            return None
+        years = (pd.Timestamp(instrument.expiration_date) - as_of).days / 365.0
+        option_type = instrument.option_type or "call"
+        base = black_scholes_price(spot, strike, years, rate, vol, option_type)
+        if base <= EPSILON:
+            return None
+        shocked_spot = spot * (1.0 + scenario.equity_shock)
+        price_only = black_scholes_price(shocked_spot, strike, years, rate, vol, option_type)
+        full = black_scholes_price(
+            shocked_spot,
+            strike,
+            years,
+            rate + scenario.interest_rate_shock_bps / 10000.0,
+            vol * scenario.volatility_multiplier,
+            option_type,
+        )
+        return {
+            "direct_shock": price_only / base - 1.0,
+            "rate_effect": 0.0,
+            "credit_effect": 0.0,
+            "volatility_effect": (full - price_only) / base,
+            "method": "Option full revaluation (Black-Scholes: underlying, volatility, rate)",
+        }
+
+    return None
+
+
 # ==============================================================
 # STRESS CALCULATOR
 # ==============================================================
@@ -730,6 +813,41 @@ def stress_instrument(
             scenario,
         )
     )
+
+    method = (
+
+        "Direct asset-class shock"
+
+        " + rate sensitivity"
+
+        " + credit sensitivity"
+
+        " + option volatility sensitivity"
+
+    )
+
+
+    revaluation = full_revaluation_effects(
+
+        instrument,
+
+        scenario,
+
+    )
+
+
+    if revaluation is not None:
+
+        direct_shock = revaluation["direct_shock"]
+
+        rate_effect = revaluation["rate_effect"]
+
+        credit_effect = revaluation["credit_effect"]
+
+        volatility_effect = revaluation["volatility_effect"]
+
+        method = revaluation["method"]
+
 
     total_stress_return = (
         direct_shock
@@ -804,12 +922,7 @@ def stress_instrument(
         ) if np.isfinite(
             pnl_pct_of_portfolio
         ) else np.nan,
-        method=(
-            "Direct asset-class shock"
-            " + rate sensitivity"
-            " + credit sensitivity"
-            " + option volatility sensitivity"
-        ),
+        method=method,
     )
 
 

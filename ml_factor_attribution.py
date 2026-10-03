@@ -49,6 +49,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from scipy.stats import t as student_t
 
 warnings.filterwarnings("ignore")
 
@@ -296,9 +297,25 @@ def calculate_ols(
     else:
         adjusted_r_squared = np.nan
 
+    # Classical OLS standard errors: Var(b) = s^2 (X'X)^-1 with
+    # s^2 = SSR / (n - k); t = b / SE; two-sided p-value from Student t.
+    standard_errors = np.full(k, np.nan)
+    t_statistics = np.full(k, np.nan)
+    p_values = np.full(k, np.nan)
+    if n > k:
+        residual_variance = ss_residual / (n - k)
+        covariance = residual_variance * np.linalg.pinv(design.T @ design)
+        standard_errors = np.sqrt(np.clip(np.diag(covariance), 0.0, None))
+        with np.errstate(divide="ignore", invalid="ignore"):
+            t_statistics = coefficients / standard_errors
+        p_values = 2.0 * student_t.sf(np.abs(t_statistics), df=n - k)
+
     output = {
         "observations": n,
         "intercept": coefficients[0],
+        "intercept_standard_error": standard_errors[0],
+        "intercept_t_statistic": t_statistics[0],
+        "intercept_p_value": p_values[0],
         "r_squared": r_squared,
         "adjusted_r_squared": adjusted_r_squared,
         "mean_actual_return": np.mean(y_values),
@@ -313,11 +330,16 @@ def calculate_ols(
         "index": working.index,
     }
 
-    for factor, coefficient in zip(
-        x.columns,
-        coefficients[1:],
+    for position, (factor, coefficient) in enumerate(
+        zip(
+            x.columns,
+            coefficients[1:],
+        ),
+        start=1,
     ):
         output[factor] = coefficient
+        output[f"{factor}_t_statistic"] = t_statistics[position]
+        output[f"{factor}_p_value"] = p_values[position]
 
     return output
 
@@ -1293,6 +1315,35 @@ def run_multifactor_regression(
                 "value": regression[
                     factor
                 ],
+            }
+        )
+
+    summary_rows.extend(
+        [
+            {
+                "metric": "alpha_standard_error",
+                "value": regression["intercept_standard_error"],
+            },
+            {
+                "metric": "alpha_t_statistic",
+                "value": regression["intercept_t_statistic"],
+            },
+            {
+                "metric": "alpha_p_value",
+                "value": regression["intercept_p_value"],
+            },
+            {
+                "metric": "alpha_significant_at_5pct",
+                "value": bool(regression["intercept_p_value"] < 0.05),
+            },
+        ]
+    )
+
+    for factor in usable_factors:
+        summary_rows.append(
+            {
+                "metric": f"t_stat_{factor}",
+                "value": regression[f"{factor}_t_statistic"],
             }
         )
 

@@ -42,6 +42,12 @@ from typing import Iterable
 import numpy as np
 import pandas as pd
 
+from vittantra_risk_model import (
+    load_enriched_instruments,
+    load_risk_history,
+    portfolio_risk_shares,
+)
+
 
 # ======================================================================
 # CONFIGURATION
@@ -652,6 +658,98 @@ def apply_turnover_limit(
         result["constraint_reason"] + "|TURNOVER_LIMIT",
     )
 
+    return result
+
+
+# ======================================================================
+# COVARIANCE RISK CONTRIBUTIONS
+# ======================================================================
+
+_RISK_INPUTS: dict = {}
+
+
+def risk_inputs():
+    """Enriched instruments and risk history, loaded once."""
+    if not _RISK_INPUTS:
+        instruments = load_enriched_instruments()
+        history, source = load_risk_history(instruments)
+        _RISK_INPUTS.update(
+            instruments=instruments,
+            history=history,
+            source=source,
+        )
+    return _RISK_INPUTS
+
+
+def recalculate_target_risk(
+    targets: pd.DataFrame,
+) -> pd.DataFrame:
+    """
+    Euler risk contribution of each position in the target portfolio.
+
+    Risk contributions are not linear in position size (shrinking one
+    position changes everyone's share), so they are recomputed from the
+    target exposures instead of being scaled with the position.
+    """
+    inputs = risk_inputs()
+    shares, _, _ = portfolio_risk_shares(
+        dict(
+            zip(
+                targets["symbol"],
+                targets["target_signed_notional_weight"],
+            )
+        ),
+        inputs["instruments"],
+        history=inputs["history"],
+    )
+    result = targets.copy()
+    result["target_risk_weight"] = (
+        shares.reindex(result["symbol"]).fillna(0.0).to_numpy()
+    )
+    return result
+
+
+def apply_risk_contribution_limit(
+    targets: pd.DataFrame,
+    max_iterations: int = 50,
+) -> pd.DataFrame:
+    """
+    Scale down positions whose Euler risk contribution exceeds the
+    single-instrument risk limit, recomputing contributions each pass
+    until every position is within the limit.
+    """
+    cap = POLICY.max_single_instrument_risk_weight
+    exposure_columns = [
+        "target_capital_weight",
+        "target_gross_exposure_weight",
+        "target_signed_notional_weight",
+    ]
+    result = recalculate_target_risk(targets)
+    for _ in range(max_iterations):
+        excess = result["target_risk_weight"] > cap + POLICY.epsilon
+        if not excess.any():
+            break
+        factor = (
+            cap
+            / result.loc[excess, "target_risk_weight"]
+        ).clip(upper=1.0)
+        for column in exposure_columns:
+            result.loc[excess, column] = (
+                result.loc[excess, column] * factor
+            )
+        result.loc[excess, "scale_factor"] = (
+            result.loc[excess, "scale_factor"] * factor
+        )
+        needs_reason = excess & ~result["constraint_reason"].str.contains(
+            "RISK_CONCENTRATION"
+        )
+        result.loc[needs_reason, "constraint_reason"] = np.where(
+            result.loc[needs_reason, "constraint_reason"].eq("UNCHANGED"),
+            "RISK_CONCENTRATION",
+            result.loc[needs_reason, "constraint_reason"]
+            + "|RISK_CONCENTRATION",
+        )
+        result = recalculate_target_risk(result)
     return result
 
 
@@ -1318,6 +1416,8 @@ def main() -> None:
 
     targets = apply_instrument_constraints(targets)
 
+    targets = apply_risk_contribution_limit(targets)
+
     targets = apply_portfolio_gross_limit(targets)
 
     targets = apply_portfolio_notional_limit(targets)
@@ -1326,6 +1426,8 @@ def main() -> None:
         original,
         targets,
     )
+
+    targets = recalculate_target_risk(targets)
 
     orders = build_orders(
         targets,

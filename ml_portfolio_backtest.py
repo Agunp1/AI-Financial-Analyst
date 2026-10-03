@@ -39,6 +39,8 @@ import sys
 import numpy as np
 import pandas as pd
 
+from vittantra_live_inputs import risk_free_rates
+
 
 # ============================================================
 # CONFIGURATION
@@ -547,9 +549,18 @@ def build_portfolios(rankings):
                 )
             )
 
+            # Costs apply to every dollar traded (buys and sells).
+
+            # Traded weight = sum of |weight changes| = 2 x one-way turnover.
+
             cost = (
-                turnover
+
+                2.0
+
+                * turnover
+
                 * TRANSACTION_COST_RATE
+
             )
 
             net_return = (
@@ -668,58 +679,60 @@ def annualized_volatility(returns):
     )
 
 
-def sharpe_ratio(returns):
-
+def excess_returns(returns, risk_free=None):
     returns = returns.dropna()
+    if risk_free is None:
+        return returns
+    return returns - risk_free.reindex(returns.index).fillna(0.0)
 
-    if len(returns) < 2:
+
+def sharpe_ratio(returns, risk_free=None):
+    """
+    Sharpe = mean(R - Rf) / std(R - Rf) x sqrt(periods per year).
+
+    risk_free: per-period risk-free return aligned to returns, or None
+    for self-financing (long-short) portfolios, whose returns are
+    already excess returns.
+    """
+    excess = excess_returns(returns, risk_free)
+    if len(excess) < 2:
         return np.nan
-
-    volatility = returns.std(
-        ddof=1
-    )
-
+    volatility = excess.std(ddof=1)
     if volatility == 0:
         return np.nan
-
     return float(
-        returns.mean()
+        excess.mean()
         / volatility
-        * math.sqrt(
-            PERIODS_PER_YEAR
-        )
+        * math.sqrt(PERIODS_PER_YEAR)
     )
 
 
-def sortino_ratio(returns):
-
-    returns = returns.dropna()
-
-    downside = (
-        returns[
-            returns < 0
-        ]
-    )
-
-    if len(downside) < 2:
+def sortino_ratio(returns, risk_free=None):
+    """
+    Sortino = mean(R - Rf) / downside deviation x sqrt(periods per year),
+    where downside deviation = sqrt(mean(min(R - Rf, 0)^2)) over ALL
+    periods (not the standard deviation of the losing periods only).
+    """
+    excess = excess_returns(returns, risk_free)
+    if len(excess) < 2:
         return np.nan
-
-    downside_volatility = (
-        downside.std(
-            ddof=1
-        )
+    downside_deviation = math.sqrt(
+        float((excess.clip(upper=0.0) ** 2).mean())
     )
-
-    if downside_volatility == 0:
+    if downside_deviation == 0:
         return np.nan
-
     return float(
-        returns.mean()
-        / downside_volatility
-        * math.sqrt(
-            PERIODS_PER_YEAR
-        )
+        excess.mean()
+        / downside_deviation
+        * math.sqrt(PERIODS_PER_YEAR)
     )
+
+
+def period_risk_free(dates):
+    """Per-period risk-free return from the point-in-time T-bill yield."""
+    annual, source = risk_free_rates(dates)
+    period = (1.0 + annual.to_numpy()) ** (1.0 / PERIODS_PER_YEAR) - 1.0
+    return pd.Series(period, index=dates.index), source
 
 
 def maximum_drawdown(returns):
@@ -783,10 +796,17 @@ def build_summary(portfolio):
 
     rows = []
 
+
+    period_rf, _ = period_risk_free(portfolio["date"])
+
     for (
         strategy_name,
         key,
     ) in strategies.items():
+
+        # Long-short is self-financing, so its return is already an
+        # excess return; long-only portfolios subtract the T-bill rate.
+        strategy_rf = None if key == "long_short" else period_rf
 
         gross = portfolio[
             f"{key}_gross_return"
@@ -834,12 +854,12 @@ def build_summary(portfolio):
 
                 "sharpe_ratio":
                     sharpe_ratio(
-                        net
+                        net, strategy_rf
                     ),
 
                 "sortino_ratio":
                     sortino_ratio(
-                        net
+                        net, strategy_rf
                     ),
 
                 "maximum_drawdown":
@@ -957,6 +977,8 @@ def build_yearly_summary(
             "long_short_net_return",
     }
 
+    period_rf, _ = period_risk_free(temp["date"])
+
     rows = []
 
     for year, group in (
@@ -994,7 +1016,8 @@ def build_yearly_summary(
 
                     "sharpe_ratio":
                         sharpe_ratio(
-                            returns
+                            returns,
+                            None if column.startswith("long_short") else period_rf
                         ),
 
                     "maximum_drawdown":
@@ -1312,53 +1335,37 @@ def main():
 
         print(
             "Top quintile annualized return: "
-            f"{fmt_pct(
-                top['annualized_return']
-            )}"
+            f"{fmt_pct(top['annualized_return'])}"
         )
 
         print(
             "Bottom quintile annualized return: "
-            f"{fmt_pct(
-                bottom['annualized_return']
-            )}"
+            f"{fmt_pct(bottom['annualized_return'])}"
         )
 
         print(
             "Top-minus-bottom annualized difference: "
-            f"{fmt_pct(
-                top['annualized_return']
-                -
-                bottom['annualized_return']
-            )}"
+            f"{fmt_pct(top['annualized_return'] - bottom['annualized_return'])}"
         )
 
         print(
             "Long-short annualized return: "
-            f"{fmt_pct(
-                long_short['annualized_return']
-            )}"
+            f"{fmt_pct(long_short['annualized_return'])}"
         )
 
         print(
             "Long-short Sharpe ratio: "
-            f"{fmt_num(
-                long_short['sharpe_ratio']
-            )}"
+            f"{fmt_num(long_short['sharpe_ratio'])}"
         )
 
         print(
             "Long-short maximum drawdown: "
-            f"{fmt_pct(
-                long_short['maximum_drawdown']
-            )}"
+            f"{fmt_pct(long_short['maximum_drawdown'])}"
         )
 
         print(
             "Long-short hit rate: "
-            f"{fmt_pct(
-                long_short['hit_rate']
-            )}"
+            f"{fmt_pct(long_short['hit_rate'])}"
         )
 
         subheader(

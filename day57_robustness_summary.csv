@@ -1,5 +1,5 @@
 robustness_check,value,passed,tests_passed,tests_total,pass_rate
-Positive annualized return at 50 bps cost,0.16883142313870003,True,5,6,0.8333333333333334
+Positive annualized return at 50 bps cost,0.069122190782686,True,5,6,0.8333333333333334
 Positive mean return across basket sizes,1.0,True,5,6,0.8333333333333334
 Positive mean return in both sample halves,0.01190911560452759,True,5,6,0.8333333333333334
 Positive sector-neutral mean return,0.01032206936558641,True,5,6,0.8333333333333334

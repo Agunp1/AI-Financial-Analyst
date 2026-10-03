@@ -19,6 +19,7 @@ day75_market_snapshot.csv            latest price for every ticker
 day75_macro_snapshot.csv             latest value for every macro series
 day75_live_instrument_prices.csv     live prices for the risk portfolio
 day75_instrument_price_history.csv   aligned real history for risk models
+day75_risk_free_rate_history.csv     3-month T-bill yield history (Sharpe ratios)
 day75_refresh_log.csv                audit trail of every refresh job
 day75_validation_summary.csv         data-quality checks
 
@@ -46,6 +47,8 @@ from typing import Callable, Dict, List, Optional
 import numpy as np
 import pandas as pd
 
+from vittantra_pricing import black_scholes_price, bond_price
+
 
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "vittantra_market.db"
@@ -64,6 +67,7 @@ OUTPUT_LIVE_PRICES = "day75_live_instrument_prices.csv"
 OUTPUT_PRICE_HISTORY = "day75_instrument_price_history.csv"
 OUTPUT_REFRESH_LOG = "day75_refresh_log.csv"
 OUTPUT_VALIDATION = "day75_validation_summary.csv"
+OUTPUT_RISK_FREE_HISTORY = "day75_risk_free_rate_history.csv"
 
 
 # ==============================================================
@@ -354,35 +358,6 @@ def refresh_macro(conn, run_id, fetchers) -> int:
 
 
 # ==============================================================
-# PRICING MODELS
-# ==============================================================
-
-def _normal_cdf(x: float) -> float:
-    return 0.5 * (1.0 + math.erf(x / math.sqrt(2.0)))
-
-
-def black_scholes_price(spot, strike, years, rate, vol, option_type="call") -> float:
-    if years <= 0 or vol <= 0:
-        intrinsic = spot - strike if option_type.lower() == "call" else strike - spot
-        return max(intrinsic, 0.0)
-    d1 = (math.log(spot / strike) + (rate + 0.5 * vol * vol) * years) / (vol * math.sqrt(years))
-    d2 = d1 - vol * math.sqrt(years)
-    if option_type.lower() == "call":
-        return spot * _normal_cdf(d1) - strike * math.exp(-rate * years) * _normal_cdf(d2)
-    return strike * math.exp(-rate * years) * _normal_cdf(-d2) - spot * _normal_cdf(-d1)
-
-
-def bond_price(coupon_rate, yield_rate, years, frequency=2, face=100.0) -> float:
-    """Price per 100 face from yield to maturity (approximate, clean)."""
-    periods = max(int(round(years * frequency)), 1)
-    coupon = face * coupon_rate / frequency
-    y = yield_rate / frequency
-    if abs(y) < 1e-12:
-        return coupon * periods + face
-    return coupon * (1 - (1 + y) ** -periods) / y + face * (1 + y) ** -periods
-
-
-# ==============================================================
 # SNAPSHOT BUILDERS
 # ==============================================================
 
@@ -648,6 +623,11 @@ def run_refresh(db_path: Path = DB_PATH, out_dir: Path = BASE_DIR,
             live_prices.to_csv(out_dir / OUTPUT_LIVE_PRICES, index=False)
         if len(history):
             history.to_csv(out_dir / OUTPUT_PRICE_HISTORY)
+        rates = load_macro_matrix(conn)
+        if "DGS3MO" in rates.columns:
+            rates["DGS3MO"].dropna().rename("dgs3mo_percent").to_csv(
+                out_dir / OUTPUT_RISK_FREE_HISTORY, index_label="date",
+            )
         pd.read_sql("SELECT * FROM refresh_log ORDER BY started_at_utc DESC LIMIT 200",
                     conn).to_csv(out_dir / OUTPUT_REFRESH_LOG, index=False)
         validation.to_csv(out_dir / OUTPUT_VALIDATION, index=False)

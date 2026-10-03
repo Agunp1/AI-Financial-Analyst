@@ -149,24 +149,27 @@ def sharpe_ratio(returns: pd.Series) -> float:
 
 
 def sortino_ratio(returns: pd.Series) -> float:
+    """
+    Sortino = mean(R) / downside deviation x sqrt(periods per year),
+    downside deviation = sqrt(mean(min(R, 0)^2)) over ALL periods.
+    Long-short returns are self-financing excess returns, so no
+    risk-free rate is subtracted.
+    """
     r = pd.Series(returns).dropna()
 
     if len(r) < 2:
         return np.nan
 
-    downside = r[r < 0]
+    downside_deviation = float(
+        np.sqrt((r.clip(upper=0.0) ** 2).mean())
+    )
 
-    if len(downside) < 2:
-        return np.nan
-
-    downside_std = downside.std(ddof=1)
-
-    if downside_std == 0:
+    if downside_deviation == 0:
         return np.nan
 
     return float(
         r.mean()
-        / downside_std
+        / downside_deviation
         * np.sqrt(PERIODS_PER_YEAR)
     )
 
@@ -546,12 +549,13 @@ def transaction_cost_test(
 
         cost_rate = bps / 10_000.0
 
-        # Long-short portfolio has two sides.
-        # Turnover represents average side turnover,
-        # therefore multiply by 2 for gross exposure.
+        # Each book (100% long, 100% short) replaces a fraction f of
+        # its names: f is sold and f is bought, so each book trades 2f.
+        # Both books together trade 4f of portfolio value, and every
+        # dollar traded pays the cost.
         transaction_cost = (
             periods["turnover"]
-            * 2.0
+            * 4.0
             * cost_rate
         )
 

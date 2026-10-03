@@ -7,5 +7,5 @@ Constraint diagnostics generated,True,Checks: 8,10,10,1.0
 All exposure constraints passed,True,Passed: 8/8,10,10,1.0
 Portfolio summary generated,True,Rows: 1,10,10,1.0
 Target exposures contain finite values,True,"Capital, gross, notional and risk targets checked.",10,10,1.0
-Turnover within policy,True,Turnover: 4.2438%; limit: 35.0000%,10,10,1.0
+Turnover within policy,True,Turnover: 6.6904%; limit: 35.0000%,10,10,1.0
 Derivative capital and notional remain separated,True,Derivative-like positions retain distinct capital and notional treatment.,10,10,1.0

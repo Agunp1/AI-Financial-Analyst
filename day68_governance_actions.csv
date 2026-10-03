@@ -1,4 +1,5 @@
 scope,identifier,governance_status,governance_action,requires_review,block_incremental_risk,reason
-PORTFOLIO,TOTAL_PORTFOLIO,CRITICAL,FREEZE_NEW_RISK,True,True,"Day 67 portfolio status is CRITICAL. | 2 instrument(s) are in critical risk state. | 2 position(s) require risk review. | Maximum risk-budget utilization is 880.93%, at or above the 120% critical threshold. | Average portfolio risk-budget utilization is 135.47%."
-INSTRUMENT,ES,CRITICAL,FREEZE_NEW_RISK,True,True,Risk-budget utilization 880.93% >= 120%. | Modeled risk exceeds budget by 0.468558. | Day 66 action: REDUCE_RISK.
-INSTRUMENT,BTC,CRITICAL,FREEZE_NEW_RISK,True,True,Risk-budget utilization 194.76% >= 120%. | Modeled risk exceeds budget by 0.075809. | Day 66 action: REDUCE_RISK.
+PORTFOLIO,TOTAL_PORTFOLIO,CRITICAL,FREEZE_NEW_RISK,True,True,"Day 67 portfolio status is CRITICAL. | 3 instrument(s) are in critical risk state. | 3 position(s) require risk review. | Maximum risk-budget utilization is 581.93%, at or above the 120% critical threshold. | Average portfolio risk-budget utilization is 144.46%."
+INSTRUMENT,ES,CRITICAL,FREEZE_NEW_RISK,True,True,Risk-budget utilization 581.93% >= 120%. | Modeled risk exceeds budget by 0.289158. | Day 66 action: REDUCE_RISK.
+INSTRUMENT,AAPL_CALL,CRITICAL,FREEZE_NEW_RISK,True,True,Risk-budget utilization 398.95% >= 120%. | Modeled risk exceeds budget by 0.149475. | Day 66 action: REDUCE_RISK.
+INSTRUMENT,BTC,CRITICAL,FREEZE_NEW_RISK,True,True,Risk-budget utilization 284.00% >= 120%. | Modeled risk exceeds budget by 0.147198. | Day 66 action: REDUCE_RISK.

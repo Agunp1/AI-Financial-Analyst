@@ -30,8 +30,18 @@ BASE_DIR = Path(__file__).resolve().parent
 LIVE_PRICES_FILE = BASE_DIR / "day75_live_instrument_prices.csv"
 PRICE_HISTORY_FILE = BASE_DIR / "day75_instrument_price_history.csv"
 MACRO_SNAPSHOT_FILE = BASE_DIR / "day75_macro_snapshot.csv"
+RISK_FREE_HISTORY_FILE = BASE_DIR / "day75_risk_free_rate_history.csv"
+
+# Used only when actual T-bill history has not been downloaded yet. This
+# is a stated assumption, not market data; run vittantra_data_hub.py to
+# replace it with the FRED 3-month Treasury bill yield (DGS3MO).
+FALLBACK_RISK_FREE_RATE = 0.045
 
 USABLE_STATUSES = {"FRESH", "STALE"}
+
+# Fixed valuation date for the illustrative sample portfolio so its
+# option and bond examples stay valid and results are reproducible.
+SAMPLE_VALUATION_DATE = pd.Timestamp("2026-10-02")
 BENCHMARK_COLUMN = "VITTANTRA_BENCHMARK"
 
 
@@ -94,6 +104,13 @@ def live_valuation_date(
     return dates.max().normalize() if len(dates) else None
 
 
+def valuation_date(
+    prices_file: Path = LIVE_PRICES_FILE,
+) -> pd.Timestamp:
+    """Live as-of date in LIVE mode, otherwise the fixed sample date."""
+    return live_valuation_date(prices_file) or SAMPLE_VALUATION_DATE
+
+
 def load_price_history(
     symbols: Iterable[str],
     min_observations: int = 250,
@@ -115,6 +132,28 @@ def load_price_history(
     if len(history) < min_observations or (history <= 0).any().any():
         return None
     return history
+
+
+def risk_free_rates(
+    dates: Iterable,
+    history_file: Path = RISK_FREE_HISTORY_FILE,
+) -> tuple:
+    """
+    Annual risk-free rate (decimal) for each date, using the latest
+    3-month T-bill yield published on or before that date (point in
+    time). Returns (pd.Series, source description).
+    """
+    index = pd.DatetimeIndex(pd.to_datetime(list(dates)))
+    if Path(history_file).exists():
+        history = pd.read_csv(history_file, parse_dates=["date"])
+        series = history.set_index("date")["dgs3mo_percent"].sort_index() / 100
+        aligned = series.reindex(series.index.union(index)).ffill().reindex(index)
+        if aligned.notna().all():
+            return pd.Series(aligned.to_numpy(), index=index), "FRED 3-month T-bill (DGS3MO)"
+    return (
+        pd.Series(FALLBACK_RISK_FREE_RATE, index=index),
+        f"assumed {FALLBACK_RISK_FREE_RATE:.1%} (run vittantra_data_hub.py for actual T-bill data)",
+    )
 
 
 def apply_live_prices(instruments: list, prices_file: Path = LIVE_PRICES_FILE) -> list:
