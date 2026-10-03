@@ -111,6 +111,46 @@ VNQ,US REIT ETF,Real Estate,REIT ETF,USD,Yahoo Finance
 XLRE,Real Estate Select Sector ETF,Real Estate,REIT ETF,USD,Yahoo Finance
 VNQI,International REIT ETF,Real Estate,REIT ETF,USD,Yahoo Finance
 SCHH,US REIT ETF (Schwab),Real Estate,REIT ETF,USD,Yahoo Finance
+HST,Host Hotels & Resorts (upscale hotels),Real Estate,Hotels & lodging,USD,Yahoo Finance
+PK,Park Hotels & Resorts,Real Estate,Hotels & lodging,USD,Yahoo Finance
+APLE,Apple Hospitality (select-service hotels),Real Estate,Hotels & lodging,USD,Yahoo Finance
+PEB,Pebblebrook Hotel Trust,Real Estate,Hotels & lodging,USD,Yahoo Finance
+DRH,DiamondRock Hospitality,Real Estate,Hotels & lodging,USD,Yahoo Finance
+RHP,Ryman Hospitality (convention hotels),Real Estate,Hotels & lodging,USD,Yahoo Finance
+WH,"Wyndham Hotels (Super 8, Days Inn, Microtel)",Real Estate,Motels & economy hotel brands,USD,Yahoo Finance
+CHH,"Choice Hotels (Econo Lodge, Rodeway Inn, Comfort)",Real Estate,Motels & economy hotel brands,USD,Yahoo Finance
+BXP,BXP (Boston Properties),Real Estate,Office,USD,Yahoo Finance
+VNO,Vornado Realty,Real Estate,Office,USD,Yahoo Finance
+SLG,SL Green (Manhattan office),Real Estate,Office,USD,Yahoo Finance
+KRC,Kilroy Realty,Real Estate,Office,USD,Yahoo Finance
+ARE,Alexandria (life-science offices),Real Estate,Office,USD,Yahoo Finance
+PLD,Prologis,Real Estate,Industrial & logistics,USD,Yahoo Finance
+REXR,Rexford Industrial,Real Estate,Industrial & logistics,USD,Yahoo Finance
+EGP,EastGroup Properties,Real Estate,Industrial & logistics,USD,Yahoo Finance
+SPG,Simon Property (malls),Real Estate,Retail (malls & shopping centers),USD,Yahoo Finance
+KIM,Kimco Realty,Real Estate,Retail (malls & shopping centers),USD,Yahoo Finance
+REG,Regency Centers,Real Estate,Retail (malls & shopping centers),USD,Yahoo Finance
+FRT,Federal Realty,Real Estate,Retail (malls & shopping centers),USD,Yahoo Finance
+O,Realty Income,Real Estate,Net lease,USD,Yahoo Finance
+NNN,NNN REIT,Real Estate,Net lease,USD,Yahoo Finance
+EQR,Equity Residential,Real Estate,Apartments & single-family rental,USD,Yahoo Finance
+AVB,AvalonBay,Real Estate,Apartments & single-family rental,USD,Yahoo Finance
+MAA,Mid-America Apartment,Real Estate,Apartments & single-family rental,USD,Yahoo Finance
+INVH,Invitation Homes (single-family),Real Estate,Apartments & single-family rental,USD,Yahoo Finance
+EQIX,Equinix (data centers),Real Estate,Data centers & towers,USD,Yahoo Finance
+DLR,Digital Realty (data centers),Real Estate,Data centers & towers,USD,Yahoo Finance
+AMT,American Tower,Real Estate,Data centers & towers,USD,Yahoo Finance
+CCI,Crown Castle,Real Estate,Data centers & towers,USD,Yahoo Finance
+WELL,Welltower,Real Estate,Healthcare & senior housing,USD,Yahoo Finance
+VTR,Ventas,Real Estate,Healthcare & senior housing,USD,Yahoo Finance
+OHI,Omega Healthcare (skilled nursing),Real Estate,Healthcare & senior housing,USD,Yahoo Finance
+PSA,Public Storage,Real Estate,Self-storage,USD,Yahoo Finance
+EXR,Extra Space Storage,Real Estate,Self-storage,USD,Yahoo Finance
+CUBE,CubeSmart,Real Estate,Self-storage,USD,Yahoo Finance
+BXMT,Blackstone Mortgage Trust,Real Estate,"CRE debt (mortgage REITs, CMBS)",USD,Yahoo Finance
+STWD,Starwood Property Trust,Real Estate,"CRE debt (mortgage REITs, CMBS)",USD,Yahoo Finance
+ARI,Apollo Commercial RE Finance,Real Estate,"CRE debt (mortgage REITs, CMBS)",USD,Yahoo Finance
+CMBS,iShares CMBS ETF,Real Estate,"CRE debt (mortgage REITs, CMBS)",USD,Yahoo Finance
 BX,Blackstone,Alternative,Private equity (listed),USD,Yahoo Finance
 KKR,KKR,Alternative,Private equity (listed),USD,Yahoo Finance
 APO,Apollo,Alternative,Private equity (listed),USD,Yahoo Finance

@@ -1,0 +1,23 @@
+{
+  "xp": {
+    "portfolio_analyst": 100
+  },
+  "records": [
+    {
+      "time": "2026-10-03T06:45",
+      "role": "portfolio_analyst",
+      "task": "Daily risk check (09:30)",
+      "score": 100.0,
+      "xp": 100,
+      "answer": {
+        "breaches": [
+          "AAPL_CALL",
+          "ES"
+        ],
+        "note": "these 2 position crossed there risk share more than a risk budget allocated "
+      },
+      "review": "- Correctly flagged: AAPL_CALL, ES\n- Missed breaches: none\n- False alarms: none\n\n- **AAPL_CALL**: risk share 35.0% vs budget 5.0% \u2192 utilization **700%**\n- **ES**: risk share 35.0% vs budget 6.0% \u2192 utilization **583%**\n\nEscalate to the PM with the numbers, the cause (concentration / delta exposure) and a proposed reduction \u2014 execution needs human approval."
+    }
+  ],
+  "lessons_read": []
+}

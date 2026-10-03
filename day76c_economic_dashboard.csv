@@ -1,0 +1,18 @@
+series_id,indicator,category,latest,previous,change,year_ago,release_period
+CPIAUCSL,"CPI inflation (headline, y/y %)",Inflation,3.353016322755642,3.303856050706311,0.049160272049331155,2.9385917430316155,2026-08-01
+CPILFESL,Core CPI inflation (y/y %),Inflation,2.4461631786472537,2.4665177892309265,-0.020354610583672716,3.111806098514469,2026-08-01
+PCEPILFE,Core PCE inflation — the Fed's target measure (y/y %),Inflation,3.0075959761856064,2.983468262070388,0.024127714115218524,2.8513420229828945,2026-08-01
+UNRATE,Unemployment rate (%),Labor market,4.2,4.1,0.10000000000000053,4.4,2026-09-01
+PAYEMS,"Nonfarm payrolls (monthly change, thousands)",Labor market,29.0,133.0,-104.0,76.0,2026-09-01
+ICSA,Initial jobless claims (weekly),Labor market,197000.0,198000.0,-1000.0,219000.0,2026-09-26
+GDPC1,Real GDP growth (q/q annualized %),Growth,2.2202083203100687,2.491776410825386,-0.2715680905153173,4.022903797853417,2026-04-01
+INDPRO,Industrial production (y/y %),Growth,1.4204223973108832,1.1299978408934708,0.2904245564174124,1.1886779865559305,2026-08-01
+RSAFS,Retail sales (y/y %),Consumer,5.361901579222472,4.476427794008142,0.8854737852143302,4.406054858737862,2026-08-01
+UMCSENT,Consumer sentiment (University of Michigan),Consumer,51.7,55.2,-3.5,58.2,2026-08-01
+FEDFUNDS,Effective fed funds rate (%),Monetary policy,3.75,3.63,0.1200000000000001,4.22,2026-09-01
+MORTGAGE30US,30-year fixed mortgage rate (%),Housing,7.28,7.03,0.25,6.3,2026-10-01
+HOUST,"Housing starts (thousands, annualized)",Housing,1275.0,1309.0,-34.0,1291.0,2026-08-01
+CUSR0000SEHB,Hotel & lodging prices — CPI lodging away from home (y/y %),Commercial real estate,3.176350043641607,2.825952307215851,0.350397736425756,-2.416095310648392,2026-08-01
+DRCRELEXFACBS,Delinquency rate on commercial real estate loans at banks (%),Commercial real estate,1.53,1.56,-0.030000000000000027,1.57,2026-04-01
+TLCOMCONS,Commercial construction spending (y/y %),Commercial real estate,-5.436205436205432,-4.514932035368002,-0.9212734008374301,-3.5227171426024384,2026-08-01
+VIXCLS,VIX equity volatility index,Markets,16.39,16.34,0.05000000000000071,16.29,2026-10-01
