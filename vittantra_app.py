@@ -83,6 +83,7 @@ from vittantra_markets_page import render_markets
 from vittantra_academy_page import render_academy
 
 from vittantra_ai_analyst import render_ai_analyst
+from vittantra_pm_page import render_portfolio_manager
 
 
 
@@ -1660,6 +1661,10 @@ with st.sidebar:
 
 
             "Markets",
+
+
+
+            "Portfolio Manager",
 
 
 
@@ -4715,6 +4720,11 @@ elif page == "Research":
 elif page == "Markets":
 
     render_markets()
+
+
+elif page == "Portfolio Manager":
+
+    render_portfolio_manager()
 
 
 elif page == "AI Analyst":

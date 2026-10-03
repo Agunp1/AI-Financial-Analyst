@@ -39,6 +39,9 @@ textbook values and independent calculations.
 
 | Macro drivers (Day 76d) | Multiple OLS of daily returns on factor moves (t-stats, R², standardized betas); attribution = Σ β × factor move + α + residual; rate beta ≈ −duration check | `macro_drivers.py` | ✅ |
 | Equity valuation (Day 78) | CAPM with Blume-adjusted beta; WACC on market-value weights; cost of debt = r_f + rating spread from interest coverage; FCFF = CFO + interest(1−t) − capex; three-stage DCF (5y growth, 5y fade, Gordon terminal with g ≤ r_f); residual income with clean surplus and ROE fading to r_e; two-stage DDM from sustainable growth b×ROE; model chosen by business type; reverse DCF by bisection; WACC × g sensitivity | `vittantra_pricing.py`, `valuation_engine.py` | ✅ |
+| Portfolio construction (Day 79) | Grinold–Kahn alpha = IC × σ × z; Ledoit–Wolf (2004) constant-correlation shrinkage covariance; mean–active-variance optimizer with tracking-error budget, position, sector, beta and Euler risk-share limits | `portfolio_construction.py`, `vittantra_risk_model.constant_correlation_shrinkage` | ✅ |
+| Performance attribution (Day 80) | Brinson–Fachler allocation/selection/interaction per period, Carino logarithmic linking; cross-sectional factor attribution (exposure × factor return + specific) | `performance_attribution.py` | ✅ |
+| What-if risk (Day 81) | Parametric VaR = 2.326σ, ES = 2.665σ (normal, 99%); historical VaR; Euler risk shares; OLS factor betas → scenario P&L = Σβ×shock | `whatif_engine.py` | ✅ |
 | Multi-factor rating (Day 77) | Cross-sectional percentile pillars; IC = Spearman rank correlation with next-period return, t-stat across dates; IC-weighted composite using only completed outcomes; cost-adjusted quintile portfolios | `multi_factor_rating.py` | ✅ |
 
 ---
@@ -73,7 +76,7 @@ These are acceptable for a research system but should be understood:
 | Futures capital | Margin assumed at 10% of notional | Use exchange initial-margin data |
 | Option volatility | Implied volatility assumed at 28% (no free IV source) | Implied vol from option chains |
 | Bond schedule | Regular coupon schedule; no accrued interest (clean price) | Actual day-count and accrued interest |
-| Risk model | Sample covariance of ~320 daily returns, equal weighting | EWMA or shrinkage covariance; factor risk model |
+| Risk model (Days 59–66) | Sample covariance of ~320 daily returns, equal weighting (Days 79–81 use Ledoit–Wolf shrinkage) | Shrinkage in the risk chain too; EWMA; factor risk model |
 | Risk budgets | Strategic asset-class budgets are policy choices | Set from an investment policy statement (Day 82) |
 | Day 63 targets | Stress-based heuristic targets | Optimizer with explicit objective |
 | Day 56 vs Day 57 | Day 56 long/short is 50%/50% (100% gross); Day 57 is 100%/100% (200% gross), so return levels differ | Report both at the same gross exposure |
@@ -98,4 +101,7 @@ These are acceptable for a research system but should be understood:
 | Multi-factor: sample | 33 stocks and ~3 years of monthly rebalances: IC t-statistics are noisy; economic pillar is a simple beta tilt | Larger universe (US engine), longer history, sector-macro sensitivities |
 | Valuation inputs | Equity risk premium 4.5% and terminal growth cap 3% are policy assumptions; growth starts from trailing revenue growth (capped 20%; 5% for energy/materials) rather than analyst forecasts; trailing FCFF is not normalized for the cycle; book debt proxies market debt; leases excluded | Consensus or own forecasts, normalized (mid-cycle) cash flows, market value of debt |
 | Valuation: REITs | Valued with DCF/DDM on reported cash flow; FFO/AFFO not computed | FFO = net income + real-estate depreciation − gains on sales |
+| Portfolio construction | Alpha scaled from one IC for all stocks; benchmark is the equal-weighted 33-stock universe; book costs 10 bp | Stock-specific IC/volatility forecasts, a cap-weighted benchmark, market-impact costs |
+| Attribution | Backtested top-quintile portfolio, not the optimizer's portfolio; arithmetic Brinson with Carino linking | Attribute live portfolios once a track record exists |
+| What-if scenarios | Linear factor betas; normal parametric VaR; built-in scenarios are hypothetical sizes of past episodes | Full revaluation (bonds/options), stressed correlations, historical scenario replay |
 | Multi-asset: alternatives | Listed proxies stand in for private equity, private credit and hedge funds | Fund-level data |

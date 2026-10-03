@@ -57,6 +57,8 @@ RESEARCH_STEPS = [
     ("Day 77 multi-factor rating", "multi_factor_rating.py"),
     ("Day 78 valuation", "valuation_engine.py"),
     ("Day 78 research reports", "research_report.py"),
+    ("Day 79 model portfolio", "portfolio_construction.py"),
+    ("Day 80 performance attribution", "performance_attribution.py"),
 ]
 
 CHAIN_STEPS = [

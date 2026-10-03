@@ -299,6 +299,26 @@ def ra_risk_contribution() -> str:
     return "\n".join(lines) + "\n\nShares come from Euler contributions, so they add up to 100% of portfolio risk."
 
 
+def ra_what_if() -> str:
+    portfolio = _csv("day79_model_portfolio.csv", "portfolio_construction.py")
+    import whatif_engine as we
+    model = we.RiskModel(we.load_prices(), we.load_fred())
+    weights = portfolio[portfolio["weight"] > 0].set_index("ticker")["weight"].to_dict()
+    risk = we.portfolio_risk(model, weights)
+    if "error" in risk:
+        raise MissingData("No overlapping price history for the model portfolio.")
+    lines = [f"Model portfolio: volatility **{pct(risk['volatility_annual'])}**, 1-day 99% VaR "
+             f"**{money(risk['var99_1d_parametric'])}** per $1m (ES {money(risk['es99_1d_parametric'])}), "
+             f"largest risk share {pct(risk['largest_risk_share'])}."]
+    if model.betas.empty:
+        lines.append("Scenario P&L needs daily overlapping history (run on your machine with daily prices).")
+    else:
+        lines += ["", "| Scenario | P&L per $1m |", "|---|---:|"]
+        for name, shocks in we.SCENARIOS.items():
+            lines.append(f"| {name} | {money(we.scenario_pnl(model, weights, shocks)['pnl'].sum(min_count=1))} |")
+    return "\n".join(lines)
+
+
 # ==============================================================
 # PORTFOLIO MANAGER
 # ==============================================================
@@ -361,6 +381,30 @@ def pm_signals() -> str:
     return ("\n".join(lines) + f"\n\nBest signal: **{best['signal']}** (IC {best['mean_ic']:.3f}). With 33 stocks "
             f"rebalanced about 12.6 times a year, breadth ≈ 33 × 12.6 = 416 bets, so IR ≈ IC × √416 ≈ "
             f"**{best['mean_ic'] * 416 ** 0.5:.2f}** (upper bound — bets are not fully independent).")
+
+
+def pm_model_portfolio() -> str:
+    s = _csv("day79_portfolio_summary.csv", "portfolio_construction.py").iloc[0]
+    p = _csv("day79_model_portfolio.csv", "portfolio_construction.py")
+    top = p.sort_values("weight", ascending=False).head(5)
+    rows = ["| Stock | Score | Alpha | Weight | Risk share |", "|---|---:|---:|---:|---:|"]
+    rows += [f"| {r.ticker} | {r.score:.0f} | {pct(r.alpha)} | {pct(r.weight)} | {pct(r.risk_share)} |"
+             for r in top.itertuples()]
+    return ("\n".join(rows) + f"\n\nExpected active return **{pct(s['expected_active_return'])}** a year at tracking "
+            f"error **{pct(s['tracking_error'])}** (budget {pct(s['tracking_error_budget'], 0)}) → IR "
+            f"**{s['information_ratio']:.2f}**. Beta {s['beta_to_benchmark']:.2f}, active share "
+            f"{pct(s['active_share'], 0)}. Signal IC {s['signal_ic']:.3f}. Status: {s['approval_status']}.")
+
+
+def pm_attribution_brinson() -> str:
+    s = _csv("day80_attribution_summary.csv", "performance_attribution.py").iloc[0]
+    sectors = _csv("day80_brinson_by_sector.csv", "performance_attribution.py")
+    best, worst = sectors.iloc[0], sectors.iloc[-1]
+    return (f"Research portfolio {pct(s['portfolio_cumulative'])} vs benchmark {pct(s['benchmark_cumulative'])} "
+            f"({s['start']} → {s['end']}): active **{pct(s['active_cumulative'])}** = allocation "
+            f"{pct(s['allocation_linked'])} + selection {pct(s['selection_linked'])} + interaction "
+            f"{pct(s['interaction_linked'])} + costs {pct(s['costs_linked'])}.\n\nBest sector: **{best['sector']}** "
+            f"({pct(best['total'])}); worst: **{worst['sector']}** ({pct(worst['total'])}).")
 
 
 # ==============================================================

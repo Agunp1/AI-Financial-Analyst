@@ -42,6 +42,7 @@ LESSON_CFA_TOPIC = {
     "RA4": "Derivatives", "RA5": "Portfolio Management",
     "PM1": "Portfolio Management", "PM2": "Portfolio Management", "PM3": "Portfolio Management",
     "PM4": "Quantitative Methods", "PM5": "Portfolio Management", "PM6": "Portfolio Management",
+    "PM7": "Portfolio Management", "PM8": "Portfolio Management", "RA6": "Portfolio Management",
     "AD1": "Ethical and Professional Standards", "AD2": "Portfolio Management",
     "AD3": "Quantitative Methods", "AD4": "Portfolio Management", "AD5": "Ethical and Professional Standards",
 }
@@ -395,18 +396,53 @@ def item_news_surprise(day=None) -> dict:
             "questions": questions}
 
 
+def item_active_management(day=None) -> dict:
+    rng = _rng("active_management", day)
+    s = _csv("day79_portfolio_summary.csv", "portfolio_construction.py").iloc[0]
+    p = _csv("day79_model_portfolio.csv", "portfolio_construction.py")
+    a = _csv("day80_attribution_summary.csv", "performance_attribution.py").iloc[0]
+    r = p[p["weight"] > 0].set_index("ticker").loc[rng.choice(sorted(p[p["weight"] > 0]["ticker"]))]
+    ic, te, ir = float(s["signal_ic"]), float(s["tracking_error"]), float(s["information_ratio"])
+    breadth = 33 * 12.6
+    vignette = (f"A PM's model portfolio has a signal IC of {ic:.3f}, tracking error {te:.1%} and expected active "
+                f"return {s['expected_active_return']:.1%}. {r['name']} has annual volatility {r['volatility']:.0%} "
+                f"and an IC-weighted score of {r['score']:.0f}. Over {a['start']} to {a['end']} the backtested "
+                f"portfolio's active return of {a['active_cumulative']:.1%} split into allocation "
+                f"{a['allocation_linked']:.1%}, selection {a['selection_linked']:.1%}, interaction "
+                f"{a['interaction_linked']:.1%} and costs {a['costs_linked']:.1%}.")
+    questions = [
+        _question("The ex-ante information ratio is closest to:", f"{ir:.2f}",
+                  [f"{s['expected_active_return'] / s['portfolio_volatility']:.2f}", f"{ic * breadth ** 0.5:.2f}",
+                   f"{te / s['expected_active_return']:.2f}"],
+                  f"IR = expected active return / tracking error = {s['expected_active_return']:.2%} / {te:.2%} = "
+                  f"{ir:.2f}. Dividing by total volatility gives a Sharpe-like ratio, not the IR.", rng),
+        _question("By the fundamental law of active management, with 33 stocks rebalanced 12.6 times a year the "
+                  "maximum IR is closest to:", f"{ic * breadth ** 0.5:.2f}", [f"{ic * 33 ** 0.5:.2f}", f"{ic * breadth:.1f}"],
+                  f"IR ≈ IC × √breadth = {ic:.3f} × √{breadth:.0f} = {ic * breadth ** 0.5:.2f} (an upper bound; the "
+                  "transfer coefficient is below 1 when constraints bind).", rng),
+        _question("In the attribution, the selection effect measures:",
+                  "the return from choosing better stocks within each sector",
+                  ["the return from overweighting sectors that beat the benchmark",
+                   "the return lost to trading costs"],
+                  "Selection = benchmark sector weight × (portfolio sector return − benchmark sector return).", rng),
+    ]
+    return {"topic": "Portfolio Management", "title": "Active management: IR, breadth and attribution",
+            "vignette": vignette, "questions": questions}
+
+
 ITEM_SETS: Dict[str, Callable] = {
     "fixed_income": item_fixed_income, "derivatives": item_derivatives,
     "portfolio_risk": item_portfolio_risk, "economics_fx": item_economics_fx,
     "equity": item_equity, "quant": item_quant, "real_estate": item_real_estate, "macro": item_macro,
     "equity_valuation": item_equity_valuation, "news_surprise": item_news_surprise,
+    "active_management": item_active_management,
 }
 
 DESK_ITEM_SETS = {
     "investment_analyst": ["news_surprise", "macro", "economics_fx"],
     "equity_researcher": ["equity_valuation", "equity", "quant"],
     "portfolio_analyst": ["portfolio_risk", "fixed_income"],
-    "portfolio_manager": ["quant", "derivatives"],
+    "portfolio_manager": ["active_management", "quant", "derivatives"],
     "advisor": ["real_estate", "portfolio_risk"],
 }
 

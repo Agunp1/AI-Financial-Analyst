@@ -35,6 +35,9 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 | 77 | `multi_factor_rating.py` | Five-pillar rating, IC tests; ratings use the IC-weighted composite, point in time |
 | 78 | `valuation_engine.py`, `research_report.py` | DCF (FCFF), residual income, DDM, reverse DCF; evidence-linked research notes |
 | 78b | `world_brief.py` | Free RSS headlines tagged by theme, FOMC/FRED release calendar, data moves linked to headlines |
+| 79 | `portfolio_construction.py` | Grinold–Kahn alpha, shrinkage covariance, optimizer within a 4% tracking-error budget; proposal pending human approval |
+| 80 | `performance_attribution.py` | Brinson–Fachler (Carino-linked) and pillar-factor attribution of the Day 77 backtest |
+| 81 | `whatif_engine.py`, `vittantra_pm_page.py` | What-if weights and macro scenarios with live risk (vol, VaR/ES, beta, Euler shares) |
 | Academy | `academy_content.py`, `academy_live.py`, `academy_desk.py`, `vittantra_academy_page.py` | Learn-by-doing desk for 5 roles; progress in `academy_progress.json` |
 
 ## Non-negotiable rules
@@ -53,7 +56,8 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 
 - Shared formulas live in `vittantra_pricing.py` (Black-Scholes, bond
   analytics, CAPM/WACC/DCF/residual income/DDM) and `vittantra_risk_model.py` (Euler covariance risk
-  contributions, delta-adjusted option exposure). Reuse them; don't
+  contributions, delta-adjusted option exposure, Ledoit–Wolf
+  constant-correlation shrinkage). Reuse them; don't
   re-implement.
 - `test_finance_formulas.py` pins formulas to textbook values; keep it
   green. `FINANCE_AUDIT.md` lists methods, fixes and known simplifications —

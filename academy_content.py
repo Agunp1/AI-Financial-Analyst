@@ -432,6 +432,25 @@ LESSONS = [
                       _q("What does a negative risk contribution mean?",
                          "The position hedges the rest of the portfolio — adding a little reduces total risk.")],
     },
+    {
+        "id": "RA6", "role": "portfolio_analyst", "title": "What-if and scenario analysis",
+        "concept": "Before a trade, a risk analyst asks: what happens to volatility, VaR, beta and risk "
+                   "concentration if we do this — and how would the portfolio behave in a crisis? Factor "
+                   "sensitivities turn a macro scenario into P&L: each holding's move ≈ Σ beta × factor shock.",
+        "formulas": [("Scenario P&L", r"\Delta V \approx V \sum_i w_i \sum_k \beta_{i,k} \, s_k"),
+                     ("Parametric VaR", r"VaR_{99\%} = 2.33 \, \sigma_{1d} V"),
+                     ("Expected Shortfall (normal)", r"ES_{99\%} = \frac{\phi(2.33)}{0.01} \sigma_{1d} V \approx 2.67 \sigma_{1d} V")],
+        "live": "ra_what_if", "code": ["whatif_engine.py → portfolio_risk, scenario_pnl, compare"],
+        "on_the_job": "PMs ask 'what if' daily; risk teams run standard scenarios (rate shock, credit crisis) and "
+                      "report them to the risk committee alongside VaR.",
+        "exercise": "A portfolio with equity beta 0.9 faces a −20% equity shock and nothing else. Estimate the loss "
+                    "on $1m. Why might the real loss be larger?",
+        "interview": [_q("Why is a linear factor scenario only an approximation?",
+                         "It ignores convexity (bonds, options) and the rise in correlations during crises."),
+                      _q("VaR vs scenario analysis?",
+                         "VaR is a statistical loss quantile from history; scenarios ask about specific, possibly "
+                         "unprecedented events.")],
+    },
     # ---------------- Portfolio Manager ----------------
     {
         "id": "PM1", "role": "portfolio_manager", "title": "Diversification",
@@ -519,6 +538,48 @@ LESSONS = [
                       _q("Why did Vittantra's equal-weight composite underperform its best pillar?",
                          "A pillar with negative IC (low volatility in a rising market) diluted the signal; "
                          "IC-weighting reduced that.")],
+    },
+    {
+        "id": "PM7", "role": "portfolio_manager", "title": "Portfolio construction: alpha, risk model, optimizer",
+        "concept": "Institutional PMs turn a signal into weights in three steps: convert scores into expected "
+                   "alpha (alpha = IC × volatility × score), estimate risk with a stable covariance matrix "
+                   "(shrinkage), then optimize alpha against active risk under limits — position size, sector "
+                   "bets, beta, and a tracking-error budget.",
+        "formulas": [("Grinold–Kahn alpha", r"\alpha_i = IC \times \sigma_i \times z_i"),
+                     ("Objective", r"\max_w \; \alpha^\top w - \tfrac{\lambda}{2}(w-b)^\top \Sigma (w-b)"),
+                     ("Tracking error", r"TE = \sqrt{(w-b)^\top \Sigma (w-b)}"),
+                     ("Information ratio", r"IR = \frac{\alpha_p - \alpha_b}{TE}")],
+        "live": "pm_model_portfolio", "code": ["portfolio_construction.py → grinold_alpha, optimize",
+                                               "vittantra_risk_model.py → constant_correlation_shrinkage"],
+        "on_the_job": "Every quant and many fundamental funds run an optimizer with a risk budget; the PM's job is "
+                      "to question the output (why is this name 8%?), not to accept it blindly.",
+        "exercise": "IC 0.05, a stock's annual volatility 30%, score z = +1.5. What alpha does Grinold–Kahn give "
+                    "over 20 days and a year (12.6 periods)?",
+        "interview": [_q("Why shrink the covariance matrix?",
+                         "Sample covariances are noisy with many assets and few observations; shrinkage cuts "
+                         "estimation error so the optimizer does not chase noise."),
+                      _q("Why might an optimizer hold a stock with a neutral score?",
+                         "To control risk: e.g. a low-beta name helps meet a beta or tracking-error limit.")],
+    },
+    {
+        "id": "PM8", "role": "portfolio_manager", "title": "Performance attribution (Brinson and factors)",
+        "concept": "Attribution explains active return. Brinson splits it into allocation (overweighting sectors "
+                   "that beat the benchmark), selection (picking better stocks within sectors) and interaction. "
+                   "Factor attribution splits it into exposures × factor returns plus stock-specific return. "
+                   "Multi-period effects are linked (Carino) so they add up to the compounded result.",
+        "formulas": [("Allocation", r"(w_{p,s} - w_{b,s})(R_{b,s} - R_b)"),
+                     ("Selection", r"w_{b,s}(R_{p,s} - R_{b,s})"),
+                     ("Interaction", r"(w_{p,s} - w_{b,s})(R_{p,s} - R_{b,s})"),
+                     ("Factor contribution", r"x_k f_k, \quad x_k = \sum_i (w_{p,i} - w_{b,i}) z_{i,k}")],
+        "live": "pm_attribution_brinson", "code": ["performance_attribution.py → brinson_fachler, carino_factors"],
+        "on_the_job": "Monthly performance reviews and client reports open with attribution; it shows whether "
+                      "the manager's edge is where they claim it is.",
+        "exercise": "Portfolio 30% in a sector that returned 8% vs a benchmark weight of 20%; benchmark total 5%. "
+                    "What is the allocation effect?",
+        "interview": [_q("A stock-picker's attribution shows mostly allocation, little selection. Concern?",
+                         "The returns come from sector bets, not the claimed skill — style drift or luck."),
+                      _q("Why link multi-period attribution?",
+                         "Arithmetic effects do not add up to compounded returns; linking makes them reconcile.")],
     },
     # ---------------- Advisor ----------------
     {
