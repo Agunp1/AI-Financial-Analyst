@@ -19,5 +19,7 @@
       "review": "- Correctly flagged: AAPL_CALL, ES\n- Missed breaches: none\n- False alarms: none\n\n- **AAPL_CALL**: risk share 35.0% vs budget 5.0% \u2192 utilization **700%**\n- **ES**: risk share 35.0% vs budget 6.0% \u2192 utilization **583%**\n\nEscalate to the PM with the numbers, the cause (concentration / delta exposure) and a proposed reduction \u2014 execution needs human approval."
     }
   ],
-  "lessons_read": []
+  "lessons_read": [
+    "IA1"
+  ]
 }
