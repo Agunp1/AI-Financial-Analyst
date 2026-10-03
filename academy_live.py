@@ -128,6 +128,23 @@ def ia_fx_carry() -> str:
     return "\n".join(lines) + "\n\nCarry is earned only if the exchange rate does not move against you more than the rate gap."
 
 
+def ia_world_brief() -> str:
+    brief = _csv("day78b_brief.csv", "world_brief.py")
+    lines = ["| Theme | Data this week | Headlines |", "|---|---|---:|"]
+    lines += [f"| {r.theme} | {r.data_move.split(': ', 1)[-1]} | {r.headline_count} |" for r in brief.itertuples()]
+    top = brief.iloc[0]
+    first = str(top["top_headlines"]).split(" || ")[0] if top["headline_count"] else "no headlines"
+    text = "\n".join(lines) + (f"\n\nMost covered theme: **{top['theme']}** ({top['data_move']}). "
+                                f"Example headline: *{first}*. Ask: does it explain the size of the move, "
+                                "and does it change the outlook?")
+    calendar = BASE_DIR / "day78b_calendar.csv"
+    if calendar.exists():
+        cal = pd.read_csv(calendar).head(4)
+        if len(cal):
+            text += "\n\nComing up: " + "; ".join(f"**{r.date}** {r.event}" for r in cal.itertuples())
+    return text
+
+
 # ==============================================================
 # EQUITY RESEARCHER
 # ==============================================================

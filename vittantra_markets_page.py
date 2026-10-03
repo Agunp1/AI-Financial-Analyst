@@ -16,6 +16,7 @@ import streamlit as st
 BASE_DIR = Path(__file__).resolve().parent
 
 TABS = [
+    ("World Brief", "world"),
     ("Overview", None),
     ("Macro & Economy", "macro"),
     ("Rates & Credit", "Fixed Income"),
@@ -134,6 +135,41 @@ def _macro_and_economy() -> None:
                    "daily data.")
 
 
+def _world_brief() -> None:
+    brief = _load("day78b_brief.csv")
+    headlines = _load("day78b_headlines.csv")
+    calendar = _load("day78b_calendar.csv")
+    if brief.empty:
+        st.info("Run `python world_brief.py` to load this week's headlines and calendar.")
+        return
+    st.markdown("**This week by theme** — the data move next to the headlines that could explain it")
+    for row in brief.itertuples():
+        with st.expander(f"{row.theme} · {row.data_move} · {row.headline_count} headlines",
+                         expanded=row.Index < 3 and row.headline_count > 0):
+            if row.headline_count and not headlines.empty:
+                related = headlines[headlines["themes"].fillna("").str.contains(row.theme, regex=False)].head(6)
+                for h in related.itertuples():
+                    when = pd.to_datetime(h.published).strftime("%a %d %b %H:%M") if pd.notna(h.published) else ""
+                    st.markdown(f"- [{h.title}]({h.link}) — *{h.source}*, {when}")
+            else:
+                st.caption("No headlines on this theme this week.")
+    st.caption("Headlines are possible drivers to check, not proven causes. Themes are assigned by keyword "
+               "rules, so read the article before citing it.")
+    if not calendar.empty:
+        st.markdown("**Coming up**")
+        view = calendar[["date", "event", "indicator", "latest", "previous", "period"]].rename(columns={
+            "date": "Date", "event": "Event", "indicator": "Indicator", "latest": "Latest", "previous": "Previous",
+            "period": "Latest period"})
+        st.dataframe(view.round(2), width="stretch", hide_index=True)
+    if not headlines.empty:
+        with st.expander(f"All headlines ({len(headlines)})"):
+            st.dataframe(headlines[["published", "source", "title", "themes"]], width="stretch", hide_index=True,
+                         column_config={"published": st.column_config.DatetimeColumn("Published",
+                                                                                    format="ddd D MMM, HH:mm")})
+    st.caption("Sources: Federal Reserve, ECB, Bank of England, SEC, BLS, BEA, CNBC, MarketWatch and Yahoo Finance "
+               "RSS feeds (free); FOMC dates from the Federal Reserve; release dates from FRED.")
+
+
 def _real_estate(market: pd.DataFrame) -> None:
     economy = _load("day76c_economic_dashboard.csv")
     cre = economy[economy["category"] == "Commercial real estate"] if not economy.empty else economy
@@ -178,7 +214,9 @@ def render_markets() -> None:
     tabs = st.tabs([label for label, _ in TABS])
     for tab, (label, asset_class) in zip(tabs, TABS):
         with tab:
-            if asset_class is None:
+            if asset_class == "world":
+                _world_brief()
+            elif asset_class is None:
                 if not summary.empty:
                     view = summary.copy()
                     for column in ("median_return_1m", "median_return_12m", "median_volatility"):

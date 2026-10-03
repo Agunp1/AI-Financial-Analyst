@@ -34,7 +34,7 @@ CFA_TOPICS = [
 # Level II topic area for each Academy lesson.
 LESSON_CFA_TOPIC = {
     "IA1": "Quantitative Methods", "IA2": "Quantitative Methods", "IA3": "Fixed Income",
-    "IA4": "Fixed Income", "IA5": "Economics",
+    "IA4": "Fixed Income", "IA5": "Economics", "IA6": "Economics",
     "ER1": "Financial Statement Analysis", "ER2": "Equity Valuation", "ER3": "Financial Statement Analysis",
     "ER4": "Financial Statement Analysis", "ER5": "Quantitative Methods",
     "ER6": "Equity Valuation", "ER7": "Ethical and Professional Standards",
@@ -365,15 +365,45 @@ def item_equity_valuation(day=None) -> dict:
             "vignette": vignette, "questions": questions}
 
 
+def item_news_surprise(day=None) -> dict:
+    rng = _rng("news_surprise", day)
+    dash = _csv("day76c_economic_dashboard.csv", "multi_asset_universe.py").set_index("series_id")
+    betas = _csv("day76d_macro_betas.csv", "macro_drivers.py").set_index("symbol")
+    cpi, core = dash.loc["CPIAUCSL"], dash.loc["CPILFESL"]
+    fed = dash.loc["FEDFUNDS"]
+    tlt = float(betas.loc["TLT", "beta_interest_rates"])
+    move = 0.15                                  # assumed yield reaction to the surprise, pp
+    vignette = (f"Headline CPI inflation is {cpi['latest']:.1f}% year on year (previous {cpi['previous']:.1f}%), core "
+                f"CPI {core['latest']:.1f}%, and the effective fed funds rate {fed['latest']:.2f}%. The next CPI "
+                f"release comes in 0.3 percentage points above consensus and the 10-year yield rises {move * 100:.0f} bp "
+                f"on the day. Vittantra estimates the long-Treasury ETF loses {-tlt:.1%} per +1pp of 10-year yield.")
+    real = fed["latest"] - cpi["latest"]
+    questions = [
+        _question("The market reaction is driven mainly by:",
+                  "the difference between actual and expected inflation",
+                  ["the level of inflation alone", "the previous month's inflation"],
+                  "Prices already reflect consensus; only the surprise is new information.", rng),
+        _question("The expected one-day move in the long-Treasury ETF is closest to:",
+                  f"{tlt * move:.1%}", [f"{-tlt * move:.1%}", f"{tlt * move * 10:.1%}", "0.0%"],
+                  f"β × Δy = {tlt:+.1%} × {move:.2f} = {tlt * move:.1%}; rising yields mean falling bond prices.", rng),
+        _question("Using headline CPI, the real policy rate (fed funds minus inflation) is closest to:",
+                  f"{real:+.2f}%", [f"{fed['latest'] + cpi['latest']:+.2f}%", f"{-real:+.2f}%"],
+                  f"{fed['latest']:.2f}% − {cpi['latest']:.2f}% = {real:+.2f}%. A positive real rate is restrictive; "
+                  "a negative one is accommodative (a Taylor-rule style comparison).", rng),
+    ]
+    return {"topic": "Economics", "title": "Reading an inflation surprise", "vignette": vignette,
+            "questions": questions}
+
+
 ITEM_SETS: Dict[str, Callable] = {
     "fixed_income": item_fixed_income, "derivatives": item_derivatives,
     "portfolio_risk": item_portfolio_risk, "economics_fx": item_economics_fx,
     "equity": item_equity, "quant": item_quant, "real_estate": item_real_estate, "macro": item_macro,
-    "equity_valuation": item_equity_valuation,
+    "equity_valuation": item_equity_valuation, "news_surprise": item_news_surprise,
 }
 
 DESK_ITEM_SETS = {
-    "investment_analyst": ["macro", "economics_fx"],
+    "investment_analyst": ["news_surprise", "macro", "economics_fx"],
     "equity_researcher": ["equity_valuation", "equity", "quant"],
     "portfolio_analyst": ["portfolio_risk", "fixed_income"],
     "portfolio_manager": ["quant", "derivatives"],

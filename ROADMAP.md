@@ -29,7 +29,7 @@ Constraint: **free data sources only.**
 | 76d | Markets | Macro drivers, economic dashboard, commercial real estate (hotels, motels, office, …), CFA Level II item sets | ✅ Done (7/7 on real data) |
 | 77 | Research | Multi-factor rating: fundamental + technical + quant + economic + risk, backtested; rated on the IC-weighted composite | ✅ Done (6/6 on real data) |
 | 78 | Research | Valuation engine (DCF, residual income, DDM, reverse DCF, sensitivity) and evidence-linked research notes | ✅ Built |
-| 78b | Markets | World & Markets Brief: free news headlines (central banks, regulators, markets), economic calendar, headlines linked to data, morning routine | |
+| 78b | Markets | World & Markets Brief: free news headlines (central banks, regulators, markets), economic calendar, headlines linked to data, morning routine | ✅ Built |
 | 79 | Portfolio Mgmt | Research-driven portfolio construction within the risk budget | |
 | 80 | Portfolio Mgmt | Performance attribution | |
 | 81 | Risk | What-if scenario tool with live risk recalculation | |

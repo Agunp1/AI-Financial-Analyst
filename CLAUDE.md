@@ -34,6 +34,7 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 | 76d | `macro_drivers.py` | Macro factor betas and attribution per asset class; economic dashboard; CRE by property type |
 | 77 | `multi_factor_rating.py` | Five-pillar rating, IC tests; ratings use the IC-weighted composite, point in time |
 | 78 | `valuation_engine.py`, `research_report.py` | DCF (FCFF), residual income, DDM, reverse DCF; evidence-linked research notes |
+| 78b | `world_brief.py` | Free RSS headlines tagged by theme, FOMC/FRED release calendar, data moves linked to headlines |
 | Academy | `academy_content.py`, `academy_live.py`, `academy_desk.py`, `vittantra_academy_page.py` | Learn-by-doing desk for 5 roles; progress in `academy_progress.json` |
 
 ## Non-negotiable rules
@@ -62,7 +63,8 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 
 ## Data
 
-- Free sources only (Yahoo Finance via yfinance, FRED public CSV). The owner
+- Free sources only (Yahoo Finance via yfinance, FRED public CSV, public RSS
+  feeds; the FRED release calendar uses the free `FRED_API_KEY`). The owner
   cannot pay for data; do not add paid providers.
 - Data modes: LIVE when `day75_live_instrument_prices.csv` exists, SAMPLE
   otherwise or with `VITTANTRA_DATA_MODE=sample`. Without live data the

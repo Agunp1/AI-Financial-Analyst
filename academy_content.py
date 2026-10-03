@@ -218,6 +218,25 @@ LESSONS = [
                       _q("What does carry-to-volatility measure?",
                          "Income per unit of currency risk — a Sharpe-like ratio for the trade.")],
     },
+    {
+        "id": "IA6", "role": "investment_analyst", "title": "Reading the news like a professional",
+        "concept": "Prices move first; the story arrives later. Start from the data (what moved, how much versus "
+                   "normal), then look for the news that could explain it, then ask whether it changes the outlook "
+                   "or is noise. Central-bank statements, inflation and jobs releases, and earnings move the most "
+                   "assets. Always know what is on the calendar this week.",
+        "formulas": [("Surprise", r"\text{surprise} = \text{actual} - \text{expected}"),
+                     ("Size of a move", r"z = \frac{r_t}{\sigma_{\text{daily}}}")],
+        "live": "ia_world_brief", "code": ["world_brief.py → collect_headlines, build_brief, build_calendar"],
+        "on_the_job": "Morning meetings open with 'what happened overnight and why'; a good analyst separates "
+                      "the cause from the coincidence and flags the event that matters this week.",
+        "exercise": "Pick today's biggest data move in the brief. Find one headline that could explain it and "
+                    "one reason it might be a coincidence.",
+        "interview": [_q("Why do markets sometimes fall on good news?",
+                         "Prices react to the surprise versus expectations, not the news itself; 'good' data can "
+                         "also mean higher rates for longer."),
+                      _q("Which scheduled releases move US markets most?",
+                         "FOMC decisions, CPI, the jobs report (Employment Situation), GDP and PCE inflation.")],
+    },
     # ---------------- Equity Researcher ----------------
     {
         "id": "ER1", "role": "equity_researcher", "title": "Reading the three statements (from SEC filings)",

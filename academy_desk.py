@@ -122,7 +122,22 @@ def morning_brief_task() -> dict:
                  f"- Credit: high-yield spreads {credit.loc['US high yield', 'spread_bp']:.0f} bp, "
                  f"{credit.loc['US high yield', 'percentile_in_history']:.0f}th percentile of recent history.\n"
                  "- Watch: whether today's biggest mover is news-driven or part of a trend (check 1-month move).")
-    return {"context": "\n".join(snapshot), "reference": reference, "lessons": ["IA1", "IA3", "IA4"]}
+    news = BASE_DIR / "day78b_brief.csv"
+    if news.exists():
+        brief = pd.read_csv(news)
+        brief = brief[brief["headline_count"] > 0].head(3)
+        if len(brief):
+            snapshot.append("\n**Headlines this week by theme** (possible drivers — check before you cite them)")
+            snapshot += [f"- *{r.theme}* — {r.data_move}. {str(r.top_headlines).split(' || ')[0]}"
+                         for r in brief.itertuples()]
+    calendar_path = BASE_DIR / "day78b_calendar.csv"
+    if calendar_path.exists():
+        calendar = pd.read_csv(calendar_path).head(3)
+        if len(calendar):
+            snapshot.append("\n**Coming up:** " + "; ".join(f"{r.date} {r.event}" for r in calendar.itertuples()))
+            reference = reference.replace("- Watch: ", f"- Watch: {calendar.iloc[0]['event']} on "
+                                          f"{calendar.iloc[0]['date']}; and ")
+    return {"context": "\n".join(snapshot), "reference": reference, "lessons": ["IA1", "IA3", "IA4", "IA6"]}
 
 
 # ==============================================================

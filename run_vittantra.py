@@ -53,6 +53,7 @@ RESEARCH_STEPS = [
     ("Day 76 fundamentals (SEC)", "fundamental_engine.py"),
     ("Day 76c multi-asset universe", "multi_asset_universe.py"),
     ("Day 76d macro drivers", "macro_drivers.py"),
+    ("Day 78b world & markets brief", "world_brief.py"),
     ("Day 77 multi-factor rating", "multi_factor_rating.py"),
     ("Day 78 valuation", "valuation_engine.py"),
     ("Day 78 research reports", "research_report.py"),
