@@ -36,6 +36,8 @@ class CloudTests(unittest.TestCase):
     def test_password_check(self):
         self.assertTrue(cloud.password_matches("secret", "secret"))
         self.assertFalse(cloud.password_matches("wrong", "secret"))
+        self.assertTrue(cloud.password_matches(" secret ", "secret"))   # stray spaces from copy-paste
+        self.assertFalse(cloud.password_matches("Secret", "secret"))     # still case-sensitive
         self.assertFalse(cloud.password_matches("", ""))      # no password configured never signs in
 
     def test_laptop_is_owner_without_secrets(self):
