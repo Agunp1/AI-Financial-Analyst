@@ -11,6 +11,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+import vittantra_cloud as cloud
 import vittantra_theme as vt
 
 import academy_cfa as cfa
@@ -25,6 +26,15 @@ ROLE_KEYS = list(ROLES)
 
 def _role_label(key: str) -> str:
     return ROLES[key]["title"].split(" (")[0]
+
+
+def _save(progress: dict) -> None:
+    """Save the work record; online and signed in, it is also committed to GitHub."""
+    if not cloud.is_owner():
+        st.toast("Not saved — sign in as owner (sidebar) to keep your work.")
+        return
+    desk.save_progress(progress)
+    cloud.persist(desk.PROGRESS_FILE, "Academy progress (saved from the app)")
 
 
 def render_lesson(lesson: dict, progress: dict, key_prefix: str = "") -> None:
@@ -50,7 +60,7 @@ def render_lesson(lesson: dict, progress: dict, key_prefix: str = "") -> None:
     if lesson["id"] not in progress.get("lessons_read", []):
         if st.button("Mark as learned", key=f"{key_prefix}read-{lesson['id']}"):
             progress.setdefault("lessons_read", []).append(lesson["id"])
-            desk.save_progress(progress)
+            _save(progress)
             st.rerun()
     else:
         st.caption("✅ Learned")
@@ -76,7 +86,7 @@ def _review(score: float, feedback: str, reference: str) -> None:
 def _submit(progress, role, task, score, answer, review_text, state_key):
     if not st.session_state.get(state_key):
         desk.record_task(progress, role, task, score, answer, review_text)
-        desk.save_progress(progress)
+        _save(progress)
         st.session_state[state_key] = True
 
 
@@ -403,7 +413,7 @@ def render_item_set(item: dict, progress: dict, role: str, key: str) -> None:
             cfa.record_cfa(progress, item["topic"], correct, len(item["questions"]))
             desk.record_task(progress, role, f"CFA L2 item set: {item['title']}", score,
                              {f"Q{i + 1}": "ABC"[c] for i, c in enumerate(choices)}, review)
-            desk.save_progress(progress)
+            _save(progress)
             st.session_state[state] = True
         _review(score, review, "Item sets are practice in the Level II format, built from live Vittantra data.")
 

@@ -12,6 +12,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+import vittantra_cloud as cloud
 import vittantra_theme as vt
 
 
@@ -227,9 +228,12 @@ def _what_if() -> None:
         if risk.get("missing"):
             st.caption("No price history for: " + ", ".join(risk["missing"]))
     rationale = st.text_input("Rationale for the proposal", key="whatif-rationale")
-    if st.button("Send what-if to the approval queue", disabled=not rationale.strip()):
+    if not cloud.is_owner():
+        cloud.owner_only_note("send proposals to the approval queue")
+    elif st.button("Send what-if to the approval queue", disabled=not rationale.strip()):
         metrics = {k: float(v) for k, v in table.loc["What-if"].items() if pd.notna(v)}
         we.save_proposal(proposed, rationale, choice, metrics)
+        cloud.persist(we.BASE_DIR / we.PROPOSALS, "What-if proposal (pending human approval)")
         st.success("Saved as a ticket with status PENDING HUMAN APPROVAL. Nothing was executed.")
     st.caption(f"Risk model: {len(model.returns)} observations, Ledoit–Wolf shrinkage {model.shrinkage:.2f}. "
                "Scenario P&L = Σ factor beta × shock (linear; ignores convexity and crisis correlation changes). "

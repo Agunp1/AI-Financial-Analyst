@@ -78,6 +78,7 @@ import plotly.graph_objects as go
 
 import streamlit as st
 
+import vittantra_cloud as cloud
 import vittantra_theme as vt
 from vittantra_research_page import render_research
 from vittantra_markets_page import render_markets
@@ -1879,6 +1880,8 @@ with st.sidebar:
 
 
     )
+    st.divider()
+    cloud.sign_in_box()
 
 
 
