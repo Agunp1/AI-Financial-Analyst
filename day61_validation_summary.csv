@@ -1,0 +1,9 @@
+check,passed,details,passed_tests,total_tests,pass_rate
+Stress result table generated,True,Rows generated: 80,8,8,1.0
+Every scenario-instrument combination evaluated,True,Expected 80; received 80.,8,8,1.0
+All scenarios represented,True,Expected 8 scenarios; received 8.,8,8,1.0
+Baseline scenario approximately zero,True,Baseline should not change portfolio value.,8,8,1.0
+Stress calculations contain finite values,True,Core stress-result numeric fields must be finite.,8,8,1.0
+No stressed long market value below zero,True,Linear stress returns are floored at -100%.,8,8,1.0
+Scenario summary generated,True,Scenario summary rows: 8,8,8,1.0
+Asset-class stress attribution generated,True,Asset-class stress rows: 80,8,8,1.0

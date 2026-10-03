@@ -1,0 +1,11 @@
+day67_portfolio_risk_dashboard.csv | ROWS=1
+['portfolio_status', 'instrument_count', 'normal_count', 'watch_count', 'warning_count', 'breach_count', 'critical_count', 'requires_review_count', 'mean_risk_budget_utilization', 'maximum_risk_budget_utilization', 'risk_budgeted_capital_weight_total', 'risk_budgeted_gross_exposure_weight_total', 'risk_budgeted_signed_notional_weight_total', 'risk_budgeted_absolute_notional_weight_total', 'risk_budgeted_risk_weight_total', 'risk_budgeted_absolute_risk_weight_total', 'largest_asset_class_risk_share', 'largest_asset_class_by_risk']
+
+day68_instrument_governance_actions.csv | ROWS=10
+['symbol', 'asset_class', 'instrument_type', 'risk_budget', 'modeled_risk_contribution', 'risk_budget_utilization', 'risk_budget_excess', 'day66_risk_budget_status', 'governance_status', 'governance_action', 'governance_reason', 'requires_review', 'block_incremental_risk']
+
+day69_portfolio_remediation_summary.csv | ROWS=1
+['portfolio_remediation_status', 'instrument_count', 'critical_count', 'high_count', 'medium_count', 'low_count', 'requires_review_count', 'incremental_risk_block_count', 'risk_reduction_action_count', 'immediate_priority_count', 'current_total_modeled_risk', 'target_total_modeled_risk', 'required_total_modeled_risk_reduction', 'portfolio_modeled_risk_reduction_fraction', 'maximum_current_risk_budget_utilization', 'maximum_estimated_post_remediation_utilization']
+
+day70_portfolio_approval_summary.csv | ROWS=1
+['portfolio_workflow_status', 'decision_ticket_count', 'pending_review_count', 'no_action_required_count', 'risk_review_required_count', 'portfolio_review_required_count', 'dual_approval_required_count', 'incremental_risk_block_count', 'risk_reduction_ticket_count', 'immediate_priority_count', 'approval_queue_count', 'maximum_current_risk_budget_utilization', 'maximum_estimated_post_remediation_utilization', 'automatic_execution_authorized_count']

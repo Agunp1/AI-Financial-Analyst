@@ -1,0 +1,11 @@
+check,passed,details,passed_tests,total_tests,pass_rate
+Day 64 input loaded,True,Rows: 10,10,10,1.0
+Exposure-aware targets generated,True,Input instruments: 10; output instruments: 10,10,10,1.0
+Unique instrument identifiers,True,Unique symbols: 10,10,10,1.0
+All actions valid,True,"Allowed actions: BUY, SELL, HOLD",10,10,1.0
+Constraint diagnostics generated,True,Checks: 8,10,10,1.0
+All exposure constraints passed,True,Passed: 8/8,10,10,1.0
+Portfolio summary generated,True,Rows: 1,10,10,1.0
+Target exposures contain finite values,True,"Capital, gross, notional and risk targets checked.",10,10,1.0
+Turnover within policy,True,Turnover: 4.2438%; limit: 35.0000%,10,10,1.0
+Derivative capital and notional remain separated,True,Derivative-like positions retain distinct capital and notional treatment.,10,10,1.0

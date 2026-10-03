@@ -1,0 +1,11 @@
+check,passed,detail,passed_tests,total_tests,pass_rate
+Day 66 source loaded,True,Rows: 10,10,10,1.0
+Instrument count preserved,True,Day 66 rows: 10; Day 67 rows: 10,10,10,1.0
+Instrument identifiers remain unique,True,Unique identifiers: 10; rows: 10,10,10,1.0
+Risk utilization values are finite,True,Instrument utilization checked.,10,10,1.0
+Alert severities are valid,True,"Allowed: NORMAL, WATCH, WARNING, BREACH, CRITICAL.",10,10,1.0
+Alert table reconciles,True,Alert rows: 2,10,10,1.0
+Asset-class monitor generated,True,Asset classes: 10; monitor rows: 10,10,10,1.0
+Portfolio dashboard generated,True,Rows: 1,10,10,1.0
+Critical utilization produces critical alert,True,Critical threshold: 120%,10,10,1.0
+Risk-budgeted portfolio weights are finite,True,"Capital, gross, signed-notional and risk weights checked.",10,10,1.0

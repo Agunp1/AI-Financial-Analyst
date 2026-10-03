@@ -1,0 +1,7 @@
+diagnostic,value,interpretation
+factor_model_r_squared,0.2941331138829154,Fraction of strategy-period variation associated with the factor proxy model.
+factor_model_adjusted_r_squared,0.042037797412528,R-squared adjusted for number of factor proxies.
+period_alpha_intercept,0.002580564800938063,Regression intercept per portfolio period. Historical diagnostic only.
+mean_residual_return,-3.117609446954216e-16,Average return not fitted by the selected factor proxies.
+largest_absolute_factor_correlation,0.2679319171797508,Most correlated factor: dollar_factor.
+strategy_periods,39.0,Total Day 56 portfolio periods included before complete-case regression filtering.

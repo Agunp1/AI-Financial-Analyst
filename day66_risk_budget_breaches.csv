@@ -1,0 +1,3 @@
+symbol,asset_class,instrument_type,instrument_risk_budget,modeled_risk_contribution,risk_budget_utilization,risk_budget_gap,risk_budget_excess,risk_budget_scaler,risk_budget_action,risk_budget_status
+ES,Future,Future,0.06,0.5285579746274448,8.809299577124081,-0.4685579746274448,0.4685579746274448,0.11351640289277845,REDUCE_RISK,BREACH
+BTC,Crypto,Crypto,0.08,0.15580854246302142,1.9476067807877677,-0.07580854246302142,0.07580854246302142,0.5134506666666667,REDUCE_RISK,BREACH

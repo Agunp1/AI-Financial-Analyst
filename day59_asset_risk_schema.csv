@@ -1,0 +1,12 @@
+asset_class,required_metrics,applicable_metrics,optional_metrics,metric_count
+Equity,"market_value, portfolio_weight, volatility, beta, var, cvar, maximum_drawdown, concentration_risk","correlation, factor_exposure, liquidity_risk",,11
+ETF/Fund,"market_value, portfolio_weight, volatility, var, cvar, maximum_drawdown, concentration_risk","beta, tracking_error, factor_exposure, underlying_concentration, liquidity_risk",,12
+Fixed Income,"market_value, portfolio_weight, var, duration, modified_duration, dv01, credit_risk, yield_curve_exposure, concentration_risk","volatility, cvar, convexity, credit_spread, liquidity_risk",,14
+Option,"market_value, portfolio_weight, delta, gamma, vega, theta, implied_volatility, leverage, liquidity_risk, concentration_risk","volatility, var, rho",,13
+Future,"market_value, portfolio_weight, volatility, var, leverage, basis_risk, concentration_risk","cvar, liquidity_risk, commodity_price_risk, currency_exposure",,11
+FX,"market_value, portfolio_weight, volatility, var, currency_exposure, concentration_risk","cvar, carry, correlation, liquidity_risk",,10
+Commodity,"market_value, portfolio_weight, volatility, var, commodity_price_risk, concentration_risk","cvar, maximum_drawdown, correlation, inflation_risk, liquidity_risk",,11
+Cash/Money Market,"market_value, portfolio_weight, inflation_risk","currency_exposure, counterparty_risk, concentration_risk",,6
+Crypto,"market_value, portfolio_weight, volatility, var, cvar, maximum_drawdown, liquidity_risk, concentration_risk","correlation, counterparty_risk",,10
+Real Estate/REIT,"market_value, portfolio_weight, real_estate_exposure, liquidity_risk, concentration_risk",inflation_risk,"volatility, var, interest_rate_risk",9
+Other,"market_value, portfolio_weight, concentration_risk",liquidity_risk,"volatility, var",6

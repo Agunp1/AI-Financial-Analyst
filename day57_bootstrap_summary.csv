@@ -1,0 +1,2 @@
+observations,observed_mean_period_return,observed_sharpe,mean_return_ci_2_5,mean_return_ci_50,mean_return_ci_97_5,sharpe_ci_2_5,sharpe_ci_50,sharpe_ci_97_5,bootstrap_probability_mean_positive,bootstrap_samples
+39,0.020353532022476247,1.8155197638342715,0.008138664585857743,0.02033240892970326,0.03261350310455625,0.7271493394932409,1.8424941613144639,3.158208386217705,0.9995,10000

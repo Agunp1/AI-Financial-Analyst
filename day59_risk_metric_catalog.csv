@@ -1,0 +1,36 @@
+metric,category,description,unit,requires_market_data,requires_instrument_data
+basis_risk,Basis Risk,Risk that related spot and derivative prices diverge.,spread_or_percent,True,True
+commodity_price_risk,Commodity Risk,Sensitivity to commodity price movements.,exposure,True,False
+concentration_risk,Concentration Risk,"Exposure concentration by position, issuer, sector or asset class.",percent_or_score,False,True
+market_value,Concentration Risk,Current economic value of the position.,currency,False,True
+portfolio_weight,Concentration Risk,Position market value divided by total portfolio value.,percent,False,True
+underlying_concentration,Concentration Risk,Concentration within a fund or pooled investment.,percent,True,True
+counterparty_risk,Counterparty Risk,Potential loss due to counterparty failure.,exposure_or_score,True,True
+credit_risk,Credit Risk,Issuer default and credit deterioration exposure.,score_or_spread,True,True
+carry,Currency Risk,Expected carry associated with holding the exposure.,percent,True,True
+currency_exposure,Currency Risk,Sensitivity to changes in exchange rates.,currency_or_percent,True,True
+maximum_drawdown,Drawdown Risk,Largest peak-to-trough historical decline.,percent,True,False
+factor_exposure,Factor Risk,Exposure to systematic investment factors.,exposure,True,False
+inflation_risk,Inflation Risk,Sensitivity of real purchasing power to inflation.,exposure,True,False
+convexity,Interest Rate Risk,Curvature of the bond price-yield relationship.,convexity,True,True
+duration,Interest Rate Risk,Approximate sensitivity of bond price to yield changes.,years,True,True
+dv01,Interest Rate Risk,Approximate currency value change for a 1 bp yield move.,currency_per_bp,True,True
+interest_rate_risk,Interest Rate Risk,General sensitivity to changes in interest rates.,exposure,True,False
+modified_duration,Interest Rate Risk,Percentage price sensitivity to a change in yield.,years,True,True
+leverage,Leverage Risk,Economic exposure relative to capital committed.,multiple,True,True
+liquidity_risk,Liquidity Risk,Risk associated with exiting or resizing a position.,score_or_cost,True,False
+beta,Market Risk,Sensitivity to a selected market benchmark.,beta,True,False
+correlation,Market Risk,Return relationship with another asset or benchmark.,correlation,True,False
+real_estate_exposure,Market Risk,Sensitivity to property-market conditions.,exposure,True,False
+tracking_error,Market Risk,Volatility of active returns versus benchmark.,percent,True,False
+delta,Optionality Risk,Option sensitivity to the underlying asset price.,delta,True,True
+gamma,Optionality Risk,Sensitivity of option delta to underlying price.,gamma,True,True
+rho,Optionality Risk,Option sensitivity to interest rates.,rho,True,True
+theta,Optionality Risk,Option sensitivity to passage of time.,currency_per_day,True,True
+vega,Optionality Risk,Option sensitivity to implied volatility.,currency_per_vol_point,True,True
+credit_spread,Spread Risk,Yield spread over a reference risk-free curve.,basis_points,True,True
+cvar,Tail Risk,Expected loss beyond the VaR threshold.,currency_or_percent,True,False
+var,Tail Risk,Value at Risk at a specified confidence level.,currency_or_percent,True,False
+implied_volatility,Volatility Risk,Market-implied volatility embedded in option prices.,percent,True,True
+volatility,Volatility Risk,Historical or model-implied variability of returns.,percent,True,False
+yield_curve_exposure,Yield Curve Risk,Sensitivity to changes in the shape of the yield curve.,exposure,True,True

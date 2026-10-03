@@ -1,0 +1,29 @@
+instrument_id,symbol,asset_class,metric,requirement,reason
+CASH_USD,USD,Cash/Money Market,concentration_risk,Applicable,"Additional portfolio, market or instrument data required."
+CASH_USD,USD,Cash/Money Market,counterparty_risk,Applicable,"Additional portfolio, market or instrument data required."
+CASH_USD,USD,Cash/Money Market,inflation_risk,Required,Inflation sensitivity requires historical inflation/factor data or supplied exposure.
+CMD_GOLD,GOLD,Commodity,concentration_risk,Required,"Additional portfolio, market or instrument data required."
+CMD_GOLD,GOLD,Commodity,inflation_risk,Applicable,Inflation sensitivity requires historical inflation/factor data or supplied exposure.
+CMD_GOLD,GOLD,Commodity,liquidity_risk,Applicable,"Additional portfolio, market or instrument data required."
+CRYPTO_BTC,BTC,Crypto,concentration_risk,Required,"Additional portfolio, market or instrument data required."
+CRYPTO_BTC,BTC,Crypto,counterparty_risk,Applicable,"Additional portfolio, market or instrument data required."
+CRYPTO_BTC,BTC,Crypto,liquidity_risk,Required,"Additional portfolio, market or instrument data required."
+ETF_SPY,SPY,ETF/Fund,concentration_risk,Required,"Additional portfolio, market or instrument data required."
+ETF_SPY,SPY,ETF/Fund,factor_exposure,Applicable,"Additional portfolio, market or instrument data required."
+ETF_SPY,SPY,ETF/Fund,liquidity_risk,Applicable,"Additional portfolio, market or instrument data required."
+ETF_SPY,SPY,ETF/Fund,underlying_concentration,Applicable,"Additional portfolio, market or instrument data required."
+EQ_AAPL,AAPL,Equity,concentration_risk,Required,"Additional portfolio, market or instrument data required."
+EQ_AAPL,AAPL,Equity,factor_exposure,Applicable,"Additional portfolio, market or instrument data required."
+EQ_AAPL,AAPL,Equity,liquidity_risk,Applicable,"Additional portfolio, market or instrument data required."
+FX_EURUSD,EURUSD,FX,concentration_risk,Required,"Additional portfolio, market or instrument data required."
+FX_EURUSD,EURUSD,FX,liquidity_risk,Applicable,"Additional portfolio, market or instrument data required."
+BOND_CORP_01,CORP_BOND,Fixed Income,concentration_risk,Required,"Additional portfolio, market or instrument data required."
+BOND_CORP_01,CORP_BOND,Fixed Income,liquidity_risk,Applicable,"Additional portfolio, market or instrument data required."
+FUT_ES,ES,Future,concentration_risk,Required,"Additional portfolio, market or instrument data required."
+FUT_ES,ES,Future,liquidity_risk,Applicable,"Additional portfolio, market or instrument data required."
+OPT_AAPL_CALL,AAPL_CALL,Option,concentration_risk,Required,"Additional portfolio, market or instrument data required."
+OPT_AAPL_CALL,AAPL_CALL,Option,liquidity_risk,Required,"Additional portfolio, market or instrument data required."
+REIT_SAMPLE,REIT,Real Estate/REIT,concentration_risk,Required,"Additional portfolio, market or instrument data required."
+REIT_SAMPLE,REIT,Real Estate/REIT,inflation_risk,Applicable,Inflation sensitivity requires historical inflation/factor data or supplied exposure.
+REIT_SAMPLE,REIT,Real Estate/REIT,interest_rate_risk,Optional,Instrument-specific rate exposure data required.
+REIT_SAMPLE,REIT,Real Estate/REIT,liquidity_risk,Required,"Additional portfolio, market or instrument data required."

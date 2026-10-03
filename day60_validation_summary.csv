@@ -1,0 +1,11 @@
+test,passed,details,passed_tests,total_tests,pass_rate
+Every instrument produced routed risk results,True,10 of 10 instruments,10,10,1.0
+Market value calculation works,True,10 of 10 calculated,10,10,1.0
+Historical volatility engine works,True,9 volatility metrics calculated,10,10,1.0
+Historical VaR calculation works,True,9 VaR metrics calculated,10,10,1.0
+Fixed-income analytics work,True,4 of 4 bond metrics calculated,10,10,1.0
+Option Greeks framework works,True,5 of 5 Greeks calculated,10,10,1.0
+Asset-class exposure sums to 100%,True,weight sum = 1.00000000,10,10,1.0
+Unavailable metrics are explicitly explained,True,28 unavailable metrics carry explicit reasons,10,10,1.0
+Portfolio risk summary produced,True,13 portfolio summary metrics,10,10,1.0
+Existing Vittantra VaR engine detected,True,var_engine.calculate_historical_var available,10,10,1.0

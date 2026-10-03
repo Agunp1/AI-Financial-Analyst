@@ -1,0 +1,10 @@
+test,passed,details,passed_tests,total_tests,pass_rate
+Every asset class has risk routing,True,11 routing definitions,9,9,1.0
+Every routed metric exists in catalog,True,None,9,9,1.0
+Sample portfolio spans major asset families,True,10 asset classes represented,9,9,1.0
+Sample market values calculate,True,10 of 10 calculated,9,9,1.0
+Fixed income routes to rate and credit risk,True,"duration, modified duration, DV01, credit and curve exposure",9,9,1.0
+Options route to Greeks,True,"delta, gamma, vega, theta and implied volatility",9,9,1.0
+FX routes to currency risk,True,"currency exposure, volatility and VaR",9,9,1.0
+Cash does not require equity beta,True,Asset-specific risk logic preserved,9,9,1.0
+Every sample instrument routes successfully,True,10 instruments tested,9,9,1.0

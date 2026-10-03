@@ -1,0 +1,9 @@
+name,description,gdp_growth_change_pct,inflation_change_pct,policy_rate_change_bps,long_rate_change_bps,credit_spread_change_bps,oil_change_pct,usd_change_pct,volatility_change_pct,unemployment_change_pct,liquidity_change_pct,housing_change_pct,earnings_change_pct,macro_regime
+Macro Baseline,Control scenario with no macro changes.,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Mixed / Transitional
+Hard Landing,"Sharp economic slowdown, wider credit spreads and higher volatility.",-3.0,-1.0,-150.0,-100.0,220.0,-0.2,0.05,0.8,2.0,-0.12,-0.15,-0.2,Recession / Deflationary Slowdown
+Stagflation,Weak growth with accelerating inflation and higher rates.,-1.5,2.0,150.0,175.0,120.0,0.3,0.06,0.45,1.0,-0.1,-0.12,-0.12,Stagflation
+Soft Landing,Moderate growth with easing inflation and modest rate cuts.,0.4,-0.7,-75.0,-40.0,-35.0,0.02,-0.02,-0.2,0.1,0.06,0.05,0.08,Mixed / Transitional
+Growth Boom,"Strong growth, earnings improvement and supportive liquidity.",2.0,0.6,50.0,75.0,-60.0,0.15,0.01,-0.25,-0.8,0.12,0.1,0.18,Growth Expansion
+Inflation Reacceleration,Inflation rises materially while monetary policy tightens.,-0.4,2.5,200.0,175.0,80.0,0.25,0.07,0.35,0.4,-0.08,-0.1,-0.08,Inflationary Expansion
+Credit Event,Credit spreads widen sharply while financial liquidity contracts.,-1.8,-0.3,-100.0,-75.0,350.0,-0.15,0.06,0.9,1.5,-0.2,-0.18,-0.18,Financial Stress
+Liquidity Expansion,Financial liquidity improves and credit conditions ease.,1.0,0.3,-50.0,-25.0,-75.0,0.08,-0.05,-0.3,-0.4,0.2,0.08,0.12,Growth Expansion

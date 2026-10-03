@@ -1,0 +1,22 @@
+asset_class,requirement,total_metrics,calculated_metrics,unavailable_metrics,coverage_rate
+Cash/Money Market,Applicable,3,1,2,0.3333333333333333
+Cash/Money Market,Required,3,2,1,0.6666666666666666
+Commodity,Applicable,5,3,2,0.6
+Commodity,Required,6,5,1,0.8333333333333334
+Crypto,Applicable,2,1,1,0.5
+Crypto,Required,8,6,2,0.75
+ETF/Fund,Applicable,5,2,3,0.4
+ETF/Fund,Required,7,6,1,0.8571428571428571
+Equity,Applicable,3,1,2,0.3333333333333333
+Equity,Required,8,7,1,0.875
+FX,Applicable,4,3,1,0.75
+FX,Required,6,5,1,0.8333333333333334
+Fixed Income,Applicable,5,4,1,0.8
+Fixed Income,Required,9,8,1,0.8888888888888888
+Future,Applicable,4,3,1,0.75
+Future,Required,7,6,1,0.8571428571428571
+Option,Applicable,3,3,0,1.0
+Option,Required,10,8,2,0.8
+Real Estate/REIT,Applicable,1,0,1,0.0
+Real Estate/REIT,Optional,3,2,1,0.6666666666666666
+Real Estate/REIT,Required,5,3,2,0.6

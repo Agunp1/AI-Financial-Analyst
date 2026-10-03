@@ -1,0 +1,11 @@
+check,passed,details,passed_tests,total_tests,pass_rate
+Macro scenario library generated,True,Macro scenarios: 8,10,10,1.0
+Every macro scenario translated,True,"Macro=8, translated=8",10,10,1.0
+Macro input table generated,True,Rows: 8,10,10,1.0
+Translated scenario table generated,True,Rows: 8,10,10,1.0
+Instrument stress results generated,True,Rows: 80,10,10,1.0
+Portfolio results generated,True,Rows: 8,10,10,1.0
+Asset-class attribution generated,True,Rows: 80,10,10,1.0
+Macro regime summary generated,True,Rows: 6,10,10,1.0
+Portfolio results contain finite values,True,Core portfolio stress outputs must contain finite values.,10,10,1.0
+Macro baseline approximately zero,True,Control scenario should produce approximately zero portfolio change.,10,10,1.0

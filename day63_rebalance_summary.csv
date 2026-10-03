@@ -1,0 +1,2 @@
+scenario,macro_regime,portfolio_value,buy_value,sell_value,gross_trading,one_way_turnover,estimated_transaction_cost,buy_orders,sell_orders,hold_positions
+Stagflation,Stagflation,443600.0,155260.0,155260.0,310520.0,0.35,310.52000000000004,8,2,0
