@@ -348,15 +348,27 @@ def credit_table(fred: Dict[str, pd.Series], as_of: pd.Timestamp) -> pd.DataFram
     return pd.DataFrame(rows)
 
 
-def fx_carry_table(analytics: pd.DataFrame, fred: Dict[str, pd.Series]) -> pd.DataFrame:
+MAX_RATE_AGE_DAYS = 400
+
+
+def fx_carry_table(analytics: pd.DataFrame, fred: Dict[str, pd.Series],
+                   as_of: Optional[pd.Timestamp] = None) -> pd.DataFrame:
     """
     Carry of holding each FX pair long (base currency vs quote currency):
         carry ≈ short rate of base currency − short rate of quote currency
     e.g. long USDJPY earns the US rate and pays the yen rate.
     """
+    as_of = as_of or pd.Timestamp.now()
+
     def latest_rate(ccy):
         values = fred.get(SHORT_RATES.get(ccy, ""), pd.Series(dtype=float)).dropna()
-        return (float(values.iloc[-1]), values.index[-1].date()) if len(values) else (None, None)
+        if values.empty:
+            return None, None
+        # Ignore discontinued series (e.g. a rate last published years ago).
+        newest = pd.Timestamp(values.index[-1])
+        if (pd.Timestamp(as_of) - newest).days > MAX_RATE_AGE_DAYS:
+            return None, None
+        return float(values.iloc[-1]), newest.date()
 
     rows = []
     fx = analytics[(analytics["asset_class"] == "FX") & analytics["symbol"].str.endswith("=X")]
@@ -460,7 +472,7 @@ def run_multi_asset(as_of: Optional[pd.Timestamp] = None, source: Optional[Marke
     curve_stats = curve_summary(curve, fred)
     curve = curve.assign(**curve_stats) if len(curve) else curve
     credit = credit_table(fred, as_of)
-    fx_carry = fx_carry_table(analytics, fred)
+    fx_carry = fx_carry_table(analytics, fred, as_of)
     summary = (analytics[analytics["source"] == "Yahoo Finance"]
                .groupby(["asset_class", "sub_class"])
                .agg(instruments=("symbol", "count"), median_return_1m=("return_1m", "median"),

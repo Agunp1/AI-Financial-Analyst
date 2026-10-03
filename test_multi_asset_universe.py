@@ -115,6 +115,13 @@ class EndToEndTests(unittest.TestCase):
         self.assertAlmostEqual(fx.loc["USD/JPY", "carry_long_pair_pct"], 4.0 - 0.5)   # long USD earns more
         self.assertAlmostEqual(fx.loc["EUR/USD", "carry_long_pair_pct"], 2.0 - 4.0)   # long EUR pays
 
+    def test_discontinued_short_rate_is_ignored(self):
+        old = pd.Series([16.65], index=[pd.Timestamp("2008-04-01")])
+        fred = {series: fake_fred(series) for series in mau.SHORT_RATES.values()}
+        fred[mau.SHORT_RATES["TRY"]] = old
+        carry = mau.fx_carry_table(self.analytics, fred, AS_OF).set_index("pair")
+        self.assertTrue(pd.isna(carry.loc["USD/TRY", "carry_long_pair_pct"]))
+
     def test_outputs_written(self):
         for name in (mau.OUTPUT_UNIVERSE, mau.OUTPUT_ANALYTICS, mau.OUTPUT_CURVE, mau.OUTPUT_CREDIT,
                      mau.OUTPUT_FX_CARRY, mau.OUTPUT_CLASS_SUMMARY, mau.OUTPUT_VALIDATION):
