@@ -39,6 +39,8 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 | 80 | `performance_attribution.py` | Brinson–Fachler (Carino-linked) and pillar-factor attribution of the Day 77 backtest |
 | 81 | `whatif_engine.py`, `vittantra_pm_page.py` | What-if weights and macro scenarios with live risk (vol, VaR/ES, beta, Euler shares) |
 | 82–84 | `advisory_engine.py`, `vittantra_advisory_page.py`, `advisory_clients.json` | Risk questionnaire / IPS, capital market assumptions, model allocations, suitability engine (CFA III(C)), Monte Carlo goals, client reports |
+| 85 | `vittantra_copilot.py` | Copilot across all desks: evidence retrieval with citations, refusals, optional free local LLM (Ollama) with a number-grounding check |
+| 86 | `test_governance_rules.py` | One test per non-negotiable rule, run on committed outputs |
 | Academy | `academy_content.py`, `academy_live.py`, `academy_desk.py`, `vittantra_academy_page.py` | Learn-by-doing desk for 5 roles; progress in `academy_progress.json` |
 
 ## Non-negotiable rules
@@ -118,4 +120,5 @@ python run_vittantra.py              # refresh data + run Days 59-73
 python run_vittantra.py --sample     # original sample data
 python vittantra_ai_analyst.py
 python vittantra_research_copilot.py
+python vittantra_copilot.py           # Day 85 copilot demo (VITTANTRA_LLM=ollama optional)
 ```

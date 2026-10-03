@@ -36,8 +36,8 @@ Constraint: **free data sources only.**
 | 82 | Advisory | Client profiles: retail risk questionnaire, institutional IPS/mandate | ✅ Built |
 | 83 | Advisory | Suitability and mandate-compliance engine | ✅ Built |
 | 84 | Advisory | Goals-based planning (Monte Carlo) and client reports | ✅ Built |
-| 85 | Core | LLM Copilot across all desks, evidence-grounded | |
-| 86 | Core | Tests for every rule: suitability, risk limits, no auto-execution, no made-up answers | |
+| 85 | Core | Copilot across all desks, evidence-grounded (free; optional local LLM) | ✅ Built |
+| 86 | Core | Tests for every rule: suitability, risk limits, no auto-execution, no made-up answers | ✅ Built |
 | 87 | Core | Deploy online (free tier) | |
 | 87b | Core | **Professional polish:** one design system (colours, typography, icons), landing page with the Vittantra story, guided demo mode, consistent tables/charts, mobile-friendly layout, no debug output | |
 | 88 | Career | Case studies, one per desk | |

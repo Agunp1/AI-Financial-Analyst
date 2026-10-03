@@ -85,6 +85,7 @@ from vittantra_academy_page import render_academy
 from vittantra_ai_analyst import render_ai_analyst
 from vittantra_pm_page import render_portfolio_manager
 from vittantra_advisory_page import render_advisory
+from vittantra_copilot import render_copilot
 
 
 
@@ -1686,6 +1687,10 @@ with st.sidebar:
 
 
             "Remediation",
+
+
+
+            "Copilot",
 
 
 
@@ -4735,6 +4740,10 @@ elif page == "Portfolio Manager":
 elif page == "Advisory":
 
     render_advisory()
+
+
+elif page == "Copilot":
+    render_copilot()
 
 
 elif page == "AI Analyst":
