@@ -82,6 +82,43 @@ def _money(value) -> str:
     return f"${number:,.0f}"
 
 
+PILLAR_NAMES = ["fundamental", "technical", "quant", "economic", "risk"]
+
+
+def render_ratings() -> None:
+    ratings = _load("day77_current_ratings.csv")
+    ic = _load("day77_ic_summary.csv")
+    backtest = _load("day77_backtest_summary.csv")
+    validation = _load("day77_validation_summary.csv")
+    if ratings.empty:
+        st.info("No ratings yet. Run `python multi_factor_rating.py`.")
+        return
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("As of", str(ratings["as_of"].iloc[0]))
+    c2.metric("Overweight", int((ratings["rating"] == "Overweight").sum()))
+    c3.metric("Macro regime", str(ratings["regime"].iloc[0]).replace("_", "-"))
+    c4.metric("Data checks", f"{int(validation['passed'].sum())}/{len(validation)}" if not validation.empty else "n/a")
+    view = ratings[["ticker", "name", "sector", "rating", "composite", *PILLAR_NAMES,
+                    "strongest_pillar", "weakest_pillar"]].rename(columns=str.title)
+    config = {name.title(): st.column_config.ProgressColumn(name.title(), min_value=0, max_value=100, format="%.0f")
+              for name in ["composite", *PILLAR_NAMES]}
+    st.dataframe(view, width="stretch", hide_index=True, column_config=config)
+    st.caption("Overweight = top 30% of the composite score, Underweight = bottom 30%. Research labels, "
+               "not trade instructions.")
+    if not ic.empty:
+        st.markdown("**Does each pillar predict returns?** Information coefficient = rank correlation between "
+                    "the score and the next 20-day return, averaged across past dates (point in time).")
+        st.dataframe(ic.round(3), width="stretch", hide_index=True)
+        st.caption("|t-stat| above about 2 is statistically meaningful. A combined score is only worth using "
+                   "if it beats its best single pillar out of sample.")
+    if not backtest.empty:
+        st.markdown("**Backtest portfolios** (equal weight, 10 bps per dollar traded)")
+        st.dataframe(backtest.round(3), width="stretch", hide_index=True)
+    if not validation.empty:
+        with st.expander("Data quality"):
+            st.dataframe(validation[["check", "passed", "details"]], width="stretch", hide_index=True)
+
+
 def render_research() -> None:
     st.markdown("### Research — Fundamental Analysis")
     st.caption(
@@ -90,10 +127,13 @@ def render_research() -> None:
     )
 
     universe = st.radio(
-        "Universe",
-        ["Research universe (33 stocks)", "All US-listed stocks"],
+        "View",
+        ["Research universe (33 stocks)", "All US-listed stocks", "Multi-factor ratings"],
         horizontal=True,
     )
+    if universe == "Multi-factor ratings":
+        render_ratings()
+        return
     us_market = universe.startswith("All US")
     prefix = "day76_us_" if us_market else "day76_"
     scores = _load(f"{prefix}fundamental_scores.csv")

@@ -440,6 +440,24 @@ LESSONS = [
                       _q("Why can a risk-based limit need several passes?",
                          "Shrinking one position changes everyone's risk share, so contributions must be recomputed.")],
     },
+    {
+        "id": "PM6", "role": "portfolio_manager", "title": "Combining signals: IC and the fundamental law",
+        "concept": "A signal's information coefficient (IC) is the rank correlation between its scores and the "
+                   "next period's returns. Small ICs (0.05) can be valuable if applied to many independent bets. "
+                   "Combining signals helps only if they are not redundant and each adds predictive power; "
+                   "weighting by past IC must use only outcomes already known.",
+        "formulas": [("Information coefficient", r"IC_t = \rho_{\text{Spearman}}(\text{score}_t, R_{t \to t+1})"),
+                     ("IC t-statistic", r"t = \frac{\overline{IC}}{s_{IC}/\sqrt{n}}"),
+                     ("Fundamental law of active management", r"IR \approx IC \times \sqrt{\text{Breadth}}")],
+        "live": "pm_signals", "code": ["multi_factor_rating.py → ic_summary, add_ic_weighted_composite"],
+        "on_the_job": "Quant and fundamental teams track the IC of every signal; signals that stop working are retired.",
+        "exercise": "A signal has IC 0.05 applied to 400 independent bets a year. Estimate its information ratio.",
+        "interview": [_q("Why can a low IC still be valuable?",
+                         "Because the information ratio grows with breadth: IC 0.05 × √400 = 1.0."),
+                      _q("Why did Vittantra's equal-weight composite underperform its best pillar?",
+                         "A pillar with negative IC (low volatility in a rising market) diluted the signal; "
+                         "IC-weighting reduced that.")],
+    },
     # ---------------- Advisor ----------------
     {
         "id": "AD1", "role": "advisor", "title": "The advisory process",

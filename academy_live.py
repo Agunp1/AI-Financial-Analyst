@@ -310,6 +310,16 @@ def pm_rebalance() -> str:
     return "\n".join(lines)
 
 
+def pm_signals() -> str:
+    ic = _csv("day77_ic_summary.csv", "multi_factor_rating.py").dropna(subset=["mean_ic"])
+    lines = ["| Signal | Mean IC | t-stat | Hit rate |", "|---|---:|---:|---:|"]
+    lines += [f"| {r.signal} | {r.mean_ic:.3f} | {r.ic_t_stat:.2f} | {pct(r.hit_rate, 0)} |" for r in ic.itertuples()]
+    best = ic.sort_values("mean_ic", ascending=False).iloc[0]
+    return ("\n".join(lines) + f"\n\nBest signal: **{best['signal']}** (IC {best['mean_ic']:.3f}). With 33 stocks "
+            f"rebalanced about 12.6 times a year, breadth ≈ 33 × 12.6 = 416 bets, so IR ≈ IC × √416 ≈ "
+            f"**{best['mean_ic'] * 416 ** 0.5:.2f}** (upper bound — bets are not fully independent).")
+
+
 # ==============================================================
 # ADVISOR
 # ==============================================================

@@ -277,6 +277,18 @@ ETFs. Each instrument gets returns, 12-1 momentum, volatility annualized on its
 own trading calendar, drawdown, trend and beta to the S&P 500. The **Markets**
 page shows it by asset class.
 
+### Phase 15 — Multi-factor rating (Day 77)
+`multi_factor_rating.py` combines five pillars — fundamental (point-in-time SEC
+facts), technical (12-1 momentum, trend), quant (walk-forward ML), economic
+(risk-on/risk-off beta tilt from credit spreads and the yield curve) and risk
+(low volatility) — into Overweight / Neutral / Underweight research ratings.
+It tests each pillar and the composites with the **information coefficient**
+(rank correlation with the next 20-day return, with t-statistics) and with
+cost-adjusted portfolios, and adds an IC-weighted composite that learns weights
+only from outcomes already known. In the first test the ML pillar alone was
+strongest (IC 0.099, t = 2.77); the equal-weight composite diluted it, which is
+why the IC-weighted version exists. Ratings are on the Research page.
+
 ### Vittantra Academy — learn by doing
 The **Academy** page turns Vittantra into a training desk for five roles:
 investment analyst, equity researcher, portfolio/risk analyst, portfolio manager
@@ -312,7 +324,7 @@ and advisor.
 
 ## Project status
 
-Days 1–76 complete. Next: continue extending the AI layer and the end-to-end
+Days 1–77 complete. Next: continue extending the AI layer and the end-to-end
 research-to-decision workflow through Day 90.
 
 ## Disclaimer

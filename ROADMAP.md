@@ -26,7 +26,7 @@ Constraint: **free data sources only.**
 | 76b | Research | Fundamentals for all US-listed stocks (~6,000, SEC frames) | ✅ Built — awaiting first real run |
 | 76c | Markets | Multi-asset universe: rates, credit, FX, commodities, digital assets, REITs, alternatives | ✅ Built — awaiting first real run |
 | Academy | Learning | Work Desk (5 roles, live tasks, grading), 25 lessons, role handbook, career levels, work record — then one new task/lesson with every feature | ✅ v1 built |
-| 77 | Research | Multi-factor rating: fundamental + technical + quant + economic + risk, backtested | |
+| 77 | Research | Multi-factor rating: fundamental + technical + quant + economic + risk, backtested | ✅ Built — full run on your machine |
 | 78 | Research | Stock research report: rating, bull case and bear case, every claim evidence-linked | |
 | 79 | Portfolio Mgmt | Research-driven portfolio construction within the risk budget | |
 | 80 | Portfolio Mgmt | Performance attribution | |

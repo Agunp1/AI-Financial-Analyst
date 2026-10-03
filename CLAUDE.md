@@ -31,6 +31,7 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 | 76 | `fundamental_engine.py`, `vittantra_research_page.py` | SEC EDGAR point-in-time fundamentals and scores |
 | 76b | `us_fundamental_engine.py` | All US-listed stocks via SEC frames; sector-relative scores |
 | 76c | `multi_asset_universe.py`, `vittantra_markets_page.py` | Rates, credit, FX, commodities, crypto, REITs, alternatives |
+| 77 | `multi_factor_rating.py` | Five-pillar rating, IC tests, IC-weighted composite, point in time |
 | Academy | `academy_content.py`, `academy_live.py`, `academy_desk.py`, `vittantra_academy_page.py` | Learn-by-doing desk for 5 roles; progress in `academy_progress.json` |
 
 ## Non-negotiable rules
