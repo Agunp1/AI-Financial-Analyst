@@ -38,6 +38,7 @@ textbook values and independent calculations.
 | Multi-asset analytics (Day 76c) | Total-return prices (adjusted close); volatility annualized with each instrument's observed trading days per year; 12-1 momentum; beta/correlation on overlapping dates; curve slopes 2s10s and 3m10y; spreads in bp with historical percentile; FX carry = base short rate − quote short rate (covered interest parity) | `multi_asset_universe.py` | ✅ |
 
 | Macro drivers (Day 76d) | Multiple OLS of daily returns on factor moves (t-stats, R², standardized betas); attribution = Σ β × factor move + α + residual; rate beta ≈ −duration check | `macro_drivers.py` | ✅ |
+| Equity valuation (Day 78) | CAPM with Blume-adjusted beta; WACC on market-value weights; cost of debt = r_f + rating spread from interest coverage; FCFF = CFO + interest(1−t) − capex; three-stage DCF (5y growth, 5y fade, Gordon terminal with g ≤ r_f); residual income with clean surplus and ROE fading to r_e; two-stage DDM from sustainable growth b×ROE; model chosen by business type; reverse DCF by bisection; WACC × g sensitivity | `vittantra_pricing.py`, `valuation_engine.py` | ✅ |
 | Multi-factor rating (Day 77) | Cross-sectional percentile pillars; IC = Spearman rank correlation with next-period return, t-stat across dates; IC-weighted composite using only completed outcomes; cost-adjusted quintile portfolios | `multi_factor_rating.py` | ✅ |
 
 ---
@@ -95,4 +96,6 @@ These are acceptable for a research system but should be understood:
 | Macro drivers | Linear, constant betas over one year; factors correlated (betas shift when factors move together — e.g. TLT's implied duration 13.4 vs ~16 actual, because inflation expectations and the equity factor share part of the rate move; HYG's credit beta is small because the equity factor absorbs most credit risk); summed simple returns approximate compounding | Rolling/regime-dependent betas, orthogonalized factors |
 | CRE | Listed REITs/brand owners proxy private CRE; no free occupancy/RevPAR or property NOI data | Licensed STR/CoStar data |
 | Multi-factor: sample | 33 stocks and ~3 years of monthly rebalances: IC t-statistics are noisy; economic pillar is a simple beta tilt | Larger universe (US engine), longer history, sector-macro sensitivities |
+| Valuation inputs | Equity risk premium 4.5% and terminal growth cap 3% are policy assumptions; growth starts from trailing revenue growth (capped 20%; 5% for energy/materials) rather than analyst forecasts; trailing FCFF is not normalized for the cycle; book debt proxies market debt; leases excluded | Consensus or own forecasts, normalized (mid-cycle) cash flows, market value of debt |
+| Valuation: REITs | Valued with DCF/DDM on reported cash flow; FFO/AFFO not computed | FFO = net income + real-estate depreciation − gains on sales |
 | Multi-asset: alternatives | Listed proxies stand in for private equity, private credit and hedge funds | Fund-level data |

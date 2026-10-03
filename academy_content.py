@@ -296,6 +296,49 @@ LESSONS = [
                       _q("How did Vittantra prevent it in fundamentals?",
                          "Each fact is used only if its SEC filing date is on or before the analysis date.")],
     },
+    {
+        "id": "ER6", "role": "equity_researcher", "title": "Intrinsic value: DCF, residual income and DDM",
+        "concept": "A share is worth the present value of the cash it will produce. Three standard routes: discount "
+                   "free cash flow to the firm at the WACC (DCF), add the present value of profits above the cost "
+                   "of equity to book value (residual income), or discount dividends (DDM). Choose the model that "
+                   "fits the business: banks → residual income, steady dividend payers → DDM, most others → DCF. "
+                   "Then run it backwards: what growth does today's price imply?",
+        "formulas": [("FCFF", r"FCFF = CFO + Int(1-t) - \text{Capex}"),
+                     ("WACC", r"WACC = \tfrac{E}{V} r_e + \tfrac{D}{V} r_d (1-t)"),
+                     ("CAPM", r"r_e = r_f + \beta \times ERP"),
+                     ("Terminal value", r"TV_N = \frac{FCFF_N (1+g)}{WACC - g}"),
+                     ("Residual income", r"V_0 = B_0 + \sum_t \frac{(ROE_t - r_e) B_{t-1}}{(1+r_e)^t}"),
+                     ("Gordon growth", r"V_0 = \frac{D_1}{r - g}")],
+        "live": "er_intrinsic_value", "code": ["valuation_engine.py → value_company",
+                                               "vittantra_pricing.py → two_stage_value, residual_income_value"],
+        "on_the_job": "Every initiation report has a valuation section with a DCF, a sensitivity table and a "
+                      "cross-check; the reverse DCF is how buy-side PMs test whether expectations are too high.",
+        "exercise": "FCFF next year $5bn, WACC 9%, growth 3% forever, debt $20bn, cash $5bn, 1bn shares. "
+                    "What is the value per share?",
+        "interview": [_q("Why not use a DCF for a bank?",
+                         "Debt is a bank's raw material, not financing, so FCFF and WACC are not meaningful; use "
+                         "residual income or dividends on equity."),
+                      _q("What share of a DCF usually comes from the terminal value, and why does it matter?",
+                         "Often 60–80%; small changes in WACC or terminal growth move the value a lot, so show a "
+                         "sensitivity table."),
+                      _q("What is a reverse DCF?",
+                         "Solving for the growth rate that makes the DCF value equal the market price — it shows "
+                         "what the market already expects.")],
+    },
+    {
+        "id": "ER7", "role": "equity_researcher", "title": "Writing an evidence-linked research note",
+        "concept": "A professional note states a rating, the thesis, the valuation, a bull case, a bear case and the "
+                   "key risks — and every claim is traceable to data. Separate facts (numbers from filings and "
+                   "markets) from opinions (your forecast). Say what you do not know.",
+        "formulas": [("Rule", r"\text{claim} \Rightarrow (\text{source}, \text{field}, \text{value})")],
+        "live": "er_research_note", "code": ["research_report.py → build_report, report_markdown"],
+        "on_the_job": "Compliance reviews notes for a reasonable basis; PMs read the bear case first.",
+        "exercise": "Read a Vittantra note. Which single piece of evidence would change your view most, and why?",
+        "interview": [_q("What does CFA Standard V(A) require of a research report?",
+                         "Diligence and a reasonable and adequate basis, supported by appropriate research."),
+                      _q("What does Standard V(B) require?",
+                         "Disclose the basic process and key risks, and distinguish fact from opinion.")],
+    },
     # ---------------- Portfolio / Risk Analyst ----------------
     {
         "id": "RA1", "role": "portfolio_analyst", "title": "Value at Risk and Expected Shortfall",

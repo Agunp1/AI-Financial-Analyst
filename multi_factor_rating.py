@@ -533,6 +533,9 @@ def run_multi_factor(out_dir: Path = BASE_DIR, prices: Optional[pd.DataFrame] = 
     current["strongest_pillar"] = current[PILLARS].idxmax(axis=1, skipna=True)
     current["weakest_pillar"] = current[PILLARS].idxmin(axis=1, skipna=True)
     current["regime"] = regime
+    # Raw inputs kept for the Day 78 valuation (beta → cost of equity) and the report
+    for column in ("beta", "volatility_1y", "momentum_12_1", "trend_vs_200d", "price"):
+        current[column] = features.reindex(current.index)[column]
     current["as_of"] = as_of.date()
     current["quant_signal_as_of"] = rankings["date"].max().date()   # last Day 55 ML ranking
     current.insert(0, "sector", [universe[t]["sector"] for t in current.index])

@@ -32,7 +32,8 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 | 76b | `us_fundamental_engine.py` | All US-listed stocks via SEC frames; sector-relative scores |
 | 76c | `multi_asset_universe.py`, `vittantra_markets_page.py` | Rates, credit, FX, commodities, crypto, REITs, alternatives |
 | 76d | `macro_drivers.py` | Macro factor betas and attribution per asset class; economic dashboard; CRE by property type |
-| 77 | `multi_factor_rating.py` | Five-pillar rating, IC tests, IC-weighted composite, point in time |
+| 77 | `multi_factor_rating.py` | Five-pillar rating, IC tests; ratings use the IC-weighted composite, point in time |
+| 78 | `valuation_engine.py`, `research_report.py` | DCF (FCFF), residual income, DDM, reverse DCF; evidence-linked research notes |
 | Academy | `academy_content.py`, `academy_live.py`, `academy_desk.py`, `vittantra_academy_page.py` | Learn-by-doing desk for 5 roles; progress in `academy_progress.json` |
 
 ## Non-negotiable rules
@@ -42,14 +43,15 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
   approval workflow to a human.
 - **Remediation must never increase modeled risk.**
 - **The AI layer must not invent data.** If Vittantra's outputs do not support
-  an answer, say so.
+  an answer, say so. Research notes cite source file, field and value for
+  every claim.
 - **No look-ahead bias** in research: point-in-time data, walk-forward splits.
 - Present backtests as historical research results, never as promised returns.
 
 ## Finance framework
 
 - Shared formulas live in `vittantra_pricing.py` (Black-Scholes, bond
-  analytics) and `vittantra_risk_model.py` (Euler covariance risk
+  analytics, CAPM/WACC/DCF/residual income/DDM) and `vittantra_risk_model.py` (Euler covariance risk
   contributions, delta-adjusted option exposure). Reuse them; don't
   re-implement.
 - `test_finance_formulas.py` pins formulas to textbook values; keep it

@@ -124,6 +124,80 @@ def render_ratings() -> None:
             st.dataframe(validation[["check", "passed", "details"]], width="stretch", hide_index=True)
 
 
+def render_valuation_reports() -> None:
+    """Day 78: intrinsic value models and evidence-linked research notes."""
+    from research_report import report_markdown
+
+    valuation = _load("day78_valuation.csv")
+    summary = _load("day78_report_summary.csv")
+    claims = _load("day78_research_claims.csv")
+    sensitivity = _load("day78_dcf_sensitivity.csv")
+    assumptions = _load("day78_valuation_assumptions.csv")
+    if valuation.empty or summary.empty:
+        st.info("Run `python valuation_engine.py` and then `python research_report.py`.")
+        return
+
+    c1, c2, c3, c4 = st.columns(4)
+    signals = valuation["valuation_signal"].value_counts()
+    c1.metric("Stocks valued", int(valuation["fair_value"].notna().sum()))
+    c2.metric("Undervalued (>15% below value)", int(signals.get("Undervalued", 0)))
+    c3.metric("Overvalued (>15% above value)", int(signals.get("Overvalued", 0)))
+    rf = assumptions.set_index("assumption")["value"].get("risk_free_rate") if not assumptions.empty else None
+    c4.metric("Risk-free rate (10Y)", f"{float(rf):.2%}" if rf is not None else "n/a")
+
+    table = summary[["ticker", "name", "rating", "price", "fair_value", "upside", "primary_model",
+                     "implied_growth", "valuation_signal", "bull_points", "bear_points"]].copy()
+    for column in ("upside", "implied_growth"):
+        table[column] = pd.to_numeric(table[column], errors="coerce") * 100
+    st.dataframe(table.rename(columns={
+        "ticker": "Ticker", "name": "Name", "rating": "Rating", "price": "Price", "fair_value": "Intrinsic value",
+        "upside": "Upside %", "primary_model": "Model", "implied_growth": "Growth priced in %",
+        "valuation_signal": "Valuation", "bull_points": "Bull points", "bear_points": "Bear points"}),
+        width="stretch", hide_index=True,
+        column_config={"Price": st.column_config.NumberColumn(format="$%.2f"),
+                       "Intrinsic value": st.column_config.NumberColumn(format="$%.2f"),
+                       "Upside %": st.column_config.NumberColumn(format="%+.0f%%"),
+                       "Growth priced in %": st.column_config.NumberColumn(format="%.1f%%")})
+    st.caption("Model = the primary model for the business type: DCF (free cash flow to the firm), RI (residual "
+               "income — banks and insurers) or DDM (dividend discount — dividend-paying utilities and REITs). "
+               "'Growth priced in' is the reverse DCF: the five-year growth rate the current price implies.")
+
+    ticker = st.selectbox("Research note", summary["ticker"], format_func=lambda t: f"{t} — "
+                          f"{summary.set_index('ticker').at[t, 'name']}")
+    row = valuation.set_index("ticker").loc[ticker]
+    left, right = st.columns([3, 2])
+    with left:
+        note = report_markdown(ticker, claims, summary.set_index("ticker").loc[ticker])
+        # Smaller headings inside the page; escape $ so Streamlit does not read it as LaTeX
+        note = note.replace("$", "\\$").replace("\n## ", "\n#### ").replace("# ", "### ", 1)
+        st.markdown(note)
+    with right:
+        models = {m: row.get(f"{m.lower()}_value") for m in ("DCF", "RI", "DDM")}
+        models = {m: float(v) for m, v in models.items() if pd.notna(v)}
+        if models:
+            figure = go.Figure(go.Bar(x=list(models), y=list(models.values()), marker_color="#2E6BE6",
+                                      text=[f"${v:,.0f}" for v in models.values()], textposition="outside"))
+            figure.add_hline(y=float(row["price"]), line_dash="dash", line_color="#E5484D",
+                             annotation_text=f"Price ${float(row['price']):,.0f}")
+            figure.update_layout(height=300, margin=dict(l=10, r=10, t=40, b=10), title="Value per share by model",
+                                 yaxis_title="$ per share")
+            st.plotly_chart(figure, width="stretch")
+        grid = sensitivity[sensitivity["ticker"] == ticker] if not sensitivity.empty else sensitivity
+        if not grid.empty:
+            pivot = grid.pivot(index="wacc", columns="terminal_growth", values="value_per_share")
+            pivot.index = [f"WACC {w:.1%}" for w in pivot.index]
+            pivot.columns = [f"g {g:.1%}" for g in pivot.columns]
+            st.markdown("**DCF sensitivity ($ per share)**")
+            st.dataframe(pivot.round(0), width="stretch")
+            st.caption("Small changes in the discount rate and terminal growth move the value a lot — "
+                       "that is why professionals show a range, not one number.")
+        st.download_button("Download note (Markdown)",
+                           report_markdown(ticker, claims, summary.set_index("ticker").loc[ticker]),
+                           file_name=f"vittantra_note_{ticker}.md")
+    with st.expander("Valuation assumptions and sources"):
+        st.dataframe(assumptions, width="stretch", hide_index=True)
+
+
 def render_research() -> None:
     st.markdown("### Research — Fundamental Analysis")
     st.caption(
@@ -133,11 +207,14 @@ def render_research() -> None:
 
     universe = st.radio(
         "View",
-        ["Research universe (33 stocks)", "All US-listed stocks", "Multi-factor ratings"],
+        ["Research universe (33 stocks)", "All US-listed stocks", "Multi-factor ratings", "Valuation & reports"],
         horizontal=True,
     )
     if universe == "Multi-factor ratings":
         render_ratings()
+        return
+    if universe == "Valuation & reports":
+        render_valuation_reports()
         return
     us_market = universe.startswith("All US")
     prefix = "day76_us_" if us_market else "day76_"

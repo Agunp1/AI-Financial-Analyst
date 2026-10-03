@@ -37,6 +37,7 @@ LESSON_CFA_TOPIC = {
     "IA4": "Fixed Income", "IA5": "Economics",
     "ER1": "Financial Statement Analysis", "ER2": "Equity Valuation", "ER3": "Financial Statement Analysis",
     "ER4": "Financial Statement Analysis", "ER5": "Quantitative Methods",
+    "ER6": "Equity Valuation", "ER7": "Ethical and Professional Standards",
     "RA1": "Portfolio Management", "RA2": "Portfolio Management", "RA3": "Fixed Income",
     "RA4": "Derivatives", "RA5": "Portfolio Management",
     "PM1": "Portfolio Management", "PM2": "Portfolio Management", "PM3": "Portfolio Management",
@@ -47,7 +48,12 @@ LESSON_CFA_TOPIC = {
 
 
 def _question(text: str, correct: str, wrong: List[str], explanation: str, rng: random.Random) -> dict:
-    options = [correct] + wrong[:2]
+    """Three options: the answer plus the first two distinct distractors (pass spares in `wrong`)."""
+    distinct = []
+    for option in wrong:
+        if option != correct and option not in distinct:
+            distinct.append(option)
+    options = [correct] + distinct[:2]
     rng.shuffle(options)
     return {"question": text, "options": options, "answer": options.index(correct), "explanation": explanation}
 
@@ -312,15 +318,63 @@ def item_macro(day=None) -> dict:
             "questions": questions}
 
 
+def item_equity_valuation(day=None) -> dict:
+    rng = _rng("equity_valuation", day)
+    v = _csv("day78_valuation.csv", "valuation_engine.py").dropna(
+        subset=["dcf_value", "fcff_ttm", "wacc", "terminal_growth", "risk_free", "beta_adjusted"])
+    if v.empty:
+        raise MissingData("No DCF valuations yet.")
+    r = v.set_index("ticker").loc[rng.choice(sorted(v["ticker"]))]
+    erp = (r["cost_of_equity"] - r["risk_free"]) / r["beta_adjusted"]
+    g, w, f = r["terminal_growth"], r["wacc"], r["fcff_ttm"]
+    single = f * (1 + g) / (w - g)
+    vignette = (f"An analyst values {r['name']} with Vittantra's inputs: trailing free cash flow to the firm "
+                f"{money(f)}, WACC {w:.2%}, long-run growth {g:.2%}, 10-year Treasury yield {r['risk_free']:.2%}, "
+                f"adjusted beta {r['beta_adjusted']:.2f} and an equity risk premium of {erp:.1%}.")
+    questions = [
+        _question("The cost of equity using CAPM is closest to:",
+                  f"{r['cost_of_equity']:.2%}",
+                  [f"{r['beta_adjusted'] * erp:.2%}", f"{r['risk_free'] + r['beta_adjusted'] * (erp - r['risk_free']):.2%}",
+                   f"{w:.2%}", f"{r['risk_free'] * r['beta_adjusted']:.2%}"],
+                  f"r_e = r_f + β × ERP = {r['risk_free']:.2%} + {r['beta_adjusted']:.2f} × {erp:.1%} = "
+                  f"{r['cost_of_equity']:.2%}. Forgetting r_f gives β × ERP; subtracting r_f again treats the "
+                  "premium as the market return; the WACC is the firm's rate, not the equity rate.", rng),
+        _question("If FCFF grew at the long-run rate from today (single-stage model), firm value would be closest to:",
+                  f"${single / 1e9:,.0f}B", [f"${f * (1 + g) / w / 1e9:,.0f}B", f"${f / (w + g) / 1e9:,.0f}B",
+                                             f"${f / w / 1e9:,.0f}B"],
+                  f"V = FCFF_0 × (1 + g) / (WACC − g) = {money(f)} × {1 + g:.4f} / ({w:.2%} − {g:.2%}) = "
+                  f"${single / 1e9:,.0f}B. Growth is subtracted in the denominator; leaving it out treats the "
+                  "cash flow as flat.", rng),
+        _question("In a residual income model, if a company's ROE equals its cost of equity forever, its value is:",
+                  "equal to its current book value",
+                  ["zero", "equal to its dividends divided by the cost of equity"],
+                  "Residual income = (ROE − r) × book = 0, so V_0 = B_0: the firm earns exactly what investors "
+                  "require, so it is worth what has been invested.", rng),
+        _question(f"A reverse DCF shows the price implies {r['implied_growth']:.1%} growth a year for five years. "
+                  "An analyst forecasting lower growth would most likely conclude the stock is:",
+                  "overvalued relative to the analyst's forecast",
+                  ["undervalued relative to the analyst's forecast", "fairly valued, since price equals DCF value"],
+                  "The price already assumes the implied growth; lower expected growth means a lower value than "
+                  "the price.", rng) if pd.notna(r.get("implied_growth")) else
+        _question("The terminal value in a DCF is most sensitive to:",
+                  "the spread between WACC and long-run growth",
+                  ["the first year's cash flow only", "the number of shares outstanding"],
+                  "TV = CF(1+g)/(WACC − g): as WACC − g narrows, value rises sharply.", rng),
+    ]
+    return {"topic": "Equity Valuation", "title": f"Free cash flow and residual income: {r['name']}",
+            "vignette": vignette, "questions": questions}
+
+
 ITEM_SETS: Dict[str, Callable] = {
     "fixed_income": item_fixed_income, "derivatives": item_derivatives,
     "portfolio_risk": item_portfolio_risk, "economics_fx": item_economics_fx,
     "equity": item_equity, "quant": item_quant, "real_estate": item_real_estate, "macro": item_macro,
+    "equity_valuation": item_equity_valuation,
 }
 
 DESK_ITEM_SETS = {
     "investment_analyst": ["macro", "economics_fx"],
-    "equity_researcher": ["equity", "quant"],
+    "equity_researcher": ["equity_valuation", "equity", "quant"],
     "portfolio_analyst": ["portfolio_risk", "fixed_income"],
     "portfolio_manager": ["quant", "derivatives"],
     "advisor": ["real_estate", "portfolio_risk"],

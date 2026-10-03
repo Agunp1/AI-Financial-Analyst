@@ -183,6 +183,32 @@ def er_health() -> str:
             "so analysts judge them on capital (equity/assets) instead.")
 
 
+def er_intrinsic_value() -> str:
+    v = _csv("day78_valuation.csv", "valuation_engine.py").dropna(subset=["dcf_value", "implied_growth"])
+    if v.empty:
+        raise MissingData("No DCF valuations yet. Run `python valuation_engine.py`.")
+    r = v.sort_values("upside", ascending=False).iloc[len(v) // 2]
+    return (f"**{r['ticker']} — {r['name']}** at ${r['price']:,.2f}\n\n"
+            f"| Input | Value |\n|---|---:|\n| FCFF (TTM) | {money(r['fcff_ttm'])} |\n"
+            f"| Growth, years 1–5 | {pct(r['dcf_initial_growth'])} |\n| Terminal growth | {pct(r['terminal_growth'])} |\n"
+            f"| Cost of equity (r_f {pct(r['risk_free'], 2)} + β {r['beta_adjusted']:.2f} × ERP) | "
+            f"{pct(r['cost_of_equity'])} |\n| WACC | {pct(r['wacc'])} |\n"
+            f"| Terminal value share of DCF | {pct(r['dcf_terminal_share'], 0)} |\n\n"
+            f"DCF value **${r['dcf_value']:,.2f}** per share ({r['upside']:+.0%} vs price). Reverse DCF: the price "
+            f"implies **{pct(r['implied_growth'])}** growth a year for five years, against "
+            f"{pct(r['dcf_initial_growth'])} assumed. If you believe growth will beat the implied rate, the stock "
+            "is cheap to you; if not, it is expensive.")
+
+
+def er_research_note() -> str:
+    from research_report import report_markdown
+    claims = _csv("day78_research_claims.csv", "research_report.py")
+    summary = _csv("day78_report_summary.csv", "research_report.py").set_index("ticker")
+    ticker = summary.index[0]
+    note = report_markdown(ticker, claims, summary.loc[ticker])
+    return note.replace("$", "\\$").replace("\n## ", "\n##### ").replace("# ", "#### ", 1)
+
+
 def er_point_in_time() -> str:
     m = _fund()
     filed = pd.to_datetime(m["latest_filing_date"], errors="coerce")

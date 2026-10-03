@@ -179,6 +179,46 @@ def grade_tear_sheet(answer_key: Dict[str, str], ratings: Dict[str, str]) -> tup
     return score, "\n".join(feedback)
 
 
+def valuation_call_task(day: Optional[date] = None, ticker: Optional[str] = None) -> dict:
+    """Equity researcher: estimate a DCF value from the inputs, then make the call."""
+    v = _csv("day78_valuation.csv", "valuation_engine.py").dropna(subset=["dcf_value", "fcff_ttm", "wacc"])
+    if v.empty:
+        raise MissingData("No DCF valuations yet. Run `python valuation_engine.py`.")
+    v = v.set_index("ticker")
+    ticker = ticker or _rng("valuation_call", day).choice(sorted(v.index))
+    r = v.loc[ticker]
+    metrics = _csv("day76_fundamental_metrics.csv", "fundamental_engine.py").set_index("ticker").loc[ticker]
+    debt, cash = float(metrics.get("total_debt") or 0), float(metrics.get("cash") or 0)
+    debt, cash = (0.0 if debt != debt else debt), (0.0 if cash != cash else cash)
+    context = (f"**{ticker} — {r['name']}**, price **${r['price']:,.2f}**\n\n"
+               f"| Input | Value |\n|---|---:|\n| Free cash flow to the firm (TTM) | {money(r['fcff_ttm'])} |\n"
+               f"| Growth years 1–5, then fading to terminal by year 10 | {pct(r['dcf_initial_growth'])} |\n"
+               f"| Terminal growth | {pct(r['terminal_growth'])} |\n| WACC | {pct(r['wacc'])} |\n"
+               f"| Debt | {money(debt)} |\n| Cash | {money(cash)} |\n"
+               f"| Shares | {float(metrics['shares_outstanding']) / 1e9:,.2f}bn |\n\n"
+               "Estimate the value per share (a spreadsheet or the single-stage shortcut is fine), then make your "
+               "call versus the price.")
+    signal = r["valuation_signal"]
+    reference = (f"Vittantra's three-stage DCF: **${r['dcf_value']:,.2f}** per share ({r['upside']:+.0%} vs price) → "
+                 f"**{signal}** (±15% band). Terminal value is {pct(r['dcf_terminal_share'], 0)} of the total.\n\n"
+                 f"Reverse DCF: the price implies {pct(r.get('implied_growth'))} growth for five years. "
+                 "A strong note argues whether that growth is achievable — that is the real debate, not the "
+                 "decimal places. One reasonable view; your own forecast may differ.")
+    return {"ticker": ticker, "context": context, "model_value": float(r["dcf_value"]), "signal": signal,
+            "price": float(r["price"]), "reference": reference, "lessons": ["ER6", "ER7"]}
+
+
+def grade_valuation_call(task: dict, estimate: float, call: str) -> tuple:
+    """Half the marks for the estimate (within 10% full, within 25% half), half for the call."""
+    error = abs(estimate / task["model_value"] - 1) if estimate and task["model_value"] else 1.0
+    estimate_score = 50 if error <= 0.10 else 25 if error <= 0.25 else 0
+    call_score = 50 if call == task["signal"] else 0
+    feedback = (f"- Your value ${estimate:,.2f} vs model ${task['model_value']:,.2f} ({error:.0%} apart)"
+                + (" ✅" if estimate_score == 50 else "") +
+                f"\n- Your call **{call}**, model says **{task['signal']}**" + (" ✅" if call_score else ""))
+    return estimate_score + call_score, feedback
+
+
 # ==============================================================
 # PORTFOLIO / RISK ANALYST — daily risk check, stress question
 # ==============================================================

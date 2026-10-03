@@ -129,6 +129,25 @@ def desk_equity_researcher(progress):
         _review(score, feedback, data["reference"])
     _lesson_help(data["lessons"], progress, "er")
 
+    st.markdown("#### 💰 Valuation call")
+    try:
+        call_task = desk.valuation_call_task()
+    except live.MissingData as exc:
+        st.info(str(exc)); return
+    st.markdown(call_task["context"].replace("$", "\\$"))
+    c1, c2 = st.columns(2)
+    estimate = c1.number_input("Your value per share ($)", min_value=0.0, value=0.0, step=1.0, key="vc-value")
+    call = c2.radio("Your call", ["Undervalued", "Fairly valued", "Overvalued"], index=1, horizontal=True,
+                    key="vc-call")
+    thesis = st.text_area("The one assumption your call depends on", key="vc-thesis")
+    if st.button("Submit valuation", key="vc-submit", disabled=estimate <= 0):
+        score, feedback = desk.grade_valuation_call(call_task, estimate, call)
+        _submit(progress, role, f"Valuation call: {call_task['ticker']}", score,
+                {"estimate": estimate, "call": call, "thesis": thesis},
+                feedback + "\n\n" + call_task["reference"], "vc-done")
+        _review(score, feedback, call_task["reference"].replace("$", "\\$"))
+    _lesson_help(call_task["lessons"], progress, "vc")
+
 
 def desk_portfolio_analyst(progress):
     role = "portfolio_analyst"

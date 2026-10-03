@@ -26,9 +26,10 @@ Constraint: **free data sources only.**
 | 76b | Research | Fundamentals for all US-listed stocks (~6,000, SEC frames) | ✅ Built — awaiting first real run |
 | 76c | Markets | Multi-asset universe: rates, credit, FX, commodities, digital assets, REITs, alternatives | ✅ Built — awaiting first real run |
 | Academy | Learning | Work Desk (5 roles, live tasks, grading), 25 lessons, role handbook, career levels, work record — then one new task/lesson with every feature | ✅ v1 built |
-| 76d | Markets | Macro drivers, economic dashboard, commercial real estate (hotels, motels, office, …), CFA Level II item sets | ✅ Built — full run on your machine |
-| 77 | Research | Multi-factor rating: fundamental + technical + quant + economic + risk, backtested | ✅ Built — full run on your machine |
-| 78 | Research | Stock research report: rating, bull case and bear case, every claim evidence-linked | |
+| 76d | Markets | Macro drivers, economic dashboard, commercial real estate (hotels, motels, office, …), CFA Level II item sets | ✅ Done (7/7 on real data) |
+| 77 | Research | Multi-factor rating: fundamental + technical + quant + economic + risk, backtested; rated on the IC-weighted composite | ✅ Done (6/6 on real data) |
+| 78 | Research | Valuation engine (DCF, residual income, DDM, reverse DCF, sensitivity) and evidence-linked research notes | ✅ Built |
+| 78b | Markets | World & Markets Brief: free news headlines (central banks, regulators, markets), economic calendar, headlines linked to data, morning routine | |
 | 79 | Portfolio Mgmt | Research-driven portfolio construction within the risk budget | |
 | 80 | Portfolio Mgmt | Performance attribution | |
 | 81 | Risk | What-if scenario tool with live risk recalculation | |
