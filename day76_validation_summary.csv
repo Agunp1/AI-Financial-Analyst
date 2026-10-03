@@ -1,0 +1,13 @@
+check,passed,details,passed_tests,total_tests,pass_rate
+SEC filings loaded,True,33 of 33 companies,12,12,1.0
+Point in time: no filing after as-of date,True,Latest filing used: 2026-08-28 00:00:00; as of 2026-10-03,12,12,1.0
+Filings are recent (within 135 days),True,28 of 33 companies,12,12,1.0
+TTM revenue available,True,97% of loaded companies,12,12,1.0
+Market caps positive,True,31 market caps,12,12,1.0
+Gross margins between 0% and 100%,True,range 24.5% to 88.6%,12,12,1.0
+Scores between 0 and 100,True,All percentile scores,12,12,1.0
+Value score coverage,True,91% of loaded companies,12,12,1.0
+Growth score coverage,True,97% of loaded companies,12,12,1.0
+Quality score coverage,True,97% of loaded companies,12,12,1.0
+Financial Health score coverage,True,94% of loaded companies,12,12,1.0
+Composite score coverage,True,97%,12,12,1.0
