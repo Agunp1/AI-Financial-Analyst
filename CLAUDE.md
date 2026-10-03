@@ -31,6 +31,7 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 | 76 | `fundamental_engine.py`, `vittantra_research_page.py` | SEC EDGAR point-in-time fundamentals and scores |
 | 76b | `us_fundamental_engine.py` | All US-listed stocks via SEC frames; sector-relative scores |
 | 76c | `multi_asset_universe.py`, `vittantra_markets_page.py` | Rates, credit, FX, commodities, crypto, REITs, alternatives |
+| 76d | `macro_drivers.py` | Macro factor betas and attribution per asset class; economic dashboard; CRE by property type |
 | 77 | `multi_factor_rating.py` | Five-pillar rating, IC tests, IC-weighted composite, point in time |
 | Academy | `academy_content.py`, `academy_live.py`, `academy_desk.py`, `vittantra_academy_page.py` | Learn-by-doing desk for 5 roles; progress in `academy_progress.json` |
 
@@ -77,8 +78,16 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
   (one lesson per new feature).
 - Live examples must use Vittantra data and raise `MissingData` rather than
   invent numbers; reference answers are labelled as one reasonable view.
+- CFA Level II: tag new lessons in `academy_cfa.LESSON_CFA_TOPIC` and add item
+  sets for new features; the owner studies Level II through the desk work.
 - `academy_progress.json` is the owner's work record (committed so their work
   can be reviewed).
+
+## Presentation
+
+- The finished Vittantra must look impressive and professional (owner's goal):
+  consistent design, clear navigation, no raw/debug output in the UI, labelled
+  sources and assumptions. A dedicated polish phase is on the roadmap.
 
 ## Conventions
 

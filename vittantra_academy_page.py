@@ -11,6 +11,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+import academy_cfa as cfa
 import academy_desk as desk
 import academy_live as live
 from academy_content import LESSONS, ROLES, SIMULATOR_TASKS
@@ -25,6 +26,9 @@ def _role_label(key: str) -> str:
 
 
 def render_lesson(lesson: dict, progress: dict, key_prefix: str = "") -> None:
+    topic = cfa.LESSON_CFA_TOPIC.get(lesson["id"])
+    if topic:
+        st.caption(f"CFA Level II topic area: {topic}")
     st.markdown(f"**Concept.** {lesson['concept']}")
     for label, formula in lesson["formulas"]:
         st.caption(label)
@@ -242,6 +246,41 @@ def desk_advisor(progress):
     _lesson_help(data["lessons"], progress, "ad")
 
 
+def render_item_set(item: dict, progress: dict, role: str, key: str) -> None:
+    st.markdown(f"**{item['topic']} — {item['title']}**")
+    st.markdown(item["vignette"])
+    choices = []
+    for i, q in enumerate(item["questions"]):
+        labels = [f"{'ABC'[j]}. {option}" for j, option in enumerate(q["options"])]
+        picked = st.radio(f"{i + 1}. {q['question']}", labels, index=None, key=f"{key}-q{i}")
+        choices.append(labels.index(picked) if picked else None)
+    if st.button("Submit answers", key=f"{key}-submit", disabled=None in choices):
+        score, correct = cfa.grade(item, choices)
+        lines = []
+        for i, (choice, q) in enumerate(zip(choices, item["questions"])):
+            mark = "✅" if choice == q["answer"] else f"❌ correct: {'ABC'[q['answer']]}"
+            lines.append(f"{i + 1}. {mark} — {q['explanation']}")
+        review = "\n".join(lines)
+        state = f"{key}-done-{item['title']}"
+        if not st.session_state.get(state):
+            cfa.record_cfa(progress, item["topic"], correct, len(item["questions"]))
+            desk.record_task(progress, role, f"CFA L2 item set: {item['title']}", score,
+                             {f"Q{i + 1}": "ABC"[c] for i, c in enumerate(choices)}, review)
+            desk.save_progress(progress)
+            st.session_state[state] = True
+        _review(score, review, "Item sets are practice in the Level II format, built from live Vittantra data.")
+
+
+def _desk_item_set(role: str, progress: dict) -> None:
+    st.divider()
+    st.markdown("#### 🎓 CFA Level II item set from today's desk")
+    item = cfa.todays_item_set(role)
+    if item is None:
+        st.info("Run the data engines to unlock today's item set.")
+        return
+    render_item_set(item, progress, role, f"cfa-{role}")
+
+
 DESKS = {
     "investment_analyst": desk_investment_analyst,
     "equity_researcher": desk_equity_researcher,
@@ -268,13 +307,15 @@ def render_academy() -> None:
         col.metric(_role_label(key), level, f"{xp} XP" + (f" · {needed} to {nxt}" if nxt else ""),
                    delta_color="off")
 
-    work, handbook, lessons, record = st.tabs(["🖥️ Work Desk", "📘 Role Handbook", "🎓 Lessons", "🗂️ My Work Record"])
+    work, handbook, lessons, cfa_tab, record = st.tabs(
+        ["🖥️ Work Desk", "📘 Role Handbook", "🎓 Lessons", "📗 CFA Level II", "🗂️ My Work Record"])
 
     with work:
         role = st.radio("Today you are working as", ROLE_KEYS, format_func=_role_label,
                         horizontal=True, key="desk-role")
         st.caption(f"Shift: {pd.Timestamp.now():%A %d %B %Y} · tasks refresh daily from live data")
         DESKS[role](progress)
+        _desk_item_set(role, progress)
 
     with handbook:
         key = st.selectbox("Role", ROLE_KEYS, format_func=_role_label, key="hb-role")
@@ -303,6 +344,35 @@ def render_academy() -> None:
         for lesson in track:
             with st.expander(f"{'✅ ' if lesson['id'] in read else ''}{lesson['id']} · {lesson['title']}"):
                 render_lesson(lesson, progress, key_prefix="tab-")
+
+    with cfa_tab:
+        st.markdown("Every desk task and lesson maps to a CFA Level II topic area. Item sets use the exam's "
+                    "case format with live Vittantra data. Use them alongside the official CFA Institute "
+                    "curriculum and question bank (topics change each year).")
+        read = set(progress.get("lessons_read", []))
+        stats = progress.get("cfa", {})
+        rows = []
+        for topic in cfa.CFA_TOPICS:
+            tagged = [lid for lid, t in cfa.LESSON_CFA_TOPIC.items() if t == topic]
+            s_topic = stats.get(topic, {"answered": 0, "correct": 0})
+            rows.append({
+                "Topic area": topic,
+                "Vittantra lessons": len(tagged),
+                "Lessons learned": sum(l in read for l in tagged),
+                "Questions answered": s_topic["answered"],
+                "Accuracy": (f"{s_topic['correct'] / s_topic['answered']:.0%}" if s_topic["answered"] else "—"),
+            })
+        st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
+        st.caption("Not yet covered in Vittantra: Corporate Issuers, most of Ethics, DCF/residual-income models, "
+                   "binomial trees and swap valuation — planned with the valuation engine.")
+        choice = st.selectbox("Practise an item set", list(cfa.ITEM_SETS),
+                              format_func=lambda k: k.replace("_", " ").title(), key="cfa-pick")
+        try:
+            owner = next(r for r, keys in cfa.DESK_ITEM_SETS.items() if choice in keys)
+            render_item_set({"key": choice, **cfa.ITEM_SETS[choice]()}, progress, owner,
+                            f"cfa-practice-{choice}")
+        except live.MissingData as exc:
+            st.info(str(exc))
 
     with record:
         records = progress.get("records", [])

@@ -37,6 +37,7 @@ textbook values and independent calculations.
 
 | Multi-asset analytics (Day 76c) | Total-return prices (adjusted close); volatility annualized with each instrument's observed trading days per year; 12-1 momentum; beta/correlation on overlapping dates; curve slopes 2s10s and 3m10y; spreads in bp with historical percentile; FX carry = base short rate − quote short rate (covered interest parity) | `multi_asset_universe.py` | ✅ |
 
+| Macro drivers (Day 76d) | Multiple OLS of daily returns on factor moves (t-stats, R², standardized betas); attribution = Σ β × factor move + α + residual; rate beta ≈ −duration check | `macro_drivers.py` | ✅ |
 | Multi-factor rating (Day 77) | Cross-sectional percentile pillars; IC = Spearman rank correlation with next-period return, t-stat across dates; IC-weighted composite using only completed outcomes; cost-adjusted quintile portfolios | `multi_factor_rating.py` | ✅ |
 
 ---
@@ -88,5 +89,7 @@ These are acceptable for a research system but should be understood:
 | Multi-asset: credit | No free prices for individual corporate bonds; spread indices and bond ETFs used. FRED's ICE BofA history is limited (about 3 years), so spread percentiles cover a short window | Licensed bond pricing (TRACE/ICE) |
 | Multi-asset: FX carry | OECD 3-month interbank rates are monthly and some countries lag or are discontinued | Daily deposit/forward rates |
 | Multi-asset: commodities | Front-month futures only; no roll yield / term structure | Second-month contracts |
+| Macro drivers | Linear, constant betas over one year; factors correlated (betas shift when factors move together); summed simple returns approximate compounding | Rolling/regime-dependent betas, orthogonalized factors |
+| CRE | Listed REITs/brand owners proxy private CRE; no free occupancy/RevPAR or property NOI data | Licensed STR/CoStar data |
 | Multi-factor: sample | 33 stocks and ~3 years of monthly rebalances: IC t-statistics are noisy; economic pillar is a simple beta tilt | Larger universe (US engine), longer history, sector-macro sensitivities |
 | Multi-asset: alternatives | Listed proxies stand in for private equity, private credit and hedge funds | Fund-level data |

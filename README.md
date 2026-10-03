@@ -277,6 +277,19 @@ ETFs. Each instrument gets returns, 12-1 momentum, volatility annualized on its
 own trading calendar, drawdown, trend and beta to the S&P 500. The **Markets**
 page shows it by asset class.
 
+### Phase 14b — Macro drivers, economic releases and commercial real estate (Day 76d)
+- **Economic dashboard:** inflation (CPI, core CPI, core PCE), jobs (unemployment,
+  payrolls, claims), growth (GDP, industrial production), consumers, the Fed,
+  housing, and CRE indicators (hotel room-price inflation, CRE loan delinquencies,
+  commercial construction) from FRED.
+- **Macro drivers (`macro_drivers.py`):** regresses every instrument's daily returns
+  on six macro factors (equity market, 10Y yield, breakeven inflation, high-yield
+  spreads, dollar, oil) and explains each asset class's recent move factor by
+  factor. A long-Treasury fund's rate beta is checked against its duration.
+- **Commercial real estate by property type:** hotels, motels/economy brands
+  (Wyndham, Choice), office, industrial, retail, net lease, apartments, data
+  centers and towers, healthcare, self-storage, CRE lenders and CMBS.
+
 ### Phase 15 — Multi-factor rating (Day 77)
 `multi_factor_rating.py` combines five pillars — fundamental (point-in-time SEC
 facts), technical (12-1 momentum, trend), quant (walk-forward ML), economic
@@ -302,6 +315,11 @@ and advisor.
   from your own data, the code location, an exercise and interview questions.
 - **Role handbook:** framework, daily/weekly/monthly duties, outputs, KPIs, career
   path and credentials for each role.
+- **CFA Level II alongside the work:** every lesson is tagged with its Level II
+  topic area, and each desk produces a daily Level II-style item set (case plus
+  A/B/C questions with worked answers) from live data — fixed income, derivatives,
+  portfolio risk, currency parity, equity valuation, regression, real estate and
+  macro sensitivities — with accuracy tracked by topic.
 - **Career and work record:** XP and levels (Junior → Analyst → Senior → Lead) per
   role, and a downloadable record of your work for interviews.
 

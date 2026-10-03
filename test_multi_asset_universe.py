@@ -122,6 +122,33 @@ class EndToEndTests(unittest.TestCase):
         carry = mau.fx_carry_table(self.analytics, fred, AS_OF).set_index("pair")
         self.assertTrue(pd.isna(carry.loc["USD/TRY", "carry_long_pair_pct"]))
 
+    def test_economic_dashboard_transforms(self):
+        months = pd.date_range("2023-01-01", periods=30, freq="MS")
+        fred = {
+            "CPIAUCSL": pd.Series(np.linspace(300, 300 * 1.03 ** 2.5, 30), index=months),   # ~3% a year
+            "PAYEMS": pd.Series(np.arange(30) * 150.0 + 150000, index=months),           # +150k a month
+            "GDPC1": pd.Series([100 * 1.005 ** i for i in range(10)],
+                               index=pd.date_range("2023-01-01", periods=10, freq="QS")),
+            "UNRATE": pd.Series(4.1, index=months),
+        }
+        econ = mau.economic_dashboard(fred).set_index("series_id")
+        self.assertAlmostEqual(econ.loc["CPIAUCSL", "latest"], 3.0, delta=0.15)
+        self.assertAlmostEqual(econ.loc["PAYEMS", "latest"], 150.0)
+        self.assertAlmostEqual(econ.loc["GDPC1", "latest"], (1.005 ** 4 - 1) * 100, places=6)
+        self.assertAlmostEqual(econ.loc["UNRATE", "latest"], 4.1)
+
+    def test_commercial_real_estate_property_types(self):
+        cre = self.analytics[self.analytics["asset_class"] == "Real Estate"]
+        for segment in ("Hotels & lodging", "Motels & economy hotel brands", "Office",
+                        "Industrial & logistics", "Data centers & towers", "CRE debt (mortgage REITs, CMBS)"):
+            self.assertIn(segment, set(cre["sub_class"]))
+
+    def test_history_files_for_macro_drivers(self):
+        history = pd.read_csv(Path(self.tmp.name) / mau.OUTPUT_PRICE_HISTORY, index_col=0)
+        self.assertIn("SPY", history.columns)
+        fred = pd.read_csv(Path(self.tmp.name) / mau.OUTPUT_FRED_HISTORY, index_col=0)
+        self.assertIn("DGS10", fred.columns)
+
     def test_outputs_written(self):
         for name in (mau.OUTPUT_UNIVERSE, mau.OUTPUT_ANALYTICS, mau.OUTPUT_CURVE, mau.OUTPUT_CREDIT,
                      mau.OUTPUT_FX_CARRY, mau.OUTPUT_CLASS_SUMMARY, mau.OUTPUT_VALIDATION):

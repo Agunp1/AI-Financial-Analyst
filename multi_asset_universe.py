@@ -55,6 +55,9 @@ OUTPUT_CREDIT = "day76c_credit_spreads.csv"
 OUTPUT_FX_CARRY = "day76c_fx_carry.csv"
 OUTPUT_CLASS_SUMMARY = "day76c_asset_class_summary.csv"
 OUTPUT_VALIDATION = "day76c_validation_summary.csv"
+OUTPUT_ECONOMY = "day76c_economic_dashboard.csv"
+OUTPUT_PRICE_HISTORY = "day76c_price_history.csv"
+OUTPUT_FRED_HISTORY = "day76c_fred_daily_history.csv"
 
 
 # ==============================================================
@@ -124,6 +127,36 @@ MARKET_INSTRUMENTS = (
                                             ("ETHA", "iShares Ethereum Trust")])
     + _rows("Real Estate", "REIT ETF", [("VNQ", "US REIT ETF"), ("XLRE", "Real Estate Select Sector ETF"),
                                         ("VNQI", "International REIT ETF"), ("SCHH", "US REIT ETF (Schwab)")])
+    # Commercial real estate by property type (listed REITs and operators)
+    + _rows("Real Estate", "Hotels & lodging", [
+        ("HST", "Host Hotels & Resorts (upscale hotels)"), ("PK", "Park Hotels & Resorts"),
+        ("APLE", "Apple Hospitality (select-service hotels)"), ("PEB", "Pebblebrook Hotel Trust"),
+        ("DRH", "DiamondRock Hospitality"), ("RHP", "Ryman Hospitality (convention hotels)")])
+    + _rows("Real Estate", "Motels & economy hotel brands", [
+        ("WH", "Wyndham Hotels (Super 8, Days Inn, Microtel)"),
+        ("CHH", "Choice Hotels (Econo Lodge, Rodeway Inn, Comfort)")])
+    + _rows("Real Estate", "Office", [("BXP", "BXP (Boston Properties)"), ("VNO", "Vornado Realty"),
+                                      ("SLG", "SL Green (Manhattan office)"), ("KRC", "Kilroy Realty"),
+                                      ("ARE", "Alexandria (life-science offices)")])
+    + _rows("Real Estate", "Industrial & logistics", [("PLD", "Prologis"), ("REXR", "Rexford Industrial"),
+                                                      ("EGP", "EastGroup Properties")])
+    + _rows("Real Estate", "Retail (malls & shopping centers)", [("SPG", "Simon Property (malls)"),
+                                                                 ("KIM", "Kimco Realty"), ("REG", "Regency Centers"),
+                                                                 ("FRT", "Federal Realty")])
+    + _rows("Real Estate", "Net lease", [("O", "Realty Income"), ("NNN", "NNN REIT")])
+    + _rows("Real Estate", "Apartments & single-family rental", [("EQR", "Equity Residential"),
+                                                                 ("AVB", "AvalonBay"), ("MAA", "Mid-America Apartment"),
+                                                                 ("INVH", "Invitation Homes (single-family)")])
+    + _rows("Real Estate", "Data centers & towers", [("EQIX", "Equinix (data centers)"),
+                                                     ("DLR", "Digital Realty (data centers)"),
+                                                     ("AMT", "American Tower"), ("CCI", "Crown Castle")])
+    + _rows("Real Estate", "Healthcare & senior housing", [("WELL", "Welltower"), ("VTR", "Ventas"),
+                                                           ("OHI", "Omega Healthcare (skilled nursing)")])
+    + _rows("Real Estate", "Self-storage", [("PSA", "Public Storage"), ("EXR", "Extra Space Storage"),
+                                            ("CUBE", "CubeSmart")])
+    + _rows("Real Estate", "CRE debt (mortgage REITs, CMBS)", [
+        ("BXMT", "Blackstone Mortgage Trust"), ("STWD", "Starwood Property Trust"),
+        ("ARI", "Apollo Commercial RE Finance"), ("CMBS", "iShares CMBS ETF")])
     + _rows("Alternative", "Private equity (listed)", [("BX", "Blackstone"), ("KKR", "KKR"), ("APO", "Apollo"),
                                                        ("CG", "Carlyle"), ("ARES", "Ares Management"),
                                                        ("PSP", "Listed Private Equity ETF")])
@@ -162,9 +195,37 @@ SHORT_RATES = {
     "CNY": "IR3TIB01CNM156N", "BRL": "IR3TIB01BRM156N", "TRY": "IR3TIB01TRM156N",
 }
 
+# Regular economic releases professionals track (id, name, category, transform).
+# Transforms: yoy = % change vs. a year earlier; diff = change vs. previous
+# release; saar = quarterly growth annualized; level = latest value.
+ECONOMIC_SERIES = [
+    ("CPIAUCSL", "CPI inflation (headline, y/y %)", "Inflation", "yoy"),
+    ("CPILFESL", "Core CPI inflation (y/y %)", "Inflation", "yoy"),
+    ("PCEPILFE", "Core PCE inflation — the Fed's target measure (y/y %)", "Inflation", "yoy"),
+    ("UNRATE", "Unemployment rate (%)", "Labor market", "level"),
+    ("PAYEMS", "Nonfarm payrolls (monthly change, thousands)", "Labor market", "diff"),
+    ("ICSA", "Initial jobless claims (weekly)", "Labor market", "level"),
+    ("GDPC1", "Real GDP growth (q/q annualized %)", "Growth", "saar"),
+    ("INDPRO", "Industrial production (y/y %)", "Growth", "yoy"),
+    ("RSAFS", "Retail sales (y/y %)", "Consumer", "yoy"),
+    ("UMCSENT", "Consumer sentiment (University of Michigan)", "Consumer", "level"),
+    ("FEDFUNDS", "Effective fed funds rate (%)", "Monetary policy", "level"),
+    ("MORTGAGE30US", "30-year fixed mortgage rate (%)", "Housing", "level"),
+    ("HOUST", "Housing starts (thousands, annualized)", "Housing", "level"),
+    ("CUSR0000SEHB", "Hotel & lodging prices — CPI lodging away from home (y/y %)", "Commercial real estate", "yoy"),
+    ("DRCRELEXFACBS", "Delinquency rate on commercial real estate loans at banks (%)", "Commercial real estate", "level"),
+    ("TLCOMCONS", "Commercial construction spending (y/y %)", "Commercial real estate", "yoy"),
+    ("VIXCLS", "VIX equity volatility index", "Markets", "level"),
+]
+
+# Daily FRED series saved as history for the macro-drivers report.
+DAILY_FACTOR_SERIES = ["DGS10", "DGS2", "DGS3MO", "T10YIE", "BAMLH0A0HYM2", "BAMLC0A0CM", "VIXCLS"]
+PRICE_HISTORY_DAYS = 430
+
 FRED_SERIES = {**{s: "Treasury" for s in TREASURY_CURVE}, **{s: "Real yield" for s in REAL_YIELDS},
                **{s: "Breakeven" for s in BREAKEVENS}, **{s: "Credit spread" for s in CREDIT_SPREADS},
-               **{s: "Short rate" for s in SHORT_RATES.values()}}
+               **{s: "Short rate" for s in SHORT_RATES.values()},
+               **{s[0]: "Economic" for s in ECONOMIC_SERIES}}
 
 
 def instrument_master() -> pd.DataFrame:
@@ -389,6 +450,41 @@ def fx_carry_table(analytics: pd.DataFrame, fred: Dict[str, pd.Series],
     return pd.DataFrame(rows)
 
 
+def economic_dashboard(fred: Dict[str, pd.Series]) -> pd.DataFrame:
+    """Latest reading of each regular economic release, transformed as professionals quote it."""
+    def transform(values: pd.Series, how: str) -> pd.Series:
+        if how == "yoy":
+            # % change vs. the observation closest to one year earlier
+            shifted = values.reindex(values.index - pd.DateOffset(years=1), method="nearest", tolerance=pd.Timedelta(days=20))
+            return pd.Series((values.to_numpy() / shifted.to_numpy() - 1) * 100, index=values.index)
+        if how == "diff":
+            return values.diff()
+        if how == "saar":
+            return ((values / values.shift(1)) ** 4 - 1) * 100
+        return values
+
+    rows = []
+    for series_id, name, category, how in ECONOMIC_SERIES:
+        values = fred.get(series_id, pd.Series(dtype=float)).dropna()
+        if len(values) < 3:
+            rows.append({"series_id": series_id, "indicator": name, "category": category})
+            continue
+        values.index = pd.DatetimeIndex(values.index)
+        shown = transform(values, how).dropna()
+        if shown.empty:
+            continue
+        latest, previous = float(shown.iloc[-1]), float(shown.iloc[-2]) if len(shown) > 1 else None
+        year_ago = shown[shown.index <= shown.index[-1] - pd.DateOffset(years=1)]
+        rows.append({
+            "series_id": series_id, "indicator": name, "category": category,
+            "latest": latest, "previous": previous,
+            "change": latest - previous if previous is not None else None,
+            "year_ago": float(year_ago.iloc[-1]) if len(year_ago) else None,
+            "release_period": shown.index[-1].date(),
+        })
+    return pd.DataFrame(rows)
+
+
 # ==============================================================
 # VALIDATION
 # ==============================================================
@@ -480,6 +576,12 @@ def run_multi_asset(as_of: Optional[pd.Timestamp] = None, source: Optional[Marke
                     median_beta_to_spx=("beta_to_spx", "median"))
                .reset_index())
     validation = validate_day76c(master, analytics, curve, credit, fx_carry, as_of)
+    economy = economic_dashboard(fred)
+    recent = prices[prices.index > as_of - pd.Timedelta(days=PRICE_HISTORY_DAYS)] if len(prices) else prices
+    daily_fred = pd.DataFrame({s: fred[s] for s in DAILY_FACTOR_SERIES if s in fred})
+    if len(daily_fred):
+        daily_fred.index = pd.DatetimeIndex(daily_fred.index)
+        daily_fred = daily_fred[daily_fred.index > as_of - pd.Timedelta(days=PRICE_HISTORY_DAYS)]
 
     out_dir = Path(out_dir)
     if analytics["price"].notna().any():
@@ -490,6 +592,10 @@ def run_multi_asset(as_of: Optional[pd.Timestamp] = None, source: Optional[Marke
         fx_carry.to_csv(out_dir / OUTPUT_FX_CARRY, index=False)
         summary.to_csv(out_dir / OUTPUT_CLASS_SUMMARY, index=False)
         validation.to_csv(out_dir / OUTPUT_VALIDATION, index=False)
+        economy.to_csv(out_dir / OUTPUT_ECONOMY, index=False)
+        recent.round(6).to_csv(out_dir / OUTPUT_PRICE_HISTORY, index_label="date")
+        if len(daily_fred):
+            daily_fred.to_csv(out_dir / OUTPUT_FRED_HISTORY, index_label="date")
     elif verbose:
         print("No market data downloaded; previous files kept unchanged.")
 

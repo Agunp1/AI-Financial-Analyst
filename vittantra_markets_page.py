@@ -17,6 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent
 
 TABS = [
     ("Overview", None),
+    ("Macro & Economy", "macro"),
     ("Rates & Credit", "Fixed Income"),
     ("FX", "FX"),
     ("Commodities", "Commodity"),
@@ -86,6 +87,77 @@ def _rates_and_credit(analytics: pd.DataFrame) -> None:
                "spread indices and bond ETFs.")
 
 
+FACTOR_LABELS = {
+    "equity_market": "Equity market", "interest_rates": "Rates", "inflation_expectations": "Inflation exp.",
+    "credit_spreads": "Credit", "us_dollar": "US dollar", "oil": "Oil",
+}
+
+
+def _macro_and_economy() -> None:
+    economy = _load("day76c_economic_dashboard.csv")
+    if not economy.empty:
+        st.markdown("**Economic dashboard** — the regular releases professionals track")
+        for category, group in economy.groupby("category", sort=False):
+            st.markdown(f"*{category}*")
+            view = group[["indicator", "latest", "previous", "change", "year_ago", "release_period"]].rename(
+                columns={"indicator": "Indicator", "latest": "Latest", "previous": "Previous", "change": "Change",
+                         "year_ago": "A year ago", "release_period": "Period"})
+            st.dataframe(view.round(2), width="stretch", hide_index=True)
+    else:
+        st.info("Run `python multi_asset_universe.py` to load the economic releases.")
+
+    moves = _load("day76d_factor_moves.csv")
+    stories = _load("day76d_macro_narrative.csv")
+    betas = _load("day76d_macro_betas.csv")
+    if moves.empty:
+        st.info("Run `python macro_drivers.py` to see what moved each asset class.")
+        return
+    st.markdown("**Macro factor moves**")
+    pivot = moves.pivot(index="label", columns="window", values="move")[["1 week", "1 month", "3 months"]]
+    st.dataframe(pivot.round(4), width="stretch")
+    st.caption("Rates, inflation expectations and credit are changes in percentage points; equity, dollar and oil "
+               "are returns.")
+    if not stories.empty:
+        st.markdown("**What moved each asset class over the last month**")
+        for row in stories.itertuples():
+            st.markdown(f"- **{row.asset_class}** — {row.story}")
+    if not betas.empty:
+        reps = betas[betas["symbol"].isin(stories["symbol"])] if not stories.empty else betas.head(20)
+        columns = [f"std_beta_{k}" for k in FACTOR_LABELS if f"std_beta_{k}" in reps.columns]
+        matrix = reps.set_index("name")[columns].rename(columns=lambda c: FACTOR_LABELS[c.replace("std_beta_", "")])
+        figure = go.Figure(go.Heatmap(z=matrix.to_numpy() * 100, x=matrix.columns, y=matrix.index,
+                                      colorscale="RdBu", zmid=0, colorbar=dict(title="% per 1 s.d.")))
+        figure.update_layout(height=max(320, 22 * len(matrix)), margin=dict(l=10, r=10, t=30, b=10),
+                             title="Sensitivity to a typical daily factor move")
+        st.plotly_chart(figure, width="stretch")
+        st.caption("Blue = rises when the factor rises; red = falls. Estimated by regression on one year of "
+                   "daily data.")
+
+
+def _real_estate(market: pd.DataFrame) -> None:
+    economy = _load("day76c_economic_dashboard.csv")
+    cre = economy[economy["category"] == "Commercial real estate"] if not economy.empty else economy
+    if not cre.empty:
+        st.markdown("**Commercial real estate indicators**")
+        st.dataframe(cre[["indicator", "latest", "previous", "year_ago", "release_period"]].round(2),
+                     width="stretch", hide_index=True)
+    subset = market[market["asset_class"] == "Real Estate"]
+    by_type = subset.groupby("sub_class").agg(companies=("symbol", "count"), median_1m=("return_1m", "median"),
+                                             median_12m=("return_12m", "median"),
+                                             median_vol=("volatility_1y", "median")).reset_index()
+    for column in ("median_1m", "median_12m", "median_vol"):
+        by_type[column] = by_type[column] * 100
+    st.markdown("**By property type**")
+    st.dataframe(by_type.rename(columns={"sub_class": "Property type", "companies": "Companies",
+                                         "median_1m": "Median 1M %", "median_12m": "Median 12M %",
+                                         "median_vol": "Median vol %"}).round(1),
+                 width="stretch", hide_index=True)
+    _instrument_table(subset)
+    st.caption("Hotels reprice nightly, so they react fastest to travel demand and the economy; motels and "
+               "economy hotels are covered through the listed brand owners (Wyndham, Choice). Individual "
+               "REITs are also scored on fundamentals in Research → All US-listed stocks.")
+
+
 def render_markets() -> None:
     st.markdown("### Markets — All Asset Classes")
     analytics = _load("day76c_asset_analytics.csv")
@@ -118,8 +190,12 @@ def render_markets() -> None:
                     st.dataframe(view.round(2), width="stretch", hide_index=True)
                 st.caption("Volatility is annualized with each instrument's own trading days "
                            "(crypto trades every day; stocks and bonds about 252 days).")
+            elif asset_class == "macro":
+                _macro_and_economy()
             elif asset_class == "Fixed Income":
                 _rates_and_credit(analytics)
+            elif asset_class == "Real Estate":
+                _real_estate(market)
             else:
                 subset = market[market["asset_class"] == asset_class]
                 if asset_class == "FX":

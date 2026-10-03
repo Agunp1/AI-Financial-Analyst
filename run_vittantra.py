@@ -50,6 +50,7 @@ DATA_STEP = ("Data hub", "vittantra_data_hub.py")
 RESEARCH_STEPS = [
     ("Day 76 fundamentals (SEC)", "fundamental_engine.py"),
     ("Day 76c multi-asset universe", "multi_asset_universe.py"),
+    ("Day 76d macro drivers", "macro_drivers.py"),
     ("Day 77 multi-factor rating", "multi_factor_rating.py"),
 ]
 
