@@ -406,7 +406,7 @@
       "asset_class": "Equity",
       "currency": "USD",
       "quantity": 100,
-      "price": 200.0,
+      "price": 333.7900085449219,
       "market_value": null,
       "exchange": null,
       "country": "US",
@@ -423,7 +423,11 @@
       "contract_multiplier": null,
       "base_currency": null,
       "quote_currency": null,
-      "metadata": {}
+      "metadata": {
+        "price_source": "DIRECT: intraday quote",
+        "price_as_of": "2026-10-02",
+        "price_status": "FRESH"
+      }
     },
     {
       "instrument_id": "ETF_SPY",
@@ -432,7 +436,7 @@
       "asset_class": "ETF/Fund",
       "currency": "USD",
       "quantity": 50,
-      "price": 550.0,
+      "price": 769.6699829101562,
       "market_value": null,
       "exchange": null,
       "country": "US",
@@ -449,7 +453,11 @@
       "contract_multiplier": null,
       "base_currency": null,
       "quote_currency": null,
-      "metadata": {}
+      "metadata": {
+        "price_source": "DIRECT: intraday quote",
+        "price_as_of": "2026-10-02",
+        "price_status": "FRESH"
+      }
     },
     {
       "instrument_id": "BOND_CORP_01",
@@ -458,7 +466,7 @@
       "asset_class": "Fixed Income",
       "currency": "USD",
       "quantity": 100,
-      "price": 98.5,
+      "price": 93.89786816847575,
       "market_value": null,
       "exchange": null,
       "country": null,
@@ -466,7 +474,7 @@
       "issuer": "Example Corporation",
       "maturity_date": "2031-06-15",
       "coupon_rate": 0.045,
-      "yield_to_maturity": 0.052,
+      "yield_to_maturity": 0.0607,
       "credit_rating": "BBB",
       "underlying": null,
       "option_type": null,
@@ -475,7 +483,11 @@
       "contract_multiplier": null,
       "base_currency": null,
       "quote_currency": null,
-      "metadata": {}
+      "metadata": {
+        "price_source": "MODEL: 5Y Treasury + BBB OAS (FRED)",
+        "price_as_of": "2026-10-01",
+        "price_status": "FRESH"
+      }
     },
     {
       "instrument_id": "OPT_AAPL_CALL",
@@ -484,7 +496,7 @@
       "asset_class": "Option",
       "currency": "USD",
       "quantity": 5,
-      "price": 8.5,
+      "price": 126.27821664490978,
       "market_value": null,
       "exchange": null,
       "country": null,
@@ -501,7 +513,11 @@
       "contract_multiplier": 100,
       "base_currency": null,
       "quote_currency": null,
-      "metadata": {}
+      "metadata": {
+        "price_source": "MODEL: Black-Scholes on AAPL intraday quote",
+        "price_as_of": "2026-10-02",
+        "price_status": "FRESH"
+      }
     },
     {
       "instrument_id": "FUT_ES",
@@ -510,7 +526,7 @@
       "asset_class": "Future",
       "currency": "USD",
       "quantity": 1,
-      "price": 6000.0,
+      "price": 7776.5,
       "market_value": null,
       "exchange": null,
       "country": null,
@@ -527,7 +543,11 @@
       "contract_multiplier": 50,
       "base_currency": null,
       "quote_currency": null,
-      "metadata": {}
+      "metadata": {
+        "price_source": "DIRECT: intraday quote",
+        "price_as_of": "2026-10-02",
+        "price_status": "FRESH"
+      }
     },
     {
       "instrument_id": "FX_EURUSD",
@@ -536,7 +556,7 @@
       "asset_class": "FX",
       "currency": "USD",
       "quantity": 10000,
-      "price": 1.1,
+      "price": 1.1257457733154297,
       "market_value": null,
       "exchange": null,
       "country": null,
@@ -553,7 +573,11 @@
       "contract_multiplier": null,
       "base_currency": "EUR",
       "quote_currency": "USD",
-      "metadata": {}
+      "metadata": {
+        "price_source": "DIRECT: intraday quote",
+        "price_as_of": "2026-10-02",
+        "price_status": "FRESH"
+      }
     },
     {
       "instrument_id": "CMD_GOLD",
@@ -562,7 +586,7 @@
       "asset_class": "Commodity",
       "currency": "USD",
       "quantity": 10,
-      "price": 2600.0,
+      "price": 4172.10009765625,
       "market_value": null,
       "exchange": null,
       "country": null,
@@ -579,7 +603,11 @@
       "contract_multiplier": null,
       "base_currency": null,
       "quote_currency": null,
-      "metadata": {}
+      "metadata": {
+        "price_source": "DIRECT: intraday quote",
+        "price_as_of": "2026-10-02",
+        "price_status": "FRESH"
+      }
     },
     {
       "instrument_id": "CASH_USD",
@@ -605,7 +633,11 @@
       "contract_multiplier": null,
       "base_currency": null,
       "quote_currency": null,
-      "metadata": {}
+      "metadata": {
+        "price_source": "CONSTANT: constant",
+        "price_as_of": "2026-10-03",
+        "price_status": "FRESH"
+      }
     },
     {
       "instrument_id": "CRYPTO_BTC",
@@ -614,7 +646,7 @@
       "asset_class": "Crypto",
       "currency": "USD",
       "quantity": 0.25,
-      "price": 100000.0,
+      "price": 84647.25,
       "market_value": null,
       "exchange": null,
       "country": null,
@@ -631,7 +663,11 @@
       "contract_multiplier": null,
       "base_currency": null,
       "quote_currency": null,
-      "metadata": {}
+      "metadata": {
+        "price_source": "DIRECT: intraday quote",
+        "price_as_of": "2026-10-03",
+        "price_status": "FRESH"
+      }
     },
     {
       "instrument_id": "REIT_SAMPLE",
@@ -640,7 +676,7 @@
       "asset_class": "Real Estate/REIT",
       "currency": "USD",
       "quantity": 100,
-      "price": 100.0,
+      "price": 89.5,
       "market_value": null,
       "exchange": null,
       "country": null,
@@ -657,7 +693,11 @@
       "contract_multiplier": null,
       "base_currency": null,
       "quote_currency": null,
-      "metadata": {}
+      "metadata": {
+        "price_source": "PROXY: intraday quote",
+        "price_as_of": "2026-10-02",
+        "price_status": "FRESH"
+      }
     }
   ]
 }

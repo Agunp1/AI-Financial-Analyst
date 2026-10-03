@@ -4,7 +4,7 @@ Asset-class targets generated,True,Asset classes: 10,10,11,0.9090909090909091
 Rebalance orders generated,True,Positions: 10,10,11,0.9090909090909091
 Target weights approximately sum to one,True,Target sum: 1.00000000,10,11,0.9090909090909091
 No negative target weights,True,Long-only target portfolio.,10,11,0.9090909090909091
-Position concentration within policy,False,Largest target weight: 33.0088%; limit: 25.0000%,10,11,0.9090909090909091
+Position concentration within policy,False,Largest target weight: 29.9941%; limit: 25.0000%,10,11,0.9090909090909091
 Core order fields contain finite values,True,Allocation fields are finite.,10,11,0.9090909090909091
 All actions valid,True,BUY / SELL / HOLD only.,10,11,0.9090909090909091
 Rebalance summary generated,True,Rows: 1,10,11,0.9090909090909091

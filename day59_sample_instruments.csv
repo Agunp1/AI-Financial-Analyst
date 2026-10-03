@@ -1,11 +1,11 @@
 instrument_id,symbol,name,asset_class,currency,quantity,price,market_value,sector,issuer,maturity_date,credit_rating,underlying,option_type,base_currency,quote_currency
-EQ_AAPL,AAPL,Apple Equity Example,Equity,USD,100.0,200.0,20000.0,Technology,,,,,,,
-ETF_SPY,SPY,Broad Equity ETF Example,ETF/Fund,USD,50.0,550.0,27500.0,,,,,,,,
-BOND_CORP_01,CORP_BOND,Corporate Bond Example,Fixed Income,USD,100.0,98.5,9850.0,,Example Corporation,2031-06-15,BBB,,,,
-OPT_AAPL_CALL,AAPL_CALL,Apple Call Option Example,Option,USD,5.0,8.5,4250.0,,,,,AAPL,Call,,
-FUT_ES,ES,Equity Index Future Example,Future,USD,1.0,6000.0,300000.0,,,,,,,,
-FX_EURUSD,EURUSD,EUR/USD FX Example,FX,USD,10000.0,1.1,11000.0,,,,,,,EUR,USD
-CMD_GOLD,GOLD,Gold Exposure Example,Commodity,USD,10.0,2600.0,26000.0,,,,,,,,
+EQ_AAPL,AAPL,Apple Equity Example,Equity,USD,100.0,333.7900085449219,33379.00085449219,Technology,,,,,,,
+ETF_SPY,SPY,Broad Equity ETF Example,ETF/Fund,USD,50.0,769.6699829101562,38483.49914550781,,,,,,,,
+BOND_CORP_01,CORP_BOND,Corporate Bond Example,Fixed Income,USD,100.0,93.89786816847575,9389.786816847576,,Example Corporation,2031-06-15,BBB,,,,
+OPT_AAPL_CALL,AAPL_CALL,Apple Call Option Example,Option,USD,5.0,126.27821664490978,63139.108322454886,,,,,AAPL,Call,,
+FUT_ES,ES,Equity Index Future Example,Future,USD,1.0,7776.5,388825.0,,,,,,,,
+FX_EURUSD,EURUSD,EUR/USD FX Example,FX,USD,10000.0,1.1257457733154297,11257.457733154297,,,,,,,EUR,USD
+CMD_GOLD,GOLD,Gold Exposure Example,Commodity,USD,10.0,4172.10009765625,41721.0009765625,,,,,,,,
 CASH_USD,USD,US Dollar Cash,Cash/Money Market,USD,10000.0,1.0,10000.0,,,,,,,,
-CRYPTO_BTC,BTC,Bitcoin Example,Crypto,USD,0.25,100000.0,25000.0,,,,,,,,
-REIT_SAMPLE,REIT,Real Estate / REIT Example,Real Estate/REIT,USD,100.0,100.0,10000.0,,,,,,,,
+CRYPTO_BTC,BTC,Bitcoin Example,Crypto,USD,0.25,84647.25,21161.8125,,,,,,,,
+REIT_SAMPLE,REIT,Real Estate / REIT Example,Real Estate/REIT,USD,100.0,89.5,8950.0,,,,,,,,

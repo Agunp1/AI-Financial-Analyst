@@ -1,81 +1,81 @@
 scenario,asset_class,base_market_value,stressed_market_value,pnl,instrument_count,asset_class_return,macro_regime
 Credit Event,Cash/Money Market,10000.0,10000.0,0.0,1,0.0,Financial Stress
-Credit Event,Commodity,26000.0,21047.0,-4953.0,1,-0.1905,Financial Stress
-Credit Event,Crypto,25000.0,10987.5,-14012.5,1,-0.5605,Financial Stress
-Credit Event,ETF/Fund,27500.0,18875.3125,-8624.6875,1,-0.313625,Financial Stress
-Credit Event,Equity,20000.0,11570.0,-8430.0,1,-0.4215,Financial Stress
-Credit Event,FX,11000.0,10340.0,-660.0,1,-0.06,Financial Stress
-Credit Event,Fixed Income,9850.0,8865.219395077194,-984.7806049228057,1,-0.0999777263881021,Financial Stress
-Credit Event,Future,300000.0,215130.00000000003,-84869.99999999997,1,-0.28289999999999993,Financial Stress
-Credit Event,Option,4250.0,156.37023087731976,-4093.62976912268,1,-0.9632070044994542,Financial Stress
-Credit Event,Real Estate/REIT,10000.0,7905.0,-2095.0,1,-0.2095,Financial Stress
+Credit Event,Commodity,41721.0009765625,33773.150290527345,-7947.850686035155,1,-0.19049999999999997,Financial Stress
+Credit Event,Crypto,21161.8125,9300.61659375,-11861.19590625,1,-0.5605,Financial Stress
+Credit Event,ETF/Fund,38483.49914550781,26414.111725997922,-12069.38741950989,1,-0.3136250000000001,Financial Stress
+Credit Event,Equity,33379.00085449219,19309.75199432373,-14069.248860168456,1,-0.4215,Financial Stress
+Credit Event,FX,11257.457733154297,10582.010269165039,-675.4474639892578,1,-0.06,Financial Stress
+Credit Event,Fixed Income,9389.786816847576,8456.566617559758,-933.2201992878181,1,-0.0993867291655006,Financial Stress
+Credit Event,Future,388825.0,278826.40750000003,-109998.59249999997,1,-0.28289999999999993,Financial Stress
+Credit Event,Option,63139.108322454886,7975.474411854984,-55163.6339105999,1,-0.8736840822787075,Financial Stress
+Credit Event,Real Estate/REIT,8950.0,7074.974999999999,-1875.0250000000005,1,-0.20950000000000005,Financial Stress
 Growth Boom,Cash/Money Market,10000.0,10000.0,0.0,1,0.0,Growth Expansion
-Growth Boom,Commodity,26000.0,30900.999999999996,4900.999999999996,1,0.18849999999999986,Growth Expansion
-Growth Boom,Crypto,25000.0,29937.5,4937.5,1,0.1975,Growth Expansion
-Growth Boom,ETF/Fund,27500.0,31965.3125,4465.3125,1,0.162375,Growth Expansion
-Growth Boom,Equity,20000.0,24290.0,4290.0,1,0.2145,Growth Expansion
-Growth Boom,FX,11000.0,10890.0,-110.0,1,-0.01,Growth Expansion
-Growth Boom,Fixed Income,9850.0,9830.260417419247,-19.73958258075254,1,-0.002004018536117009,Growth Expansion
-Growth Boom,Future,300000.0,359670.0,59670.0,1,0.1989,Growth Expansion
-Growth Boom,Option,4250.0,16212.494760728625,11962.494760728625,1,2.8147046495832058,Growth Expansion
-Growth Boom,Real Estate/REIT,10000.0,11339.999999999998,1339.9999999999982,1,0.1339999999999998,Growth Expansion
+Growth Boom,Commodity,41721.0009765625,49585.409660644524,7864.408684082024,1,0.1884999999999998,Growth Expansion
+Growth Boom,Crypto,21161.8125,25341.27046875,4179.457968750001,1,0.19750000000000004,Growth Expansion
+Growth Boom,ETF/Fund,38483.49914550781,44732.25731925964,6248.758173751827,1,0.16237499999999988,Growth Expansion
+Growth Boom,Equity,33379.00085449219,40538.796537780756,7159.795683288568,1,0.21449999999999983,Growth Expansion
+Growth Boom,FX,11257.457733154297,11144.883155822754,-112.57457733154297,1,-0.01,Growth Expansion
+Growth Boom,Fixed Income,9389.786816847576,9371.086097431986,-18.700719415590356,1,-0.0019916021290320124,Growth Expansion
+Growth Boom,Future,388825.0,466162.29250000004,77337.29250000004,1,0.1989000000000001,Growth Expansion
+Growth Boom,Option,63139.108322454886,99126.16396400407,35987.05564154918,1,0.5699645845133149,Growth Expansion
+Growth Boom,Real Estate/REIT,8950.0,10149.3,1199.2999999999993,1,0.13399999999999992,Growth Expansion
 Hard Landing,Cash/Money Market,10000.0,10000.0,0.0,1,0.0,Recession / Deflationary Slowdown
-Hard Landing,Commodity,26000.0,18460.0,-7540.0,1,-0.29,Recession / Deflationary Slowdown
-Hard Landing,Crypto,25000.0,12937.500000000002,-12062.499999999998,1,-0.48249999999999993,Recession / Deflationary Slowdown
-Hard Landing,ETF/Fund,27500.0,19356.5625,-8143.4375,1,-0.296125,Recession / Deflationary Slowdown
-Hard Landing,Equity,20000.0,12010.0,-7990.0,1,-0.3995,Recession / Deflationary Slowdown
-Hard Landing,FX,11000.0,10450.0,-550.0,1,-0.05,Recession / Deflationary Slowdown
-Hard Landing,Fixed Income,9850.0,9463.920965179736,-386.0790348202645,1,-0.03919584109850401,Recession / Deflationary Slowdown
-Hard Landing,Future,300000.0,199860.0,-100140.0,1,-0.3338,Recession / Deflationary Slowdown
-Hard Landing,Option,4250.0,161.40643482572963,-4088.59356517427,1,-0.9620220153351224,Recession / Deflationary Slowdown
-Hard Landing,Real Estate/REIT,10000.0,7860.0,-2140.0,1,-0.214,Recession / Deflationary Slowdown
+Hard Landing,Commodity,41721.0009765625,29621.910693359372,-12099.090283203128,1,-0.2900000000000001,Recession / Deflationary Slowdown
+Hard Landing,Crypto,21161.8125,10951.237968750002,-10210.574531249998,1,-0.48249999999999993,Recession / Deflationary Slowdown
+Hard Landing,ETF/Fund,38483.49914550781,27087.572961044312,-11395.9261844635,1,-0.29612499999999997,Recession / Deflationary Slowdown
+Hard Landing,Equity,33379.00085449219,20044.09001312256,-13334.910841369627,1,-0.3994999999999999,Recession / Deflationary Slowdown
+Hard Landing,FX,11257.457733154297,10694.584846496582,-562.8728866577148,1,-0.05,Recession / Deflationary Slowdown
+Hard Landing,Fixed Income,9389.786816847576,9023.987606736471,-365.7992101111049,1,-0.03895713686010119,Recession / Deflationary Slowdown
+Hard Landing,Future,388825.0,259035.215,-129789.785,1,-0.3338,Recession / Deflationary Slowdown
+Hard Landing,Option,63139.108322454886,9093.98297328309,-54045.125349171794,1,-0.8559690940385217,Recession / Deflationary Slowdown
+Hard Landing,Real Estate/REIT,8950.0,7034.700000000001,-1915.2999999999993,1,-0.2139999999999999,Recession / Deflationary Slowdown
 Inflation Reacceleration,Cash/Money Market,10000.0,10000.0,0.0,1,0.0,Inflationary Expansion
-Inflation Reacceleration,Commodity,26000.0,31915.0,5915.0,1,0.2275,Inflationary Expansion
-Inflation Reacceleration,Crypto,25000.0,17025.0,-7975.0,1,-0.319,Inflationary Expansion
-Inflation Reacceleration,ETF/Fund,27500.0,22089.375,-5410.625,1,-0.19675,Inflationary Expansion
-Inflation Reacceleration,Equity,20000.0,14780.0,-5220.0,1,-0.261,Inflationary Expansion
-Inflation Reacceleration,FX,11000.0,10230.0,-770.0,1,-0.07,Inflationary Expansion
-Inflation Reacceleration,Fixed Income,9850.0,8865.219395077193,-984.7806049228075,1,-0.09997772638810228,Inflationary Expansion
-Inflation Reacceleration,Future,300000.0,309630.0,9630.0,1,0.0321,Inflationary Expansion
-Inflation Reacceleration,Option,4250.0,376.4742815307223,-3873.5257184692778,1,-0.9114178161104183,Inflationary Expansion
-Inflation Reacceleration,Real Estate/REIT,10000.0,8320.0,-1680.0,1,-0.168,Inflationary Expansion
+Inflation Reacceleration,Commodity,41721.0009765625,51212.52869873047,9491.527722167972,1,0.22750000000000006,Inflationary Expansion
+Inflation Reacceleration,Crypto,21161.8125,14411.194312500002,-6750.618187499998,1,-0.31899999999999995,Inflationary Expansion
+Inflation Reacceleration,ETF/Fund,38483.49914550781,30911.87068862915,-7571.628456878661,1,-0.19674999999999998,Inflationary Expansion
+Inflation Reacceleration,Equity,33379.00085449219,24667.081631469726,-8711.919223022462,1,-0.261,Inflationary Expansion
+Inflation Reacceleration,FX,11257.457733154297,10469.435691833496,-788.0220413208008,1,-0.07,Inflationary Expansion
+Inflation Reacceleration,Fixed Income,9389.786816847576,8456.566617559758,-933.2201992878181,1,-0.0993867291655006,Inflationary Expansion
+Inflation Reacceleration,Future,388825.0,401306.28250000003,12481.28250000003,1,0.03210000000000008,Inflationary Expansion
+Inflation Reacceleration,Option,63139.108322454886,22473.654575229913,-40665.45374722497,1,-0.6440612613587172,Inflationary Expansion
+Inflation Reacceleration,Real Estate/REIT,8950.0,7446.4,-1503.6000000000004,1,-0.16800000000000004,Inflationary Expansion
 Liquidity Expansion,Cash/Money Market,10000.0,10000.0,0.0,1,0.0,Growth Expansion
-Liquidity Expansion,Commodity,26000.0,28964.000000000004,2964.0000000000036,1,0.11400000000000014,Growth Expansion
-Liquidity Expansion,Crypto,25000.0,31406.250000000004,6406.250000000004,1,0.25625000000000014,Growth Expansion
-Liquidity Expansion,ETF/Fund,27500.0,31920.625,4420.625,1,0.16075,Growth Expansion
-Liquidity Expansion,Equity,20000.0,24220.0,4220.0,1,0.211,Growth Expansion
-Liquidity Expansion,FX,11000.0,11550.0,550.0,1,0.05,Growth Expansion
-Liquidity Expansion,Fixed Income,9850.0,10296.30942050993,446.3094205099296,1,0.045310601066997934,Growth Expansion
-Liquidity Expansion,Future,300000.0,345840.0,45840.0,1,0.1528,Growth Expansion
-Liquidity Expansion,Option,4250.0,15667.548372582598,11417.548372582598,1,2.6864819700194347,Growth Expansion
-Liquidity Expansion,Real Estate/REIT,10000.0,11379.999999999998,1379.9999999999982,1,0.13799999999999982,Growth Expansion
+Liquidity Expansion,Commodity,41721.0009765625,46477.19508789063,4756.194111328128,1,0.11400000000000007,Growth Expansion
+Liquidity Expansion,Crypto,21161.8125,26584.526953125,5422.7144531250015,1,0.2562500000000001,Growth Expansion
+Liquidity Expansion,ETF/Fund,38483.49914550781,44669.72163314819,6186.222487640378,1,0.16074999999999992,Growth Expansion
+Liquidity Expansion,Equity,33379.00085449219,40421.97003479004,7042.969180297856,1,0.21100000000000013,Growth Expansion
+Liquidity Expansion,FX,11257.457733154297,11820.330619812012,562.8728866577148,1,0.05,Growth Expansion
+Liquidity Expansion,Fixed Income,9389.786816847576,9812.552038828186,422.76522198060957,1,0.045023942526795736,Growth Expansion
+Liquidity Expansion,Future,388825.0,448237.46,59412.46000000002,1,0.15280000000000005,Growth Expansion
+Liquidity Expansion,Option,63139.108322454886,98246.51328782678,35107.40496537189,1,0.556032638061286,Growth Expansion
+Liquidity Expansion,Real Estate/REIT,8950.0,10185.099999999999,1235.0999999999985,1,0.13799999999999985,Growth Expansion
 Macro Baseline,Cash/Money Market,10000.0,10000.0,0.0,1,0.0,Mixed / Transitional
-Macro Baseline,Commodity,26000.0,26000.0,0.0,1,0.0,Mixed / Transitional
-Macro Baseline,Crypto,25000.0,25000.0,0.0,1,0.0,Mixed / Transitional
-Macro Baseline,ETF/Fund,27500.0,27500.0,0.0,1,0.0,Mixed / Transitional
-Macro Baseline,Equity,20000.0,20000.0,0.0,1,0.0,Mixed / Transitional
-Macro Baseline,FX,11000.0,11000.0,0.0,1,0.0,Mixed / Transitional
-Macro Baseline,Fixed Income,9850.0,9850.0,0.0,1,0.0,Mixed / Transitional
-Macro Baseline,Future,300000.0,300000.0,0.0,1,0.0,Mixed / Transitional
-Macro Baseline,Option,4250.0,4250.0,0.0,1,0.0,Mixed / Transitional
-Macro Baseline,Real Estate/REIT,10000.0,10000.0,0.0,1,0.0,Mixed / Transitional
+Macro Baseline,Commodity,41721.0009765625,41721.0009765625,0.0,1,0.0,Mixed / Transitional
+Macro Baseline,Crypto,21161.8125,21161.8125,0.0,1,0.0,Mixed / Transitional
+Macro Baseline,ETF/Fund,38483.49914550781,38483.49914550781,0.0,1,0.0,Mixed / Transitional
+Macro Baseline,Equity,33379.00085449219,33379.00085449219,0.0,1,0.0,Mixed / Transitional
+Macro Baseline,FX,11257.457733154297,11257.457733154297,0.0,1,0.0,Mixed / Transitional
+Macro Baseline,Fixed Income,9389.786816847576,9389.786816847576,0.0,1,0.0,Mixed / Transitional
+Macro Baseline,Future,388825.0,388825.0,0.0,1,0.0,Mixed / Transitional
+Macro Baseline,Option,63139.108322454886,63139.108322454886,0.0,1,0.0,Mixed / Transitional
+Macro Baseline,Real Estate/REIT,8950.0,8950.0,0.0,1,0.0,Mixed / Transitional
 Soft Landing,Cash/Money Market,10000.0,10000.0,0.0,1,0.0,Mixed / Transitional
-Soft Landing,Commodity,26000.0,26130.000000000004,130.00000000000364,1,0.00500000000000014,Mixed / Transitional
-Soft Landing,Crypto,25000.0,27975.0,2975.0,1,0.119,Mixed / Transitional
-Soft Landing,ETF/Fund,27500.0,29938.90625,2438.90625,1,0.0886875,Mixed / Transitional
-Soft Landing,Equity,20000.0,22345.0,2345.0,1,0.11725,Mixed / Transitional
-Soft Landing,FX,11000.0,11220.0,220.0,1,0.02,Mixed / Transitional
-Soft Landing,Fixed Income,9850.0,10209.296521408107,359.29652140810686,1,0.036476804203868715,Mixed / Transitional
-Soft Landing,Future,300000.0,314970.0,14970.0,1,0.0499,Mixed / Transitional
-Soft Landing,Option,4250.0,9285.60939333313,5035.60939333313,1,1.18484926901956,Mixed / Transitional
-Soft Landing,Real Estate/REIT,10000.0,10674.999999999998,674.9999999999982,1,0.06749999999999982,Mixed / Transitional
+Soft Landing,Commodity,41721.0009765625,41929.60598144532,208.60500488281832,1,0.00500000000000014,Mixed / Transitional
+Soft Landing,Crypto,21161.8125,23680.0681875,2518.255687500001,1,0.11900000000000005,Mixed / Transitional
+Soft Landing,ETF/Fund,38483.49914550781,41896.50447597504,3413.0053304672256,1,0.08868750000000004,Mixed / Transitional
+Soft Landing,Equity,33379.00085449219,37292.6887046814,3913.6878501892133,1,0.11725000000000013,Mixed / Transitional
+Soft Landing,FX,11257.457733154297,11482.606887817383,225.14915466308594,1,0.02,Mixed / Transitional
+Soft Landing,Fixed Income,9389.786816847576,9730.1375966569,340.3507798093233,1,0.03624691235786639,Mixed / Transitional
+Soft Landing,Future,388825.0,408227.3675,19402.367499999993,1,0.04989999999999998,Mixed / Transitional
+Soft Landing,Option,63139.108322454886,82543.86453200835,19404.75620955346,1,0.30733339011460703,Mixed / Transitional
+Soft Landing,Real Estate/REIT,8950.0,9554.124999999998,604.1249999999982,1,0.0674999999999998,Mixed / Transitional
 Stagflation,Cash/Money Market,10000.0,10000.0,0.0,1,0.0,Stagflation
-Stagflation,Commodity,26000.0,31316.999999999996,5316.999999999996,1,0.20449999999999985,Stagflation
-Stagflation,Crypto,25000.0,14687.5,-10312.5,1,-0.4125,Stagflation
-Stagflation,ETF/Fund,27500.0,20174.6875,-7325.3125,1,-0.266375,Stagflation
-Stagflation,Equity,20000.0,12930.0,-7070.0,1,-0.3535,Stagflation
-Stagflation,FX,11000.0,10340.0,-660.0,1,-0.06,Stagflation
-Stagflation,Fixed Income,9850.0,8795.734988663837,-1054.2650113361633,1,-0.10703198084631099,Stagflation
-Stagflation,Future,300000.0,294390.0,-5610.0,1,-0.0187,Stagflation
-Stagflation,Option,4250.0,105.00822810234523,-4144.991771897655,1,-0.9752921816229776,Stagflation
-Stagflation,Real Estate/REIT,10000.0,7680.0,-2320.0,1,-0.232,Stagflation
+Stagflation,Commodity,41721.0009765625,50252.945676269526,8531.944699707026,1,0.20449999999999988,Stagflation
+Stagflation,Crypto,21161.8125,12432.56484375,-8729.24765625,1,-0.4125,Stagflation
+Stagflation,ETF/Fund,38483.49914550781,28232.45706062317,-10251.042084884644,1,-0.26637500000000003,Stagflation
+Stagflation,Equity,33379.00085449219,21579.5240524292,-11799.476802062989,1,-0.35350000000000004,Stagflation
+Stagflation,FX,11257.457733154297,10582.010269165039,-675.4474639892578,1,-0.06,Stagflation
+Stagflation,Fixed Income,9389.786816847576,8390.698862408079,-999.0879544394975,1,-0.10640155883484906,Stagflation
+Stagflation,Future,388825.0,381553.9725,-7271.027500000026,1,-0.018700000000000067,Stagflation
+Stagflation,Option,63139.108322454886,11607.85946887889,-51531.24885357599,1,-0.8161542065244742,Stagflation
+Stagflation,Real Estate/REIT,8950.0,6873.6,-2076.3999999999996,1,-0.23199999999999996,Stagflation
