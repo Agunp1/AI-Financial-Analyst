@@ -16,7 +16,7 @@ import vittantra_theme as vt
 
 
 BASE_DIR = Path(__file__).resolve().parent
-BLUE, RED, GREY = vt.FOREST, vt.NEGATIVE, vt.SAGE
+BLUE, RED, GREY = vt.FOREST, vt.NEGATIVE, "#3B4F46"
 
 
 @st.cache_data(show_spinner=False, ttl=60)

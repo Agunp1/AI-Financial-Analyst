@@ -1,5 +1,6 @@
 """
-Vittantra design system — "Private bank" (deep green, brass, serif headings).
+Vittantra design system — "Night private bank": deep green-black background,
+brass accents, serif headings and monospaced numbers.
 
 One place for colours and chart styling, so every page looks the same.
 Import the constants in pages; `apply_plotly_theme()` makes the template the
@@ -8,29 +9,30 @@ default for every Plotly chart.
 
 from __future__ import annotations
 
-# Brand
-GREEN = "#123D30"        # sidebar, hero, primary buttons
-FOREST = "#1F5C47"       # main data colour (bars, primary series)
-BRASS = "#A9843A"        # accent: highlights, the series that matters most
-SAGE = "#9FB5AA"         # secondary series, benchmarks
-IVORY = "#FBFAF7"        # page background
-PAPER = "#FFFFFF"        # cards
-LINE = "#E4E1D8"         # borders and gridlines
-INK = "#1B2A24"          # text
-MUTED = "#66736C"        # secondary text
+# Brand (dark)
+GREEN = "#07100D"        # sidebar
+FOREST = "#5FA88A"       # main data colour (bars, primary series) — light enough on dark
+BRASS = "#D4B062"        # accent: highlights, the series that matters most
+SAGE = "#6E8C7E"         # secondary series, benchmarks
+IVORY = "#0B1612"        # page background (name kept for compatibility)
+PAPER = "#10201A"        # cards / panels
+LINE = "#1E2E28"         # borders and gridlines
+INK = "#E9E4D6"          # text
+MUTED = "#8FA39A"        # secondary text
 
 # Meaning (separate from the brand accent)
-POSITIVE = "#1F6E4E"
-NEGATIVE = "#9C2F2F"
-WARNING = "#B07A12"
+POSITIVE = "#5FD3A1"
+NEGATIVE = "#F07C7C"
+WARNING = "#E0B64D"
 
 # Categorical order for multi-series charts (distinct but in the same family)
-CATEGORICAL = [FOREST, BRASS, SAGE, "#3F7F9C", "#7A5C8E", "#C9A961", "#5E8B73", "#B5654A", "#2F4858", "#8C9A90"]
+CATEGORICAL = [FOREST, BRASS, "#7FB3D5", "#C39BD3", SAGE, "#E59866", "#76D7C4", "#F1948A", "#AAB7B8", "#F7DC6F"]
 
 # Diverging scale: brick → ivory → green
-DIVERGING = [[0.0, NEGATIVE], [0.5, "#F7F4EC"], [1.0, FOREST]]
+DIVERGING = [[0.0, "#C0504D"], [0.5, "#14251F"], [1.0, "#4FA37F"]]
 
 FONT_BODY = "IBM Plex Sans, system-ui, sans-serif"
+FONT_DATA = "IBM Plex Mono, ui-monospace, monospace"
 FONT_HEADING = "Source Serif 4, Georgia, serif"
 
 
@@ -52,10 +54,10 @@ def apply_plotly_theme() -> None:
         colorway=CATEGORICAL,
         paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
         xaxis=dict(gridcolor=LINE, linecolor=LINE, zerolinecolor=LINE, tickfont=dict(color=MUTED)),
-        yaxis=dict(gridcolor=LINE, linecolor=LINE, zerolinecolor="#CFCABD", tickfont=dict(color=MUTED)),
+        yaxis=dict(gridcolor=LINE, linecolor=LINE, zerolinecolor="#2F453C", tickfont=dict(color=MUTED)),
         legend=dict(font=dict(color=MUTED)),
         hoverlabel=dict(bgcolor=PAPER, bordercolor=LINE, font=dict(family=FONT_BODY, color=INK)),
-        colorscale=dict(diverging=DIVERGING, sequential=[[0, "#F7F4EC"], [1, FOREST]]),
+        colorscale=dict(diverging=DIVERGING, sequential=[[0, "#14251F"], [1, BRASS]]),
     )
     pio.templates["vittantra"] = template
-    pio.templates.default = "plotly_white+vittantra"
+    pio.templates.default = "plotly_dark+vittantra"

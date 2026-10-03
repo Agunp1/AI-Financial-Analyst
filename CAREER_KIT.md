@@ -89,6 +89,11 @@ dilution, liquidation preferences, the power law, LBOs and TVPI/DPI. Answer in
 your own words about your own firm's strategy — the desk uses a generic small
 fund, not your employer's real process.
 
+You already work at a small VC firm, so use the desk as rehearsal for real
+work: practise the screening rubric before partner meetings, rebuild a term
+sheet or waterfall by hand for a deal you actually see, and keep confidential
+deal information out of Vittantra (it stays on fictional cases and public data).
+
 ## 6. Show, don't tell
 
 - Open the deployed app (see `DEPLOY.md`) and run the **guided tour** on the

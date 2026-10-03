@@ -316,7 +316,7 @@ test per non-negotiable rule (`test_governance_rules.py`), free deployment
 
 ### Phase 20 — Career and release (Days 88–90)
 Data-generated case studies (`case_studies.py` → `CASE_STUDIES.md`), the career
-kit (`CAREER_KIT.md`), an Emergent Ventures draft and Vittantra v1.0.
+kit (`CAREER_KIT.md`) with interview scripts, and Vittantra v1.0.
 
 ## Tech stack
 

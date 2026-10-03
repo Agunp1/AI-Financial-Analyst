@@ -41,6 +41,6 @@ Constraint: **free data sources only.**
 | 87 | Core | Deploy online (free tier) | ✅ Guide ready (`DEPLOY.md`) |
 | 87b | Core | **Professional polish:** one design system (colours, typography, icons), landing page with the Vittantra story, guided demo mode, consistent tables/charts, mobile-friendly layout, no debug output | ✅ Done |
 | 88 | Career | Case studies, one per desk | ✅ Done (`CASE_STUDIES.md`) |
-| 89 | Career | Interview scripts and Emergent Ventures application draft | ✅ Drafts ready |
+| 89 | Career | Interview scripts and career kit | ✅ Done (`CAREER_KIT.md`) |
 | 90 | Release | Vittantra v1.0 | ✅ Released |
 | 91 | Private markets | VC / PE analyst desk for a small fund: deal screening, term sheets, waterfall, LBO, fund math, mock interviews | ✅ Built |

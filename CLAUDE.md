@@ -101,6 +101,9 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 
 ## Presentation
 
+- Theme: "Night private bank" (dark green-black, brass accents, Source Serif 4
+  headings, IBM Plex Sans body, IBM Plex Mono numbers) — colours live in
+  `vittantra_theme.py` and `.streamlit/config.toml`; never hard-code colours.
 - The finished Vittantra must look impressive and professional (owner's goal):
   consistent design, clear navigation, no raw/debug output in the UI, labelled
   sources and assumptions. A dedicated polish phase is on the roadmap.

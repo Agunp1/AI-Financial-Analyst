@@ -532,41 +532,54 @@ st.markdown(
         .vt-hero-title { font-size: 1.5rem; }
     }
 
-    /* ---- Private-bank design system (overrides above) ---- */
+    /* ---- Night private bank design system (overrides above) ---- */
+    .stApp { background: radial-gradient(1200px 600px at 85% -10%, rgba(212,176,98,0.06), transparent 60%), #0B1612; }
     .vt-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.75rem;
                 margin-bottom: 0.5rem; }
-    .vt-stat { background: #FFFFFF; border: 1px solid #E4E1D8; border-radius: 6px; padding: 0.85rem 1rem;
-               box-shadow: 0 1px 2px rgba(18,61,48,0.04); min-width: 0; }
-    .vt-stat-label { font-size: 0.78rem; color: #66736C; letter-spacing: 0.02em; white-space: nowrap;
-                     overflow: hidden; text-overflow: ellipsis; }
-    .vt-stat-value { font-size: 1.55rem; font-weight: 600; color: #123D30; white-space: nowrap;
-                     font-variant-numeric: tabular-nums; margin-top: 0.15rem; }
-    .vittantra-title { font-family: "Source Serif 4", Georgia, serif; font-weight: 650; color: #123D30;
+    .vt-stat { background: #10201A; border: 1px solid #1E2E28; border-radius: 6px; padding: 0.85rem 1rem; min-width: 0; }
+    .vt-stat-label { font-size: 0.72rem; color: #8FA39A; letter-spacing: 0.08em; text-transform: uppercase;
+                     white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .vt-stat-value { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 1.5rem; font-weight: 600;
+                     color: #F1EAD6; white-space: nowrap; font-variant-numeric: tabular-nums; margin-top: 0.2rem; }
+    .vittantra-title { font-family: "Source Serif 4", Georgia, serif; font-weight: 650; color: #F1EAD6;
                        letter-spacing: -0.01em; }
-    .vittantra-subtitle { color: #66736C; opacity: 1; }
+    .vittantra-subtitle { color: #8FA39A; opacity: 1; }
     h1, h2, h3, h4, .vt-section, .vt-card-title, .vt-hero-title { font-family: "Source Serif 4", Georgia, serif; }
-    h3 { color: #123D30; font-weight: 650; }
-    .vt-eyebrow { color: #E0C77F; opacity: 1; }
-    .vt-hero-title { font-weight: 600; letter-spacing: -0.01em; color: #FFFFFF; }
+    h3 { color: #F1EAD6; font-weight: 650; }
+    h4 { color: #E9E4D6; }
+    .vt-hero { background: linear-gradient(120deg, #07100D 0%, #0F2A20 55%, #173A2D 100%) !important;
+               border: 1px solid #2A3F35 !important; color: #E9E4D6 !important; }
     .vt-hero::after { content: ""; position: absolute; right: -60px; top: -60px; width: 260px; height: 260px;
-                      border-radius: 50%; border: 1px solid rgba(224,199,127,0.35); }
-    .vt-section { font-weight: 650; color: #123D30; font-size: 1.25rem; }
-    .vt-card-label { color: #7D6224; opacity: 1; }
-    .vt-card-value { color: #123D30; }
-    div[data-testid="stMetric"] { background: #FFFFFF; border: 1px solid #E4E1D8 !important; border-radius: 6px !important;
-                                  box-shadow: 0 1px 2px rgba(18,61,48,0.04); }
-    div[data-testid="stMetricLabel"] p { color: #66736C; font-size: 0.8rem; letter-spacing: 0.02em; }
-    div[data-testid="stMetricValue"] { color: #123D30; font-weight: 600; }
-    .status-critical { background: #F6E3E1 !important; border: 1px solid #E6BDB8 !important; color: #8A2626; }
-    .status-warning { background: #F5ECD6 !important; border: 1px solid #E2CF9F !important; color: #6B531C; }
-    .status-normal { background: #E3F0E8 !important; border: 1px solid #B9D8C6 !important; color: #1F6E4E; }
+                      border-radius: 50%; border: 1px solid rgba(212,176,98,0.35); }
+    .vt-eyebrow { color: #D4B062; opacity: 1; }
+    .vt-hero-title { font-weight: 600; letter-spacing: -0.01em; color: #FFFFFF; }
+    .vt-section { font-weight: 650; color: #F1EAD6; font-size: 1.25rem; }
+    .vt-card { background: #10201A !important; border: 1px solid #1E2E28 !important; box-shadow: none !important;
+               min-height: 9.6rem; }
+    .vt-card-title { color: #F1EAD6; }
+    .vt-card-label { color: #D4B062; opacity: 1; }
+    .vt-card-value { color: #F1EAD6; font-family: "IBM Plex Mono", ui-monospace, monospace; }
+    .vt-card-text { color: #B7C4BD; opacity: 1; }
+    .vt-step { background: rgba(212,176,98,0.10) !important; border: 1px solid rgba(212,176,98,0.35) !important;
+               color: #E0C77F !important; }
+    div[data-testid="stMetric"] { background: #10201A; border: 1px solid #1E2E28 !important; border-radius: 6px !important; }
+    div[data-testid="stMetricLabel"] p { color: #8FA39A; font-size: 0.78rem; letter-spacing: 0.04em; }
+    div[data-testid="stMetricValue"] { color: #F1EAD6; font-weight: 600;
+                                       font-family: "IBM Plex Mono", ui-monospace, monospace; }
+    .status-critical { background: rgba(240,124,124,0.12) !important; border: 1px solid rgba(240,124,124,0.40) !important;
+                       color: #F5A3A3; }
+    .status-warning { background: rgba(224,182,77,0.12) !important; border: 1px solid rgba(224,182,77,0.40) !important;
+                      color: #E8C877; }
+    .status-normal { background: rgba(95,211,161,0.12) !important; border: 1px solid rgba(95,211,161,0.40) !important;
+                     color: #7FDDB4; }
     [data-testid="stSidebar"] h2, [data-testid="stSidebar"] .stMarkdown h2 { font-family: "Source Serif 4", Georgia, serif;
-        color: #F4EFE2; letter-spacing: 0.12em; }
-    [data-testid="stSidebar"] [data-testid="stCaptionContainer"] { color: #B8CBC1; }
-    button[data-baseweb="tab"][aria-selected="true"] p { color: #123D30; font-weight: 600; }
-    div[data-baseweb="tab-highlight"] { background-color: #A9843A !important; }
-    [data-testid="stExpander"] details { background: #FFFFFF; border-color: #E4E1D8; }
-    .stButton button[kind="primary"] { background: #123D30; border-color: #123D30; }
+        color: #F1EAD6; letter-spacing: 0.14em; }
+    [data-testid="stSidebar"] [data-testid="stCaptionContainer"] { color: #7E938A; }
+    button[data-baseweb="tab"][aria-selected="true"] p { color: #F1EAD6; font-weight: 600; }
+    div[data-baseweb="tab-highlight"] { background-color: #D4B062 !important; }
+    [data-testid="stExpander"] details { background: #10201A; border-color: #1E2E28; }
+    [data-testid="stDataFrame"] { border: 1px solid #1E2E28; border-radius: 6px; }
+    code { color: #E0C77F; background: rgba(212,176,98,0.10); }
     </style>
 
 

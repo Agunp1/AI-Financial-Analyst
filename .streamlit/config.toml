@@ -1,22 +1,23 @@
 [theme]
-base = "light"
-primaryColor = "#1F5C47"
-backgroundColor = "#FBFAF7"
-secondaryBackgroundColor = "#F2EFE7"
-textColor = "#1B2A24"
-linkColor = "#7D6224"
-borderColor = "#E4E1D8"
+base = "dark"
+primaryColor = "#D4B062"
+backgroundColor = "#0B1612"
+secondaryBackgroundColor = "#13241D"
+textColor = "#E9E4D6"
+linkColor = "#E0C77F"
+borderColor = "#1E2E28"
 baseRadius = "6px"
 font = "IBM Plex Sans:https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
 headingFont = "Source Serif 4:https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap"
-chartCategoricalColors = ["#1F5C47", "#A9843A", "#9FB5AA", "#3F7F9C", "#7A5C8E", "#C9A961", "#5E8B73", "#B5654A"]
+codeFont = "IBM Plex Mono:https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+chartCategoricalColors = ["#5FA88A", "#D4B062", "#7FB3D5", "#C39BD3", "#6E8C7E", "#E59866", "#76D7C4", "#F1948A"]
 
 [theme.sidebar]
-backgroundColor = "#123D30"
-secondaryBackgroundColor = "#1B4A3B"
-textColor = "#E7EFEA"
+backgroundColor = "#07100D"
+secondaryBackgroundColor = "#10201A"
+textColor = "#D6DED9"
 primaryColor = "#E0C77F"
-borderColor = "#2A5A49"
+borderColor = "#1A2A23"
 
 [client]
 toolbarMode = "minimal"

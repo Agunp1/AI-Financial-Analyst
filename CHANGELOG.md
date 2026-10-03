@@ -4,7 +4,9 @@
 - Sixth Academy role: PE / VC analyst at a small fund — deal screening, term sheet and waterfall, quick LBO,
   mock interviews; six lessons (CFA L2 Alternative Investments) and a VC/LBO item set.
 - `private_markets.py`: VC method, priced rounds, cap table, exit waterfall, unit economics, fund power law, LBO.
-- Private-bank visual theme across the app.
+- "Night private bank" visual theme (dark green-black, brass accents, serif headings, monospaced numbers).
+- US market engine excludes ETFs, commodity pools and asset-backed trusts.
+- Removed the grant-application draft (not applicable).
 
 ## 1.0 — Vittantra release (Day 90)
 
