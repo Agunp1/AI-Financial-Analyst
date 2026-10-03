@@ -58,6 +58,12 @@ def sign_in_box() -> None:
         return
     if st.session_state.get("vt_owner"):
         st.caption("Signed in as owner · your work is saved to GitHub")
+        status = st.session_state.get("vt_save_status")
+        if status:
+            (st.success if status.startswith(("Saved", "Saving works")) else st.warning)(status)
+        if st.button("Test saving", key="vt-test-save"):
+            st.session_state["vt_save_status"] = check_github()
+            st.rerun()
         if st.button("Sign out", key="vt-sign-out"):
             st.session_state["vt_owner"] = False
             st.rerun()
@@ -80,14 +86,36 @@ def github_settings() -> Optional[dict]:
     return {"token": token, "repo": repo, "branch": _secret("github_branch", "main")}
 
 
+def check_github(settings: Optional[dict] = None, session=requests) -> str:
+    """Plain-English check that the token can write to the repository."""
+    settings = settings or github_settings()
+    if not settings:
+        return "GitHub saving is not set up: add github_token and github_repo in Secrets."
+    headers = {"Authorization": f"Bearer {settings['token'].strip()}", "Accept": "application/vnd.github+json"}
+    try:
+        response = session.get(f"{API}/repos/{settings['repo'].strip()}", headers=headers, timeout=20)
+    except Exception as error:
+        return f"Could not reach GitHub ({type(error).__name__})."
+    if response.status_code == 401:
+        return "GitHub rejected the token (401): it is wrong, expired or was pasted with extra characters."
+    if response.status_code == 404:
+        return (f"GitHub cannot see {settings['repo']} with this token (404): give the token access to "
+                "this repository (Repository access → Only select repositories).")
+    if response.status_code != 200:
+        return f"GitHub answered {response.status_code}."
+    if not response.json().get("permissions", {}).get("push"):
+        return "The token can read but not write: set Repository permissions → Contents → Read and write."
+    return "Saving works: the token can write to the repository."
+
+
 def commit_file(path: Path, message: str, settings: Optional[dict] = None, session=requests) -> str:
     """Create or update one file on GitHub through the contents API."""
     settings = settings or github_settings()
     if not settings:
         return "GitHub saving is not set up (see DEPLOY.md, 'Sign in and save online')."
     relative = Path(path).resolve().relative_to(BASE_DIR).as_posix()
-    url = f"{API}/repos/{settings['repo']}/contents/{relative}"
-    headers = {"Authorization": f"Bearer {settings['token']}", "Accept": "application/vnd.github+json"}
+    url = f"{API}/repos/{settings['repo'].strip()}/contents/{relative}"
+    headers = {"Authorization": f"Bearer {settings['token'].strip()}", "Accept": "application/vnd.github+json"}
     current = session.get(url, headers=headers, params={"ref": settings["branch"]}, timeout=20)
     body = {"message": message, "branch": settings["branch"],
             "content": base64.b64encode(Path(path).read_bytes()).decode()}
@@ -95,7 +123,8 @@ def commit_file(path: Path, message: str, settings: Optional[dict] = None, sessi
         body["sha"] = current.json()["sha"]
     response = session.put(url, headers=headers, json=body, timeout=30)
     if response.status_code not in (200, 201):
-        return f"Saved here, but GitHub refused the save ({response.status_code}). Check the token in Secrets."
+        detail = check_github(settings, session) if response.status_code in (401, 403, 404) else ""
+        return f"Not saved to GitHub ({response.status_code}). {detail}".strip()
     return ""
 
 
@@ -103,7 +132,12 @@ def persist(path: Path, message: str) -> None:
     """Call after writing a file. Online and signed in → commit it to GitHub."""
     if not (cloud_mode() and is_owner()):
         return
-    problem = commit_file(Path(path), message)
+    try:
+        problem = commit_file(Path(path), message)
+    except Exception as error:
+        problem = f"Not saved to GitHub ({type(error).__name__})."
+    # Kept in the session so the result is still visible after the page reruns
+    st.session_state["vt_save_status"] = problem or f"Saved to GitHub: {Path(path).name}"
     if problem:
         st.warning(problem)
     else:
