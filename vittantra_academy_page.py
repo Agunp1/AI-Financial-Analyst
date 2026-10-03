@@ -11,6 +11,8 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+import vittantra_theme as vt
+
 import academy_cfa as cfa
 import academy_desk as desk
 import academy_live as live
@@ -205,7 +207,7 @@ def desk_portfolio_manager(progress):
     if result:
         shares = result["shares"].sort_values(ascending=False)
         figure = go.Figure(go.Bar(x=shares.index, y=shares.values * 100,
-                                  marker_color=["#E5484D" if v > desk.RISK_CAP else "#2E6BE6" for v in shares.values]))
+                                  marker_color=[vt.NEGATIVE if v > desk.RISK_CAP else vt.FOREST for v in shares.values]))
         figure.add_hline(y=desk.RISK_CAP * 100, line_dash="dash", annotation_text="35% limit")
         figure.update_layout(height=280, margin=dict(l=10, r=10, t=10, b=10), yaxis_title="Risk share (%)")
         st.plotly_chart(figure, width="stretch")

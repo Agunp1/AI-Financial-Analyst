@@ -12,12 +12,13 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+import vittantra_theme as vt
+
 import advisory_engine as ae
 
 
 BASE_DIR = Path(__file__).resolve().parent
-PALETTE = ["#2E6BE6", "#5B8DEF", "#8FB3F5", "#0F9D58", "#34A853", "#7CC48F", "#F4B400", "#E5484D", "#B8860B",
-           "#9AA4B2"]
+PALETTE = vt.CATEGORICAL
 
 
 @st.cache_data(show_spinner=False, ttl=60)
@@ -47,11 +48,11 @@ def _fan(projection: pd.DataFrame, target: float = 0.0):
     figure.add_trace(go.Scatter(x=projection["year"], y=projection["p90"], line=dict(width=0), mode="lines", showlegend=False,
                                 hoverinfo="skip"))
     figure.add_trace(go.Scatter(x=projection["year"], y=projection["p10"], fill="tonexty", line=dict(width=0), mode="lines",
-                                fillcolor="rgba(46,107,230,0.18)", name="10th–90th percentile"))
-    figure.add_trace(go.Scatter(x=projection["year"], y=projection["p50"], line=dict(color="#2E6BE6", width=3),
+                                fillcolor=vt.band(vt.FOREST, 0.16), name="10th–90th percentile"))
+    figure.add_trace(go.Scatter(x=projection["year"], y=projection["p50"], line=dict(color=vt.FOREST, width=3),
                                 mode="lines", name="Median"))
     if target > 0:
-        figure.add_hline(y=target, line_dash="dash", line_color="#E5484D", annotation_text="Goal")
+        figure.add_hline(y=target, line_dash="dash", line_color=vt.BRASS, annotation_text="Goal")
     figure.update_layout(height=320, margin=dict(l=10, r=10, t=40, b=10), title="Projected wealth (today's money)",
                          xaxis_title="Years", yaxis_title="$",
                          legend=dict(orientation="h", yanchor="bottom", y=1.0, xanchor="right", x=1))

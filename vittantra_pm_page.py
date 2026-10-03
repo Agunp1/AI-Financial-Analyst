@@ -12,9 +12,11 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+import vittantra_theme as vt
+
 
 BASE_DIR = Path(__file__).resolve().parent
-BLUE, RED, GREY = "#2E6BE6", "#E5484D", "#9AA4B2"
+BLUE, RED, GREY = vt.FOREST, vt.NEGATIVE, vt.SAGE
 
 
 @st.cache_data(show_spinner=False, ttl=60)
@@ -108,7 +110,7 @@ def _attribution() -> None:
                                     y=[v * 100 for v in effects.values()] + [s["active_cumulative"] * 100],
                                     text=[f"{v:+.1%}" for v in effects.values()] + [f"{s['active_cumulative']:+.1%}"],
                                     increasing=dict(marker_color=BLUE), decreasing=dict(marker_color=RED),
-                                    totals=dict(marker_color="#0F172A")))
+                                    totals=dict(marker_color=vt.BRASS)))
     figure.update_layout(height=320, margin=dict(l=10, r=10, t=40, b=10), yaxis_title="%",
                          title="Brinson–Fachler attribution (Carino-linked)")
     st.plotly_chart(figure, width="stretch")

@@ -13,6 +13,8 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+import vittantra_theme as vt
+
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -175,9 +177,9 @@ def render_valuation_reports() -> None:
         models = {m: row.get(f"{m.lower()}_value") for m in ("DCF", "RI", "DDM")}
         models = {m: float(v) for m, v in models.items() if pd.notna(v)}
         if models:
-            figure = go.Figure(go.Bar(x=list(models), y=list(models.values()), marker_color="#2E6BE6",
+            figure = go.Figure(go.Bar(x=list(models), y=list(models.values()), marker_color=vt.FOREST,
                                       text=[f"${v:,.0f}" for v in models.values()], textposition="outside"))
-            figure.add_hline(y=float(row["price"]), line_dash="dash", line_color="#E5484D",
+            figure.add_hline(y=float(row["price"]), line_dash="dash", line_color=vt.BRASS,
                              annotation_text=f"Price ${float(row['price']):,.0f}")
             figure.update_layout(height=300, margin=dict(l=10, r=10, t=40, b=10), title="Value per share by model",
                                  yaxis_title="$ per share")
@@ -302,7 +304,7 @@ def render_research() -> None:
         figure = go.Figure(go.Bar(
             x=values, y=list(PILLAR_LABELS.values()), orientation="h",
             text=[_fmt(v, "{:.0f}") for v in values], textposition="outside",
-            marker_color="#2E6BE6",
+            marker_color=vt.FOREST,
         ))
         figure.update_layout(height=260, margin=dict(l=10, r=30, t=10, b=10),
                              xaxis=dict(range=[0, 110], title="Percentile score"))

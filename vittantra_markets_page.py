@@ -12,6 +12,8 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+import vittantra_theme as vt
+
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -66,10 +68,10 @@ def _rates_and_credit(analytics: pd.DataFrame) -> None:
         c4.metric("10Y breakeven inflation", f"{first.get('breakeven_10y_pct', float('nan')):.2f}%")
         figure = go.Figure()
         figure.add_trace(go.Scatter(x=curve["maturity"], y=curve["yield_pct"], mode="lines+markers",
-                                    name=f"Latest ({curve['date'].max()})", line=dict(color="#2E6BE6", width=3)))
+                                    name=f"Latest ({curve['date'].max()})", line=dict(color=vt.FOREST, width=3)))
         if curve["yield_1y_ago_pct"].notna().any():
             figure.add_trace(go.Scatter(x=curve["maturity"], y=curve["yield_1y_ago_pct"], mode="lines+markers",
-                                        name="1 year ago", line=dict(color="#9AA4B2", dash="dash")))
+                                        name="1 year ago", line=dict(color=vt.BRASS, dash="dash")))
         figure.update_layout(height=320, margin=dict(l=10, r=10, t=30, b=10), yaxis_title="Yield (%)",
                              title="US Treasury yield curve")
         st.plotly_chart(figure, width="stretch")
@@ -127,7 +129,7 @@ def _macro_and_economy() -> None:
         columns = [f"std_beta_{k}" for k in FACTOR_LABELS if f"std_beta_{k}" in reps.columns]
         matrix = reps.set_index("name")[columns].rename(columns=lambda c: FACTOR_LABELS[c.replace("std_beta_", "")])
         figure = go.Figure(go.Heatmap(z=matrix.to_numpy() * 100, x=matrix.columns, y=matrix.index,
-                                      colorscale="RdBu", zmid=0, colorbar=dict(title="% per 1 s.d.")))
+                                      colorscale=vt.DIVERGING, zmid=0, colorbar=dict(title="% per 1 s.d.")))
         figure.update_layout(height=max(320, 22 * len(matrix)), margin=dict(l=10, r=10, t=30, b=10),
                              title="Sensitivity to a typical daily factor move")
         st.plotly_chart(figure, width="stretch")
