@@ -76,6 +76,7 @@ last good data. Free prices may be delayed by about 15 minutes.
 
 | Page | What it shows |
 |------|---------------|
+| **Markets** | All asset classes: yield curve, credit spreads, FX carry, commodities, digital assets, REITs, alternatives, equity indices |
 | **Research** | Fundamental scores for the 33-stock universe: value, growth, quality, financial health; company detail |
 | **Command Center** | Portfolio status, instrument count, approval queue, immediate priorities, maximum risk-budget utilization, workflow state |
 | **Portfolio** | Risk-budget rankings, asset-class risk allocation, modeled risk contribution, Top-1 / Top-3 risk share, effective risk positions, automated observations |
@@ -263,6 +264,17 @@ Only filings published on or before the analysis date are used (no look-ahead),
 restatements replace earlier values only once filed, and flow items use
 trailing twelve months. Banks are scored without industrial ratios. Set
 `SEC_USER_AGENT=Your Name your@email.com` in `.env` (SEC fair-access rule).
+
+### Phase 14 — Every asset class (Day 76c)
+`multi_asset_universe.py` covers **161 instruments across 7 asset classes** with
+free data: the US Treasury curve (1M–30Y), TIPS real yields and breakeven
+inflation, credit spreads AAA→CCC, bond ETFs, 24 FX pairs with carry from OECD
+short rates, energy/metals/agricultural futures, major cryptocurrencies and
+stablecoins, REIT ETFs, listed alternatives (private-equity managers, BDCs,
+infrastructure, managed futures, volatility, farmland, timber) and equity index
+ETFs. Each instrument gets returns, 12-1 momentum, volatility annualized on its
+own trading calendar, drawdown, trend and beta to the S&P 500. The **Markets**
+page shows it by asset class.
 
 ## Tech stack
 

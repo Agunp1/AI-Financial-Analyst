@@ -79,6 +79,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from vittantra_research_page import render_research
+from vittantra_markets_page import render_markets
 
 from vittantra_ai_analyst import render_ai_analyst
 
@@ -1645,6 +1646,13 @@ with st.sidebar:
 
 
             "Research",
+
+
+
+
+
+
+            "Markets",
 
 
 
@@ -4690,6 +4698,11 @@ elif page == "Remediation":
 elif page == "Research":
 
     render_research()
+
+
+elif page == "Markets":
+
+    render_markets()
 
 
 elif page == "AI Analyst":

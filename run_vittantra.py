@@ -49,6 +49,7 @@ DATA_STEP = ("Data hub", "vittantra_data_hub.py")
 # but does not stop the pipeline.
 RESEARCH_STEPS = [
     ("Day 76 fundamentals (SEC)", "fundamental_engine.py"),
+    ("Day 76c multi-asset universe", "multi_asset_universe.py"),
 ]
 
 CHAIN_STEPS = [

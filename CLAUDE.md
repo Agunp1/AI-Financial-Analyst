@@ -30,6 +30,7 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 | 75 | `vittantra_data_hub.py`, `vittantra_live_inputs.py`, `run_vittantra.py` | Free live data → risk chain; one-command pipeline |
 | 76 | `fundamental_engine.py`, `vittantra_research_page.py` | SEC EDGAR point-in-time fundamentals and scores |
 | 76b | `us_fundamental_engine.py` | All US-listed stocks via SEC frames; sector-relative scores |
+| 76c | `multi_asset_universe.py`, `vittantra_markets_page.py` | Rates, credit, FX, commodities, crypto, REITs, alternatives |
 
 ## Non-negotiable rules
 
