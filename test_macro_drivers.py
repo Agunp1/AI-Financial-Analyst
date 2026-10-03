@@ -79,5 +79,25 @@ class MacroDriverTests(unittest.TestCase):
         self.assertTrue(failed.empty, failed.to_string())
 
 
+class AlignmentTests(unittest.TestCase):
+
+    def test_intraday_price_timestamps_do_not_shift_returns(self):
+        prices, fred, _ = planted_market()
+        stamped = prices.copy()
+        stamped.index = stamped.index + pd.Timedelta(hours=5)
+        returns, factors = md.build_daily_frame(stamped, fred)
+        lags = md.alignment_lags(returns, factors)
+        self.assertLess(lags[0], -0.9)
+        betas = md.macro_betas(returns["TLT"], factors)
+        self.assertAlmostEqual(betas["beta_interest_rates"], -17, delta=0.5)
+
+    def test_misaligned_dates_are_flagged(self):
+        prices, fred, universe = planted_market()
+        with tempfile.TemporaryDirectory() as tmp:
+            *_, validation = md.run_macro_drivers(prices, fred.shift(1), universe, Path(tmp), verbose=False)
+        check = validation[validation["check"].str.startswith("Rates factor lines up")].iloc[0]
+        self.assertFalse(check["passed"])
+
+
 if __name__ == "__main__":
     unittest.main()
