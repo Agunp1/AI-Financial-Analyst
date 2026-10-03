@@ -8,9 +8,9 @@ BLK,True,False,True,True,False,True,True,True,True,True,False,True,False,False,F
 JNJ,True,True,True,True,False,True,True,False,True,True,True,False,True,True,True,False,False,True
 LLY,True,False,True,True,False,True,True,False,True,True,True,False,True,True,True,False,False,True
 UNH,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True
-XOM,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False,False
+XOM,False,False,True,False,False,False,False,False,False,False,False,False,False,True,True,False,False,True
 CVX,True,True,True,True,False,True,True,False,True,True,True,False,True,True,True,False,False,True
-COP,True,False,True,True,False,True,True,False,True,True,True,False,True,False,True,False,False,True
+COP,True,False,True,True,False,True,True,False,True,True,True,False,True,True,True,False,False,True
 CAT,True,True,True,True,False,True,True,True,True,True,True,True,True,False,True,False,False,True
 HON,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,False,True,True
 UNP,True,True,True,True,True,True,True,True,True,True,False,True,True,True,True,True,False,True
@@ -27,7 +27,7 @@ NEE,True,False,True,True,True,True,True,True,True,True,False,True,True,True,True
 DUK,True,True,True,True,True,True,True,True,True,True,False,True,True,True,True,False,True,True
 SO,True,True,True,True,True,True,True,True,True,True,False,True,True,True,True,False,True,True
 PLD,True,False,True,True,True,True,True,True,True,True,False,True,True,True,False,True,True,True
-AMT,True,True,True,True,False,True,True,True,True,True,False,True,True,False,True,True,False,True
+AMT,True,True,True,True,True,True,True,True,True,True,False,True,True,True,True,True,True,True
 O,True,False,True,True,False,True,True,False,True,True,False,False,True,True,False,False,False,True
 LIN,True,True,True,True,True,True,True,True,True,True,False,True,True,True,True,True,True,True
 APD,True,False,True,True,True,True,True,True,True,True,True,True,False,True,True,True,True,True

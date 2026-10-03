@@ -1,0 +1,162 @@
+symbol,name,asset_class,sub_class,currency,source
+SPY,S&P 500 ETF,Equity,US broad,USD,Yahoo Finance
+QQQ,Nasdaq-100 ETF,Equity,US broad,USD,Yahoo Finance
+IWM,Russell 2000 ETF,Equity,US broad,USD,Yahoo Finance
+DIA,Dow Jones ETF,Equity,US broad,USD,Yahoo Finance
+RSP,S&P 500 Equal Weight ETF,Equity,US broad,USD,Yahoo Finance
+EFA,Developed ex-US ETF,Equity,International,USD,Yahoo Finance
+EEM,Emerging Markets ETF,Equity,International,USD,Yahoo Finance
+VT,Total World ETF,Equity,International,USD,Yahoo Finance
+INDA,India ETF,Equity,International,USD,Yahoo Finance
+MCHI,China ETF,Equity,International,USD,Yahoo Finance
+EWJ,Japan ETF,Equity,International,USD,Yahoo Finance
+EWZ,Brazil ETF,Equity,International,USD,Yahoo Finance
+EWG,Germany ETF,Equity,International,USD,Yahoo Finance
+EWU,United Kingdom ETF,Equity,International,USD,Yahoo Finance
+SHY,1-3Y Treasury ETF,Fixed Income,Treasury ETF,USD,Yahoo Finance
+IEF,7-10Y Treasury ETF,Fixed Income,Treasury ETF,USD,Yahoo Finance
+TLT,20+Y Treasury ETF,Fixed Income,Treasury ETF,USD,Yahoo Finance
+BIL,1-3M T-Bill ETF,Fixed Income,Treasury ETF,USD,Yahoo Finance
+TIP,TIPS ETF,Fixed Income,Inflation-linked ETF,USD,Yahoo Finance
+AGG,US Aggregate Bond ETF,Fixed Income,Aggregate ETF,USD,Yahoo Finance
+BND,Total Bond Market ETF,Fixed Income,Aggregate ETF,USD,Yahoo Finance
+LQD,IG Corporate Bond ETF,Fixed Income,Investment grade ETF,USD,Yahoo Finance
+VCSH,Short-Term Corporate ETF,Fixed Income,Investment grade ETF,USD,Yahoo Finance
+VCIT,Intermediate Corporate ETF,Fixed Income,Investment grade ETF,USD,Yahoo Finance
+HYG,High Yield Corporate ETF,Fixed Income,High yield ETF,USD,Yahoo Finance
+JNK,High Yield Bond ETF,Fixed Income,High yield ETF,USD,Yahoo Finance
+BKLN,Senior Loan ETF,Fixed Income,High yield ETF,USD,Yahoo Finance
+MUB,Municipal Bond ETF,Fixed Income,Other bond ETF,USD,Yahoo Finance
+MBB,Mortgage-Backed ETF,Fixed Income,Other bond ETF,USD,Yahoo Finance
+BNDX,International Bond ETF,Fixed Income,Other bond ETF,USD,Yahoo Finance
+EMB,EM Sovereign Bond ETF,Fixed Income,Other bond ETF,USD,Yahoo Finance
+FLOT,Floating Rate ETF,Fixed Income,Other bond ETF,USD,Yahoo Finance
+EURUSD=X,Euro / US dollar,FX,G10,FX,Yahoo Finance
+GBPUSD=X,British pound / US dollar,FX,G10,FX,Yahoo Finance
+USDJPY=X,US dollar / Japanese yen,FX,G10,FX,Yahoo Finance
+USDCHF=X,US dollar / Swiss franc,FX,G10,FX,Yahoo Finance
+AUDUSD=X,Australian dollar / US dollar,FX,G10,FX,Yahoo Finance
+NZDUSD=X,New Zealand dollar / US dollar,FX,G10,FX,Yahoo Finance
+USDCAD=X,US dollar / Canadian dollar,FX,G10,FX,Yahoo Finance
+USDSEK=X,US dollar / Swedish krona,FX,G10,FX,Yahoo Finance
+USDNOK=X,US dollar / Norwegian krone,FX,G10,FX,Yahoo Finance
+EURGBP=X,Euro / British pound,FX,Cross,FX,Yahoo Finance
+EURJPY=X,Euro / Japanese yen,FX,Cross,FX,Yahoo Finance
+GBPJPY=X,British pound / Japanese yen,FX,Cross,FX,Yahoo Finance
+EURCHF=X,Euro / Swiss franc,FX,Cross,FX,Yahoo Finance
+USDINR=X,US dollar / Indian rupee,FX,Emerging,FX,Yahoo Finance
+USDCNY=X,US dollar / Chinese yuan,FX,Emerging,FX,Yahoo Finance
+USDMXN=X,US dollar / Mexican peso,FX,Emerging,FX,Yahoo Finance
+USDBRL=X,US dollar / Brazilian real,FX,Emerging,FX,Yahoo Finance
+USDZAR=X,US dollar / South African rand,FX,Emerging,FX,Yahoo Finance
+USDTRY=X,US dollar / Turkish lira,FX,Emerging,FX,Yahoo Finance
+USDKRW=X,US dollar / Korean won,FX,Emerging,FX,Yahoo Finance
+USDSGD=X,US dollar / Singapore dollar,FX,Emerging,FX,Yahoo Finance
+USDHKD=X,US dollar / Hong Kong dollar,FX,Emerging,FX,Yahoo Finance
+USDPLN=X,US dollar / Polish zloty,FX,Emerging,FX,Yahoo Finance
+DX-Y.NYB,US Dollar Index,FX,Dollar index,FX,Yahoo Finance
+CL=F,WTI crude oil,Commodity,Energy,USD,Yahoo Finance
+BZ=F,Brent crude oil,Commodity,Energy,USD,Yahoo Finance
+NG=F,Natural gas,Commodity,Energy,USD,Yahoo Finance
+RB=F,Gasoline,Commodity,Energy,USD,Yahoo Finance
+HO=F,Heating oil,Commodity,Energy,USD,Yahoo Finance
+GC=F,Gold,Commodity,Precious metals,USD,Yahoo Finance
+SI=F,Silver,Commodity,Precious metals,USD,Yahoo Finance
+PL=F,Platinum,Commodity,Precious metals,USD,Yahoo Finance
+PA=F,Palladium,Commodity,Precious metals,USD,Yahoo Finance
+HG=F,Copper,Commodity,Industrial metals,USD,Yahoo Finance
+ZC=F,Corn,Commodity,Grains,USD,Yahoo Finance
+ZW=F,Wheat,Commodity,Grains,USD,Yahoo Finance
+ZS=F,Soybeans,Commodity,Grains,USD,Yahoo Finance
+ZM=F,Soybean meal,Commodity,Grains,USD,Yahoo Finance
+ZL=F,Soybean oil,Commodity,Grains,USD,Yahoo Finance
+KC=F,Coffee,Commodity,Softs,USD,Yahoo Finance
+SB=F,Sugar,Commodity,Softs,USD,Yahoo Finance
+CC=F,Cocoa,Commodity,Softs,USD,Yahoo Finance
+CT=F,Cotton,Commodity,Softs,USD,Yahoo Finance
+LE=F,Live cattle,Commodity,Livestock,USD,Yahoo Finance
+HE=F,Lean hogs,Commodity,Livestock,USD,Yahoo Finance
+GF=F,Feeder cattle,Commodity,Livestock,USD,Yahoo Finance
+DBC,Broad Commodity ETF,Commodity,Commodity ETF,USD,Yahoo Finance
+PDBC,Optimum Yield Commodity ETF,Commodity,Commodity ETF,USD,Yahoo Finance
+GLD,Gold ETF,Commodity,Commodity ETF,USD,Yahoo Finance
+SLV,Silver ETF,Commodity,Commodity ETF,USD,Yahoo Finance
+USO,Oil ETF,Commodity,Commodity ETF,USD,Yahoo Finance
+BTC-USD,Bitcoin,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+ETH-USD,Ether,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+SOL-USD,Solana,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+BNB-USD,BNB,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+XRP-USD,XRP,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+ADA-USD,Cardano,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+DOGE-USD,Dogecoin,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+AVAX-USD,Avalanche,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+DOT-USD,Polkadot,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+LINK-USD,Chainlink,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+LTC-USD,Litecoin,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+BCH-USD,Bitcoin Cash,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+TRX-USD,TRON,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+XLM-USD,Stellar,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+ATOM-USD,Cosmos,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+ETC-USD,Ethereum Classic,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+FIL-USD,Filecoin,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+HBAR-USD,Hedera,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+ALGO-USD,Algorand,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+XMR-USD,Monero,Digital Asset,Cryptocurrency,USD,Yahoo Finance
+USDT-USD,Tether,Digital Asset,Stablecoin,USD,Yahoo Finance
+USDC-USD,USD Coin,Digital Asset,Stablecoin,USD,Yahoo Finance
+IBIT,iShares Bitcoin Trust,Digital Asset,Crypto ETF,USD,Yahoo Finance
+FBTC,Fidelity Bitcoin Fund,Digital Asset,Crypto ETF,USD,Yahoo Finance
+ETHA,iShares Ethereum Trust,Digital Asset,Crypto ETF,USD,Yahoo Finance
+VNQ,US REIT ETF,Real Estate,REIT ETF,USD,Yahoo Finance
+XLRE,Real Estate Select Sector ETF,Real Estate,REIT ETF,USD,Yahoo Finance
+VNQI,International REIT ETF,Real Estate,REIT ETF,USD,Yahoo Finance
+SCHH,US REIT ETF (Schwab),Real Estate,REIT ETF,USD,Yahoo Finance
+BX,Blackstone,Alternative,Private equity (listed),USD,Yahoo Finance
+KKR,KKR,Alternative,Private equity (listed),USD,Yahoo Finance
+APO,Apollo,Alternative,Private equity (listed),USD,Yahoo Finance
+CG,Carlyle,Alternative,Private equity (listed),USD,Yahoo Finance
+ARES,Ares Management,Alternative,Private equity (listed),USD,Yahoo Finance
+PSP,Listed Private Equity ETF,Alternative,Private equity (listed),USD,Yahoo Finance
+ARCC,Ares Capital,Alternative,Private credit (BDCs),USD,Yahoo Finance
+MAIN,Main Street Capital,Alternative,Private credit (BDCs),USD,Yahoo Finance
+OBDC,Blue Owl Capital Corp,Alternative,Private credit (BDCs),USD,Yahoo Finance
+FSK,FS KKR Capital,Alternative,Private credit (BDCs),USD,Yahoo Finance
+BIZD,BDC Income ETF,Alternative,Private credit (BDCs),USD,Yahoo Finance
+IGF,Global Infrastructure ETF,Alternative,Infrastructure & MLPs,USD,Yahoo Finance
+PAVE,US Infrastructure ETF,Alternative,Infrastructure & MLPs,USD,Yahoo Finance
+AMLP,MLP ETF,Alternative,Infrastructure & MLPs,USD,Yahoo Finance
+QAI,Hedge Multi-Strategy Tracker ETF,Alternative,Hedge-fund style,USD,Yahoo Finance
+DBMF,Managed Futures ETF,Alternative,Hedge-fund style,USD,Yahoo Finance
+KMLM,Managed Futures ETF (KFA),Alternative,Hedge-fund style,USD,Yahoo Finance
+^VIX,CBOE Volatility Index,Alternative,Volatility,USD,Yahoo Finance
+VIXY,VIX Short-Term Futures ETF,Alternative,Volatility,USD,Yahoo Finance
+LAND,Gladstone Land (farmland),Alternative,Real assets,USD,Yahoo Finance
+FPI,Farmland Partners,Alternative,Real assets,USD,Yahoo Finance
+WOOD,Global Timber ETF,Alternative,Real assets,USD,Yahoo Finance
+GDX,Gold Miners ETF,Alternative,Real assets,USD,Yahoo Finance
+DGS1MO,US Treasury 1M,Fixed Income,Treasury yield,% / bp,FRED
+DGS3MO,US Treasury 3M,Fixed Income,Treasury yield,% / bp,FRED
+DGS6MO,US Treasury 6M,Fixed Income,Treasury yield,% / bp,FRED
+DGS1,US Treasury 1Y,Fixed Income,Treasury yield,% / bp,FRED
+DGS2,US Treasury 2Y,Fixed Income,Treasury yield,% / bp,FRED
+DGS3,US Treasury 3Y,Fixed Income,Treasury yield,% / bp,FRED
+DGS5,US Treasury 5Y,Fixed Income,Treasury yield,% / bp,FRED
+DGS7,US Treasury 7Y,Fixed Income,Treasury yield,% / bp,FRED
+DGS10,US Treasury 10Y,Fixed Income,Treasury yield,% / bp,FRED
+DGS20,US Treasury 20Y,Fixed Income,Treasury yield,% / bp,FRED
+DGS30,US Treasury 30Y,Fixed Income,Treasury yield,% / bp,FRED
+DFII5,TIPS real yield 5Y,Fixed Income,Real yield,% / bp,FRED
+DFII10,TIPS real yield 10Y,Fixed Income,Real yield,% / bp,FRED
+DFII30,TIPS real yield 30Y,Fixed Income,Real yield,% / bp,FRED
+T5YIE,Breakeven inflation 5Y,Fixed Income,Breakeven inflation,% / bp,FRED
+T10YIE,Breakeven inflation 10Y,Fixed Income,Breakeven inflation,% / bp,FRED
+BAMLC0A1CAAA,Credit spread: AAA,Fixed Income,Credit spread,% / bp,FRED
+BAMLC0A2CAA,Credit spread: AA,Fixed Income,Credit spread,% / bp,FRED
+BAMLC0A3CA,Credit spread: A,Fixed Income,Credit spread,% / bp,FRED
+BAMLC0A4CBBB,Credit spread: BBB,Fixed Income,Credit spread,% / bp,FRED
+BAMLH0A1HYBB,Credit spread: BB,Fixed Income,Credit spread,% / bp,FRED
+BAMLH0A2HYB,Credit spread: B,Fixed Income,Credit spread,% / bp,FRED
+BAMLH0A3HYC,Credit spread: CCC & below,Fixed Income,Credit spread,% / bp,FRED
+BAMLC0A0CM,Credit spread: US investment grade,Fixed Income,Credit spread,% / bp,FRED
+BAMLH0A0HYM2,Credit spread: US high yield,Fixed Income,Credit spread,% / bp,FRED
+BAMLEMCBPIOAS,Credit spread: Emerging-market corporates,Fixed Income,Credit spread,% / bp,FRED
