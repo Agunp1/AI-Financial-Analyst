@@ -19,7 +19,7 @@ def quarter_bounds(year, q):
 
 
 def build_company(quarterly_revenue, margin=0.2, equity=50_000.0, shares=1_000.0,
-                  restate=None, share_classes=1, filing_lag_days=40):
+                  restate=None, share_classes=1, filing_lag_days=40, report_ytd=True):
     """
     Calendar fiscal year. quarterly_revenue: {(year, q): value}.
     10-Qs report 3-month and year-to-date values; 10-Ks report the year.
@@ -56,7 +56,7 @@ def build_company(quarterly_revenue, margin=0.2, equity=50_000.0, shares=1_000.0
                 filed = q_end + pd.Timedelta(days=filing_lag_days)
                 for concept, factor in scale.items():
                     add_flow(concept, q_start, q_end, revenue * factor, "10-Q", filed, f"Q{q}")
-                    if q > 1:
+                    if q > 1 and report_ytd:
                         add_flow(concept, year_start, q_end, ytd * factor, "10-Q", filed, f"Q{q}")
             else:
                 filed = q_end + pd.Timedelta(days=filing_lag_days + 20)
@@ -161,6 +161,61 @@ class MetricTests(unittest.TestCase):
     def test_share_classes_are_summed(self):
         m = self.metrics(build_company(REVENUE, share_classes=3))
         self.assertAlmostEqual(m["shares_outstanding"], 1_000.0)
+
+
+def add_fact(company, concept, rows, taxonomy="us-gaap", unit="USD"):
+    company["facts"].setdefault(taxonomy, {})[concept] = {"units": {unit: rows}}
+
+
+class RealFilingTrapTests(unittest.TestCase):
+    """Cases found in real SEC data (AMT, XOM, GOOGL/META, SO, banks)."""
+
+    AS_OF = pd.Timestamp("2025-09-01")
+
+    def test_reit_revenue_uses_total_not_contract_revenue(self):
+        company = build_company(REVENUE)
+        small = [dict(r, val=r["val"] * 0.1)
+                 for r in company["facts"]["us-gaap"]["Revenues"]["units"]["USD"]]
+        add_fact(company, "RevenueFromContractWithCustomerExcludingAssessedTax", small)
+        m = fe.compute_company_metrics(company, self.AS_OF, 10.0, "Real Estate")
+        self.assertAlmostEqual(m["revenue_ttm"], 580.0)
+
+    def test_quarter_only_reporting_derives_fourth_quarter(self):
+        company = build_company(REVENUE, report_ytd=False)
+        df = fe.concept_frame(company, "revenue", self.AS_OF)
+        self.assertAlmostEqual(fe.ttm_value(df), 580.0)
+
+    def test_multi_class_shares_fall_back_to_diluted_count(self):
+        company = build_company(REVENUE)
+        del company["facts"]["dei"]
+        add_fact(company, "WeightedAverageNumberOfDilutedSharesOutstanding", [
+            {"start": "2025-04-01", "end": "2025-06-30", "val": 2_000.0,
+             "form": "10-Q", "filed": "2025-08-09"}], unit="shares")
+        m = fe.compute_company_metrics(company, self.AS_OF, 10.0, "Communication Services")
+        self.assertAlmostEqual(m["shares_outstanding"], 2_000.0)
+        self.assertAlmostEqual(m["market_cap"], 20_000.0)
+
+    def test_stale_debt_tag_is_ignored(self):
+        company = build_company(REVENUE)
+        add_fact(company, "LongTermDebt", [
+            {"end": "2022-12-31", "val": 100.0, "form": "10-K", "filed": "2023-02-20"}])
+        add_fact(company, "LongTermDebtNoncurrent", [
+            {"end": "2025-06-30", "val": 80_000.0, "form": "10-Q", "filed": "2025-08-09"}])
+        m = fe.compute_company_metrics(company, self.AS_OF, 10.0, "Utilities")
+        self.assertAlmostEqual(m["total_debt"], 80_000.0)
+
+    def test_banks_compared_with_financial_peers_on_capital(self):
+        metrics = pd.DataFrame({
+            "sector": ["Financials", "Financials", "Industrials", "Industrials"],
+            "equity_to_assets": [0.10, 0.06, 0.40, 0.30],
+        }, index=["BANK_A", "BANK_B", "IND_A", "IND_B"])
+        for pillar in fe.PILLARS.values():
+            for metric, _, _ in pillar:
+                if metric not in metrics.columns:
+                    metrics[metric] = float("nan")
+        scores = fe.percentile_scores(metrics)
+        self.assertEqual(scores.loc["BANK_A", "equity_to_assets_score"], 100.0)
+        self.assertEqual(scores.loc["IND_A", "equity_to_assets_score"], 100.0)
 
 
 class EndToEndTests(unittest.TestCase):

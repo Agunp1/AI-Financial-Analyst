@@ -109,6 +109,8 @@ CONCEPTS: Dict[str, List[str]] = {
     "short_term_debt": ["ShortTermBorrowings", "CommercialPaper"],
 }
 
+PEER_GROUP_METRICS = {"equity_to_assets"}
+
 FLOW_ITEMS = {
     "revenue", "cost_of_revenue", "gross_profit", "operating_income", "net_income",
     "eps_diluted", "operating_cash_flow", "capex", "depreciation", "interest_expense",
@@ -238,14 +240,34 @@ def facts_frame(company_facts: dict, taxonomy: str, concept: str, as_of: pd.Time
     return df.sort_values("end").reset_index(drop=True)
 
 
+# Items where several tags can describe nested amounts (for example REIT
+# lease income sits outside "contract revenue"): the largest is the total.
+TAKE_LARGEST = {"revenue"}
+
+
 def concept_frame(company_facts: dict, item: str, as_of: pd.Timestamp) -> pd.DataFrame:
-    """Pick the candidate concept with the most recent period (companies change tags)."""
-    best, best_end = pd.DataFrame(), pd.Timestamp.min
+    """
+    Pick the candidate concept with the most recent period (companies change
+    tags over time). For revenue, among tags reporting that latest period,
+    take the one with the largest annual-scale value, since narrower tags
+    (contract revenue, product revenue) are components of the total.
+    """
+    candidates = []
     for concept in CONCEPTS[item]:
         df = facts_frame(company_facts, "us-gaap", concept, as_of)
-        if not df.empty and df["end"].max() > best_end:
-            best, best_end = df, df["end"].max()
-    return best
+        if not df.empty:
+            candidates.append(df)
+    if not candidates:
+        return pd.DataFrame()
+    latest = max(df["end"].max() for df in candidates)
+    current = [df for df in candidates if _near(df["end"], latest, 7).any()]
+    if item in TAKE_LARGEST and len(current) > 1:
+        def size(df):
+            at_latest = df[_near(df["end"], latest, 7)]
+            longest = at_latest.sort_values("days").iloc[-1] if at_latest["days"].notna().any() else at_latest.iloc[-1]
+            return abs(float(longest["val"]))
+        return max(current, key=size)
+    return current[0]
 
 
 def _near(series: pd.Series, target: pd.Timestamp, tolerance_days: int) -> pd.Series:
@@ -285,14 +307,50 @@ def ttm_value(df: pd.DataFrame, end: Optional[pd.Timestamp] = None) -> Optional[
         & (durations["end"] > ytd["end"] - pd.Timedelta(days=380))
     ]
     if not prior.empty and not fiscal_years.empty:
-        return float(fiscal_years.iloc[-1]["val"] + ytd["val"] - prior.iloc[-1]["val"])
+        fiscal_year = fiscal_years.iloc[-1]
+        # Valid only if the YTD period starts right after that fiscal year
+        # ends (a lone quarter reported without YTD is not a YTD figure).
+        starts_new_year = abs((ytd["start"] - fiscal_year["end"]).days) <= 7
+        if starts_new_year:
+            return float(fiscal_year["val"] + ytd["val"] - prior.iloc[-1]["val"])
 
-    quarters = durations[durations["days"].between(80, 100)].sort_values("end")
-    window = quarters[quarters["end"] > end - pd.Timedelta(days=330)]
-    window = window[window["end"] <= end + pd.Timedelta(days=7)]
+    quarters = quarterly_series(durations)
+    window = quarters[(quarters.index > end - pd.Timedelta(days=330))
+                      & (quarters.index <= end + pd.Timedelta(days=7))]
     if len(window) >= 4:
-        return float(window.tail(4)["val"].sum())
+        return float(window.tail(4).sum())
     return None
+
+
+def quarterly_series(durations: pd.DataFrame) -> pd.Series:
+    """
+    Three-month values by quarter end, using reported quarters and deriving
+    the missing ones from cumulative figures:
+        quarter = YTD − shorter YTD with the same start
+        Q4      = fiscal year − 9-month YTD, or fiscal year − (Q1+Q2+Q3)
+    """
+    quarters = {
+        row["end"]: float(row["val"])
+        for _, row in durations[durations["days"].between(80, 100)].iterrows()
+    }
+    cumulative = durations[durations["days"] > 100].sort_values("days")
+    for _, longer in cumulative.iterrows():
+        if any(abs((longer["end"] - q).days) <= 7 for q in quarters):
+            continue
+        same_start = durations[
+            (durations["start"] == longer["start"])
+            & (durations["end"] < longer["end"])
+            & ((longer["days"] - durations["days"]) - 91).abs().le(15)
+        ]
+        if not same_start.empty:
+            quarters[longer["end"]] = float(longer["val"] - same_start.iloc[-1]["val"])
+            continue
+        if 350 <= longer["days"] <= 380:
+            inside = [v for q, v in quarters.items()
+                      if longer["start"] < q < longer["end"] - pd.Timedelta(days=60)]
+            if len(inside) == 3:
+                quarters[longer["end"]] = float(longer["val"] - sum(inside))
+    return pd.Series(quarters, dtype=float).sort_index()
 
 
 def latest_instant(df: pd.DataFrame, near: Optional[pd.Timestamp] = None, tolerance_days: int = 45):
@@ -310,17 +368,36 @@ def latest_instant(df: pd.DataFrame, near: Optional[pd.Timestamp] = None, tolera
 
 
 def shares_outstanding(company_facts: dict, as_of: pd.Timestamp) -> Optional[float]:
-    """Cover-page shares outstanding, summed across share classes."""
-    df = facts_frame(company_facts, "dei", "EntityCommonStockSharesOutstanding", as_of)
-    if df.empty:
-        return None
-    node = company_facts["facts"]["dei"]["EntityCommonStockSharesOutstanding"]
-    rows = pd.DataFrame([r for v in node["units"].values() for r in v])
-    rows["filed"] = pd.to_datetime(rows["filed"])
-    rows = rows[rows["filed"] <= as_of]
-    latest_filing = rows[rows["filed"] == rows["filed"].max()]
-    latest_end = latest_filing["end"].max()
-    return float(latest_filing[latest_filing["end"] == latest_end]["val"].sum())
+    """
+    Shares outstanding, in order of preference:
+      1. Cover-page shares (dei), summed across share classes.
+      2. Balance-sheet common shares outstanding.
+      3. Diluted weighted-average shares of the latest quarter.
+    Companies with several share classes (GOOGL, META) often tag shares per
+    class with XBRL dimensions, which the free companyfacts API omits, so
+    the fallbacks matter.
+    """
+    node = company_facts.get("facts", {}).get("dei", {}).get("EntityCommonStockSharesOutstanding")
+    if node:
+        rows = pd.DataFrame([r for v in node.get("units", {}).values() for r in v])
+        if not rows.empty:
+            rows["filed"] = pd.to_datetime(rows["filed"])
+            rows = rows[rows["filed"] <= as_of]
+            if not rows.empty:
+                latest_filing = rows[rows["filed"] == rows["filed"].max()]
+                latest_end = latest_filing["end"].max()
+                if (as_of - rows["filed"].max()).days <= 200:
+                    return float(latest_filing[latest_filing["end"] == latest_end]["val"].sum())
+    balance = facts_frame(company_facts, "us-gaap", "CommonStockSharesOutstanding", as_of)
+    if not balance.empty and (as_of - balance["end"].max()).days <= 200:
+        return float(balance.iloc[-1]["val"])
+    diluted = facts_frame(company_facts, "us-gaap", "WeightedAverageNumberOfDilutedSharesOutstanding", as_of)
+    if not diluted.empty:
+        recent = diluted[diluted["days"].between(80, 100)]
+        row = (recent if not recent.empty else diluted).iloc[-1]
+        if (as_of - row["end"]).days <= 200:
+            return float(row["val"])
+    return None
 
 
 # ==============================================================
@@ -356,13 +433,20 @@ def compute_company_metrics(company_facts: dict, as_of: pd.Timestamp,
     out: dict = {}
 
     # Flow items: TTM now and one year earlier.
-    latest_end = frames["revenue"]["end"].max() if not frames["revenue"].empty else None
-    if latest_end is None and not frames["net_income"].empty:
-        latest_end = frames["net_income"]["end"].max()
+    # Latest reporting period: the most common latest period end among core
+    # flow items, so one oddly tagged item cannot shift the whole company.
+    core_ends = [frames[item]["end"].max() for item in
+                 ("revenue", "net_income", "operating_income", "operating_cash_flow")
+                 if not frames[item].empty]
+    latest_end = (pd.Series(core_ends).mode().max() if core_ends else None)
     year_ago_end = None if latest_end is None else latest_end - pd.Timedelta(days=365)
     ttm, ttm_prior = {}, {}
     for item in FLOW_ITEMS:
         ttm[item] = ttm_value(frames[item], latest_end) if latest_end is not None else None
+        if ttm[item] is None and not frames[item].empty and latest_end is not None:
+            own_end = frames[item]["end"].max()
+            if abs((own_end - latest_end).days) <= 100:
+                ttm[item] = ttm_value(frames[item], own_end)
         prior_end = None
         if year_ago_end is not None and not frames[item].empty:
             ends = frames[item]["end"]
@@ -379,12 +463,20 @@ def compute_company_metrics(company_facts: dict, as_of: pd.Timestamp,
         if item in FLOW_ITEMS:
             continue
         value, end = latest_instant(frames[item])
+        # Ignore balance-sheet tags that stopped being reported (stale).
+        reference = latest_end if latest_end is not None else as_of
+        if end is not None and end < reference - pd.Timedelta(days=120):
+            value, end = None, None
         stock[item] = value
         stock_prior[item] = latest_instant(frames[item], end - pd.Timedelta(days=365))[0] if end is not None else None
 
-    debt = stock["long_term_debt_total"]
-    if debt is None and stock["long_term_debt_noncurrent"] is not None:
-        debt = stock["long_term_debt_noncurrent"] + (stock["long_term_debt_current"] or 0.0)
+    # Total long-term debt: the larger of the combined tag and the sum of its
+    # current and non-current parts (companies use either presentation).
+    split = None
+    if stock["long_term_debt_noncurrent"] is not None:
+        split = stock["long_term_debt_noncurrent"] + (stock["long_term_debt_current"] or 0.0)
+    debt_options = [d for d in (stock["long_term_debt_total"], split) if d is not None]
+    debt = max(debt_options) if debt_options else None
     if debt is not None or stock["short_term_debt"] is not None:
         debt = (debt or 0.0) + (stock["short_term_debt"] or 0.0)
 
@@ -470,7 +562,13 @@ def percentile_scores(metrics: pd.DataFrame) -> pd.DataFrame:
             values = pd.to_numeric(metrics[metric], errors="coerce")
             if values.notna().sum() < 3:
                 continue
-            ranked = values.rank(pct=True, ascending=higher_is_better) * 100
+            if metric in PEER_GROUP_METRICS:
+                # Banks run at ~8-10% equity/assets by design; compare them
+                # with other financials, not with industrial companies.
+                groups = metrics["sector"].eq(FINANCIALS_SECTOR)
+                ranked = values.groupby(groups).rank(pct=True, ascending=higher_is_better) * 100
+            else:
+                ranked = values.rank(pct=True, ascending=higher_is_better) * 100
             scores[f"{metric}_score"] = ranked
             columns.append(f"{metric}_score")
         available = scores[columns].notna().sum(axis=1) if columns else pd.Series(0, index=scores.index)
@@ -614,6 +712,14 @@ def print_report(as_of, metrics, scores, validation) -> None:
     if len(failed):
         print("\nCompanies not loaded:")
         print(failed[["error"]].to_string())
+    filed = pd.to_datetime(metrics["latest_filing_date"], errors="coerce")
+    stale = metrics.index[(as_of - filed).dt.days > 135].tolist()
+    if stale:
+        print(f"\nNo filing in the last 135 days (check SEC data; scores use older figures): "
+              f"{', '.join(stale)}")
+    incomplete = scores.index[scores["fundamental_score"].isna()].tolist()
+    if incomplete:
+        print(f"Not enough data for a composite score: {', '.join(incomplete)}")
     negative = metrics.index[metrics["negative_equity"].fillna(False).astype(bool)].tolist()
     if negative:
         print(f"\nNegative shareholders' equity (ROE, book/price and leverage not meaningful): "
