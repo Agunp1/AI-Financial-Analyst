@@ -80,6 +80,7 @@ import streamlit as st
 
 from vittantra_research_page import render_research
 from vittantra_markets_page import render_markets
+from vittantra_academy_page import render_academy
 
 from vittantra_ai_analyst import render_ai_analyst
 
@@ -1642,6 +1643,12 @@ with st.sidebar:
 
 
             "Command Center",
+
+
+
+
+
+            "Academy",
 
 
 
@@ -4694,6 +4701,11 @@ elif page == "Remediation":
 # ============================================================
 # AI ANALYST
 # ============================================================
+
+elif page == "Academy":
+
+    render_academy()
+
 
 elif page == "Research":
 

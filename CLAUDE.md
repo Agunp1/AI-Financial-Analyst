@@ -31,6 +31,7 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 | 76 | `fundamental_engine.py`, `vittantra_research_page.py` | SEC EDGAR point-in-time fundamentals and scores |
 | 76b | `us_fundamental_engine.py` | All US-listed stocks via SEC frames; sector-relative scores |
 | 76c | `multi_asset_universe.py`, `vittantra_markets_page.py` | Rates, credit, FX, commodities, crypto, REITs, alternatives |
+| Academy | `academy_content.py`, `academy_live.py`, `academy_desk.py`, `vittantra_academy_page.py` | Learn-by-doing desk for 5 roles; progress in `academy_progress.json` |
 
 ## Non-negotiable rules
 
@@ -67,6 +68,16 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
   before the as-of date.
 - The cloud sandbox cannot reach Yahoo/FRED/SEC; test with the fake fetchers in
   `test_data_hub.py`. Live downloads run on the owner's machine.
+
+## Academy
+
+- The owner wants to learn by doing the job, not from a book: tasks first,
+  lessons on demand. Keep adding desk tasks and lessons as features are built
+  (one lesson per new feature).
+- Live examples must use Vittantra data and raise `MissingData` rather than
+  invent numbers; reference answers are labelled as one reasonable view.
+- `academy_progress.json` is the owner's work record (committed so their work
+  can be reviewed).
 
 ## Conventions
 

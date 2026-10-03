@@ -76,6 +76,7 @@ last good data. Free prices may be delayed by about 15 minutes.
 
 | Page | What it shows |
 |------|---------------|
+| **Academy** | Work Desk for five investment roles, lessons with live examples, role handbook, work record |
 | **Markets** | All asset classes: yield curve, credit spreads, FX carry, commodities, digital assets, REITs, alternatives, equity indices |
 | **Research** | Fundamental scores for the 33-stock universe: value, growth, quality, financial health; company detail |
 | **Command Center** | Portfolio status, instrument count, approval queue, immediate priorities, maximum risk-budget utilization, workflow state |
@@ -275,6 +276,22 @@ infrastructure, managed futures, volatility, farmland, timber) and equity index
 ETFs. Each instrument gets returns, 12-1 momentum, volatility annualized on its
 own trading calendar, drawdown, trend and beta to the S&P 500. The **Markets**
 page shows it by asset class.
+
+### Vittantra Academy — learn by doing
+The **Academy** page turns Vittantra into a training desk for five roles:
+investment analyst, equity researcher, portfolio/risk analyst, portfolio manager
+and advisor.
+
+- **Work Desk:** daily tasks built from live data (morning brief, company tear
+  sheet, risk check and stress question, rebalance proposal checked live by the
+  risk model, client meeting with suitability checks), graded automatically where
+  there is an objective answer, with a senior-style reference answer.
+- **Lessons on demand:** 25 lessons, each with concept, formulas, a live example
+  from your own data, the code location, an exercise and interview questions.
+- **Role handbook:** framework, daily/weekly/monthly duties, outputs, KPIs, career
+  path and credentials for each role.
+- **Career and work record:** XP and levels (Junior → Analyst → Senior → Lead) per
+  role, and a downloadable record of your work for interviews.
 
 ## Tech stack
 
