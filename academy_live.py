@@ -128,6 +128,23 @@ def ia_fx_carry() -> str:
     return "\n".join(lines) + "\n\nCarry is earned only if the exchange rate does not move against you more than the rate gap."
 
 
+def ia_world_brief() -> str:
+    brief = _csv("day78b_brief.csv", "world_brief.py")
+    lines = ["| Theme | Data this week | Headlines |", "|---|---|---:|"]
+    lines += [f"| {r.theme} | {r.data_move.split(': ', 1)[-1]} | {r.headline_count} |" for r in brief.itertuples()]
+    top = brief.iloc[0]
+    first = str(top["top_headlines"]).split(" || ")[0] if top["headline_count"] else "no headlines"
+    text = "\n".join(lines) + (f"\n\nMost covered theme: **{top['theme']}** ({top['data_move']}). "
+                                f"Example headline: *{first}*. Ask: does it explain the size of the move, "
+                                "and does it change the outlook?")
+    calendar = BASE_DIR / "day78b_calendar.csv"
+    if calendar.exists():
+        cal = pd.read_csv(calendar).head(4)
+        if len(cal):
+            text += "\n\nComing up: " + "; ".join(f"**{r.date}** {r.event}" for r in cal.itertuples())
+    return text
+
+
 # ==============================================================
 # EQUITY RESEARCHER
 # ==============================================================
@@ -181,6 +198,32 @@ def er_health() -> str:
             lines.append(f"| {t} | {de} | {ic} | {nd} | {pct(r['equity_to_assets'])} |")
     return ("\n".join(lines) + "\n\nBanks (JPM, GS) show n/a for industrial ratios: borrowing is their raw material, "
             "so analysts judge them on capital (equity/assets) instead.")
+
+
+def er_intrinsic_value() -> str:
+    v = _csv("day78_valuation.csv", "valuation_engine.py").dropna(subset=["dcf_value", "implied_growth"])
+    if v.empty:
+        raise MissingData("No DCF valuations yet. Run `python valuation_engine.py`.")
+    r = v.sort_values("upside", ascending=False).iloc[len(v) // 2]
+    return (f"**{r['ticker']} — {r['name']}** at ${r['price']:,.2f}\n\n"
+            f"| Input | Value |\n|---|---:|\n| FCFF (TTM) | {money(r['fcff_ttm'])} |\n"
+            f"| Growth, years 1–5 | {pct(r['dcf_initial_growth'])} |\n| Terminal growth | {pct(r['terminal_growth'])} |\n"
+            f"| Cost of equity (r_f {pct(r['risk_free'], 2)} + β {r['beta_adjusted']:.2f} × ERP) | "
+            f"{pct(r['cost_of_equity'])} |\n| WACC | {pct(r['wacc'])} |\n"
+            f"| Terminal value share of DCF | {pct(r['dcf_terminal_share'], 0)} |\n\n"
+            f"DCF value **${r['dcf_value']:,.2f}** per share ({r['upside']:+.0%} vs price). Reverse DCF: the price "
+            f"implies **{pct(r['implied_growth'])}** growth a year for five years, against "
+            f"{pct(r['dcf_initial_growth'])} assumed. If you believe growth will beat the implied rate, the stock "
+            "is cheap to you; if not, it is expensive.")
+
+
+def er_research_note() -> str:
+    from research_report import report_markdown
+    claims = _csv("day78_research_claims.csv", "research_report.py")
+    summary = _csv("day78_report_summary.csv", "research_report.py").set_index("ticker")
+    ticker = summary.index[0]
+    note = report_markdown(ticker, claims, summary.loc[ticker])
+    return note.replace("$", "\\$").replace("\n## ", "\n##### ").replace("# ", "#### ", 1)
 
 
 def er_point_in_time() -> str:
@@ -256,6 +299,26 @@ def ra_risk_contribution() -> str:
     return "\n".join(lines) + "\n\nShares come from Euler contributions, so they add up to 100% of portfolio risk."
 
 
+def ra_what_if() -> str:
+    portfolio = _csv("day79_model_portfolio.csv", "portfolio_construction.py")
+    import whatif_engine as we
+    model = we.RiskModel(we.load_prices(), we.load_fred())
+    weights = portfolio[portfolio["weight"] > 0].set_index("ticker")["weight"].to_dict()
+    risk = we.portfolio_risk(model, weights)
+    if "error" in risk:
+        raise MissingData("No overlapping price history for the model portfolio.")
+    lines = [f"Model portfolio: volatility **{pct(risk['volatility_annual'])}**, 1-day 99% VaR "
+             f"**{money(risk['var99_1d_parametric'])}** per $1m (ES {money(risk['es99_1d_parametric'])}), "
+             f"largest risk share {pct(risk['largest_risk_share'])}."]
+    if model.betas.empty:
+        lines.append("Scenario P&L needs daily overlapping history (run on your machine with daily prices).")
+    else:
+        lines += ["", "| Scenario | P&L per $1m |", "|---|---:|"]
+        for name, shocks in we.SCENARIOS.items():
+            lines.append(f"| {name} | {money(we.scenario_pnl(model, weights, shocks)['pnl'].sum(min_count=1))} |")
+    return "\n".join(lines)
+
+
 # ==============================================================
 # PORTFOLIO MANAGER
 # ==============================================================
@@ -320,6 +383,30 @@ def pm_signals() -> str:
             f"**{best['mean_ic'] * 416 ** 0.5:.2f}** (upper bound — bets are not fully independent).")
 
 
+def pm_model_portfolio() -> str:
+    s = _csv("day79_portfolio_summary.csv", "portfolio_construction.py").iloc[0]
+    p = _csv("day79_model_portfolio.csv", "portfolio_construction.py")
+    top = p.sort_values("weight", ascending=False).head(5)
+    rows = ["| Stock | Score | Alpha | Weight | Risk share |", "|---|---:|---:|---:|---:|"]
+    rows += [f"| {r.ticker} | {r.score:.0f} | {pct(r.alpha)} | {pct(r.weight)} | {pct(r.risk_share)} |"
+             for r in top.itertuples()]
+    return ("\n".join(rows) + f"\n\nExpected active return **{pct(s['expected_active_return'])}** a year at tracking "
+            f"error **{pct(s['tracking_error'])}** (budget {pct(s['tracking_error_budget'], 0)}) → IR "
+            f"**{s['information_ratio']:.2f}**. Beta {s['beta_to_benchmark']:.2f}, active share "
+            f"{pct(s['active_share'], 0)}. Signal IC {s['signal_ic']:.3f}. Status: {s['approval_status']}.")
+
+
+def pm_attribution_brinson() -> str:
+    s = _csv("day80_attribution_summary.csv", "performance_attribution.py").iloc[0]
+    sectors = _csv("day80_brinson_by_sector.csv", "performance_attribution.py")
+    best, worst = sectors.iloc[0], sectors.iloc[-1]
+    return (f"Research portfolio {pct(s['portfolio_cumulative'])} vs benchmark {pct(s['benchmark_cumulative'])} "
+            f"({s['start']} → {s['end']}): active **{pct(s['active_cumulative'])}** = allocation "
+            f"{pct(s['allocation_linked'])} + selection {pct(s['selection_linked'])} + interaction "
+            f"{pct(s['interaction_linked'])} + costs {pct(s['costs_linked'])}.\n\nBest sector: **{best['sector']}** "
+            f"({pct(best['total'])}); worst: **{worst['sector']}** ({pct(worst['total'])}).")
+
+
 # ==============================================================
 # ADVISOR
 # ==============================================================
@@ -363,3 +450,127 @@ def ad_communication() -> str:
     return (f"Instead of *“duration risk is elevated”*, say: *“Ten-year government bonds now pay "
             f"{c.loc['10Y', 'yield_pct']:.2f}% a year. If rates rise by one more percentage point, a typical "
             "10-year bond fund could fall about 8% in price, though it would then earn the higher rate.”*")
+
+
+def ad_cma() -> str:
+    cma = _csv("day82_capital_market_assumptions.csv", "advisory_engine.py")
+    rows = ["| Sleeve | Expected return | Volatility | How |", "|---|---:|---:|---|"]
+    rows += [f"| {r.sleeve} | {pct(r.expected_return)} | {pct(r.volatility)} | {r.method} |" for r in cma.itertuples()]
+    alloc = _csv("day82_model_allocations.csv", "advisory_engine.py")
+    m = alloc[alloc["profile"] == 3].iloc[0]
+    return ("\n".join(rows) + f"\n\nModerate model: expected {pct(m['expected_return'])}, volatility "
+            f"{pct(m['volatility'])}, equity {pct(m['equity_share'], 0)}, bad year about −{pct(m['bad_year_loss'], 0)}.")
+
+
+def ad_suitability() -> str:
+    profiles = _csv("day82_client_profiles.csv", "advisory_engine.py")
+    rules = _csv("day83_suitability_results.csv", "advisory_engine.py")
+    r = profiles.iloc[0]
+    own = rules[rules["client_id"] == r["client_id"]]
+    lines = [f"**{r['name']}** — profile **{r['profile_name']}**. {r['profile_note']}", ""]
+    lines += [f"- {'✅' if x.passed else '⚠️'} {x.rule}: {x.detail}" for x in own.itertuples()]
+    return "\n".join(lines) + f"\n\nVerdict: **{r['suitability']}**."
+
+
+def ad_monte_carlo() -> str:
+    goals = _csv("day84_goal_summary.csv", "advisory_engine.py")
+    profiles = _csv("day82_client_profiles.csv", "advisory_engine.py").set_index("client_id")
+    lines = ["| Client | Goal | Chance | Median (today's $) | Poor case |", "|---|---|---:|---:|---:|"]
+    for g in goals.itertuples():
+        lines.append(f"| {profiles.at[g.client_id, 'name']} | {profiles.at[g.client_id, 'goal']} | "
+                     f"{pct(g.probability, 0)} | {money(g.median_real)} | {money(g.p10_real)} |")
+    return "\n".join(lines) + "\n\n10,000 simulated paths per client; amounts in today's money."
+
+
+# ==============================================================
+# PRIVATE MARKETS (VC / PE) — fictional deals, real public comps
+# ==============================================================
+
+def _comps_line(sector: str) -> str:
+    import private_markets as pm
+    try:
+        comps = pm.public_comps().set_index("sector")
+    except FileNotFoundError:
+        return ""
+    if sector not in comps.index:
+        return ""
+    c = comps.loc[sector]
+    return (f" Listed {sector} companies in Vittantra trade at a median **{c['median_ev_revenue']:.1f}× revenue** "
+            f"({int(c['companies'])} companies, SEC data).")
+
+
+def pv_deal_flow() -> str:
+    import private_markets as pm
+    rows = ["| Company (fictional) | Stage | ARR | Growth | Burn multiple | Ask (× ARR) | Screen |",
+            "|---|---|---:|---:|---:|---:|---|"]
+    for d in pm.generate_deals():
+        s = pm.screen_deal(d)
+        rows.append(f"| {d['company']} · {d['sector']} | {d['stage']} | {money(d['arr'])} | "
+                    f"{d['arr_growth_multiple']:.1f}× | {s['burn_multiple']:.1f}× | {s['arr_multiple']:.0f}× | "
+                    f"{s['decision']} |")
+    return "\n".join(rows) + "\n\nToday's deal flow is generated for practice; the screen is one reasonable rubric."
+
+
+def pv_unit_economics() -> str:
+    import private_markets as pm
+    d = pm.generate_deals()[0]
+    arpu, cac = 400.0, 6000.0
+    u = pm.unit_economics(arpu, d["gross_margin"], d["monthly_churn"], cac, d["net_new_arr"], d["annual_net_burn"])
+    return (f"**{d['company']}** (fictional {d['sector']}): gross margin {pct(d['gross_margin'], 0)}, monthly churn "
+            f"{pct(d['monthly_churn'])}; assume ARPU $400/month and CAC $6,000.\n\n"
+            f"LTV = 400 × {d['gross_margin']:.2f} ÷ {d['monthly_churn']:.3f} = **{money(u['ltv'])}**, LTV/CAC "
+            f"**{u['ltv_to_cac']:.1f}×**, CAC payback **{u['cac_payback_months']:.0f} months**, burn multiple "
+            f"**{u['burn_multiple']:.1f}×**.")
+
+
+def pv_vc_method() -> str:
+    import private_markets as pm
+    d = next((x for x in pm.generate_deals() if x["stage"] == "Seed"), pm.generate_deals()[0])
+    post = d["pre_money_ask"] + d["raise"]
+    needed = pm.required_exit(post, 20, retention=0.6)
+    ownership = d["raise"] / post
+    return (f"**{d['company']}** (fictional {d['sector']}) asks {money(d['raise'])} at {money(d['pre_money_ask'])} "
+            f"pre-money → post-money {money(post)}, so you would own **{pct(ownership)}**.\n\n"
+            f"VC method in reverse: for a 20× return with 60% of your stake left after later rounds, the company must "
+            f"exit at **{money(needed)}** — about **{needed / d['arr']:,.0f}× today's ARR** of {money(d['arr'])}. At a "
+            f"6× revenue exit multiple it would need ARR of {money(needed / 6)}. Is that believable for this team "
+            f"and market?" + _comps_line(d["public_sector"]))
+
+
+def pv_waterfall() -> str:
+    import private_markets as pm
+    rows = ["| Exit value | Series A (1×, 20%) | Founders & employees |", "|---:|---:|---:|"]
+    for exit_value in (10e6, 20e6, 40e6, 100e6):
+        w = pm.waterfall(exit_value, [{"name": "Series A", "invested": 8e6, "shares": 2e6}], 8e6).set_index("class")
+        rows.append(f"| {money(exit_value)} | {money(w.at['Series A', 'proceeds'])} | "
+                    f"{money(w.at['Common (founders, employees)', 'proceeds'])} |")
+    return "\n".join(rows) + "\n\nBelow $40m the investor takes its $8m preference; above it, converting to 20% pays more."
+
+
+def pv_fund_math() -> str:
+    import private_markets as pm
+    f = pm.simulate_fund()
+    fund = pm.SMALL_FUND
+    return (f"Illustrative {money(fund['fund_size'])} fund, {fund['target_deals']} deals, power-law outcomes: median "
+            f"net TVPI **{f['median_net_tvpi']:.2f}×**, chance of losing money **{pct(f['p_lose_money'], 0)}**, "
+            f"chance of 3×+ **{pct(f['p_3x'], 0)}**. In a typical simulated fund the best deal is "
+            f"**{pct(f['median_top_deal_share'], 0)}** of all value returned. A fund returner needs an exit near "
+            f"**{money(f['fund_returner_exit'])}** (8% ownership, 40% dilution).")
+
+
+def pv_lbo() -> str:
+    import private_markets as pm
+    try:
+        comps = pm.public_comps().set_index("sector")
+        multiple = float(comps.loc["Industrials", "median_ev_ebitda"])
+        source = f"median listed Industrials EV/EBITDA in Vittantra ({multiple:.1f}×)"
+    except (FileNotFoundError, KeyError):
+        multiple, source = 10.0, "an assumed 10×"
+    multiple = round(min(max(multiple, 6.0), 14.0), 1)
+    deal = pm.lbo(10e6, multiple, 5.0, 0.08, 0.05, 5, multiple)
+    b = deal["bridge"]
+    return (f"Small industrial company, EBITDA $10m, bought and sold at {multiple:.1f}× ({source}), 5× debt at 8%, "
+            f"EBITDA +5% a year for 5 years.\n\nEntry equity {money(deal['entry_equity'])} → exit equity "
+            f"{money(deal['exit_equity'])}: **MOIC {deal['moic']:.2f}×, IRR {pct(deal['irr'])}**. Value creation: "
+            f"EBITDA growth {money(b['ebitda_growth'])}, debt paydown {money(b['debt_paydown'])}, multiple change "
+            f"{money(b['multiple_change'])}, fees {money(b['fees'])}.")

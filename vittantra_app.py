@@ -78,11 +78,16 @@ import plotly.graph_objects as go
 
 import streamlit as st
 
+import vittantra_theme as vt
 from vittantra_research_page import render_research
 from vittantra_markets_page import render_markets
 from vittantra_academy_page import render_academy
 
 from vittantra_ai_analyst import render_ai_analyst
+from vittantra_pm_page import render_portfolio_manager
+from vittantra_advisory_page import render_advisory
+from vittantra_copilot import render_copilot
+from vittantra_home_page import render_home
 
 
 
@@ -115,6 +120,20 @@ APP_NAME = "Vittantra"
 
 
 APP_SUBTITLE = "AI Investment Research & Portfolio Intelligence"
+APP_VERSION = "1.0"
+
+# Navigation: workflow order (research → portfolio → advisory → risk → learn)
+NAV_PAGES = [
+    "Home", "Command Center", "Research", "Markets", "Portfolio Manager", "Advisory", "Copilot",
+    "Risk Intelligence", "Portfolio", "Governance", "Remediation", "AI Analyst", "Academy", "System",
+]
+NAV_LABELS = {
+    "Home": "Home", "Command Center": "Command Center", "Research": "Research & Valuation",
+    "Markets": "Markets & World Brief", "Portfolio Manager": "Portfolio Manager", "Advisory": "Advisory",
+    "Copilot": "Copilot", "Risk Intelligence": "Risk Intelligence", "Portfolio": "Risk Budgets",
+    "Governance": "Governance", "Remediation": "Remediation", "AI Analyst": "AI Risk Analyst",
+    "Academy": "Academy (learn by doing)", "System": "System & Data",
+}
 
 
 
@@ -157,6 +176,8 @@ FILES = {
 
 
 
+
+vt.apply_plotly_theme()
 
 st.set_page_config(
 
@@ -482,6 +503,62 @@ st.markdown(
 
 
 
+
+    .vt-hero {
+        padding: 2.2rem 2.4rem; border-radius: 1.1rem; margin-bottom: 1.4rem;
+        background: linear-gradient(120deg, #0B2C22 0%, #123D30 55%, #1F5C47 100%); color: #F4EFE2;
+        border: 1px solid #2A5A49; position: relative; overflow: hidden;
+    }
+    .vt-eyebrow { letter-spacing: 0.32em; font-size: 0.8rem; font-weight: 700; opacity: 0.8; }
+    .vt-hero-title { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin: 0.5rem 0 0.8rem 0;
+                     letter-spacing: -0.02em; max-width: 52rem; }
+    .vt-hero-sub { font-size: 1.05rem; opacity: 0.88; max-width: 52rem; line-height: 1.55; }
+    .vt-section { font-size: 1.15rem; font-weight: 700; margin: 1.6rem 0 0.7rem 0; }
+    .vt-card { border: 1px solid #E4E1D8; border-radius: 6px; padding: 1rem 1.1rem;
+               min-height: 8.5rem; margin-bottom: 0.5rem; background: #FFFFFF;
+               box-shadow: 0 1px 2px rgba(18,61,48,0.04); }
+    .vt-card-title { font-weight: 700; font-size: 1.02rem; margin-bottom: 0.35rem; }
+    .vt-card-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.65; }
+    .vt-card-value { font-size: 1.35rem; font-weight: 750; margin: 0.25rem 0; }
+    .vt-card-text { font-size: 0.9rem; opacity: 0.8; line-height: 1.45; }
+    .vt-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; }
+    .vt-step { padding: 0.45rem 0.9rem; border-radius: 999px; background: #F5ECD6;
+               border: 1px solid #E2CF9F; color: #5E4A1A; font-weight: 600; font-size: 0.9rem; }
+    .vt-arrow { opacity: 0.5; font-weight: 700; }
+    h3 { letter-spacing: -0.01em; }
+    [data-testid="stSidebar"] [role="radiogroup"] label { padding: 0.12rem 0; }
+    @media (max-width: 640px) {
+        .vt-hero { padding: 1.4rem 1.2rem; }
+        .vt-hero-title { font-size: 1.5rem; }
+    }
+
+    /* ---- Private-bank design system (overrides above) ---- */
+    .vittantra-title { font-family: "Source Serif 4", Georgia, serif; font-weight: 650; color: #123D30;
+                       letter-spacing: -0.01em; }
+    .vittantra-subtitle { color: #66736C; opacity: 1; }
+    h1, h2, h3, h4, .vt-section, .vt-card-title, .vt-hero-title { font-family: "Source Serif 4", Georgia, serif; }
+    h3 { color: #123D30; font-weight: 650; }
+    .vt-eyebrow { color: #E0C77F; opacity: 1; }
+    .vt-hero-title { font-weight: 600; letter-spacing: -0.01em; color: #FFFFFF; }
+    .vt-hero::after { content: ""; position: absolute; right: -60px; top: -60px; width: 260px; height: 260px;
+                      border-radius: 50%; border: 1px solid rgba(224,199,127,0.35); }
+    .vt-section { font-weight: 650; color: #123D30; font-size: 1.25rem; }
+    .vt-card-label { color: #7D6224; opacity: 1; }
+    .vt-card-value { color: #123D30; }
+    div[data-testid="stMetric"] { background: #FFFFFF; border: 1px solid #E4E1D8 !important; border-radius: 6px !important;
+                                  box-shadow: 0 1px 2px rgba(18,61,48,0.04); }
+    div[data-testid="stMetricLabel"] p { color: #66736C; font-size: 0.8rem; letter-spacing: 0.02em; }
+    div[data-testid="stMetricValue"] { color: #123D30; font-weight: 600; }
+    .status-critical { background: #F6E3E1 !important; border: 1px solid #E6BDB8 !important; color: #8A2626; }
+    .status-warning { background: #F5ECD6 !important; border: 1px solid #E2CF9F !important; color: #6B531C; }
+    .status-normal { background: #E3F0E8 !important; border: 1px solid #B9D8C6 !important; color: #1F6E4E; }
+    [data-testid="stSidebar"] h2, [data-testid="stSidebar"] .stMarkdown h2 { font-family: "Source Serif 4", Georgia, serif;
+        color: #F4EFE2; letter-spacing: 0.12em; }
+    [data-testid="stSidebar"] [data-testid="stCaptionContainer"] { color: #B8CBC1; }
+    button[data-baseweb="tab"][aria-selected="true"] p { color: #123D30; font-weight: 600; }
+    div[data-baseweb="tab-highlight"] { background-color: #A9843A !important; }
+    [data-testid="stExpander"] details { background: #FFFFFF; border-color: #E4E1D8; }
+    .stButton button[kind="primary"] { background: #123D30; border-color: #123D30; }
     </style>
 
 
@@ -1631,70 +1708,11 @@ with st.sidebar:
 
 
     page = st.radio(
-
-
-
         "Workspace",
-
-
-
-        [
-
-
-
-            "Command Center",
-
-
-
-
-
-            "Academy",
-
-
-
-            "Research",
-
-
-
-
-
-
-            "Markets",
-
-
-
-            "Portfolio",
-
-
-
-            "Risk Intelligence",
-
-
-
-            "Governance",
-
-
-
-            "Remediation",
-
-
-
-            "AI Analyst",
-
-
-
-            "System",
-
-
-
-        ],
-
-
-
+        NAV_PAGES,
+        format_func=lambda name: NAV_LABELS.get(name, name),
+        key="nav",
         label_visibility="collapsed",
-
-
-
     )
 
 
@@ -1867,39 +1885,9 @@ with st.sidebar:
 
 
 
-st.markdown(
-
-
-
-    '<div class="vittantra-title">Vittantra</div>',
-
-
-
-    unsafe_allow_html=True,
-
-
-
-)
-
-
-
-
-
-
-
-st.markdown(
-
-
-
-    f'<div class="vittantra-subtitle">{APP_SUBTITLE}</div>',
-
-
-
-    unsafe_allow_html=True,
-
-
-
-)
+if page != "Home":
+    st.markdown('<div class="vittantra-title">Vittantra</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="vittantra-subtitle">{APP_SUBTITLE}</div>', unsafe_allow_html=True)
 
 
 
@@ -1927,7 +1915,12 @@ st.markdown(
 
 
 
-if page == "Command Center":
+if page == "Home":
+
+    render_home()
+
+
+elif page == "Command Center":
 
 
 
@@ -2097,11 +2090,11 @@ if page == "Command Center":
 
         utilization_pct = current_max_utilization * 100
         if utilization_pct > 100:
-            gauge_bar_color = "#E5484D"
+            gauge_bar_color = vt.NEGATIVE
         elif utilization_pct >= 80:
-            gauge_bar_color = "#F5A524"
+            gauge_bar_color = vt.WARNING
         else:
-            gauge_bar_color = "#12A150"
+            gauge_bar_color = vt.POSITIVE
 
         gauge = go.Figure(
 
@@ -2270,7 +2263,7 @@ if page == "Command Center":
 
 
 
-                            "color": "#B42318",
+                            "color": vt.NEGATIVE,
                             "width": 4,
 
 
@@ -2906,7 +2899,7 @@ elif page == "Portfolio":
 
     if governance_df.empty:
 
-        st.info("Day 68 instrument governance data is unavailable.")
+        st.info("Governance data is unavailable — run `python run_vittantra.py`.")
 
     else:
 
@@ -3602,7 +3595,7 @@ elif page == "Portfolio":
 
             observations.append(
 
-                f"Day 69 remediation estimates maximum utilization moving "
+                f"Remediation estimates maximum utilization moving "
 
                 f"from {current_max_utilization * 100:,.1f}% to "
 
@@ -4266,7 +4259,7 @@ elif page == "Governance":
 
 
 
-            "Day 68 governance output is unavailable."
+            "Governance output is unavailable — run `python run_vittantra.py`."
 
 
 
@@ -4602,7 +4595,7 @@ elif page == "Remediation":
 
 
 
-            "Day 69 remediation summary is unavailable."
+            "Remediation summary is unavailable — run `python run_vittantra.py`."
 
 
 
@@ -4715,6 +4708,20 @@ elif page == "Research":
 elif page == "Markets":
 
     render_markets()
+
+
+elif page == "Portfolio Manager":
+
+    render_portfolio_manager()
+
+
+elif page == "Advisory":
+
+    render_advisory()
+
+
+elif page == "Copilot":
+    render_copilot()
 
 
 elif page == "AI Analyst":
@@ -5144,15 +5151,7 @@ st.divider()
 
 
 st.caption(
-
-
-
-    "Vittantra • Research & Portfolio Intelligence • "
-
-
-
-    "Day 73 AI Analyst Integration"
-
-
-
+    f"Vittantra {APP_VERSION} · Research, portfolio and advisory intelligence on free public data "
+    "(SEC EDGAR, FRED, Yahoo Finance, official RSS) · Research and education only — not investment advice. "
+    "Every recommendation needs human approval; nothing is executed automatically."
 )

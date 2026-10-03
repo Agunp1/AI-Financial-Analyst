@@ -523,15 +523,24 @@ def run_multi_factor(out_dir: Path = BASE_DIR, prices: Optional[pd.DataFrame] = 
         w = available.mul(latest_weights, axis=1)
         current["composite_ic_weighted"] = ((current[PILLARS].fillna(0) * w).sum(axis=1)
                                             / w.sum(axis=1).replace(0, np.nan))
-    current["rating"] = ratings_from_scores(current["composite"])
+    # Rate on the IC-weighted composite: pillars that predicted returns in past,
+    # completed periods get more weight, pillars that did not get none. The
+    # equal-weight composite is kept for comparison.
+    use_ic = "composite_ic_weighted" in current and current["composite_ic_weighted"].notna().mean() >= 0.9
+    basis = "composite_ic_weighted" if use_ic else "composite"
+    current["rating"] = ratings_from_scores(current[basis])
+    current["rating_basis"] = basis
     current["strongest_pillar"] = current[PILLARS].idxmax(axis=1, skipna=True)
     current["weakest_pillar"] = current[PILLARS].idxmin(axis=1, skipna=True)
     current["regime"] = regime
+    # Raw inputs kept for the Day 78 valuation (beta → cost of equity) and the report
+    for column in ("beta", "volatility_1y", "momentum_12_1", "trend_vs_200d", "price"):
+        current[column] = features.reindex(current.index)[column]
     current["as_of"] = as_of.date()
     current["quant_signal_as_of"] = rankings["date"].max().date()   # last Day 55 ML ranking
     current.insert(0, "sector", [universe[t]["sector"] for t in current.index])
     current.insert(0, "name", [universe[t]["name"] for t in current.index])
-    current = current.sort_values("composite", ascending=False)
+    current = current.sort_values(basis, ascending=False)
     current.index.name = "ticker"
     validation = validate_day77(current, history, ic_sum, price_source, bool(facts), facts_note)
 

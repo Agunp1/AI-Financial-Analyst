@@ -131,7 +131,43 @@ ROLES = {
         "career": "Associate → Advisor → Senior advisor / wealth manager → Head of advisory",
         "credentials": "US: Series 65 (or 66) and often CFP. India: NISM Investment Adviser certification "
                        "and SEBI RIA registration.",
-        "vittantra": "Governance & approval workflow; Days 82–84 (coming)",
+        "vittantra": "Advisory page: questionnaire, IPS, suitability, Monte Carlo goals",
+    },
+    "private_markets_analyst": {
+        "title": "Private Equity / Venture Capital Analyst (small fund)",
+        "mission": "Find, judge and support private companies: screen deal flow, build the investment case and the "
+                   "numbers, write the IC memo, and help portfolio companies after the investment. At a small fund "
+                   "you do a bit of everything.",
+        "framework": [
+            "**Venture lens:** team → market (TAM/SAM/SOM) → product and moat → traction and unit economics → "
+            "deal terms → can it return the fund?",
+            "**Power law:** a few winners return the fund, so ask 'how big can this get?' before 'how safe is it?'.",
+            "**Valuation:** VC method (exit value ÷ target multiple), comparables, round mechanics and dilution.",
+            "**Private equity lens:** cash generation, leverage capacity, value creation plan (growth, margins, "
+            "multiple, deleveraging), downside protection.",
+        ],
+        "duties": {
+            "Daily": ["Screen inbound decks and intros; reply or pass quickly and politely",
+                      "First calls with founders; take structured notes",
+                      "Track the pipeline (CRM): stage, next step, owner"],
+            "Weekly": ["Pipeline meeting with the partners: what to advance, what to pass and why",
+                       "Market maps and sector theses; meet other investors and founders (sourcing)",
+                       "Support portfolio companies: hiring intros, customer intros, fundraising prep"],
+            "Per deal": ["Due diligence: customer calls, data room, unit economics, cap table, references",
+                         "Model: VC method / round and dilution, or LBO for PE",
+                         "Write and present the investment committee (IC) memo"],
+            "Quarterly": ["Portfolio monitoring and valuations; LP update letter; fund metrics (TVPI, DPI, IRR)"],
+        },
+        "outputs": ["Deal screen notes", "Market map", "Financial model / cap table", "IC memo",
+                    "Portfolio update", "LP report section"],
+        "tools": ["Pitch decks and data rooms", "Excel cap tables and models", "CRM (Affinity, HubSpot, Notion)",
+                  "Crunchbase / PitchBook (paid; Vittantra uses fictional deals and free public comps)"],
+        "kpis": ["Quality of deal flow you source", "Speed and judgment in screening", "Memo quality",
+                 "Usefulness to founders"],
+        "career": "Analyst → Associate → Senior associate / principal → Partner",
+        "credentials": "No licence needed in most markets; CFA (Level II alternative investments) and CAIA help. "
+                       "Networks and sector expertise matter most.",
+        "vittantra": "Academy → Private Markets desk; private_markets.py",
     },
 }
 
@@ -218,6 +254,25 @@ LESSONS = [
                       _q("What does carry-to-volatility measure?",
                          "Income per unit of currency risk — a Sharpe-like ratio for the trade.")],
     },
+    {
+        "id": "IA6", "role": "investment_analyst", "title": "Reading the news like a professional",
+        "concept": "Prices move first; the story arrives later. Start from the data (what moved, how much versus "
+                   "normal), then look for the news that could explain it, then ask whether it changes the outlook "
+                   "or is noise. Central-bank statements, inflation and jobs releases, and earnings move the most "
+                   "assets. Always know what is on the calendar this week.",
+        "formulas": [("Surprise", r"\text{surprise} = \text{actual} - \text{expected}"),
+                     ("Size of a move", r"z = \frac{r_t}{\sigma_{\text{daily}}}")],
+        "live": "ia_world_brief", "code": ["world_brief.py → collect_headlines, build_brief, build_calendar"],
+        "on_the_job": "Morning meetings open with 'what happened overnight and why'; a good analyst separates "
+                      "the cause from the coincidence and flags the event that matters this week.",
+        "exercise": "Pick today's biggest data move in the brief. Find one headline that could explain it and "
+                    "one reason it might be a coincidence.",
+        "interview": [_q("Why do markets sometimes fall on good news?",
+                         "Prices react to the surprise versus expectations, not the news itself; 'good' data can "
+                         "also mean higher rates for longer."),
+                      _q("Which scheduled releases move US markets most?",
+                         "FOMC decisions, CPI, the jobs report (Employment Situation), GDP and PCE inflation.")],
+    },
     # ---------------- Equity Researcher ----------------
     {
         "id": "ER1", "role": "equity_researcher", "title": "Reading the three statements (from SEC filings)",
@@ -296,6 +351,49 @@ LESSONS = [
                       _q("How did Vittantra prevent it in fundamentals?",
                          "Each fact is used only if its SEC filing date is on or before the analysis date.")],
     },
+    {
+        "id": "ER6", "role": "equity_researcher", "title": "Intrinsic value: DCF, residual income and DDM",
+        "concept": "A share is worth the present value of the cash it will produce. Three standard routes: discount "
+                   "free cash flow to the firm at the WACC (DCF), add the present value of profits above the cost "
+                   "of equity to book value (residual income), or discount dividends (DDM). Choose the model that "
+                   "fits the business: banks → residual income, steady dividend payers → DDM, most others → DCF. "
+                   "Then run it backwards: what growth does today's price imply?",
+        "formulas": [("FCFF", r"FCFF = CFO + Int(1-t) - \text{Capex}"),
+                     ("WACC", r"WACC = \tfrac{E}{V} r_e + \tfrac{D}{V} r_d (1-t)"),
+                     ("CAPM", r"r_e = r_f + \beta \times ERP"),
+                     ("Terminal value", r"TV_N = \frac{FCFF_N (1+g)}{WACC - g}"),
+                     ("Residual income", r"V_0 = B_0 + \sum_t \frac{(ROE_t - r_e) B_{t-1}}{(1+r_e)^t}"),
+                     ("Gordon growth", r"V_0 = \frac{D_1}{r - g}")],
+        "live": "er_intrinsic_value", "code": ["valuation_engine.py → value_company",
+                                               "vittantra_pricing.py → two_stage_value, residual_income_value"],
+        "on_the_job": "Every initiation report has a valuation section with a DCF, a sensitivity table and a "
+                      "cross-check; the reverse DCF is how buy-side PMs test whether expectations are too high.",
+        "exercise": "FCFF next year $5bn, WACC 9%, growth 3% forever, debt $20bn, cash $5bn, 1bn shares. "
+                    "What is the value per share?",
+        "interview": [_q("Why not use a DCF for a bank?",
+                         "Debt is a bank's raw material, not financing, so FCFF and WACC are not meaningful; use "
+                         "residual income or dividends on equity."),
+                      _q("What share of a DCF usually comes from the terminal value, and why does it matter?",
+                         "Often 60–80%; small changes in WACC or terminal growth move the value a lot, so show a "
+                         "sensitivity table."),
+                      _q("What is a reverse DCF?",
+                         "Solving for the growth rate that makes the DCF value equal the market price — it shows "
+                         "what the market already expects.")],
+    },
+    {
+        "id": "ER7", "role": "equity_researcher", "title": "Writing an evidence-linked research note",
+        "concept": "A professional note states a rating, the thesis, the valuation, a bull case, a bear case and the "
+                   "key risks — and every claim is traceable to data. Separate facts (numbers from filings and "
+                   "markets) from opinions (your forecast). Say what you do not know.",
+        "formulas": [("Rule", r"\text{claim} \Rightarrow (\text{source}, \text{field}, \text{value})")],
+        "live": "er_research_note", "code": ["research_report.py → build_report, report_markdown"],
+        "on_the_job": "Compliance reviews notes for a reasonable basis; PMs read the bear case first.",
+        "exercise": "Read a Vittantra note. Which single piece of evidence would change your view most, and why?",
+        "interview": [_q("What does CFA Standard V(A) require of a research report?",
+                         "Diligence and a reasonable and adequate basis, supported by appropriate research."),
+                      _q("What does Standard V(B) require?",
+                         "Disclose the basic process and key risks, and distinguish fact from opinion.")],
+    },
     # ---------------- Portfolio / Risk Analyst ----------------
     {
         "id": "RA1", "role": "portfolio_analyst", "title": "Value at Risk and Expected Shortfall",
@@ -369,6 +467,25 @@ LESSONS = [
                          "A 10% position in a volatile, correlated asset can carry far more risk than 30% in a stable hedge."),
                       _q("What does a negative risk contribution mean?",
                          "The position hedges the rest of the portfolio — adding a little reduces total risk.")],
+    },
+    {
+        "id": "RA6", "role": "portfolio_analyst", "title": "What-if and scenario analysis",
+        "concept": "Before a trade, a risk analyst asks: what happens to volatility, VaR, beta and risk "
+                   "concentration if we do this — and how would the portfolio behave in a crisis? Factor "
+                   "sensitivities turn a macro scenario into P&L: each holding's move ≈ Σ beta × factor shock.",
+        "formulas": [("Scenario P&L", r"\Delta V \approx V \sum_i w_i \sum_k \beta_{i,k} \, s_k"),
+                     ("Parametric VaR", r"VaR_{99\%} = 2.33 \, \sigma_{1d} V"),
+                     ("Expected Shortfall (normal)", r"ES_{99\%} = \frac{\phi(2.33)}{0.01} \sigma_{1d} V \approx 2.67 \sigma_{1d} V")],
+        "live": "ra_what_if", "code": ["whatif_engine.py → portfolio_risk, scenario_pnl, compare"],
+        "on_the_job": "PMs ask 'what if' daily; risk teams run standard scenarios (rate shock, credit crisis) and "
+                      "report them to the risk committee alongside VaR.",
+        "exercise": "A portfolio with equity beta 0.9 faces a −20% equity shock and nothing else. Estimate the loss "
+                    "on $1m. Why might the real loss be larger?",
+        "interview": [_q("Why is a linear factor scenario only an approximation?",
+                         "It ignores convexity (bonds, options) and the rise in correlations during crises."),
+                      _q("VaR vs scenario analysis?",
+                         "VaR is a statistical loss quantile from history; scenarios ask about specific, possibly "
+                         "unprecedented events.")],
     },
     # ---------------- Portfolio Manager ----------------
     {
@@ -458,6 +575,48 @@ LESSONS = [
                          "A pillar with negative IC (low volatility in a rising market) diluted the signal; "
                          "IC-weighting reduced that.")],
     },
+    {
+        "id": "PM7", "role": "portfolio_manager", "title": "Portfolio construction: alpha, risk model, optimizer",
+        "concept": "Institutional PMs turn a signal into weights in three steps: convert scores into expected "
+                   "alpha (alpha = IC × volatility × score), estimate risk with a stable covariance matrix "
+                   "(shrinkage), then optimize alpha against active risk under limits — position size, sector "
+                   "bets, beta, and a tracking-error budget.",
+        "formulas": [("Grinold–Kahn alpha", r"\alpha_i = IC \times \sigma_i \times z_i"),
+                     ("Objective", r"\max_w \; \alpha^\top w - \tfrac{\lambda}{2}(w-b)^\top \Sigma (w-b)"),
+                     ("Tracking error", r"TE = \sqrt{(w-b)^\top \Sigma (w-b)}"),
+                     ("Information ratio", r"IR = \frac{\alpha_p - \alpha_b}{TE}")],
+        "live": "pm_model_portfolio", "code": ["portfolio_construction.py → grinold_alpha, optimize",
+                                               "vittantra_risk_model.py → constant_correlation_shrinkage"],
+        "on_the_job": "Every quant and many fundamental funds run an optimizer with a risk budget; the PM's job is "
+                      "to question the output (why is this name 8%?), not to accept it blindly.",
+        "exercise": "IC 0.05, a stock's annual volatility 30%, score z = +1.5. What alpha does Grinold–Kahn give "
+                    "over 20 days and a year (12.6 periods)?",
+        "interview": [_q("Why shrink the covariance matrix?",
+                         "Sample covariances are noisy with many assets and few observations; shrinkage cuts "
+                         "estimation error so the optimizer does not chase noise."),
+                      _q("Why might an optimizer hold a stock with a neutral score?",
+                         "To control risk: e.g. a low-beta name helps meet a beta or tracking-error limit.")],
+    },
+    {
+        "id": "PM8", "role": "portfolio_manager", "title": "Performance attribution (Brinson and factors)",
+        "concept": "Attribution explains active return. Brinson splits it into allocation (overweighting sectors "
+                   "that beat the benchmark), selection (picking better stocks within sectors) and interaction. "
+                   "Factor attribution splits it into exposures × factor returns plus stock-specific return. "
+                   "Multi-period effects are linked (Carino) so they add up to the compounded result.",
+        "formulas": [("Allocation", r"(w_{p,s} - w_{b,s})(R_{b,s} - R_b)"),
+                     ("Selection", r"w_{b,s}(R_{p,s} - R_{b,s})"),
+                     ("Interaction", r"(w_{p,s} - w_{b,s})(R_{p,s} - R_{b,s})"),
+                     ("Factor contribution", r"x_k f_k, \quad x_k = \sum_i (w_{p,i} - w_{b,i}) z_{i,k}")],
+        "live": "pm_attribution_brinson", "code": ["performance_attribution.py → brinson_fachler, carino_factors"],
+        "on_the_job": "Monthly performance reviews and client reports open with attribution; it shows whether "
+                      "the manager's edge is where they claim it is.",
+        "exercise": "Portfolio 30% in a sector that returned 8% vs a benchmark weight of 20%; benchmark total 5%. "
+                    "What is the allocation effect?",
+        "interview": [_q("A stock-picker's attribution shows mostly allocation, little selection. Concern?",
+                         "The returns come from sector bets, not the claimed skill — style drift or luck."),
+                      _q("Why link multi-period attribution?",
+                         "Arithmetic effects do not add up to compounded returns; linking makes them reconcile.")],
+    },
     # ---------------- Advisor ----------------
     {
         "id": "AD1", "role": "advisor", "title": "The advisory process",
@@ -527,6 +686,188 @@ LESSONS = [
                       _q("How do you deliver bad news?",
                          "Early, in plain terms, with context, what it means for their goals, and the plan.")],
     },
+    {
+        "id": "AD6", "role": "advisor", "title": "Capital market assumptions and strategic allocation",
+        "concept": "Advisors build long-run expected returns from building blocks: bonds earn roughly their yield "
+                   "minus expected credit losses; equities earn the bond yield plus a risk premium; cash earns the "
+                   "T-bill rate. With volatilities and correlations, an optimizer finds the best mix for each risk "
+                   "level — inside policy ranges, because unconstrained optimizers pile into a few assets.",
+        "formulas": [("Bond expected return", r"E[R] \approx y - \text{default rate} \times LGD"),
+                     ("Equity expected return", r"E[R] \approx y_{10} + ERP"),
+                     ("Portfolio risk", r"\sigma_p = \sqrt{w^\top \Sigma w}"),
+                     ("Bad year (1 in 20)", r"L \approx 1.645\sigma_p - E[R_p]")],
+        "live": "ad_cma", "code": ["advisory_engine.py → capital_market_assumptions, optimize_allocation"],
+        "on_the_job": "Firms publish annual capital market assumptions; model portfolios for each risk profile are "
+                      "rebuilt from them and reviewed by an investment committee.",
+        "exercise": "The 5-year Treasury yields 4.0% and the high-yield spread is 3.5%. With a 3.5% default rate and "
+                    "60% loss given default, what is the expected return on high-yield bonds?",
+        "interview": [_q("Why not use last year's returns as expected returns?",
+                         "Past returns are noisy and mean-revert; yields and valuations are better forward-looking "
+                         "anchors."),
+                      _q("Why add policy ranges to an optimizer?",
+                         "Small errors in expected returns create extreme corner allocations; ranges keep the mix "
+                         "diversified and explainable.")],
+    },
+    {
+        "id": "AD7", "role": "advisor", "title": "Suitability and the investment policy statement",
+        "concept": "Know your client, then make sure every recommendation fits them: risk within both willingness "
+                   "and capacity, losses within what they can bear, enough liquidity, nothing too complex for their "
+                   "experience. Institutions write the rules into an IPS: return objective, risk limits, ranges, "
+                   "exclusions. Document why it suits — that is what regulators and the CFA Standards require.",
+        "formulas": [("Risk profile", r"\text{profile} = \min(\text{willingness}, \text{capacity})"),
+                     ("Required return (endowment)", r"r = \text{spending} + \pi + \text{costs}")],
+        "live": "ad_suitability", "code": ["advisory_engine.py → retail_profile, suitability"],
+        "on_the_job": "Every advice file contains a fact-find, a risk profile and a suitability statement; "
+                      "compliance samples them.",
+        "exercise": "A client says they would buy more after a 20% fall but needs the money for a house in two "
+                    "years. Which matters more and why?",
+        "interview": [_q("What does CFA Standard III(C) require?",
+                         "Know the client's situation and objectives, and judge suitability of investments for the "
+                         "whole portfolio before recommending."),
+                      _q("Willingness vs capacity for risk?",
+                         "Willingness is psychological; capacity is financial (horizon, wealth, income, liquidity). "
+                         "When they conflict, capacity usually limits the profile.")],
+    },
+    {
+        "id": "AD8", "role": "advisor", "title": "Goals-based planning with Monte Carlo",
+        "concept": "Instead of one projected number, simulate thousands of market paths and report the chance of "
+                   "reaching the goal, the median and a poor case. Work in today's money and grow savings or "
+                   "withdrawals with inflation. Then show the levers: save more, retire later, take more risk, or "
+                   "lower the goal.",
+        "formulas": [("Lognormal returns", r"\ln(1+R) \sim N\left(\ln(1+\mu) - \tfrac{s^2}{2},\; s^2\right)"),
+                     ("Wealth path", r"W_{t+1} = W_t(1+R_t) + C_t"),
+                     ("Success probability", r"P(\text{success}) = \frac{\#\{W_T \ge \text{goal}\}}{N}")],
+        "live": "ad_monte_carlo", "code": ["advisory_engine.py → simulate_wealth, goal_probability, required_contribution"],
+        "on_the_job": "Planning software shows clients a probability of success; advisors target about 70–90% and "
+                      "revisit the plan every year.",
+        "exercise": "Two plans have the same median outcome but different 10th percentiles. Which would you show a "
+                    "cautious client first, and why?",
+        "interview": [_q("Why not just compound the expected return?",
+                         "Volatility drag and sequence risk mean the typical (median) outcome is below the "
+                         "average-return projection, and the bad cases matter most."),
+                      _q("What is sequence-of-returns risk?",
+                         "Losses early in retirement, while withdrawing, hurt far more than the same losses later.")],
+    },
+    {
+        "id": "PV1", "role": "private_markets_analyst", "title": "Screening deal flow: what a small fund looks for",
+        "concept": "A small early-stage fund sees hundreds of companies a year and invests in a handful. Screen fast "
+                   "with a consistent rubric: team edge, market size, growth for the stage, gross margin, retention, "
+                   "capital efficiency (burn multiple) and a valuation you can live with. Some items are gates: "
+                   "weak growth or high churn usually ends the conversation regardless of the rest.",
+        "formulas": [("Burn multiple", r"\text{burn multiple} = \frac{\text{net burn}}{\text{net new ARR}}"),
+                     ("Runway", r"\text{runway (months)} = \frac{\text{cash}}{\text{monthly net burn}}"),
+                     ("ARR multiple", r"\frac{\text{pre-money}}{\text{ARR}}")],
+        "live": "pv_deal_flow", "code": ["private_markets.py → generate_deals, screen_deal"],
+        "on_the_job": "Analysts at small funds write a 5-line screen note per deal and bring the best 1–2 a week to the "
+                      "partner meeting. Fast, kind 'no's protect the fund's reputation.",
+        "exercise": "A seed company has $400k ARR, grew 2.5× last year, burns $1.2m a year and added $240k of new "
+                    "ARR. What is the burn multiple, and is it a concern?",
+        "interview": [_q("Walk me through how you screen a deck in five minutes.",
+                         "Team and why them; problem and market size; traction and growth for the stage; unit "
+                         "economics (margin, churn, burn multiple); round size, valuation and use of funds; then the "
+                         "one question that would change my mind."),
+                      _q("What is a burn multiple and what is good?",
+                         "Net burn ÷ net new ARR: dollars burned per dollar of new ARR. Under 1–1.5× is excellent, "
+                         "above 2–3× is a warning at most stages.")],
+    },
+    {
+        "id": "PV2", "role": "private_markets_analyst", "title": "Unit economics: LTV, CAC and payback",
+        "concept": "A startup is a machine that turns acquisition spend into customers who pay gross profit over "
+                   "time. LTV/CAC above about 3 and CAC payback under 12–18 months are common bars; high churn breaks "
+                   "the machine however fast it grows.",
+        "formulas": [("Lifetime value", r"LTV = \frac{ARPU \times \text{gross margin}}{\text{monthly churn}}"),
+                     ("CAC payback", r"\text{payback (months)} = \frac{CAC}{ARPU \times \text{gross margin}}"),
+                     ("Rule of 40", r"\text{growth} + \text{profit margin} \ge 40\%")],
+        "live": "pv_unit_economics", "code": ["private_markets.py → unit_economics, rule_of_40"],
+        "on_the_job": "Diligence lives here: analysts rebuild unit economics from the data room instead of trusting "
+                      "the deck's version.",
+        "exercise": "ARPU $500/month, 75% gross margin, 2% monthly churn, CAC $9,000. Compute LTV, LTV/CAC and payback.",
+        "interview": [_q("Why can LTV be misleading?",
+                         "It depends heavily on churn estimates from young cohorts; small changes in churn swing LTV a "
+                         "lot. Look at cohort retention curves and payback instead."),
+                      _q("Gross vs net revenue retention?",
+                         "Gross counts only losses (churn, downgrades); net adds expansion. Net retention above 100% "
+                         "means existing customers grow revenue on their own.")],
+    },
+    {
+        "id": "PV3", "role": "private_markets_analyst", "title": "Valuation: the VC method, rounds and dilution",
+        "concept": "Early companies have no stable cash flows, so VCs work backwards: what could it be worth at exit, "
+                   "what multiple do we need (for the risk), and how much will we be diluted by later rounds? Then "
+                   "round mechanics: post-money = pre-money + investment, and an option pool created before the round "
+                   "dilutes the founders, not the new investor (the 'option-pool shuffle').",
+        "formulas": [("Post-money (VC method)", r"\text{post} = \frac{\text{exit value} \times \text{retention}}{\text{target multiple}}"),
+                     ("Target multiple from IRR", r"M = (1 + IRR)^{T}"),
+                     ("Investor ownership", r"\%_{inv} = \frac{\text{investment}}{\text{post-money}}"),
+                     ("Price per share", r"P = \frac{\text{pre-money}}{\text{fully diluted pre-money shares}}")],
+        "live": "pv_vc_method", "code": ["private_markets.py → vc_method, priced_round, cap_table"],
+        "on_the_job": "Every term sheet discussion starts with round size, pre-money and pool size; analysts model the "
+                      "cap table through future rounds to see ownership at exit.",
+        "exercise": "Exit value $300m in 6 years, target 25× (very early), 60% retention after later rounds, investment "
+                    "$2m. What post-money valuation can you pay?",
+        "interview": [_q("Explain pre-money, post-money and the option-pool shuffle.",
+                         "Post = pre + new money; investor share = investment ÷ post. If the term sheet requires a "
+                         "bigger option pool in the pre-money, the pool dilutes existing holders, so the effective "
+                         "pre-money for founders is lower than the headline."),
+                      _q("Why do VCs need 10–30× on early deals?",
+                         "Most early investments fail or return little; the winners must pay for the losers, and "
+                         "ownership is diluted by later rounds.")],
+    },
+    {
+        "id": "PV4", "role": "private_markets_analyst", "title": "Term sheets and the exit waterfall",
+        "concept": "Preferred shares carry a liquidation preference: in a sale, investors first get their money back "
+                   "(1× is standard) or convert to common, whichever is higher. In modest exits, preferences decide who "
+                   "gets paid; in big exits everyone converts and ownership decides.",
+        "formulas": [("Non-participating preferred", r"\text{payout} = \max(\text{pref} \times \text{invested},\; \%_{own} \times \text{exit})"),
+                     ("Participating preferred", r"\text{payout} = \text{pref} + \%_{own} \times (\text{exit} - \text{prefs})")],
+        "live": "pv_waterfall", "code": ["private_markets.py → waterfall"],
+        "on_the_job": "Analysts model the waterfall at several exit values before IC, so partners see the downside "
+                      "protection and what founders take home.",
+        "exercise": "Series A invested $8m for 20% with a 1× non-participating preference. Who gets what at a $20m exit "
+                    "and at a $100m exit?",
+        "interview": [_q("What terms matter most besides valuation?",
+                         "Liquidation preference (multiple, participation), board seats, pro-rata rights, "
+                         "anti-dilution, option pool, protective provisions."),
+                      _q("Why might a founder prefer a lower valuation with clean terms?",
+                         "Heavy preferences or participation can leave founders and employees little in a moderate "
+                         "exit; clean terms align everyone.")],
+    },
+    {
+        "id": "PV5", "role": "private_markets_analyst", "title": "Fund math: the power law, TVPI, DPI and IRR",
+        "concept": "A venture fund's result is driven by its best one or two deals. So each investment must plausibly "
+                   "'return the fund': exit value × our ownership at exit ≥ fund size. Report performance with TVPI "
+                   "(total value ÷ paid-in), DPI (cash returned ÷ paid-in) and IRR; early on, fees create a J-curve.",
+        "formulas": [("TVPI", r"TVPI = \frac{\text{distributions} + \text{NAV}}{\text{paid-in}}"),
+                     ("DPI", r"DPI = \frac{\text{distributions}}{\text{paid-in}}"),
+                     ("Fund returner", r"\text{exit value} \times \%_{own,exit} \ge \text{fund size}")],
+        "live": "pv_fund_math", "code": ["private_markets.py → simulate_fund, irr"],
+        "on_the_job": "Partners ask 'can this return the fund?' in every IC; quarterly LP letters report TVPI/DPI/IRR.",
+        "exercise": "A $30m fund owns 8% at entry and expects 40% dilution. What exit value makes one company a fund "
+                    "returner?",
+        "interview": [_q("Why do VCs say 'the best investment returns the fund'?",
+                         "Outcomes follow a power law; the top deal often exceeds all others combined, so missing a "
+                         "winner matters more than avoiding a loser."),
+                      _q("TVPI vs DPI?", "TVPI includes unrealized value (paper marks); DPI is cash actually returned "
+                                          "— LPs trust DPI more.")],
+    },
+    {
+        "id": "PV6", "role": "private_markets_analyst", "title": "Private equity: the LBO and value creation",
+        "concept": "In a leveraged buyout the fund buys a cash-generating company with part equity, part debt. "
+                   "Returns come from EBITDA growth, multiple expansion and paying down debt with free cash flow. "
+                   "Leverage magnifies returns and risk; a good PE case works even without multiple expansion.",
+        "formulas": [("Entry", r"EV = \text{EBITDA} \times \text{multiple},\; \text{equity} = EV - \text{debt}"),
+                     ("MOIC", r"MOIC = \frac{\text{exit equity}}{\text{entry equity}}"),
+                     ("IRR from MOIC", r"IRR = MOIC^{1/T} - 1")],
+        "live": "pv_lbo", "code": ["private_markets.py → lbo"],
+        "on_the_job": "PE analysts build the LBO, the value-creation bridge and downside cases for every deal.",
+        "exercise": "EBITDA $10m bought at 10×, 5× debt at 8%, EBITDA grows 5% a year, exit at 10× after 5 years. "
+                    "Estimate the MOIC and IRR.",
+        "interview": [_q("Walk me through a simple LBO.",
+                         "Entry EV from EBITDA × multiple; fund with debt and equity; project EBITDA and free cash "
+                         "flow; repay debt; exit at a multiple; equity = exit EV − remaining debt; MOIC and IRR."),
+                      _q("What makes a good LBO candidate?",
+                         "Stable cash flows, low capex needs, room for margin improvement, strong market position, "
+                         "and a realistic exit.")],
+    },
 ]
 
 
@@ -570,5 +911,13 @@ SIMULATOR_TASKS = {
         "checklist": ["Considers both risk tolerance and capacity", "Matches the time horizon and goal",
                       "Keeps an emergency/liquidity reserve", "Explains risk in money terms",
                       "Makes no promise of returns"],
+    },
+    "private_markets_analyst": {
+        "title": "Monday deal flow (small fund)",
+        "brief": "Five decks came in over the weekend. You are the only analyst. Decide which ones the partners should "
+                 "meet this week and write a one-line reason for each — kindly and quickly.",
+        "checklist": ["Checked growth and retention before anything else", "Computed the burn multiple",
+                      "Looked at valuation vs traction (ARR multiple)", "Named the team edge or its absence",
+                      "Wrote a reason a founder would accept for each pass"],
     },
 }

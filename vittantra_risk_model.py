@@ -143,3 +143,36 @@ def load_enriched_instruments():
 
 def risk_model_label(source: str) -> str:
     return f"Euler covariance risk contribution ({source}; data mode {data_mode_label()})"
+
+
+def constant_correlation_shrinkage(returns: np.ndarray) -> Tuple[np.ndarray, float]:
+    """
+    Ledoit–Wolf (2004) "Honey, I shrunk the sample covariance matrix":
+    shrink the sample covariance S toward a constant-correlation target F
+    (every pair has the average sample correlation), Σ = δF + (1 − δ)S, with
+    the optimal intensity δ estimated from the data. Unlike shrinkage toward a
+    scaled identity, it keeps the typical correlation between assets, so the
+    risk of diversified portfolios is not understated.
+
+    returns: T × N array of period returns (no missing values).
+    Returns (covariance per period, shrinkage intensity δ).
+    """
+    x = np.asarray(returns, dtype=float)
+    t, n = x.shape
+    x = x - x.mean(axis=0)
+    sample = x.T @ x / t
+    var = np.diag(sample)
+    sd = np.sqrt(var)
+    corr = sample / np.outer(sd, sd)
+    rbar = (corr.sum() - n) / (n * (n - 1))
+    prior = rbar * np.outer(sd, sd)
+    np.fill_diagonal(prior, var)
+    y = x ** 2
+    phi_mat = y.T @ y / t - sample ** 2
+    phi = phi_mat.sum()
+    theta = (x ** 3).T @ x / t - var[:, None] * sample
+    np.fill_diagonal(theta, 0.0)
+    rho = np.trace(phi_mat) + rbar * (np.outer(1 / sd, sd) * theta).sum()
+    gamma = np.linalg.norm(sample - prior, "fro") ** 2
+    delta = 0.0 if gamma <= 0 else max(0.0, min(1.0, (phi - rho) / gamma / t))
+    return delta * prior + (1 - delta) * sample, delta

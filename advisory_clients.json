@@ -1,0 +1,39 @@
+{
+  "note": "Fictional sample clients for demonstration and practice. Add your own in the app (Advisory page).",
+  "clients": [
+    {
+      "client_id": "R1", "type": "retail", "name": "Sample client A — early-career saver",
+      "age": 28, "horizon_years": 30, "goal": "Retirement", "wealth": 15000, "annual_contribution": 6000,
+      "annual_withdrawal": 0, "goal_target_real": 600000, "income_stability": "Stable",
+      "loss_reaction": "Would buy more", "experience": "Some", "liquidity_need_12m": 0
+    },
+    {
+      "client_id": "R2", "type": "retail", "name": "Sample client B — family saving for education",
+      "age": 41, "horizon_years": 12, "goal": "Child's university", "wealth": 50000, "annual_contribution": 9000,
+      "annual_withdrawal": 0, "goal_target_real": 220000, "income_stability": "Stable",
+      "loss_reaction": "Worried, would probably hold", "experience": "Some", "liquidity_need_12m": 2000
+    },
+    {
+      "client_id": "R3", "type": "retail", "name": "Sample client C — recent retiree drawing income",
+      "age": 66, "horizon_years": 25, "goal": "Retirement income", "wealth": 650000, "annual_contribution": 0,
+      "annual_withdrawal": 30000, "goal_target_real": 0, "income_stability": "Pension covers essentials",
+      "loss_reaction": "Would sell everything", "experience": "Extensive", "liquidity_need_12m": 30000
+    },
+    {
+      "client_id": "I1", "type": "institutional", "name": "Sample foundation (perpetual endowment)",
+      "horizon_years": 30, "goal": "Fund 4.5% annual spending in real terms", "wealth": 25000000,
+      "annual_contribution": 0, "annual_withdrawal": 1125000, "goal_target_real": 0,
+      "ips": {"spending_rate": 0.045, "cost_rate": 0.005, "max_volatility": 0.13, "max_bad_year_loss": 0.20,
+              "min_fixed_income": 0.15, "max_alternatives": 0.25, "excluded_sleeves": [],
+              "liquidity_need_12m": 1125000, "benchmark": "70% global equity / 30% bonds"}
+    },
+    {
+      "client_id": "I2", "type": "institutional", "name": "Sample pension plan (de-risking)",
+      "horizon_years": 15, "goal": "Match liabilities growing 5% a year", "wealth": 80000000,
+      "annual_contribution": 2000000, "annual_withdrawal": 4000000, "goal_target_real": 0,
+      "ips": {"required_return": 0.05, "cost_rate": 0.003, "max_volatility": 0.09, "max_bad_year_loss": 0.12,
+              "min_fixed_income": 0.45, "max_alternatives": 0.10, "excluded_sleeves": ["Emerging-market equity"],
+              "liquidity_need_12m": 4000000, "benchmark": "Liability-hedging bonds + return-seeking assets"}
+    }
+  ]
+}

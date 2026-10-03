@@ -122,7 +122,22 @@ def morning_brief_task() -> dict:
                  f"- Credit: high-yield spreads {credit.loc['US high yield', 'spread_bp']:.0f} bp, "
                  f"{credit.loc['US high yield', 'percentile_in_history']:.0f}th percentile of recent history.\n"
                  "- Watch: whether today's biggest mover is news-driven or part of a trend (check 1-month move).")
-    return {"context": "\n".join(snapshot), "reference": reference, "lessons": ["IA1", "IA3", "IA4"]}
+    news = BASE_DIR / "day78b_brief.csv"
+    if news.exists():
+        brief = pd.read_csv(news)
+        brief = brief[brief["headline_count"] > 0].head(3)
+        if len(brief):
+            snapshot.append("\n**Headlines this week by theme** (possible drivers — check before you cite them)")
+            snapshot += [f"- *{r.theme}* — {r.data_move}. {str(r.top_headlines).split(' || ')[0]}"
+                         for r in brief.itertuples()]
+    calendar_path = BASE_DIR / "day78b_calendar.csv"
+    if calendar_path.exists():
+        calendar = pd.read_csv(calendar_path).head(3)
+        if len(calendar):
+            snapshot.append("\n**Coming up:** " + "; ".join(f"{r.date} {r.event}" for r in calendar.itertuples()))
+            reference = reference.replace("- Watch: ", f"- Watch: {calendar.iloc[0]['event']} on "
+                                          f"{calendar.iloc[0]['date']}; and ")
+    return {"context": "\n".join(snapshot), "reference": reference, "lessons": ["IA1", "IA3", "IA4", "IA6"]}
 
 
 # ==============================================================
@@ -177,6 +192,46 @@ def grade_tear_sheet(answer_key: Dict[str, str], ratings: Dict[str, str]) -> tup
     feedback = [f"- {k}: you said **{ratings.get(k, '—')}**, data says **{v}**"
                 + (" ✅" if ratings.get(k) == v else "") for k, v in answer_key.items()]
     return score, "\n".join(feedback)
+
+
+def valuation_call_task(day: Optional[date] = None, ticker: Optional[str] = None) -> dict:
+    """Equity researcher: estimate a DCF value from the inputs, then make the call."""
+    v = _csv("day78_valuation.csv", "valuation_engine.py").dropna(subset=["dcf_value", "fcff_ttm", "wacc"])
+    if v.empty:
+        raise MissingData("No DCF valuations yet. Run `python valuation_engine.py`.")
+    v = v.set_index("ticker")
+    ticker = ticker or _rng("valuation_call", day).choice(sorted(v.index))
+    r = v.loc[ticker]
+    metrics = _csv("day76_fundamental_metrics.csv", "fundamental_engine.py").set_index("ticker").loc[ticker]
+    debt, cash = float(metrics.get("total_debt") or 0), float(metrics.get("cash") or 0)
+    debt, cash = (0.0 if debt != debt else debt), (0.0 if cash != cash else cash)
+    context = (f"**{ticker} — {r['name']}**, price **${r['price']:,.2f}**\n\n"
+               f"| Input | Value |\n|---|---:|\n| Free cash flow to the firm (TTM) | {money(r['fcff_ttm'])} |\n"
+               f"| Growth years 1–5, then fading to terminal by year 10 | {pct(r['dcf_initial_growth'])} |\n"
+               f"| Terminal growth | {pct(r['terminal_growth'])} |\n| WACC | {pct(r['wacc'])} |\n"
+               f"| Debt | {money(debt)} |\n| Cash | {money(cash)} |\n"
+               f"| Shares | {float(metrics['shares_outstanding']) / 1e9:,.2f}bn |\n\n"
+               "Estimate the value per share (a spreadsheet or the single-stage shortcut is fine), then make your "
+               "call versus the price.")
+    signal = r["valuation_signal"]
+    reference = (f"Vittantra's three-stage DCF: **${r['dcf_value']:,.2f}** per share ({r['upside']:+.0%} vs price) → "
+                 f"**{signal}** (±15% band). Terminal value is {pct(r['dcf_terminal_share'], 0)} of the total.\n\n"
+                 f"Reverse DCF: the price implies {pct(r.get('implied_growth'))} growth for five years. "
+                 "A strong note argues whether that growth is achievable — that is the real debate, not the "
+                 "decimal places. One reasonable view; your own forecast may differ.")
+    return {"ticker": ticker, "context": context, "model_value": float(r["dcf_value"]), "signal": signal,
+            "price": float(r["price"]), "reference": reference, "lessons": ["ER6", "ER7"]}
+
+
+def grade_valuation_call(task: dict, estimate: float, call: str) -> tuple:
+    """Half the marks for the estimate (within 10% full, within 25% half), half for the call."""
+    error = abs(estimate / task["model_value"] - 1) if estimate and task["model_value"] else 1.0
+    estimate_score = 50 if error <= 0.10 else 25 if error <= 0.25 else 0
+    call_score = 50 if call == task["signal"] else 0
+    feedback = (f"- Your value ${estimate:,.2f} vs model ${task['model_value']:,.2f} ({error:.0%} apart)"
+                + (" ✅" if estimate_score == 50 else "") +
+                f"\n- Your call **{call}**, model says **{task['signal']}**" + (" ✅" if call_score else ""))
+    return estimate_score + call_score, feedback
 
 
 # ==============================================================
@@ -337,3 +392,141 @@ def reference_allocation(client: dict, vols: Dict[str, float]) -> dict:
             if suitable and (best is None or result["expected_return"] > best["expected_return"]):
                 best = result
     return best
+
+
+# ==============================================================
+# PRIVATE MARKETS ANALYST (small VC / PE fund) — fictional deals
+# ==============================================================
+
+def deal_screen_task(day: Optional[date] = None) -> dict:
+    import private_markets as pm
+    deals = pm.generate_deals(day)
+    screens = [pm.screen_deal(d) for d in deals]
+    return {"deals": deals, "screens": screens, "lessons": ["PV1", "PV2"]}
+
+
+def grade_deal_screen(task: dict, decisions: Dict[str, str]) -> tuple:
+    lines, correct = [], 0
+    for deal, screen in zip(task["deals"], task["screens"]):
+        mine = decisions.get(deal["company"])
+        ok = mine == screen["decision"]
+        correct += ok
+        failed = [f"{name} ({detail})" for name, passed, detail in screen["checks"] if not passed]
+        lines.append(f"- **{deal['company']}**: you said **{mine}**, rubric says **{screen['decision']}**"
+                     + (" ✅" if ok else "") + (f" — weak points: {'; '.join(failed)}" if failed else " — clean on every check"))
+    return 100 * correct / len(task["deals"]), "\n".join(lines)
+
+
+def term_sheet_task(day: Optional[date] = None) -> dict:
+    import private_markets as pm
+    deals = pm.generate_deals(day)
+    d = next((x for x in deals if x["stage"] == "Seed"), deals[0])
+    post = d["pre_money_ask"] + d["raise"]
+    return {"deal": d, "post_money": post, "ownership": d["raise"] / post,
+            "required_exit": pm.required_exit(post, 20, 0.6), "lessons": ["PV3", "PV4", "PV5"]}
+
+
+def grade_term_sheet(task: dict, post: float, ownership_pct: float, exit_value: float) -> tuple:
+    def close(a, b, tol=0.05):
+        return b and abs(a / b - 1) <= tol
+    parts = [("Post-money", close(post, task["post_money"]), f"{task['post_money']:,.0f}"),
+             ("Ownership", close(ownership_pct / 100, task["ownership"]), f"{task['ownership']:.1%}"),
+             ("Required exit (20×, 60% retention)", close(exit_value, task["required_exit"], 0.10),
+              f"{task['required_exit']:,.0f}")]
+    score = 100 * sum(ok for _, ok, _ in parts) / len(parts)
+    return score, "\n".join(f"- {'✅' if ok else '❌'} {name}: answer {value}" for name, ok, value in parts)
+
+
+def lbo_task(day: Optional[date] = None) -> dict:
+    import private_markets as pm
+    rng = _rng("lbo", day)
+    inputs = {"entry_ebitda": round(rng.uniform(5, 30)), "entry_multiple": round(rng.uniform(7, 11), 1),
+              "debt_multiple": round(rng.uniform(3, 5.5), 1), "interest_rate": round(rng.uniform(0.07, 0.10), 3),
+              "ebitda_growth": round(rng.uniform(0.02, 0.10), 3), "years": 5}
+    inputs["exit_multiple"] = inputs["entry_multiple"]
+    result = pm.lbo(inputs["entry_ebitda"] * 1e6, inputs["entry_multiple"], inputs["debt_multiple"],
+                    inputs["interest_rate"], inputs["ebitda_growth"], inputs["years"], inputs["exit_multiple"])
+    return {"inputs": inputs, "result": result, "lessons": ["PV6"]}
+
+
+def grade_lbo(task: dict, moic: float, irr_pct: float) -> tuple:
+    r = task["result"]
+    ok_m = abs(moic - r["moic"]) <= 0.15 * r["moic"]
+    ok_i = abs(irr_pct / 100 - r["irr"]) <= 0.03
+    b = r["bridge"]
+    feedback = (f"- {'✅' if ok_m else '❌'} MOIC: model {r['moic']:.2f}×\n- {'✅' if ok_i else '❌'} IRR: model "
+                f"{r['irr']:.1%}\n- Value creation: EBITDA growth {money(b['ebitda_growth'])}, debt paydown "
+                f"{money(b['debt_paydown'])}, multiple change {money(b['multiple_change'])}, fees {money(b['fees'])}")
+    return 50 * ok_m + 50 * ok_i, feedback
+
+
+# Interview bank for VC / PE analyst roles at a small fund: model answer points (one reasonable view)
+INTERVIEW_BANK = [
+    {"q": "Why venture capital, and why a small fund like ours?",
+     "points": ["genuine curiosity about founders/startups", "specific sectors you follow", "small fund = breadth "
+                "and responsibility early", "what you add: finance + analysis + your network"],
+     "keywords": ["founder", "sector", "small", "responsib", "analy"]},
+    {"q": "Pitch me a startup you would invest in.",
+     "points": ["problem and who has it", "why now", "market size with a bottom-up estimate", "traction or proof",
+                "team edge", "main risk and what would change your mind"],
+     "keywords": ["problem", "market", "traction", "team", "risk", "why now"]},
+    {"q": "How would you source deals for us?",
+     "points": ["thesis-driven market maps", "founder and operator networks, communities", "university/accelerator "
+                "pipelines", "warm intros from portfolio founders", "track it in a CRM and follow up"],
+     "keywords": ["thesis", "network", "community", "portfolio", "crm"]},
+    {"q": "Walk me through how you evaluate a seed-stage SaaS company.",
+     "points": ["team", "market", "product/moat", "growth for the stage", "gross margin, churn, burn multiple",
+                "valuation and round size vs milestones", "can it return the fund"],
+     "keywords": ["team", "market", "growth", "churn", "burn", "valuation", "return the fund"]},
+    {"q": "What is a burn multiple, and what LTV/CAC would you want?",
+     "points": ["net burn ÷ net new ARR", "below ~1.5× strong, above ~2–3× weak", "LTV/CAC ≥ ~3", "payback "
+                "< 12–18 months", "cohort data beats averages"],
+     "keywords": ["net burn", "new arr", "ltv", "cac", "payback"]},
+    {"q": "Explain pre-money, post-money and dilution with an example.",
+     "points": ["post = pre + investment", "ownership = investment ÷ post", "option-pool shuffle lowers effective "
+                "pre-money", "later rounds dilute everyone"],
+     "keywords": ["post", "pre", "ownership", "option pool", "dilut"]},
+    {"q": "What is a 1× non-participating liquidation preference?",
+     "points": ["investor gets the greater of money back or converting", "matters in modest exits", "participating "
+                "takes both", "affects founder and employee payouts"],
+     "keywords": ["greater", "convert", "money back", "participating", "exit"]},
+    {"q": "Why do VCs care so much about market size?",
+     "points": ["power law: winners must be huge", "a deal must be able to return the fund", "exit value × "
+                "ownership ≥ fund size", "small markets cap the outcome"],
+     "keywords": ["power law", "return the fund", "ownership", "exit"]},
+    {"q": "Walk me through a simple LBO.",
+     "points": ["entry EV = EBITDA × multiple", "debt + equity", "project EBITDA and free cash flow", "repay debt",
+                "exit EV − debt = equity", "MOIC and IRR; value creation bridge"],
+     "keywords": ["ebitda", "multiple", "debt", "free cash flow", "moic", "irr"]},
+    {"q": "Tell me about a deal you would pass on, and why.",
+     "points": ["specific metric-based reason", "separate fixable from fatal issues", "what would make you look "
+                "again", "pass kindly and quickly"],
+     "keywords": ["churn", "growth", "valuation", "team", "again"]},
+    {"q": "How would you help a portfolio company after we invest?",
+     "points": ["hiring and customer intros", "fundraising prep and investor intros", "KPI dashboards and board "
+                "prep", "be responsive, not intrusive"],
+     "keywords": ["hiring", "customer", "fundrais", "kpi", "board"]},
+    {"q": "What is TVPI vs DPI, and why do LPs care?",
+     "points": ["TVPI = (distributions + NAV) ÷ paid-in", "DPI = distributions ÷ paid-in", "DPI is cash, TVPI "
+                "includes marks", "J-curve early"],
+     "keywords": ["tvpi", "dpi", "paid-in", "distribution", "nav"]},
+]
+
+
+def interview_question(day: Optional[date] = None, offset: int = 0) -> dict:
+    rng = _rng("interview", day)
+    order = list(range(len(INTERVIEW_BANK)))
+    rng.shuffle(order)
+    return INTERVIEW_BANK[order[offset % len(order)]]
+
+
+def grade_interview(question: dict, answer: str) -> tuple:
+    """Coach heuristic: share of key ideas mentioned (keyword match) — a prompt to reflect, not a verdict."""
+    text = answer.lower()
+    hits = [k for k in question["keywords"] if k in text]
+    score = 100 * len(hits) / len(question["keywords"])
+    missing = [k for k in question["keywords"] if k not in hits]
+    feedback = (f"Covered: {', '.join(hits) or 'none of the key ideas yet'}."
+                + (f" Consider adding: {', '.join(missing)}." if missing else " Strong coverage.")
+                + " Length: " + ("good" if 60 <= len(answer.split()) <= 220 else "aim for 60–220 words (about 1–2 minutes spoken)") + ".")
+    return score, feedback

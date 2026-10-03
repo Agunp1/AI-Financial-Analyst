@@ -12,10 +12,13 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+import vittantra_theme as vt
+
 
 BASE_DIR = Path(__file__).resolve().parent
 
 TABS = [
+    ("World Brief", "world"),
     ("Overview", None),
     ("Macro & Economy", "macro"),
     ("Rates & Credit", "Fixed Income"),
@@ -65,10 +68,10 @@ def _rates_and_credit(analytics: pd.DataFrame) -> None:
         c4.metric("10Y breakeven inflation", f"{first.get('breakeven_10y_pct', float('nan')):.2f}%")
         figure = go.Figure()
         figure.add_trace(go.Scatter(x=curve["maturity"], y=curve["yield_pct"], mode="lines+markers",
-                                    name=f"Latest ({curve['date'].max()})", line=dict(color="#2E6BE6", width=3)))
+                                    name=f"Latest ({curve['date'].max()})", line=dict(color=vt.FOREST, width=3)))
         if curve["yield_1y_ago_pct"].notna().any():
             figure.add_trace(go.Scatter(x=curve["maturity"], y=curve["yield_1y_ago_pct"], mode="lines+markers",
-                                        name="1 year ago", line=dict(color="#9AA4B2", dash="dash")))
+                                        name="1 year ago", line=dict(color=vt.BRASS, dash="dash")))
         figure.update_layout(height=320, margin=dict(l=10, r=10, t=30, b=10), yaxis_title="Yield (%)",
                              title="US Treasury yield curve")
         st.plotly_chart(figure, width="stretch")
@@ -126,12 +129,47 @@ def _macro_and_economy() -> None:
         columns = [f"std_beta_{k}" for k in FACTOR_LABELS if f"std_beta_{k}" in reps.columns]
         matrix = reps.set_index("name")[columns].rename(columns=lambda c: FACTOR_LABELS[c.replace("std_beta_", "")])
         figure = go.Figure(go.Heatmap(z=matrix.to_numpy() * 100, x=matrix.columns, y=matrix.index,
-                                      colorscale="RdBu", zmid=0, colorbar=dict(title="% per 1 s.d.")))
+                                      colorscale=vt.DIVERGING, zmid=0, colorbar=dict(title="% per 1 s.d.")))
         figure.update_layout(height=max(320, 22 * len(matrix)), margin=dict(l=10, r=10, t=30, b=10),
                              title="Sensitivity to a typical daily factor move")
         st.plotly_chart(figure, width="stretch")
         st.caption("Blue = rises when the factor rises; red = falls. Estimated by regression on one year of "
                    "daily data.")
+
+
+def _world_brief() -> None:
+    brief = _load("day78b_brief.csv")
+    headlines = _load("day78b_headlines.csv")
+    calendar = _load("day78b_calendar.csv")
+    if brief.empty:
+        st.info("Run `python world_brief.py` to load this week's headlines and calendar.")
+        return
+    st.markdown("**This week by theme** — the data move next to the headlines that could explain it")
+    for row in brief.itertuples():
+        with st.expander(f"{row.theme} · {row.data_move} · {row.headline_count} headlines",
+                         expanded=row.Index < 3 and row.headline_count > 0):
+            if row.headline_count and not headlines.empty:
+                related = headlines[headlines["themes"].fillna("").str.contains(row.theme, regex=False)].head(6)
+                for h in related.itertuples():
+                    when = pd.to_datetime(h.published).strftime("%a %d %b %H:%M") if pd.notna(h.published) else ""
+                    st.markdown(f"- [{h.title}]({h.link}) — *{h.source}*, {when}")
+            else:
+                st.caption("No headlines on this theme this week.")
+    st.caption("Headlines are possible drivers to check, not proven causes. Themes are assigned by keyword "
+               "rules, so read the article before citing it.")
+    if not calendar.empty:
+        st.markdown("**Coming up**")
+        view = calendar[["date", "event", "indicator", "latest", "previous", "period"]].rename(columns={
+            "date": "Date", "event": "Event", "indicator": "Indicator", "latest": "Latest", "previous": "Previous",
+            "period": "Latest period"})
+        st.dataframe(view.round(2), width="stretch", hide_index=True)
+    if not headlines.empty:
+        with st.expander(f"All headlines ({len(headlines)})"):
+            st.dataframe(headlines[["published", "source", "title", "themes"]], width="stretch", hide_index=True,
+                         column_config={"published": st.column_config.DatetimeColumn("Published",
+                                                                                    format="ddd D MMM, HH:mm")})
+    st.caption("Sources: Federal Reserve, ECB, Bank of England, SEC, BLS, BEA, CNBC, MarketWatch and Yahoo Finance "
+               "RSS feeds (free); FOMC dates from the Federal Reserve; release dates from FRED.")
 
 
 def _real_estate(market: pd.DataFrame) -> None:
@@ -178,7 +216,9 @@ def render_markets() -> None:
     tabs = st.tabs([label for label, _ in TABS])
     for tab, (label, asset_class) in zip(tabs, TABS):
         with tab:
-            if asset_class is None:
+            if asset_class == "world":
+                _world_brief()
+            elif asset_class is None:
                 if not summary.empty:
                     view = summary.copy()
                     for column in ("median_return_1m", "median_return_12m", "median_volatility"):

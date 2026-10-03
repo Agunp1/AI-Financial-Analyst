@@ -17,5 +17,4 @@ requests>=2.31
 python-dotenv>=1.0
 pandas-datareader>=0.10
 
-# Notebooks
-jupyter>=1.0
+# Notebooks (Days 1–30): pip install -r requirements-dev.txt

@@ -34,20 +34,30 @@ CFA_TOPICS = [
 # Level II topic area for each Academy lesson.
 LESSON_CFA_TOPIC = {
     "IA1": "Quantitative Methods", "IA2": "Quantitative Methods", "IA3": "Fixed Income",
-    "IA4": "Fixed Income", "IA5": "Economics",
+    "IA4": "Fixed Income", "IA5": "Economics", "IA6": "Economics",
     "ER1": "Financial Statement Analysis", "ER2": "Equity Valuation", "ER3": "Financial Statement Analysis",
     "ER4": "Financial Statement Analysis", "ER5": "Quantitative Methods",
+    "ER6": "Equity Valuation", "ER7": "Ethical and Professional Standards",
     "RA1": "Portfolio Management", "RA2": "Portfolio Management", "RA3": "Fixed Income",
     "RA4": "Derivatives", "RA5": "Portfolio Management",
     "PM1": "Portfolio Management", "PM2": "Portfolio Management", "PM3": "Portfolio Management",
     "PM4": "Quantitative Methods", "PM5": "Portfolio Management", "PM6": "Portfolio Management",
+    "PM7": "Portfolio Management", "PM8": "Portfolio Management", "RA6": "Portfolio Management",
     "AD1": "Ethical and Professional Standards", "AD2": "Portfolio Management",
     "AD3": "Quantitative Methods", "AD4": "Portfolio Management", "AD5": "Ethical and Professional Standards",
+    "AD6": "Economics", "AD7": "Ethical and Professional Standards", "AD8": "Quantitative Methods",
+    "PV1": "Alternative Investments", "PV2": "Alternative Investments", "PV3": "Alternative Investments",
+    "PV4": "Alternative Investments", "PV5": "Alternative Investments", "PV6": "Alternative Investments",
 }
 
 
 def _question(text: str, correct: str, wrong: List[str], explanation: str, rng: random.Random) -> dict:
-    options = [correct] + wrong[:2]
+    """Three options: the answer plus the first two distinct distractors (pass spares in `wrong`)."""
+    distinct = []
+    for option in wrong:
+        if option != correct and option not in distinct:
+            distinct.append(option)
+    options = [correct] + distinct[:2]
     rng.shuffle(options)
     return {"question": text, "options": options, "answer": options.index(correct), "explanation": explanation}
 
@@ -312,18 +322,206 @@ def item_macro(day=None) -> dict:
             "questions": questions}
 
 
+def item_equity_valuation(day=None) -> dict:
+    rng = _rng("equity_valuation", day)
+    v = _csv("day78_valuation.csv", "valuation_engine.py").dropna(
+        subset=["dcf_value", "fcff_ttm", "wacc", "terminal_growth", "risk_free", "beta_adjusted"])
+    if v.empty:
+        raise MissingData("No DCF valuations yet.")
+    r = v.set_index("ticker").loc[rng.choice(sorted(v["ticker"]))]
+    erp = (r["cost_of_equity"] - r["risk_free"]) / r["beta_adjusted"]
+    g, w, f = r["terminal_growth"], r["wacc"], r["fcff_ttm"]
+    single = f * (1 + g) / (w - g)
+    vignette = (f"An analyst values {r['name']} with Vittantra's inputs: trailing free cash flow to the firm "
+                f"{money(f)}, WACC {w:.2%}, long-run growth {g:.2%}, 10-year Treasury yield {r['risk_free']:.2%}, "
+                f"adjusted beta {r['beta_adjusted']:.2f} and an equity risk premium of {erp:.1%}.")
+    questions = [
+        _question("The cost of equity using CAPM is closest to:",
+                  f"{r['cost_of_equity']:.2%}",
+                  [f"{r['beta_adjusted'] * erp:.2%}", f"{r['risk_free'] + r['beta_adjusted'] * (erp - r['risk_free']):.2%}",
+                   f"{w:.2%}", f"{r['risk_free'] * r['beta_adjusted']:.2%}"],
+                  f"r_e = r_f + β × ERP = {r['risk_free']:.2%} + {r['beta_adjusted']:.2f} × {erp:.1%} = "
+                  f"{r['cost_of_equity']:.2%}. Forgetting r_f gives β × ERP; subtracting r_f again treats the "
+                  "premium as the market return; the WACC is the firm's rate, not the equity rate.", rng),
+        _question("If FCFF grew at the long-run rate from today (single-stage model), firm value would be closest to:",
+                  f"${single / 1e9:,.0f}B", [f"${f * (1 + g) / w / 1e9:,.0f}B", f"${f / (w + g) / 1e9:,.0f}B",
+                                             f"${f / w / 1e9:,.0f}B"],
+                  f"V = FCFF_0 × (1 + g) / (WACC − g) = {money(f)} × {1 + g:.4f} / ({w:.2%} − {g:.2%}) = "
+                  f"${single / 1e9:,.0f}B. Growth is subtracted in the denominator; leaving it out treats the "
+                  "cash flow as flat.", rng),
+        _question("In a residual income model, if a company's ROE equals its cost of equity forever, its value is:",
+                  "equal to its current book value",
+                  ["zero", "equal to its dividends divided by the cost of equity"],
+                  "Residual income = (ROE − r) × book = 0, so V_0 = B_0: the firm earns exactly what investors "
+                  "require, so it is worth what has been invested.", rng),
+        _question(f"A reverse DCF shows the price implies {r['implied_growth']:.1%} growth a year for five years. "
+                  "An analyst forecasting lower growth would most likely conclude the stock is:",
+                  "overvalued relative to the analyst's forecast",
+                  ["undervalued relative to the analyst's forecast", "fairly valued, since price equals DCF value"],
+                  "The price already assumes the implied growth; lower expected growth means a lower value than "
+                  "the price.", rng) if pd.notna(r.get("implied_growth")) else
+        _question("The terminal value in a DCF is most sensitive to:",
+                  "the spread between WACC and long-run growth",
+                  ["the first year's cash flow only", "the number of shares outstanding"],
+                  "TV = CF(1+g)/(WACC − g): as WACC − g narrows, value rises sharply.", rng),
+    ]
+    return {"topic": "Equity Valuation", "title": f"Free cash flow and residual income: {r['name']}",
+            "vignette": vignette, "questions": questions}
+
+
+def item_news_surprise(day=None) -> dict:
+    rng = _rng("news_surprise", day)
+    dash = _csv("day76c_economic_dashboard.csv", "multi_asset_universe.py").set_index("series_id")
+    betas = _csv("day76d_macro_betas.csv", "macro_drivers.py").set_index("symbol")
+    cpi, core = dash.loc["CPIAUCSL"], dash.loc["CPILFESL"]
+    fed = dash.loc["FEDFUNDS"]
+    tlt = float(betas.loc["TLT", "beta_interest_rates"])
+    move = 0.15                                  # assumed yield reaction to the surprise, pp
+    vignette = (f"Headline CPI inflation is {cpi['latest']:.1f}% year on year (previous {cpi['previous']:.1f}%), core "
+                f"CPI {core['latest']:.1f}%, and the effective fed funds rate {fed['latest']:.2f}%. The next CPI "
+                f"release comes in 0.3 percentage points above consensus and the 10-year yield rises {move * 100:.0f} bp "
+                f"on the day. Vittantra estimates the long-Treasury ETF loses {-tlt:.1%} per +1pp of 10-year yield.")
+    real = fed["latest"] - cpi["latest"]
+    questions = [
+        _question("The market reaction is driven mainly by:",
+                  "the difference between actual and expected inflation",
+                  ["the level of inflation alone", "the previous month's inflation"],
+                  "Prices already reflect consensus; only the surprise is new information.", rng),
+        _question("The expected one-day move in the long-Treasury ETF is closest to:",
+                  f"{tlt * move:.1%}", [f"{-tlt * move:.1%}", f"{tlt * move * 10:.1%}", "0.0%"],
+                  f"β × Δy = {tlt:+.1%} × {move:.2f} = {tlt * move:.1%}; rising yields mean falling bond prices.", rng),
+        _question("Using headline CPI, the real policy rate (fed funds minus inflation) is closest to:",
+                  f"{real:+.2f}%", [f"{fed['latest'] + cpi['latest']:+.2f}%", f"{-real:+.2f}%"],
+                  f"{fed['latest']:.2f}% − {cpi['latest']:.2f}% = {real:+.2f}%. A positive real rate is restrictive; "
+                  "a negative one is accommodative (a Taylor-rule style comparison).", rng),
+    ]
+    return {"topic": "Economics", "title": "Reading an inflation surprise", "vignette": vignette,
+            "questions": questions}
+
+
+def item_active_management(day=None) -> dict:
+    rng = _rng("active_management", day)
+    s = _csv("day79_portfolio_summary.csv", "portfolio_construction.py").iloc[0]
+    p = _csv("day79_model_portfolio.csv", "portfolio_construction.py")
+    a = _csv("day80_attribution_summary.csv", "performance_attribution.py").iloc[0]
+    r = p[p["weight"] > 0].set_index("ticker").loc[rng.choice(sorted(p[p["weight"] > 0]["ticker"]))]
+    ic, te, ir = float(s["signal_ic"]), float(s["tracking_error"]), float(s["information_ratio"])
+    breadth = 33 * 12.6
+    vignette = (f"A PM's model portfolio has a signal IC of {ic:.3f}, tracking error {te:.1%} and expected active "
+                f"return {s['expected_active_return']:.1%}. {r['name']} has annual volatility {r['volatility']:.0%} "
+                f"and an IC-weighted score of {r['score']:.0f}. Over {a['start']} to {a['end']} the backtested "
+                f"portfolio's active return of {a['active_cumulative']:.1%} split into allocation "
+                f"{a['allocation_linked']:.1%}, selection {a['selection_linked']:.1%}, interaction "
+                f"{a['interaction_linked']:.1%} and costs {a['costs_linked']:.1%}.")
+    questions = [
+        _question("The ex-ante information ratio is closest to:", f"{ir:.2f}",
+                  [f"{s['expected_active_return'] / s['portfolio_volatility']:.2f}", f"{ic * breadth ** 0.5:.2f}",
+                   f"{te / s['expected_active_return']:.2f}"],
+                  f"IR = expected active return / tracking error = {s['expected_active_return']:.2%} / {te:.2%} = "
+                  f"{ir:.2f}. Dividing by total volatility gives a Sharpe-like ratio, not the IR.", rng),
+        _question("By the fundamental law of active management, with 33 stocks rebalanced 12.6 times a year the "
+                  "maximum IR is closest to:", f"{ic * breadth ** 0.5:.2f}", [f"{ic * 33 ** 0.5:.2f}", f"{ic * breadth:.1f}"],
+                  f"IR ≈ IC × √breadth = {ic:.3f} × √{breadth:.0f} = {ic * breadth ** 0.5:.2f} (an upper bound; the "
+                  "transfer coefficient is below 1 when constraints bind).", rng),
+        _question("In the attribution, the selection effect measures:",
+                  "the return from choosing better stocks within each sector",
+                  ["the return from overweighting sectors that beat the benchmark",
+                   "the return lost to trading costs"],
+                  "Selection = benchmark sector weight × (portfolio sector return − benchmark sector return).", rng),
+    ]
+    return {"topic": "Portfolio Management", "title": "Active management: IR, breadth and attribution",
+            "vignette": vignette, "questions": questions}
+
+
+def item_advisory(day=None) -> dict:
+    rng = _rng("advisory", day)
+    cma = _csv("day82_capital_market_assumptions.csv", "advisory_engine.py").set_index("sleeve")
+    profiles = _csv("day82_client_profiles.csv", "advisory_engine.py")
+    goals = _csv("day84_goal_summary.csv", "advisory_engine.py").set_index("client_id")
+    r = profiles.iloc[rng.randrange(len(profiles))]
+    hy = cma.loc["High-yield credit"]
+    eq = cma.loc["US equity"]
+    vignette = (f"An advisor reviews {r['name']}: profile {r['profile_name']}, recommended portfolio expected return "
+                f"{r['expected_return']:.1%} and volatility {r['volatility']:.1%}. The firm's capital market "
+                f"assumptions put US equities at {eq['expected_return']:.2%} and high-yield bonds at "
+                f"{hy['expected_return']:.2%} ({hy['method']}). Monte Carlo gives a "
+                f"{goals.at[r['client_id'], 'probability']:.0%} chance of meeting the goal.")
+    loss = 1.645 * r["volatility"] - r["expected_return"]
+    questions = [
+        _question("Using a normal approximation, the loss in a 1-in-20 bad year is closest to:",
+                  f"{loss:.1%}", [f"{1.645 * r['volatility']:.1%}", f"{2.326 * r['volatility'] - r['expected_return']:.1%}",
+                                  f"{r['volatility']:.1%}"],
+                  f"L ≈ 1.645σ − E[R] = 1.645 × {r['volatility']:.1%} − {r['expected_return']:.1%} = {loss:.1%}. "
+                  "2.326 is the 1-in-100 multiplier.", rng),
+        _question("When a client's willingness to take risk exceeds their capacity, the advisor should generally:",
+                  "set the profile by the lower capacity and explain why",
+                  ["follow the client's stated willingness", "average the two and not discuss it"],
+                  "Capacity is a hard financial limit; CFA Standard III(C) requires suitability for the client's "
+                  "situation, documented.", rng),
+        _question("A Monte Carlo probability of success of 95% compared with 70% most likely means the plan:",
+                  "may be too conservative — the client could spend or save differently",
+                  ["is guaranteed to succeed", "has a higher expected return"],
+                  "Very high probabilities often mean the client is giving up spending or taking too little risk; "
+                  "advisors usually target a range, not 100%.", rng),
+    ]
+    return {"topic": "Portfolio Management", "title": "Suitability and goals-based planning",
+            "vignette": vignette, "questions": questions}
+
+
+def item_private_equity(day=None) -> dict:
+    """CFA L2 Alternative Investments: VC method, ownership, dilution and LBO returns (fictional deal)."""
+    import private_markets as pm
+    rng = _rng("private_equity", day)
+    exit_value = rng.choice([150, 200, 250, 300, 400]) * 1e6
+    years = rng.choice([5, 6, 7])
+    rate = rng.choice([0.40, 0.45, 0.50])
+    invest = rng.choice([2, 3, 4, 5]) * 1e6
+    retention = rng.choice([0.6, 0.7, 0.75])
+    multiple = (1 + rate) ** years
+    v = pm.vc_method(exit_value, multiple, invest, retention)
+    deal = pm.lbo(10e6, 9.0, 5.0, 0.08, 0.06, 5, 9.0)
+    vignette = (f"A venture fund considers investing {money(invest)} in a fictional startup. It expects an exit "
+                f"value of {money(exit_value)} in {years} years, requires a {rate:.0%} annual return, and expects "
+                f"its stake to be diluted by later rounds so that it keeps {retention:.0%} of its ownership. "
+                f"Separately, a buyout fund models a company with $10m EBITDA bought at 9× with 5× debt at 8%, "
+                f"EBITDA growing 6% a year and an exit at 9× after 5 years.")
+    questions = [
+        _question("Using the VC method, the post-money valuation is closest to:",
+                  money(v["post_money"]), [money(exit_value / multiple), money(exit_value * retention / (1 + rate)),
+                                           money(v["post_money"] + invest)],
+                  f"Target multiple = (1 + {rate:.0%})^{years} = {multiple:.1f}×. Post = exit × retention ÷ multiple = "
+                  f"{money(exit_value)} × {retention:.2f} ÷ {multiple:.1f} = {money(v['post_money'])}. Ignoring "
+                  "dilution overstates the value you can pay.", rng),
+        _question("The ownership the fund needs at investment is closest to:",
+                  pct(v["ownership_needed"]), [pct(invest / (exit_value / multiple)), pct(invest / exit_value * multiple * 2)],
+                  f"Ownership = investment ÷ post-money = {money(invest)} ÷ {money(v['post_money'])} = "
+                  f"{pct(v['ownership_needed'])}.", rng),
+        _question("In the buyout, the equity multiple (MOIC) is closest to:",
+                  f"{deal['moic']:.2f}×", [f"{deal['exit_ev'] / deal['entry_ev']:.2f}×", f"{(deal['moic'] - 1) / 2 + 1:.2f}×"],
+                  f"Exit equity {money(deal['exit_equity'])} ÷ entry equity {money(deal['entry_equity'])} = "
+                  f"{deal['moic']:.2f}×. Leverage makes the equity multiple larger than the enterprise-value multiple "
+                  f"({deal['exit_ev'] / deal['entry_ev']:.2f}×).", rng),
+    ]
+    return {"topic": "Alternative Investments", "title": "Venture capital method and LBO returns",
+            "vignette": vignette, "questions": questions}
+
+
 ITEM_SETS: Dict[str, Callable] = {
     "fixed_income": item_fixed_income, "derivatives": item_derivatives,
     "portfolio_risk": item_portfolio_risk, "economics_fx": item_economics_fx,
     "equity": item_equity, "quant": item_quant, "real_estate": item_real_estate, "macro": item_macro,
+    "equity_valuation": item_equity_valuation, "news_surprise": item_news_surprise,
+    "active_management": item_active_management, "advisory": item_advisory,
+    "private_equity": item_private_equity,
 }
 
 DESK_ITEM_SETS = {
-    "investment_analyst": ["macro", "economics_fx"],
-    "equity_researcher": ["equity", "quant"],
+    "investment_analyst": ["news_surprise", "macro", "economics_fx"],
+    "equity_researcher": ["equity_valuation", "equity", "quant"],
     "portfolio_analyst": ["portfolio_risk", "fixed_income"],
-    "portfolio_manager": ["quant", "derivatives"],
-    "advisor": ["real_estate", "portfolio_risk"],
+    "portfolio_manager": ["active_management", "quant", "derivatives"],
+    "advisor": ["advisory", "real_estate", "portfolio_risk"],
+    "private_markets_analyst": ["private_equity", "equity_valuation", "real_estate"],
 }
 
 

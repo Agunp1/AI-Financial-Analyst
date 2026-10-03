@@ -20,6 +20,14 @@ from vittantra_pricing import (
     black_scholes_price,
     bond_analytics,
     bond_price,
+    blume_adjusted_beta,
+    capm_cost_of_equity,
+    fading_growth_path,
+    gordon_growth_value,
+    residual_income_value,
+    sustainable_growth,
+    two_stage_value,
+    wacc,
 )
 from vittantra_risk_model import euler_risk_contributions
 
@@ -74,7 +82,45 @@ class BondTests(unittest.TestCase):
         self.assertAlmostEqual(exact, approx, places=4)
 
 
-class StressTests(unittest.TestCase):
+class EquityValuationTests(unittest.TestCase):
+
+    def test_gordon_growth_textbook(self):
+        # D1 = 2.10, r = 10%, g = 5% → 42.00
+        self.assertAlmostEqual(gordon_growth_value(2.10, 0.10, 0.05), 42.0)
+        with self.assertRaises(ValueError):
+            gordon_growth_value(1.0, 0.05, 0.06)
+
+    def test_capm_wacc_and_blume(self):
+        self.assertAlmostEqual(capm_cost_of_equity(0.04, 1.2, 0.05), 0.10)
+        # E 600, D 400, re 10%, rd 6%, t 25% → 0.6×10% + 0.4×6%×0.75 = 7.8%
+        self.assertAlmostEqual(wacc(600, 400, 0.10, 0.06, 0.25), 0.078)
+        self.assertAlmostEqual(blume_adjusted_beta(1.6), 1.4)
+
+    def test_two_stage_equals_gordon_when_growth_constant(self):
+        result = two_stage_value(1.0, 0.09, [0.03] * 5, 0.03)
+        self.assertAlmostEqual(result["value"], gordon_growth_value(1.03, 0.09, 0.03), places=10)
+
+    def test_two_stage_textbook_supernormal(self):
+        # D0 = 1, 20% growth for 2 years then 5%, r = 12%:
+        # D1 1.20, D2 1.44, P2 = 1.512/0.07 = 21.60 → V0 = 1.0714 + 18.3673 → 19.439
+        result = two_stage_value(1.0, 0.12, [0.20, 0.20], 0.05)
+        self.assertAlmostEqual(result["value"], 1.2 / 1.12 + (1.44 + 21.6) / 1.12 ** 2, places=10)
+
+    def test_fading_growth_path(self):
+        np.testing.assert_allclose(fading_growth_path(0.10, 0.02, 5), [0.10, 0.08, 0.06, 0.04, 0.02])
+
+    def test_residual_income_zero_when_roe_equals_cost(self):
+        result = residual_income_value(100.0, [0.09] * 10, 0.09, 0.6)
+        self.assertAlmostEqual(result["value"], 100.0)
+
+    def test_residual_income_matches_ddm_under_clean_surplus(self):
+        # Constant ROE 15%, r 10%, b 0.4 → g 6%; D1 = 0.15×100×0.6 = 9 → DDM 9/0.04 = 225.
+        # RI with full persistence over a long horizon converges to the same value.
+        r, roe, b = 0.10, 0.15, 0.4
+        result = residual_income_value(100.0, [roe] * 400, r, b)
+        self.assertAlmostEqual(result["value"], 9 / (r - sustainable_growth(roe, b)), places=4)
+
+
 
     def setUp(self):
         self.bond = Instrument(

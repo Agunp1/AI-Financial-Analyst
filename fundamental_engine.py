@@ -116,6 +116,7 @@ CONCEPTS: Dict[str, List[str]] = {
         "DebtCurrent",
     ],
     "short_term_debt": ["ShortTermBorrowings", "CommercialPaper"],
+    "dividends_paid": ["PaymentsOfDividendsCommonStock", "PaymentsOfDividends", "DividendsCommonStockCash"],
 }
 
 PEER_GROUP_METRICS = {"equity_to_assets"}
@@ -123,6 +124,7 @@ PEER_GROUP_METRICS = {"equity_to_assets"}
 FLOW_ITEMS = {
     "revenue", "cost_of_revenue", "gross_profit", "operating_income", "net_income",
     "eps_diluted", "operating_cash_flow", "capex", "depreciation", "interest_expense",
+    "dividends_paid",
 }
 
 # Score pillars: (metric, higher_is_better, applies_to_financials)
@@ -530,6 +532,11 @@ def compute_company_metrics(company_facts: dict, as_of: pd.Timestamp,
         "eps_diluted_ttm": ttm["eps_diluted"],
         "free_cash_flow_ttm": fcf,
         "ebitda_ttm": ebitda,
+        # Cash-flow pieces used by the Day 78 valuation models
+        "operating_cash_flow_ttm": ttm["operating_cash_flow"],
+        "capex_ttm": abs(ttm["capex"]) if ttm["capex"] is not None else None,
+        "interest_expense_ttm": abs(ttm["interest_expense"]) if ttm["interest_expense"] is not None else None,
+        "dividends_ttm": abs(ttm["dividends_paid"]) if ttm["dividends_paid"] is not None else None,
         "total_debt": debt,
         "cash": stock["cash"],
         "equity": equity,

@@ -32,8 +32,18 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 | 76b | `us_fundamental_engine.py` | All US-listed stocks via SEC frames; sector-relative scores |
 | 76c | `multi_asset_universe.py`, `vittantra_markets_page.py` | Rates, credit, FX, commodities, crypto, REITs, alternatives |
 | 76d | `macro_drivers.py` | Macro factor betas and attribution per asset class; economic dashboard; CRE by property type |
-| 77 | `multi_factor_rating.py` | Five-pillar rating, IC tests, IC-weighted composite, point in time |
-| Academy | `academy_content.py`, `academy_live.py`, `academy_desk.py`, `vittantra_academy_page.py` | Learn-by-doing desk for 5 roles; progress in `academy_progress.json` |
+| 77 | `multi_factor_rating.py` | Five-pillar rating, IC tests; ratings use the IC-weighted composite, point in time |
+| 78 | `valuation_engine.py`, `research_report.py` | DCF (FCFF), residual income, DDM, reverse DCF; evidence-linked research notes |
+| 78b | `world_brief.py` | Free RSS headlines tagged by theme, FOMC/FRED release calendar, data moves linked to headlines |
+| 79 | `portfolio_construction.py` | Grinold–Kahn alpha, shrinkage covariance, optimizer within a 4% tracking-error budget; proposal pending human approval |
+| 80 | `performance_attribution.py` | Brinson–Fachler (Carino-linked) and pillar-factor attribution of the Day 77 backtest |
+| 81 | `whatif_engine.py`, `vittantra_pm_page.py` | What-if weights and macro scenarios with live risk (vol, VaR/ES, beta, Euler shares) |
+| 82–84 | `advisory_engine.py`, `vittantra_advisory_page.py`, `advisory_clients.json` | Risk questionnaire / IPS, capital market assumptions, model allocations, suitability engine (CFA III(C)), Monte Carlo goals, client reports |
+| 85 | `vittantra_copilot.py` | Copilot across all desks: evidence retrieval with citations, refusals, optional free local LLM (Ollama) with a number-grounding check |
+| 86 | `test_governance_rules.py` | One test per non-negotiable rule, run on committed outputs |
+| 87–90 | `vittantra_home_page.py`, `case_studies.py`, `DEPLOY.md`, `CAREER_KIT.md`, `CHANGELOG.md` | Home page and polish, free deployment, data-generated case studies, career kit, v1.0 |
+| 91 | `private_markets.py` | VC/PE desk: VC method, rounds and option-pool shuffle, cap table, exit waterfall, unit economics, power-law fund math, LBO; fictional deal simulator with real public comps |
+| Academy | `academy_content.py`, `academy_live.py`, `academy_desk.py`, `vittantra_academy_page.py` | Learn-by-doing desk for 6 roles (incl. PE/VC analyst at a small fund); progress in `academy_progress.json` |
 
 ## Non-negotiable rules
 
@@ -41,16 +51,21 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
   `automatic_execution_authorized_count = 0`. Recommendations go through the
   approval workflow to a human.
 - **Remediation must never increase modeled risk.**
+- **Advice must pass suitability.** Every recommendation is checked against
+  the client profile or IPS; sample clients in `advisory_clients.json` are
+  fictional and labelled as such.
 - **The AI layer must not invent data.** If Vittantra's outputs do not support
-  an answer, say so.
+  an answer, say so. Research notes cite source file, field and value for
+  every claim.
 - **No look-ahead bias** in research: point-in-time data, walk-forward splits.
 - Present backtests as historical research results, never as promised returns.
 
 ## Finance framework
 
 - Shared formulas live in `vittantra_pricing.py` (Black-Scholes, bond
-  analytics) and `vittantra_risk_model.py` (Euler covariance risk
-  contributions, delta-adjusted option exposure). Reuse them; don't
+  analytics, CAPM/WACC/DCF/residual income/DDM) and `vittantra_risk_model.py` (Euler covariance risk
+  contributions, delta-adjusted option exposure, Ledoit–Wolf
+  constant-correlation shrinkage). Reuse them; don't
   re-implement.
 - `test_finance_formulas.py` pins formulas to textbook values; keep it
   green. `FINANCE_AUDIT.md` lists methods, fixes and known simplifications —
@@ -60,7 +75,8 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 
 ## Data
 
-- Free sources only (Yahoo Finance via yfinance, FRED public CSV). The owner
+- Free sources only (Yahoo Finance via yfinance, FRED public CSV, public RSS
+  feeds; the FRED release calendar uses the free `FRED_API_KEY`). The owner
   cannot pay for data; do not add paid providers.
 - Data modes: LIVE when `day75_live_instrument_prices.csv` exists, SAMPLE
   otherwise or with `VITTANTRA_DATA_MODE=sample`. Without live data the
@@ -106,4 +122,5 @@ python run_vittantra.py              # refresh data + run Days 59-73
 python run_vittantra.py --sample     # original sample data
 python vittantra_ai_analyst.py
 python vittantra_research_copilot.py
+python vittantra_copilot.py           # Day 85 copilot demo (VITTANTRA_LLM=ollama optional)
 ```

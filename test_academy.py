@@ -146,5 +146,22 @@ class DeskTests(unittest.TestCase):
             self.assertIn("Client meeting", desk.work_record_markdown(reloaded))
 
 
+class ValuationCallTests(unittest.TestCase):
+
+    def test_grading(self):
+        task = {"model_value": 100.0, "signal": "Undervalued"}
+        self.assertEqual(desk.grade_valuation_call(task, 105, "Undervalued")[0], 100)
+        self.assertEqual(desk.grade_valuation_call(task, 120, "Fairly valued")[0], 25)
+        self.assertEqual(desk.grade_valuation_call(task, 200, "Overvalued")[0], 0)
+
+    def test_task_from_live_data(self):
+        try:
+            task = desk.valuation_call_task()
+        except live.MissingData:
+            self.skipTest("no Day 78 data")
+        self.assertIn("WACC", task["context"])
+        self.assertGreater(task["model_value"], 0)
+
+
 if __name__ == "__main__":
     unittest.main()

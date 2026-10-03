@@ -11,7 +11,9 @@ Runs the whole risk-to-decision chain in order:
       → Day 67 risk monitor          → Day 68 governance
       → Day 69 remediation           → Day 70 approval workflow
       → Day 73 AI Analyst
-    plus Day 76 fundamentals (SEC EDGAR), which does not block the chain
+    plus research steps that do not block the chain: Day 76 fundamentals
+    (SEC EDGAR), 76c multi-asset, 76d macro drivers, 77 ratings, 78 valuation
+    and research reports
 
 Usage
 -----
@@ -51,7 +53,13 @@ RESEARCH_STEPS = [
     ("Day 76 fundamentals (SEC)", "fundamental_engine.py"),
     ("Day 76c multi-asset universe", "multi_asset_universe.py"),
     ("Day 76d macro drivers", "macro_drivers.py"),
+    ("Day 78b world & markets brief", "world_brief.py"),
     ("Day 77 multi-factor rating", "multi_factor_rating.py"),
+    ("Day 78 valuation", "valuation_engine.py"),
+    ("Day 78 research reports", "research_report.py"),
+    ("Day 79 model portfolio", "portfolio_construction.py"),
+    ("Day 80 performance attribution", "performance_attribution.py"),
+    ("Days 82-84 advisory", "advisory_engine.py"),
 ]
 
 CHAIN_STEPS = [
