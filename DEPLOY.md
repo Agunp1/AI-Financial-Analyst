@@ -60,3 +60,35 @@ Streamlit Cloud notices the push and reloads the app with the new data.
   uses its evidence templates there, which work the same way.
 - If the app ever shows "resource limits", reboot it from the Streamlit Cloud
   menu (⋮ → Reboot).
+
+## Sign in and save online (use only the link)
+
+With this set up you can work entirely at <https://vittantra.streamlit.app>:
+visitors explore everything, and when **you** sign in, Academy work, saved
+clients and what-if proposals are saved to GitHub, so they survive restarts.
+
+**1. Make a GitHub token that can only touch this project**
+1. Open <https://github.com/settings/personal-access-tokens/new>.
+2. Token name `vittantra-app`; Expiration: 1 year.
+3. Repository access → **Only select repositories** → `AI-Financial-Analyst`.
+4. Permissions → Repository permissions → **Contents: Read and write**.
+5. **Generate token** and copy it (it starts with `github_pat_`). Don't paste it anywhere else.
+
+**2. Give the app your password and the token**
+1. Open <https://share.streamlit.io>, click **⋮** next to `vittantra` → **Settings** → **Secrets**.
+2. Paste this, with your own password and token, and click **Save**:
+   ```toml
+   owner_password = "choose-a-long-password"
+   github_token = "github_pat_paste_here"
+   github_repo = "Agunp1/AI-Financial-Analyst"
+   github_branch = "main"
+   ```
+3. Open the app → sidebar → **Owner sign-in** → enter your password.
+   The sidebar says *Signed in as owner*.
+
+Each save makes a small commit on GitHub; the app reloads for a moment and
+your work is there. Signing out (or closing the browser) ends the session;
+you'll need to sign in again next time.
+
+**Secrets stay secret:** they live only in Streamlit Cloud, never in the code.
+If the token ever leaks, delete it on GitHub and make a new one.

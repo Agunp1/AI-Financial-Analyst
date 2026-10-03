@@ -12,6 +12,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+import vittantra_cloud as cloud
 import vittantra_theme as vt
 
 import advisory_engine as ae
@@ -145,12 +146,15 @@ def _new_client_tab() -> None:
         st.plotly_chart(_fan(projection, target), width="stretch")
     st.markdown(f"**Suitability: {ae.suitability_verdict(results)}**")
     st.dataframe(results[["rule", "passed", "detail", "basis"]], width="stretch", hide_index=True)
-    if st.button("Save to my client book"):
+    if not cloud.is_owner():
+        cloud.owner_only_note("save clients")
+    elif st.button("Save to my client book"):
         data = json.loads(ae.CLIENTS_FILE.read_text())
         client["client_id"] = f"U{sum(c['client_id'].startswith('U') for c in data['clients']) + 1}"
         data["clients"].append(client)
         ae.CLIENTS_FILE.write_text(json.dumps(data, indent=2))
-        st.success(f"Saved as {client['client_id']}. Run `python advisory_engine.py` to refresh the client book.")
+        cloud.persist(ae.CLIENTS_FILE, f"Advisory: add client {client['client_id']} (fictional)")
+        st.success(f"Saved as {client['client_id']}. The client book refreshes with the next data update.")
 
 
 def _allocations_tab() -> None:
