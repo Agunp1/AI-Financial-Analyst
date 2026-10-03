@@ -42,6 +42,7 @@ textbook values and independent calculations.
 | Portfolio construction (Day 79) | Grinold–Kahn alpha = IC × σ × z; Ledoit–Wolf (2004) constant-correlation shrinkage covariance; mean–active-variance optimizer with tracking-error budget, position, sector, beta and Euler risk-share limits | `portfolio_construction.py`, `vittantra_risk_model.constant_correlation_shrinkage` | ✅ |
 | Performance attribution (Day 80) | Brinson–Fachler allocation/selection/interaction per period, Carino logarithmic linking; cross-sectional factor attribution (exposure × factor return + specific) | `performance_attribution.py` | ✅ |
 | What-if risk (Day 81) | Parametric VaR = 2.326σ, ES = 2.665σ (normal, 99%); historical VaR; Euler risk shares; OLS factor betas → scenario P&L = Σβ×shock | `whatif_engine.py` | ✅ |
+| Advisory (Days 82–84) | Building-block capital market assumptions (yield − expected loss; 10Y + ERP); shrinkage correlations with volatility blended 50/50 with long-run levels; max-return-at-target-volatility allocation with policy ranges; profile = min(willingness, capacity); 1-in-20 loss = 1.645σ − μ; lognormal Monte Carlo matched to arithmetic mean and variance, flows inflation-indexed, results in real terms | `advisory_engine.py` | ✅ |
 | Multi-factor rating (Day 77) | Cross-sectional percentile pillars; IC = Spearman rank correlation with next-period return, t-stat across dates; IC-weighted composite using only completed outcomes; cost-adjusted quintile portfolios | `multi_factor_rating.py` | ✅ |
 
 ---
@@ -104,4 +105,5 @@ These are acceptable for a research system but should be understood:
 | Portfolio construction | Alpha scaled from one IC for all stocks; benchmark is the equal-weighted 33-stock universe; book costs 10 bp | Stock-specific IC/volatility forecasts, a cap-weighted benchmark, market-impact costs |
 | Attribution | Backtested top-quintile portfolio, not the optimizer's portfolio; arithmetic Brinson with Carino linking | Attribute live portfolios once a track record exists |
 | What-if scenarios | Linear factor betas; normal parametric VaR; built-in scenarios are hypothetical sizes of past episodes | Full revaluation (bonds/options), stressed correlations, historical scenario replay |
+| Advisory assumptions | Premiums (ERP 4.5%, international +0.5%, EM +1.5%, REIT +3%) and default losses are policy assumptions; correlations from one year; annual returns independent (no mean reversion or fat tails); taxes and fees not modelled beyond the IPS cost rate | Committee-approved CMAs, longer histories, fat-tailed or regime simulations, tax-aware planning |
 | Multi-asset: alternatives | Listed proxies stand in for private equity, private credit and hedge funds | Fund-level data |

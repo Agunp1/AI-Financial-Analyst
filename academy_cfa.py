@@ -45,6 +45,7 @@ LESSON_CFA_TOPIC = {
     "PM7": "Portfolio Management", "PM8": "Portfolio Management", "RA6": "Portfolio Management",
     "AD1": "Ethical and Professional Standards", "AD2": "Portfolio Management",
     "AD3": "Quantitative Methods", "AD4": "Portfolio Management", "AD5": "Ethical and Professional Standards",
+    "AD6": "Economics", "AD7": "Ethical and Professional Standards", "AD8": "Quantitative Methods",
 }
 
 
@@ -430,12 +431,47 @@ def item_active_management(day=None) -> dict:
             "vignette": vignette, "questions": questions}
 
 
+def item_advisory(day=None) -> dict:
+    rng = _rng("advisory", day)
+    cma = _csv("day82_capital_market_assumptions.csv", "advisory_engine.py").set_index("sleeve")
+    profiles = _csv("day82_client_profiles.csv", "advisory_engine.py")
+    goals = _csv("day84_goal_summary.csv", "advisory_engine.py").set_index("client_id")
+    r = profiles.iloc[rng.randrange(len(profiles))]
+    hy = cma.loc["High-yield credit"]
+    eq = cma.loc["US equity"]
+    vignette = (f"An advisor reviews {r['name']}: profile {r['profile_name']}, recommended portfolio expected return "
+                f"{r['expected_return']:.1%} and volatility {r['volatility']:.1%}. The firm's capital market "
+                f"assumptions put US equities at {eq['expected_return']:.2%} and high-yield bonds at "
+                f"{hy['expected_return']:.2%} ({hy['method']}). Monte Carlo gives a "
+                f"{goals.at[r['client_id'], 'probability']:.0%} chance of meeting the goal.")
+    loss = 1.645 * r["volatility"] - r["expected_return"]
+    questions = [
+        _question("Using a normal approximation, the loss in a 1-in-20 bad year is closest to:",
+                  f"{loss:.1%}", [f"{1.645 * r['volatility']:.1%}", f"{2.326 * r['volatility'] - r['expected_return']:.1%}",
+                                  f"{r['volatility']:.1%}"],
+                  f"L ≈ 1.645σ − E[R] = 1.645 × {r['volatility']:.1%} − {r['expected_return']:.1%} = {loss:.1%}. "
+                  "2.326 is the 1-in-100 multiplier.", rng),
+        _question("When a client's willingness to take risk exceeds their capacity, the advisor should generally:",
+                  "set the profile by the lower capacity and explain why",
+                  ["follow the client's stated willingness", "average the two and not discuss it"],
+                  "Capacity is a hard financial limit; CFA Standard III(C) requires suitability for the client's "
+                  "situation, documented.", rng),
+        _question("A Monte Carlo probability of success of 95% compared with 70% most likely means the plan:",
+                  "may be too conservative — the client could spend or save differently",
+                  ["is guaranteed to succeed", "has a higher expected return"],
+                  "Very high probabilities often mean the client is giving up spending or taking too little risk; "
+                  "advisors usually target a range, not 100%.", rng),
+    ]
+    return {"topic": "Portfolio Management", "title": "Suitability and goals-based planning",
+            "vignette": vignette, "questions": questions}
+
+
 ITEM_SETS: Dict[str, Callable] = {
     "fixed_income": item_fixed_income, "derivatives": item_derivatives,
     "portfolio_risk": item_portfolio_risk, "economics_fx": item_economics_fx,
     "equity": item_equity, "quant": item_quant, "real_estate": item_real_estate, "macro": item_macro,
     "equity_valuation": item_equity_valuation, "news_surprise": item_news_surprise,
-    "active_management": item_active_management,
+    "active_management": item_active_management, "advisory": item_advisory,
 }
 
 DESK_ITEM_SETS = {
@@ -443,7 +479,7 @@ DESK_ITEM_SETS = {
     "equity_researcher": ["equity_valuation", "equity", "quant"],
     "portfolio_analyst": ["portfolio_risk", "fixed_income"],
     "portfolio_manager": ["active_management", "quant", "derivatives"],
-    "advisor": ["real_estate", "portfolio_risk"],
+    "advisor": ["advisory", "real_estate", "portfolio_risk"],
 }
 
 

@@ -650,6 +650,68 @@ LESSONS = [
                       _q("How do you deliver bad news?",
                          "Early, in plain terms, with context, what it means for their goals, and the plan.")],
     },
+    {
+        "id": "AD6", "role": "advisor", "title": "Capital market assumptions and strategic allocation",
+        "concept": "Advisors build long-run expected returns from building blocks: bonds earn roughly their yield "
+                   "minus expected credit losses; equities earn the bond yield plus a risk premium; cash earns the "
+                   "T-bill rate. With volatilities and correlations, an optimizer finds the best mix for each risk "
+                   "level — inside policy ranges, because unconstrained optimizers pile into a few assets.",
+        "formulas": [("Bond expected return", r"E[R] \approx y - \text{default rate} \times LGD"),
+                     ("Equity expected return", r"E[R] \approx y_{10} + ERP"),
+                     ("Portfolio risk", r"\sigma_p = \sqrt{w^\top \Sigma w}"),
+                     ("Bad year (1 in 20)", r"L \approx 1.645\sigma_p - E[R_p]")],
+        "live": "ad_cma", "code": ["advisory_engine.py → capital_market_assumptions, optimize_allocation"],
+        "on_the_job": "Firms publish annual capital market assumptions; model portfolios for each risk profile are "
+                      "rebuilt from them and reviewed by an investment committee.",
+        "exercise": "The 5-year Treasury yields 4.0% and the high-yield spread is 3.5%. With a 3.5% default rate and "
+                    "60% loss given default, what is the expected return on high-yield bonds?",
+        "interview": [_q("Why not use last year's returns as expected returns?",
+                         "Past returns are noisy and mean-revert; yields and valuations are better forward-looking "
+                         "anchors."),
+                      _q("Why add policy ranges to an optimizer?",
+                         "Small errors in expected returns create extreme corner allocations; ranges keep the mix "
+                         "diversified and explainable.")],
+    },
+    {
+        "id": "AD7", "role": "advisor", "title": "Suitability and the investment policy statement",
+        "concept": "Know your client, then make sure every recommendation fits them: risk within both willingness "
+                   "and capacity, losses within what they can bear, enough liquidity, nothing too complex for their "
+                   "experience. Institutions write the rules into an IPS: return objective, risk limits, ranges, "
+                   "exclusions. Document why it suits — that is what regulators and the CFA Standards require.",
+        "formulas": [("Risk profile", r"\text{profile} = \min(\text{willingness}, \text{capacity})"),
+                     ("Required return (endowment)", r"r = \text{spending} + \pi + \text{costs}")],
+        "live": "ad_suitability", "code": ["advisory_engine.py → retail_profile, suitability"],
+        "on_the_job": "Every advice file contains a fact-find, a risk profile and a suitability statement; "
+                      "compliance samples them.",
+        "exercise": "A client says they would buy more after a 20% fall but needs the money for a house in two "
+                    "years. Which matters more and why?",
+        "interview": [_q("What does CFA Standard III(C) require?",
+                         "Know the client's situation and objectives, and judge suitability of investments for the "
+                         "whole portfolio before recommending."),
+                      _q("Willingness vs capacity for risk?",
+                         "Willingness is psychological; capacity is financial (horizon, wealth, income, liquidity). "
+                         "When they conflict, capacity usually limits the profile.")],
+    },
+    {
+        "id": "AD8", "role": "advisor", "title": "Goals-based planning with Monte Carlo",
+        "concept": "Instead of one projected number, simulate thousands of market paths and report the chance of "
+                   "reaching the goal, the median and a poor case. Work in today's money and grow savings or "
+                   "withdrawals with inflation. Then show the levers: save more, retire later, take more risk, or "
+                   "lower the goal.",
+        "formulas": [("Lognormal returns", r"\ln(1+R) \sim N\left(\ln(1+\mu) - \tfrac{s^2}{2},\; s^2\right)"),
+                     ("Wealth path", r"W_{t+1} = W_t(1+R_t) + C_t"),
+                     ("Success probability", r"P(\text{success}) = \frac{\#\{W_T \ge \text{goal}\}}{N}")],
+        "live": "ad_monte_carlo", "code": ["advisory_engine.py → simulate_wealth, goal_probability, required_contribution"],
+        "on_the_job": "Planning software shows clients a probability of success; advisors target about 70–90% and "
+                      "revisit the plan every year.",
+        "exercise": "Two plans have the same median outcome but different 10th percentiles. Which would you show a "
+                    "cautious client first, and why?",
+        "interview": [_q("Why not just compound the expected return?",
+                         "Volatility drag and sequence risk mean the typical (median) outcome is below the "
+                         "average-return projection, and the bad cases matter most."),
+                      _q("What is sequence-of-returns risk?",
+                         "Losses early in retirement, while withdrawing, hurt far more than the same losses later.")],
+    },
 ]
 
 

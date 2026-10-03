@@ -38,6 +38,7 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 | 79 | `portfolio_construction.py` | Grinold–Kahn alpha, shrinkage covariance, optimizer within a 4% tracking-error budget; proposal pending human approval |
 | 80 | `performance_attribution.py` | Brinson–Fachler (Carino-linked) and pillar-factor attribution of the Day 77 backtest |
 | 81 | `whatif_engine.py`, `vittantra_pm_page.py` | What-if weights and macro scenarios with live risk (vol, VaR/ES, beta, Euler shares) |
+| 82–84 | `advisory_engine.py`, `vittantra_advisory_page.py`, `advisory_clients.json` | Risk questionnaire / IPS, capital market assumptions, model allocations, suitability engine (CFA III(C)), Monte Carlo goals, client reports |
 | Academy | `academy_content.py`, `academy_live.py`, `academy_desk.py`, `vittantra_academy_page.py` | Learn-by-doing desk for 5 roles; progress in `academy_progress.json` |
 
 ## Non-negotiable rules
@@ -46,6 +47,9 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
   `automatic_execution_authorized_count = 0`. Recommendations go through the
   approval workflow to a human.
 - **Remediation must never increase modeled risk.**
+- **Advice must pass suitability.** Every recommendation is checked against
+  the client profile or IPS; sample clients in `advisory_clients.json` are
+  fictional and labelled as such.
 - **The AI layer must not invent data.** If Vittantra's outputs do not support
   an answer, say so. Research notes cite source file, field and value for
   every claim.

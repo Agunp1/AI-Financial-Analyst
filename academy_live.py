@@ -450,3 +450,33 @@ def ad_communication() -> str:
     return (f"Instead of *“duration risk is elevated”*, say: *“Ten-year government bonds now pay "
             f"{c.loc['10Y', 'yield_pct']:.2f}% a year. If rates rise by one more percentage point, a typical "
             "10-year bond fund could fall about 8% in price, though it would then earn the higher rate.”*")
+
+
+def ad_cma() -> str:
+    cma = _csv("day82_capital_market_assumptions.csv", "advisory_engine.py")
+    rows = ["| Sleeve | Expected return | Volatility | How |", "|---|---:|---:|---|"]
+    rows += [f"| {r.sleeve} | {pct(r.expected_return)} | {pct(r.volatility)} | {r.method} |" for r in cma.itertuples()]
+    alloc = _csv("day82_model_allocations.csv", "advisory_engine.py")
+    m = alloc[alloc["profile"] == 3].iloc[0]
+    return ("\n".join(rows) + f"\n\nModerate model: expected {pct(m['expected_return'])}, volatility "
+            f"{pct(m['volatility'])}, equity {pct(m['equity_share'], 0)}, bad year about −{pct(m['bad_year_loss'], 0)}.")
+
+
+def ad_suitability() -> str:
+    profiles = _csv("day82_client_profiles.csv", "advisory_engine.py")
+    rules = _csv("day83_suitability_results.csv", "advisory_engine.py")
+    r = profiles.iloc[0]
+    own = rules[rules["client_id"] == r["client_id"]]
+    lines = [f"**{r['name']}** — profile **{r['profile_name']}**. {r['profile_note']}", ""]
+    lines += [f"- {'✅' if x.passed else '⚠️'} {x.rule}: {x.detail}" for x in own.itertuples()]
+    return "\n".join(lines) + f"\n\nVerdict: **{r['suitability']}**."
+
+
+def ad_monte_carlo() -> str:
+    goals = _csv("day84_goal_summary.csv", "advisory_engine.py")
+    profiles = _csv("day82_client_profiles.csv", "advisory_engine.py").set_index("client_id")
+    lines = ["| Client | Goal | Chance | Median (today's $) | Poor case |", "|---|---|---:|---:|---:|"]
+    for g in goals.itertuples():
+        lines.append(f"| {profiles.at[g.client_id, 'name']} | {profiles.at[g.client_id, 'goal']} | "
+                     f"{pct(g.probability, 0)} | {money(g.median_real)} | {money(g.p10_real)} |")
+    return "\n".join(lines) + "\n\n10,000 simulated paths per client; amounts in today's money."

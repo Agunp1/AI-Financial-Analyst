@@ -1,0 +1,8 @@
+check,passed,details,passed_tests,total_tests,pass_rate
+Capital market assumptions for every sleeve,True,10 sleeves,7,7,1.0
+Model allocations fully invested,True,weights sum to 100%,7,7,1.0
+Risk rises with the profile,True,5.0% → 7.5% → 10.0% → 13.0% → 14.9%,7,7,1.0
+Allocations within target volatility,True,all profiles,7,7,1.0
+Every recommendation suitability-checked,True,38 rule checks for 5 clients,7,7,1.0
+Probabilities between 0 and 1,True,all clients,7,7,1.0
+No automatic execution,True,proposals await client and advisor approval,7,7,1.0

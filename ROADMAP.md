@@ -33,9 +33,9 @@ Constraint: **free data sources only.**
 | 79 | Portfolio Mgmt | Research-driven portfolio construction within the risk budget | ✅ Built |
 | 80 | Portfolio Mgmt | Performance attribution (Brinson–Fachler, pillar factors) | ✅ Built |
 | 81 | Risk | What-if scenario tool with live risk recalculation | ✅ Built |
-| 82 | Advisory | Client profiles: retail risk questionnaire, institutional IPS/mandate | |
-| 83 | Advisory | Suitability and mandate-compliance engine | |
-| 84 | Advisory | Goals-based planning (Monte Carlo) and client reports | |
+| 82 | Advisory | Client profiles: retail risk questionnaire, institutional IPS/mandate | ✅ Built |
+| 83 | Advisory | Suitability and mandate-compliance engine | ✅ Built |
+| 84 | Advisory | Goals-based planning (Monte Carlo) and client reports | ✅ Built |
 | 85 | Core | LLM Copilot across all desks, evidence-grounded | |
 | 86 | Core | Tests for every rule: suitability, risk limits, no auto-execution, no made-up answers | |
 | 87 | Core | Deploy online (free tier) | |
