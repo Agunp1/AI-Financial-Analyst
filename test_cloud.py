@@ -55,8 +55,17 @@ class CloudTests(unittest.TestCase):
 
     def test_commit_creates_new_file_and_reports_refusal(self):
         session = FakeSession(put_status=403)
-        self.assertIn("refused", cloud.commit_file(FILE, "msg", SETTINGS, session))
+        self.assertIn("Not saved to GitHub (403)", cloud.commit_file(FILE, "msg", SETTINGS, session))
         self.assertNotIn("sha", session.puts[0][2])
+
+    def test_check_explains_token_problems(self):
+        class Session:
+            def __init__(self, status, payload=None): self.r = FakeResponse(status, payload)
+            def get(self, url, **kwargs): return self.r
+        self.assertIn("401", cloud.check_github(SETTINGS, Session(401)))
+        self.assertIn("Only select repositories", cloud.check_github(SETTINGS, Session(404)))
+        self.assertIn("Read and write", cloud.check_github(SETTINGS, Session(200, {"permissions": {"push": False}})))
+        self.assertTrue(cloud.check_github(SETTINGS, Session(200, {"permissions": {"push": True}})).startswith("Saving works"))
 
     def test_no_token_means_no_commit(self):
         self.assertIsNone(cloud.github_settings())           # no secrets in the test environment
