@@ -1,11 +1,11 @@
 check,passed,details,passed_tests,total_tests,pass_rate
-Universe size,True,4414 listed operating companies (expected at least 3000),7,10,0.7
-Sector classification,False,89.2% mapped from SIC codes,7,10,0.7
-TTM revenue coverage,False,75.3% of companies,7,10,0.7
-Price coverage,True,100.0% of companies,7,10,0.7
-Market cap coverage,True,93.0% of companies,7,10,0.7
-Gross margins plausible,False,1.05% outside ±100%,7,10,0.7
-Scores between 0 and 100,True,All percentile scores,7,10,0.7
-Composite score coverage,True,77.9% of companies,7,10,0.7
-Sector-relative ranking,True,100.0% ranked within their sector,7,10,0.7
-Research universe included,True,Missing: none,7,10,0.7
+Universe size,True,4305 listed operating companies (expected at least 3000),9,10,0.9
+Sector classification,False,88.9% mapped from SIC codes,9,10,0.9
+TTM revenue coverage,True,76.7% of companies (pre-revenue companies and banks are expected gaps),9,10,0.9
+Price coverage,True,100.0% of companies,9,10,0.9
+Market cap coverage,True,94.1% of companies,9,10,0.9
+Gross margins plausible,True,"0.10% above 100% (impossible); 1.0% below −100% (early-stage, kept)",9,10,0.9
+Scores between 0 and 100,True,All percentile scores,9,10,0.9
+Composite score coverage,True,79.5% of companies,9,10,0.9
+Sector-relative ranking,True,100.0% ranked within their sector,9,10,0.9
+Research universe included,True,Missing: none,9,10,0.9

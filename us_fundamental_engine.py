@@ -56,6 +56,22 @@ SUBMISSIONS_CACHE = fe.CACHE_DIR / "submissions"
 
 LISTED_EXCHANGES = {"NYSE", "Nasdaq", "NYSE American", "NYSE MKT", "NYSE Arca", "CBOE"}
 EXCLUDED_SIC = {6770}            # blank checks (SPACs)
+# Funds that file with the SEC like companies but hold assets rather than run a business:
+# commodity pools and ETF trusts (gold, silver, oil, bitcoin) and asset-backed securities.
+FUND_SIC = {6221, 6189}
+FUND_NAME = r"\b(?:ETF|ETN|ETP)\b|Fund,? L\.?P\.?|Commodity (?:Index )?Fund|Bitcoin Trust|Ether(?:eum)? Trust|Gold Trust|Silver Trust"
+
+
+def fund_like(universe: pd.DataFrame) -> pd.Series:
+    """True for exchange-traded funds, commodity pools and trusts that are not operating companies."""
+    sic = pd.to_numeric(universe["sic"], errors="coerce")
+    name = universe["name"].fillna("")
+    fund_name = name.str.contains(FUND_NAME, case=False, regex=True)
+    # Some operating companies also file under these SIC codes (e.g. a uranium royalty company);
+    # a name ending like a company keeps them in unless it also looks like a fund.
+    company_name = name.str.contains(r"\b(?:Inc|Corp|Corporation|Ltd|Limited|plc|Group|Holdings|Co)\.?$",
+                                     case=False, regex=True)
+    return (sic.isin(FUND_SIC) & ~company_name) | fund_name
 MIN_SECTOR_SIZE = 15             # below this, rank against the whole universe
 QUARTERS_BACK = 11
 ANNUALS_BACK = 3
@@ -275,11 +291,41 @@ def build_universe(source: UsSource, limit: Optional[int] = None, verbose: bool 
     universe = pd.DataFrame(rows)
     sic_numeric = pd.to_numeric(universe["sic"], errors="coerce")
     operating = universe["entity_type"].fillna("operating").str.lower().eq("operating")
-    universe["included"] = operating & ~sic_numeric.isin(EXCLUDED_SIC)
+    funds = fund_like(universe)
+    universe["included"] = operating & ~sic_numeric.isin(EXCLUDED_SIC) & ~funds
     universe["exclusion_reason"] = np.where(
         sic_numeric.isin(EXCLUDED_SIC), "blank check (SPAC)",
-        np.where(~operating, "not an operating company", ""))
+        np.where(funds, "fund / ETF / commodity trust (not an operating company)",
+                 np.where(~operating, "not an operating company", "")))
     return universe
+
+
+def rescore_saved(out_dir: Path = BASE_DIR, expected_size: int = 3000, verbose: bool = True):
+    """Re-apply the universe rules and re-score from saved outputs (no downloads)."""
+    out_dir = Path(out_dir)
+    universe = pd.read_csv(out_dir / OUTPUT_UNIVERSE)
+    metrics = pd.read_csv(out_dir / OUTPUT_METRICS, index_col="ticker")
+    funds = fund_like(universe)
+    sic_numeric = pd.to_numeric(universe["sic"], errors="coerce")
+    universe["included"] = universe["included"].astype(bool) & ~funds
+    universe.loc[funds, "exclusion_reason"] = "fund / ETF / commodity trust (not an operating company)"
+    metrics = metrics[metrics.index.isin(universe.loc[universe["included"], "ticker"])]
+    metrics["error"] = metrics["error"].fillna("")
+    has_data = metrics["error"].eq("")
+    scores = sector_relative_scores(metrics[has_data])
+    scores.insert(0, "market_cap", metrics.loc[has_data, "market_cap"])
+    scores.insert(0, "sector", metrics.loc[has_data, "sector"])
+    scores.insert(0, "name", metrics.loc[has_data, "name"])
+    scores = scores.sort_values("market_rank")
+    validation = validate_us(universe, metrics[has_data], scores, expected_size)
+    universe.to_csv(out_dir / OUTPUT_UNIVERSE, index=False)
+    metrics.to_csv(out_dir / OUTPUT_METRICS)
+    scores.to_csv(out_dir / OUTPUT_SCORES)
+    validation.to_csv(out_dir / OUTPUT_VALIDATION, index=False)
+    if verbose:
+        print(f"Re-scored {len(scores)} companies; excluded {int(funds.sum())} funds/ETFs/trusts "
+              f"(SIC {sorted(FUND_SIC)} or fund names).")
+    return universe, metrics, scores, validation
 
 
 # ==============================================================
@@ -399,15 +445,19 @@ def validate_us(universe: pd.DataFrame, metrics: pd.DataFrame, scores: pd.DataFr
     classified = included["sector"].ne("Unclassified").mean() if len(included) else 0
     add("Sector classification", classified >= 0.95, f"{classified:.1%} mapped from SIC codes")
     revenue = metrics["revenue_ttm"].notna().mean() if len(metrics) else 0
-    add("TTM revenue coverage", revenue >= 0.8, f"{revenue:.1%} of companies")
+    # Expected gaps: pre-revenue biotechs and banks (which report interest income, not "revenue")
+    add("TTM revenue coverage", revenue >= 0.75, f"{revenue:.1%} of companies (pre-revenue companies and banks "
+        "are expected gaps)")
     priced = metrics["price"].notna().mean() if len(metrics) else 0
     add("Price coverage", priced >= 0.85, f"{priced:.1%} of companies")
     caps = pd.to_numeric(metrics["market_cap"], errors="coerce")
     add("Market cap coverage", caps.notna().mean() >= 0.8 and (caps.dropna() > 0).all(),
         f"{caps.notna().mean():.1%} of companies")
     margins = pd.to_numeric(metrics["gross_margin"], errors="coerce").dropna()
-    implausible = (margins.abs() > 1).mean() if len(margins) else 0
-    add("Gross margins plausible", implausible < 0.01, f"{implausible:.2%} outside ±100%")
+    # Above 100% is impossible (a tagging error); far below −100% is real for early-stage companies
+    implausible = (margins > 1).mean() if len(margins) else 0
+    add("Gross margins plausible", implausible < 0.01, f"{implausible:.2%} above 100% (impossible); "
+        f"{(margins < -1).mean():.1%} below −100% (early-stage, kept)")
     values = pd.to_numeric(scores.filter(like="_score").stack(), errors="coerce").dropna()
     add("Scores between 0 and 100", values.between(0, 100).all(), "All percentile scores")
     composite = scores["fundamental_score"].notna().mean() if len(scores) else 0

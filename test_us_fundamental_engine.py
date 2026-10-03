@@ -159,5 +159,17 @@ class EndToEndTests(unittest.TestCase):
             self.assertTrue((Path(self.tmp.name) / name).exists(), name)
 
 
+class FundExclusionTests(unittest.TestCase):
+
+    def test_funds_excluded_operating_companies_kept(self):
+        import pandas as pd
+        import us_fundamental_engine as us
+        u = pd.DataFrame({"name": ["SPDR GOLD TRUST", "abrdn Silver ETF Trust", "United States Oil Fund, LP",
+                                   "Grayscale Bitcoin Trust ETF", "Uranium Royalty Corp.", "NVIDIA CORP",
+                                   "LEHMAN ABS CORP GOLDMAN SACHS CAP 1 SEC BACKED SER 2004-6"],
+                          "sic": [6221, 6221, 6221, 6221, 6221, 3674, 6189]})
+        self.assertEqual(us.fund_like(u).tolist(), [True, True, True, True, False, False, True])
+
+
 if __name__ == "__main__":
     unittest.main()
