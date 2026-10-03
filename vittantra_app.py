@@ -2296,7 +2296,7 @@ if page == "Command Center":
 
 
 
-            use_container_width=True,
+            width="stretch",
 
 
 
@@ -4022,7 +4022,7 @@ elif page == "Risk Intelligence":
 
 
 
-                use_container_width=True,
+                width="stretch",
 
 
 
@@ -4042,7 +4042,7 @@ elif page == "Risk Intelligence":
 
 
 
-            use_container_width=True,
+            width="stretch",
 
 
 
@@ -4358,7 +4358,7 @@ elif page == "Governance":
 
 
 
-            use_container_width=True,
+            width="stretch",
 
 
 
@@ -4610,7 +4610,7 @@ elif page == "Remediation":
 
 
 
-            use_container_width=True,
+            width="stretch",
 
 
 
@@ -4822,7 +4822,7 @@ elif page == "System":
 
 
 
-        use_container_width=True,
+        width="stretch",
 
 
 

@@ -1,0 +1,21 @@
+# Core analytics
+pandas>=2.2
+numpy>=1.26
+scipy>=1.11
+
+# Machine learning
+scikit-learn>=1.4
+
+# Application & visualization
+streamlit>=1.50
+plotly>=5.20
+matplotlib>=3.8
+
+# Data ingestion
+yfinance>=0.2.40
+requests>=2.31
+python-dotenv>=1.0
+pandas-datareader>=0.10
+
+# Notebooks
+jupyter>=1.0
