@@ -84,17 +84,19 @@ last good data. Free prices may be delayed by about 15 minutes.
 | **AI Analyst** | Executive brief, risk drivers, priority queue and human-attention items |
 | **System** | Data sources and system state |
 
-**Portfolio snapshot from the committed outputs.** These come from the
-illustrative sample portfolio with synthetic price history. Run
-`python run_vittantra.py` to recompute everything from live market data.
+**Portfolio snapshot from the committed outputs: LIVE market data as of
+2 October 2026.** The positions are the illustrative Day 59 example portfolio,
+valued at real prices with real price history. Run `python run_vittantra.py`
+to refresh.
 
 | Metric | Value |
 |--------|------:|
 | Portfolio status | CRITICAL |
-| Instruments | 10 (7 normal, 3 critical) |
-| Maximum risk-budget utilization | 581.9% (ES future) |
-| Next highest | 399.0% (AAPL call, delta-adjusted), 284.0% (BTC) |
-| Modeled risk reduction required | 58.6% |
+| Instruments | 10 (8 within budget, 2 critical) |
+| Maximum risk-budget utilization | 700.0% (AAPL call, deep in the money, delta ≈ 1.0) |
+| Next highest | 583.3% (ES future) |
+| Single-name concentration | AAPL stock + AAPL call ≈ 42% of portfolio risk before rebalancing |
+| Portfolio value / 1-day 95% VaR | $626,307 / $9,341 (99% VaR $15,864) |
 | Estimated post-remediation max utilization | 100% |
 | Workflow | AWAITING DUAL APPROVAL |
 | Automatic execution authorized | **0** |
@@ -170,21 +172,20 @@ dollar traded):**
 | Strategy | Ann. return | Ann. vol | Sharpe | Sortino | Max drawdown |
 |----------|-----------:|---------:|-------:|--------:|-------------:|
 | Long/Short (50% long / 50% short) | 9.3% | 6.8% | 1.35 | 2.63 | −4.5% |
-| Top quintile long | 24.9% | 14.4% | 1.32 | 2.54 | −8.6% |
-| Equal-weight universe | 17.2% | 9.7% | 1.24 | 2.24 | −5.9% |
+| Top quintile long | 24.9% | 14.4% | 1.31 | 2.51 | −8.5% |
+| Equal-weight universe | 17.2% | 9.7% | 1.23 | 2.20 | −5.9% |
 
 Sharpe and Sortino for long-only portfolios use returns in excess of the
-3-month T-bill rate. Until the data hub has downloaded actual T-bill history,
-a stated 4.5% assumption is used. Long/short returns are self-financing
-excess returns.
+point-in-time 3-month T-bill yield (FRED DGS3MO; 4.6% average over the
+period). Long/short returns are self-financing excess returns.
 
 - Robustness: **5 of 6 checks passed**: positive across basket sizes, in both
   sample halves, sector-neutral, with the bootstrap 95% CI above zero, and still
   positive at 50 bps costs (6.9% a year, break-even about 70 bps). The failed
   check: score buckets are not perfectly monotonic.
-- Factor attribution: annualized alpha ≈ 3.3%, but **not statistically
-  significant** (t = 0.55, p = 0.59) with 10 factors and 39 observations. The
-  only significant exposure is value (t = 2.55). The result is a promising lead,
+- Factor attribution: annualized alpha ≈ 2.4%, but **not statistically
+  significant** (t = 0.40, p = 0.70) with 10 factors and 39 observations. The
+  only significant exposure is value (t = 2.56). The result is a promising lead,
   not proven alpha.
 
 ### Phase 8 — Multi-asset risk architecture (Days 59–62)

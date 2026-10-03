@@ -45,9 +45,9 @@ textbook values and independent calculations.
 | 4 | **Option exposure = premium paid** | A $4,250 call controls about $51,000 of AAPL | Delta-adjusted exposure `Δ × S × qty × multiplier` | AAPL call becomes 20% of portfolio risk |
 | 5 | **Day 65 scaled risk linearly** | Shrinking one position changes every position's risk share | Iterative risk-contribution cap, recomputed each pass | ES capped at 34.9% (limit 35%) |
 | 6 | **Transaction costs charged on half the trades** | Cost was applied to one-way turnover `½Σ|Δw|`; every dollar bought *and* sold pays | Cost on traded weight `Σ|Δw|` (Day 56) and both books (Day 57) | L/S return 10.3% → **9.3%**; break-even cost ~70 bps |
-| 7 | **Sharpe ignored the risk-free rate** | Sharpe = (R − Rf)/σ. With T-bills at ~4–5%, long-only Sharpe was overstated | Excess returns over the point-in-time 3-month T-bill (FRED DGS3MO) | Top quintile Sharpe 1.69 → **1.32** |
+| 7 | **Sharpe ignored the risk-free rate** | Sharpe = (R − Rf)/σ. With T-bills at ~4–5%, long-only Sharpe was overstated | Excess returns over the point-in-time 3-month T-bill (FRED DGS3MO) | Top quintile Sharpe 1.69 → **1.31** |
 | 8 | **Sortino used the wrong downside measure** | Used std of losing periods only. The standard downside deviation is `√mean(min(R−MAR,0)²)` over all periods | Standard downside deviation | Sortino values corrected |
-| 9 | **Alpha reported without significance** | A coefficient means little without its standard error | OLS standard errors, t-statistics and p-values for alpha and every factor | Alpha t = 0.55, p = 0.59 → **not significant** |
+| 9 | **Alpha reported without significance** | A coefficient means little without its standard error | OLS standard errors, t-statistics and p-values for alpha and every factor | Alpha 2.4%/yr, t = 0.40, p = 0.70 → **not significant** |
 | 10 | **Day 63 crashed on the sample portfolio** | Refused to run when a position already exceeded its cap | Moves toward targets within the turnover limit and flags the remaining breach | Pipeline runs end to end |
 | 11 | **Risk chain ran only on made-up data** | Day 60 used synthetic price history and fixed example prices | Day 75 data hub feeds real prices, rates, spreads and history | LIVE mode available |
 
