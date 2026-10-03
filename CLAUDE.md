@@ -28,6 +28,7 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 | 73 | `vittantra_ai_analyst.py` | Analyst brief from Days 67–70 |
 | 74 | `vittantra_research_copilot.py` | NL Q&A over Vittantra data |
 | 75 | `vittantra_data_hub.py`, `vittantra_live_inputs.py`, `run_vittantra.py` | Free live data → risk chain; one-command pipeline |
+| 76 | `fundamental_engine.py`, `vittantra_research_page.py` | SEC EDGAR point-in-time fundamentals and scores |
 
 ## Non-negotiable rules
 
@@ -59,7 +60,10 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 - Data modes: LIVE when `day75_live_instrument_prices.csv` exists, SAMPLE
   otherwise or with `VITTANTRA_DATA_MODE=sample`. Without live data the
   Day 60 risk engine uses synthetic validation history; label it as such.
-- The cloud sandbox cannot reach Yahoo/FRED; test with the fake fetchers in
+- Fundamentals come from SEC EDGAR companyfacts (needs `SEC_USER_AGENT` in
+  `.env`; cached in `sec_cache/`, git-ignored). Use only facts filed on or
+  before the as-of date.
+- The cloud sandbox cannot reach Yahoo/FRED/SEC; test with the fake fetchers in
   `test_data_hub.py`. Live downloads run on the owner's machine.
 
 ## Conventions

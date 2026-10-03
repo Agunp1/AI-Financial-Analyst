@@ -76,6 +76,7 @@ last good data. Free prices may be delayed by about 15 minutes.
 
 | Page | What it shows |
 |------|---------------|
+| **Research** | Fundamental scores for the 33-stock universe: value, growth, quality, financial health; company detail |
 | **Command Center** | Portfolio status, instrument count, approval queue, immediate priorities, maximum risk-budget utilization, workflow state |
 | **Portfolio** | Risk-budget rankings, asset-class risk allocation, modeled risk contribution, Top-1 / Top-3 risk share, effective risk positions, automated observations |
 | **Risk Intelligence** | Instrument- and asset-class-level risk monitoring and alerts |
@@ -245,6 +246,17 @@ Every core formula is checked against textbook references in
 method, where it lives in the code, what was corrected and which
 simplifications remain.
 
+### Phase 13 — Research desk: fundamentals (Day 76)
+| Module | Purpose |
+|--------|---------|
+| `fundamental_engine.py` | SEC EDGAR 10-K/10-Q data (free) → point-in-time valuation, growth, quality and financial-health metrics, percentile scores |
+| `vittantra_research_page.py` | Research page in the app: ranked universe and company detail |
+
+Only filings published on or before the analysis date are used (no look-ahead),
+restatements replace earlier values only once filed, and flow items use
+trailing twelve months. Banks are scored without industrial ratios. Set
+`SEC_USER_AGENT=Your Name your@email.com` in `.env` (SEC fair-access rule).
+
 ## Tech stack
 
 - **Python:** pandas, NumPy, SciPy, scikit-learn
@@ -264,7 +276,7 @@ simplifications remain.
 
 ## Project status
 
-Days 1–75 complete. Next: continue extending the AI layer and the end-to-end
+Days 1–76 complete. Next: continue extending the AI layer and the end-to-end
 research-to-decision workflow through Day 90.
 
 ## Disclaimer

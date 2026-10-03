@@ -617,10 +617,23 @@ def run_refresh(db_path: Path = DB_PATH, out_dir: Path = BASE_DIR,
         history = build_instrument_price_history(conn, live_prices, instruments)
         validation = validate_day75(market, macro, live_prices, history, today)
 
+        pd.read_sql("SELECT * FROM refresh_log ORDER BY started_at_utc DESC LIMIT 200",
+                    conn).to_csv(out_dir / OUTPUT_REFRESH_LOG, index=False)
+
+        # Never replace good saved data with an empty download (for example,
+        # no internet on a fresh checkout): keep the previous snapshots.
+        has_market_data = (
+            live_prices["price"].notna() & live_prices["method"].ne("CONSTANT")
+        ).any()
+        if not has_market_data:
+            if verbose:
+                print("No market data downloaded; previous snapshots kept unchanged.")
+            return validation.assign(passed=False)
+
         market.to_csv(out_dir / OUTPUT_MARKET_SNAPSHOT, index=False)
-        macro.to_csv(out_dir / OUTPUT_MACRO_SNAPSHOT, index=False)
-        if live_prices["price"].notna().any():
-            live_prices.to_csv(out_dir / OUTPUT_LIVE_PRICES, index=False)
+        if macro["latest_value"].notna().any():
+            macro.to_csv(out_dir / OUTPUT_MACRO_SNAPSHOT, index=False)
+        live_prices.to_csv(out_dir / OUTPUT_LIVE_PRICES, index=False)
         if len(history):
             history.to_csv(out_dir / OUTPUT_PRICE_HISTORY)
         rates = load_macro_matrix(conn)
@@ -628,8 +641,6 @@ def run_refresh(db_path: Path = DB_PATH, out_dir: Path = BASE_DIR,
             rates["DGS3MO"].dropna().rename("dgs3mo_percent").to_csv(
                 out_dir / OUTPUT_RISK_FREE_HISTORY, index_label="date",
             )
-        pd.read_sql("SELECT * FROM refresh_log ORDER BY started_at_utc DESC LIMIT 200",
-                    conn).to_csv(out_dir / OUTPUT_REFRESH_LOG, index=False)
         validation.to_csv(out_dir / OUTPUT_VALIDATION, index=False)
     finally:
         conn.close()
@@ -667,8 +678,8 @@ def main() -> None:
     args = parser.parse_args()
 
     if not args.loop:
-        run_refresh(force=args.force)
-        return
+        validation = run_refresh(force=args.force)
+        raise SystemExit(0 if validation["passed"].any() else 1)
     print(f"Refreshing every {args.loop:g} minutes. Press Ctrl+C to stop.")
     try:
         while True:

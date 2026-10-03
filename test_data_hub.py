@@ -128,6 +128,17 @@ class DataHubTests(unittest.TestCase):
         log = pd.read_csv(self.dir / hub.OUTPUT_REFRESH_LOG)
         self.assertIn("FAILED", set(log["status"]))
 
+    def test_failed_download_without_database_keeps_saved_files(self):
+        fresh_db = self.dir / "empty.db"
+        before = (self.dir / hub.OUTPUT_MARKET_SNAPSHOT).read_text()
+        broken = hub.DataFetchers(failing_fetch, failing_fetch, failing_fetch)
+        validation = hub.run_refresh(db_path=fresh_db, out_dir=self.dir, fetchers=broken,
+                                     force=True, today=TODAY, verbose=False)
+        self.assertFalse(validation["passed"].any())
+        self.assertEqual((self.dir / hub.OUTPUT_MARKET_SNAPSHOT).read_text(), before)
+        prices = pd.read_csv(self.prices_file)
+        self.assertTrue((prices["status"] != "MISSING").all())
+
     def test_old_data_is_flagged_stale(self):
         later = TODAY + pd.Timedelta(days=30)
         conn = hub.connect(self.db)

@@ -33,6 +33,8 @@ textbook values and independent calculations.
 | Factor regression | OLS with intercept (alpha), R², adjusted R² | `ml_factor_attribution.calculate_ols` | ✅ |
 | Pre-trade limits | Max order value, max order weight, max position weight, min cash | `risk_engine.evaluate_order` | ✅ |
 
+| Fundamentals (Day 76) | Point-in-time (filed ≤ as-of), restatement-aware, TTM = FY + YTD − prior YTD; valuation as yields; ROE/ROA on average capital; percentile scoring; financials excluded from industrial ratios | `fundamental_engine.py` | ✅ |
+
 ---
 
 ## 2. Corrected in this audit
@@ -71,3 +73,8 @@ These are acceptable for a research system but should be understood:
 | Factor regression | 39 observations for 10 factors; classical (not HAC) standard errors | Longer sample; Newey-West standard errors; fewer factors |
 | Notebooks (Days 1–30) | Some use Sharpe with Rf = 0 and arithmetic annualization (labeled) | Kept as the original learning record |
 | Sample mode | Illustrative prices and synthetic history | Run `python run_vittantra.py` for live data |
+| Fundamentals: valuation | Market cap uses the listed class price × all share classes (e.g. GOOGL) | Per-class prices |
+| Fundamentals: debt | Debt = long-term + short-term borrowings; operating leases excluded | Include lease liabilities |
+| Fundamentals: REITs | P/E used; REITs are normally valued on FFO/AFFO | Add FFO from filings |
+| Fundamentals: EPS TTM | Diluted EPS TTM built with FY + YTD − prior YTD (approximation; EPS is not strictly additive) | Net income ÷ diluted shares per quarter |
+| Fundamentals: scoring | Universe percentiles (11 sectors × 3 stocks is too few for sector-neutral ranks) | Larger universe → sector-relative scores |

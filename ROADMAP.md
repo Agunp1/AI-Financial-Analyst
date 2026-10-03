@@ -22,7 +22,7 @@ Constraint: **free data sources only.**
 | Day | Desk | Build | Status |
 |-----|------|-------|--------|
 | 75 | Core | Free live data hub, one-command pipeline, data freshness in the app | ✅ Done |
-| 76 | Research | Fundamental engine (SEC EDGAR, free): valuation, growth, profitability, balance sheet | |
+| 76 | Research | Fundamental engine (SEC EDGAR, free): valuation, growth, profitability, balance sheet | ✅ Done |
 | 77 | Research | Multi-factor rating: fundamental + technical + quant + economic + risk, backtested | |
 | 78 | Research | Stock research report: rating, bull case and bear case, every claim evidence-linked | |
 | 79 | Portfolio Mgmt | Research-driven portfolio construction within the risk budget | |

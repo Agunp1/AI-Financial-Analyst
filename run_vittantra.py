@@ -11,6 +11,7 @@ Runs the whole risk-to-decision chain in order:
       → Day 67 risk monitor          → Day 68 governance
       → Day 69 remediation           → Day 70 approval workflow
       → Day 73 AI Analyst
+    plus Day 76 fundamentals (SEC EDGAR), which does not block the chain
 
 Usage
 -----
@@ -42,6 +43,12 @@ BASE_DIR = Path(__file__).resolve().parent
 OUTPUT_PIPELINE_LOG = BASE_DIR / "day75_pipeline_log.csv"
 
 DATA_STEP = ("Data hub", "vittantra_data_hub.py")
+
+# Research steps that do not feed the risk chain: a failure is reported
+# but does not stop the pipeline.
+RESEARCH_STEPS = [
+    ("Day 76 fundamentals (SEC)", "fundamental_engine.py"),
+]
 
 CHAIN_STEPS = [
     ("Day 59 multi-asset risk", "multi_asset_risk.py"),
@@ -100,6 +107,13 @@ def run_pipeline(skip_data: bool = False, sample: bool = False) -> bool:
         print(f"[{result['status']:>6}] {result['step']:<36} {result['seconds']:>6.1f}s")
         if result["status"] != "OK":
             print("         Data refresh failed; continuing with the last saved data.")
+        for name, script in RESEARCH_STEPS:
+            result = run_step(name, script, env)
+            results.append(result)
+            print(f"[{result['status']:>6}] {result['step']:<36} {result['seconds']:>6.1f}s")
+            if result["status"] != "OK":
+                print("         " + result["last_output"][:150])
+                print("         Research step failed; the risk chain continues.")
 
     ok = True
     for name, script in CHAIN_STEPS:
