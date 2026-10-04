@@ -100,5 +100,68 @@ deal information out of Vittantra (it stays on fictional cases and public data).
   Home page in 5 minutes.
 - Bring two printed pages: one research note (Research → Valuation & reports →
   download) and one client proposal (Advisory → Clients → download).
-- Mention the **252+ automated tests**, including one test per non-negotiable
+- Mention the **300+ automated tests**, including one test per non-negotiable
   rule (`test_governance_rules.py`).
+
+## 7. Resume and LinkedIn
+
+**Resume — Projects section** (pick 3–4 bullets for a one-page resume; for
+VC/PE roles lead with valuation and the PE/VC desk)
+
+**Vittantra — Investment Research & Portfolio Intelligence Platform** ·
+vittantra.streamlit.app · github.com/Agunp1/AI-Financial-Analyst
+
+- Designed and launched a multi-desk investment platform (equity research,
+  portfolio management, risk, advisory, PE/VC) on free public data (SEC EDGAR,
+  FRED, Yahoo Finance), refreshed automatically during the day.
+- Built point-in-time fundamentals for 4,000+ US-listed companies and a
+  five-factor stock rating weighted by information-coefficient (IC) tests,
+  free of look-ahead bias.
+- Implemented FCFF DCF, residual income, DDM and reverse DCF valuation with
+  evidence-linked research notes for any US company on demand.
+- Built portfolio construction (Grinold–Kahn alpha, shrinkage covariance, 4%
+  tracking-error budget) and Brinson–Fachler performance attribution.
+- Built a multi-asset risk engine (200+ instruments): VaR/ES with backtests,
+  macro stress tests, Euler risk budgets and a dual-approval remediation
+  workflow with zero automatic execution.
+- Built an advisory module (risk questionnaire, IPS, CFA Standard III(C)
+  suitability, Monte Carlo goal planning) and a learn-by-doing Academy for
+  6 finance roles, used to study for CFA Level II.
+- 300+ automated tests including one per governance rule; Python, pandas,
+  Streamlit, GitHub Actions; AI coding assistant used as pair programmer.
+
+**LinkedIn**
+
+- Featured: the live app link, titled "Vittantra — investment research & risk
+  platform (live)", with a Home page screenshot.
+- Projects: the first three resume bullets.
+- Launch post (edit into your own voice):
+
+> Over the past 90 days I built **Vittantra**, an investment research and
+> portfolio platform that runs entirely on free public data.
+>
+> It rates US stocks on five factors and tests which ones actually predict
+> returns, values companies with DCF and residual-income models, builds a
+> risk-budgeted portfolio, stress-tests it across asset classes, and checks
+> every piece of advice for suitability. Nothing trades without human approval.
+>
+> What I learned: combining signals can make things worse. My equal-weight
+> score had a *negative* information coefficient, so I switched to weighting
+> each factor by its past predictive power, using only data available at the
+> time.
+>
+> I designed it and checked every result, and used an AI coding assistant to
+> write much of the code. I've also used it to practise the analyst, PM, risk
+> and advisory roles alongside CFA Level II.
+>
+> Try it: vittantra.streamlit.app (research and education only, not
+> investment advice)
+
+**Before sharing**
+
+- Never post screenshots of Streamlit Secrets, token pages or `.env`.
+- Keep employer deals and internal process out of posts and the app.
+- Describe what it does; keep "inspired by platforms such as Aladdin" for
+  conversation rather than writing.
+- Clear any pending remediation so the Command Center shows NORMAL, and open
+  the app a minute before a demo (free apps sleep; first load ~30 seconds).
