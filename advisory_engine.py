@@ -381,7 +381,7 @@ def client_report(client: dict, profile: dict, weights: pd.Series, stats: dict, 
     elif goal["withdrawal"] > 0:
         lines.append(f"Chance the money lasts {client['horizon_years']} years while withdrawing "
                      f"{goal['withdrawal']:,.0f} a year (rising with inflation): **{goal['probability']:.0%}**.")
-    lines += ["", "## Suitability checks"] + [f"- {'✅' if r.passed else '⚠️'} {r.rule}: {r.detail} *({r.basis})*"
+    lines += ["", "## Suitability checks"] + [f"- {'✓' if r.passed else '✗'} {r.rule}: {r.detail} *({r.basis})*"
                                               for r in results.itertuples()]
     lines += ["", "## Important", "- Projections use assumptions (below) and 10,000 simulated market paths. They are "
               "estimates, not guarantees; real returns can be worse.",

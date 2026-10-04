@@ -49,7 +49,7 @@ def _model_portfolio() -> None:
     c[3].metric("Holdings", int(s["holdings"]))
     c[4].metric("Checks", f"{int(validation['passed'].sum())}/{len(validation)}" if not validation.empty else "n/a")
     st.warning(f"Status: **{s['approval_status'].replace('_', ' ').title()}** — a proposal for the approval "
-               "workflow. Nothing is executed automatically.", icon="🛡️")
+               "workflow. Nothing is executed automatically.")
 
     held = portfolio[portfolio["weight"] > 0].copy()
     left, right = st.columns([3, 2])

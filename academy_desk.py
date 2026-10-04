@@ -190,7 +190,7 @@ def grade_tear_sheet(answer_key: Dict[str, str], ratings: Dict[str, str]) -> tup
                for k, v in answer_key.items() if k in ratings and ratings[k] != v)
     score = 100 * (correct + 0.5 * near) / max(len(answer_key), 1)
     feedback = [f"- {k}: you said **{ratings.get(k, '—')}**, data says **{v}**"
-                + (" ✅" if ratings.get(k) == v else "") for k, v in answer_key.items()]
+                + (" ✓" if ratings.get(k) == v else "") for k, v in answer_key.items()]
     return score, "\n".join(feedback)
 
 
@@ -229,8 +229,8 @@ def grade_valuation_call(task: dict, estimate: float, call: str) -> tuple:
     estimate_score = 50 if error <= 0.10 else 25 if error <= 0.25 else 0
     call_score = 50 if call == task["signal"] else 0
     feedback = (f"- Your value ${estimate:,.2f} vs model ${task['model_value']:,.2f} ({error:.0%} apart)"
-                + (" ✅" if estimate_score == 50 else "") +
-                f"\n- Your call **{call}**, model says **{task['signal']}**" + (" ✅" if call_score else ""))
+                + (" ✓" if estimate_score == 50 else "") +
+                f"\n- Your call **{call}**, model says **{task['signal']}**" + (" ✓" if call_score else ""))
     return estimate_score + call_score, feedback
 
 
@@ -413,7 +413,7 @@ def grade_deal_screen(task: dict, decisions: Dict[str, str]) -> tuple:
         correct += ok
         failed = [f"{name} ({detail})" for name, passed, detail in screen["checks"] if not passed]
         lines.append(f"- **{deal['company']}**: you said **{mine}**, rubric says **{screen['decision']}**"
-                     + (" ✅" if ok else "") + (f" — weak points: {'; '.join(failed)}" if failed else " — clean on every check"))
+                     + (" ✓" if ok else "") + (f" — weak points: {'; '.join(failed)}" if failed else " — clean on every check"))
     return 100 * correct / len(task["deals"]), "\n".join(lines)
 
 
@@ -434,7 +434,7 @@ def grade_term_sheet(task: dict, post: float, ownership_pct: float, exit_value: 
              ("Required exit (20×, 60% retention)", close(exit_value, task["required_exit"], 0.10),
               f"{task['required_exit']:,.0f}")]
     score = 100 * sum(ok for _, ok, _ in parts) / len(parts)
-    return score, "\n".join(f"- {'✅' if ok else '❌'} {name}: answer {value}" for name, ok, value in parts)
+    return score, "\n".join(f"- {'✓' if ok else '✗'} {name}: answer {value}" for name, ok, value in parts)
 
 
 def lbo_task(day: Optional[date] = None) -> dict:
@@ -454,7 +454,7 @@ def grade_lbo(task: dict, moic: float, irr_pct: float) -> tuple:
     ok_m = abs(moic - r["moic"]) <= 0.15 * r["moic"]
     ok_i = abs(irr_pct / 100 - r["irr"]) <= 0.03
     b = r["bridge"]
-    feedback = (f"- {'✅' if ok_m else '❌'} MOIC: model {r['moic']:.2f}×\n- {'✅' if ok_i else '❌'} IRR: model "
+    feedback = (f"- {'✓' if ok_m else '✗'} MOIC: model {r['moic']:.2f}×\n- {'✓' if ok_i else '✗'} IRR: model "
                 f"{r['irr']:.1%}\n- Value creation: EBITDA growth {money(b['ebitda_growth'])}, debt paydown "
                 f"{money(b['debt_paydown'])}, multiple change {money(b['multiple_change'])}, fees {money(b['fees'])}")
     return 50 * ok_m + 50 * ok_i, feedback

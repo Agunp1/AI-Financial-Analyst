@@ -470,7 +470,7 @@ def ad_suitability() -> str:
     r = profiles.iloc[0]
     own = rules[rules["client_id"] == r["client_id"]]
     lines = [f"**{r['name']}** — profile **{r['profile_name']}**. {r['profile_note']}", ""]
-    lines += [f"- {'✅' if x.passed else '⚠️'} {x.rule}: {x.detail}" for x in own.itertuples()]
+    lines += [f"- {'✓' if x.passed else '✗'} {x.rule}: {x.detail}" for x in own.itertuples()]
     return "\n".join(lines) + f"\n\nVerdict: **{r['suitability']}**."
 
 

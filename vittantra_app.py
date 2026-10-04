@@ -86,7 +86,17 @@ from vittantra_my_portfolio_page import render_my_portfolio, sidebar_markets
 import vittantra_tooltips
 vittantra_tooltips.install()
 import vittantra_welcome
+import vittantra_chrome
 BASE_DIR_STAMP = Path(__file__).resolve().parent
+
+
+def refresh_caption_short() -> str:
+    """'Prices 14:45 UTC 05 Oct 2026 · delayed' for the top bar."""
+    try:
+        when = pd.to_datetime(pd.read_csv(BASE_DIR_STAMP / "day75_refresh_stamp.csv")["refreshed_utc"].iloc[0])
+        return f"Prices {when:%H:%M} UTC {when:%d %b %Y} · may be delayed"
+    except Exception:
+        return ""
 
 
 def refresh_caption(live_prices: pd.DataFrame) -> str:
@@ -139,7 +149,7 @@ APP_NAME = "Vittantra"
 
 
 
-APP_SUBTITLE = "AI Investment Research & Portfolio Intelligence"
+APP_SUBTITLE = "Investment Research · Portfolio & Risk"
 APP_VERSION = "1.0"
 
 # Navigation: workflow order (research → portfolio → advisory → risk → learn)
@@ -149,11 +159,11 @@ NAV_PAGES = [
     "Risk Intelligence", "Portfolio", "Governance", "Remediation", "AI Analyst", "Academy", "System",
 ]
 NAV_LABELS = {
-    "Home": "Home", "Guide": "Guide (start here)", "My Portfolio": "My Portfolio", "Command Center": "Command Center", "Research": "Research & Valuation",
-    "Markets": "Markets & World Brief", "Portfolio Manager": "Portfolio Manager", "Advisory": "Advisory",
-    "Copilot": "Copilot", "Risk Intelligence": "Risk Intelligence", "Portfolio": "Risk Budgets",
-    "Governance": "Governance", "Remediation": "Remediation", "AI Analyst": "AI Risk Analyst",
-    "Academy": "Academy (learn by doing)", "System": "System & Data",
+    "Home": "Home", "Guide": "Guide", "My Portfolio": "My Portfolio", "Command Center": "Risk Overview",
+    "Research": "Equity Research", "Markets": "Markets", "Portfolio Manager": "Portfolio Construction",
+    "Advisory": "Advisory", "Copilot": "Copilot", "Risk Intelligence": "Risk Analytics", "Portfolio": "Risk Budgets",
+    "Governance": "Governance", "Remediation": "Remediation", "AI Analyst": "Risk Brief", "Academy": "Academy",
+    "System": "Data & System",
 }
 
 
@@ -1734,30 +1744,8 @@ with st.sidebar:
 
 
 
-    st.markdown("## VITTANTRA")
-
-
-
-
-
-
-
-    st.caption("Investment Intelligence System")
-
-
-
-
-
-
-
-    page = st.radio(
-        "Workspace",
-        NAV_PAGES,
-        format_func=lambda name: NAV_LABELS.get(name, name),
-        key="nav",
-        help="\n\n".join(f"**{NAV_LABELS.get(p, p)}** — {PAGE_HELP[p]['what']}" for p in NAV_PAGES
-                          if p in PAGE_HELP),
-    )
+    st.markdown(vittantra_chrome.css(), unsafe_allow_html=True)
+    page = vittantra_chrome.render_nav(NAV_LABELS)
 
 
 
@@ -1935,14 +1923,12 @@ with st.sidebar:
 
 
 
+vittantra_chrome.render_topbar(NAV_LABELS.get(page, page), refresh_caption_short())
 if page != "Home":
-    st.markdown('<div class="vittantra-title">Vittantra</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="vittantra-subtitle">{APP_SUBTITLE}</div>', unsafe_allow_html=True)
     page_help(page, NAV_LABELS)
     if page in DEMO_BOOK_PAGES and not cloud.is_owner():
-        st.info("📘 You are viewing Vittantra's **demo risk book** — 10 fictional positions used to show how a "
-                "professional risk team monitors limits, fixes breaches and gets human approval. To see your "
-                "own portfolio, open **My Portfolio**.")
+        st.caption("Model risk book · 10 fictional positions used to demonstrate limit monitoring, remediation and "
+                   "approval. Your own holdings are in My Portfolio.")
 
 
 
@@ -1987,7 +1973,7 @@ elif page == "Command Center":
 
 
 
-    st.markdown("### Investment Command Center")
+    st.markdown("### Risk Overview")
     render_pending_fix("command")
 
 
