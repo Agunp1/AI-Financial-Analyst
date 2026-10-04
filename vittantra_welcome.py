@@ -73,8 +73,19 @@ def briefing(user: str) -> List[str]:
     try:
         import my_portfolio as mp
         holdings = mp.load(user).get("holdings", [])
-        points.append(f"💼 Your portfolio has {len(holdings)} holding(s) — open **My Portfolio** to see today's risk."
-                      if holdings else "💼 You haven't built a portfolio yet — try a template in **My Portfolio**.")
+        data = mp.load(user)
+        table = mp.universe()
+        perf = mp.performance(data, table)
+        if holdings and perf and perf["portfolio_return"] is not None:
+            spy = f" vs S&P 500 {perf['spy_return']:+.1%}" if perf["spy_return"] is not None else ""
+            points.append(f"💼 Your portfolio: {perf['portfolio_return']:+.1%} since {perf['since']}{spy} — open "
+                          "**My Portfolio** for today's risk.")
+        else:
+            points.append(f"💼 Your portfolio has {len(holdings)} holding(s) — open **My Portfolio** to see today's "
+                          "risk." if holdings else "💼 You haven't built a portfolio yet — try a template in "
+                                                    "**My Portfolio**.")
+        for alert in mp.alerts(data.get("watchlist", []), table):
+            points.append("🔔 " + alert["text"])
     except Exception:
         pass
     try:

@@ -143,6 +143,10 @@ TIPS: Dict[str, str] = {
     "median outcome": "The middle result of the simulations: half better, half worse.",
     "poor case (10th pct)": "Only 1 in 10 simulations end worse than this. A planning floor.",
     # --- system / account -------------------------------------------------
+    "portfolio return": "Change in value of your saved holdings since you saved them, at free (possibly delayed) "
+                        "prices. Compared with the S&P 500 over the same days — a historical result, not a promise.",
+    "s&p 500 (spy)": "Return of the S&P 500 ETF over the same period: the yardstick most investors compare against.",
+    "value": "Market value of the saved holdings at the latest prices.",
     "portfolio value": "Market value of all holdings at the latest prices (free data, may be delayed).",
     "as of": "The date the data refers to.",
     "data checks": "Automated validation checks that passed. Professionals check data before trusting a number.",

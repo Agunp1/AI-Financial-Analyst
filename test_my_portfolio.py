@@ -98,5 +98,36 @@ class MyPortfolioTests(unittest.TestCase):
         self.assertTrue(mp.fetch_history(["X"], fetch=lambda *a: (_ for _ in ()).throw(OSError())).empty)
 
 
+    def test_performance_since_baseline_and_vs_spy(self):
+        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(mp, "PORTFOLIO_DIR", Path(tmp)):
+            mp.save("sam", [{"symbol": "SPY", "quantity": 10}, {"symbol": "TLT", "quantity": 20}], table=TABLE)
+            data = mp.load("sam")
+            self.assertAlmostEqual(data["baseline"]["value"], 10 * 100 + 20 * 50)
+            later = TABLE.assign(price=TABLE["price"] * [1.10, 0.95, 1, 1, 1])     # SPY +10%, TLT -5%
+            perf = mp.performance(data, later)
+            self.assertAlmostEqual(perf["portfolio_return"], (1100 + 950) / 2000 - 1)
+            self.assertAlmostEqual(perf["spy_return"], 0.10)
+            # saving the same holdings again keeps the baseline; changing them starts a new one
+            mp.save("sam", [{"symbol": "SPY", "quantity": 10}, {"symbol": "TLT", "quantity": 20}], table=later)
+            self.assertAlmostEqual(mp.load("sam")["baseline"]["value"], 2000)
+            mp.save("sam", [{"symbol": "SPY", "quantity": 5}], table=later)
+            self.assertAlmostEqual(mp.load("sam")["baseline"]["value"], 550)
+
+    def test_watchlist_and_alerts(self):
+        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(mp, "PORTFOLIO_DIR", Path(tmp)):
+            mp.save_watchlist("sam", [{"symbol": "aaa", "below": 25, "above": None, "move": float("nan")},
+                                      {"symbol": "", "move": 5}])
+            watch = mp.load("sam")["watchlist"]
+            self.assertEqual(watch, [{"symbol": "AAA", "below": 25.0}])
+            mp.save("sam", [{"symbol": "SPY", "quantity": 1}], table=TABLE)
+            self.assertEqual(mp.load("sam")["watchlist"], watch)                  # saving holdings keeps the watchlist
+        fired = mp.alerts([{"symbol": "AAA", "below": 25.0}, {"symbol": "BBB", "above": 50.0}], TABLE)
+        self.assertEqual([a["symbol"] for a in fired], ["AAA"])                   # AAA at $20 is below $25
+        u = mp.universe()
+        moves = pd.read_csv(Path(mp.BASE_DIR) / mp.ANALYTICS).set_index("symbol")["return_1d"]
+        big = moves.abs().idxmax()
+        self.assertTrue(any(a["kind"] == "move" for a in mp.alerts([{"symbol": big, "move": 0.01}], u)))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -638,3 +638,15 @@ def er_factor_testing() -> str:
                      for r in evidence.itertuples())
     return (f"Vittantra's point-in-time tests on the research universe ({int(evidence['periods'].max())} dates): "
             f"{rows}. Only factors with |t| above about 2 are treated as evidence — the rating weights them by it.")
+
+
+def ia_watchlist_alerts() -> str:
+    a = _csv("day76c_asset_analytics.csv", "multi_asset_universe.py").dropna(subset=["return_1d"])
+    a = a[~a["symbol"].astype(str).str.startswith(("DGS", "DFII", "T5Y", "T10Y", "BAML"))]
+    if a.empty:
+        raise MissingData("No daily moves in `day76c_asset_analytics.csv` yet.")
+    top = a.reindex(a["return_1d"].abs().sort_values(ascending=False).index).head(3)
+    moves = "; ".join(f"{r.name} ({r.symbol}) {r.return_1d:+.1%}" for r in top.itertuples())
+    return (f"Biggest moves on the last trading day in Vittantra's universe: {moves}. With a ±5% alert on these, "
+            "you would have been told without watching screens — then the job is to find out *why* (World Brief) "
+            "and whether it changes your view.")

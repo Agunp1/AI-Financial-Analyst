@@ -112,7 +112,7 @@ def _save_controls(holdings: list) -> None:
                    "create an account (sidebar) to save it.")
         return
     if st.button("💾 Save my portfolio", key="mp-save", type="primary"):
-        path = mp.save(user, holdings, int(st.session_state.get("mp_profile", 3)))
+        path = mp.save(user, holdings, int(st.session_state.get("mp_profile", 3)), table=_universe())
         cloud.persist(path, f"Portfolio saved by {user}")
         st.success("Saved.")
 
@@ -180,6 +180,49 @@ def _analysis(holdings: list, table: pd.DataFrame, profile: int) -> None:
     st.caption("A model portfolio for learning — prices from free data (may be delayed); nothing is traded.")
 
 
+def _performance_and_watchlist(table: pd.DataFrame) -> None:
+    user = cloud.current_user()
+    data = mp.load(user) if user else {}
+    perf = mp.performance(data, table) if data else None
+    if perf and perf["portfolio_return"] is not None:
+        st.markdown("#### Since you saved it")
+        c = st.columns(3)
+        c[0].metric("Portfolio return", f"{perf['portfolio_return']:+.2%}", f"since {perf['since']}", delta_color="off")
+        c[1].metric("S&P 500 (SPY)", f"{perf['spy_return']:+.2%}" if perf["spy_return"] is not None else "n/a",
+                    delta_color="off")
+        c[2].metric("Value", _money(perf["value_now"]), f"from {_money(perf['value_then'])}", delta_color="off")
+        st.caption("Historical result of a hypothetical portfolio at free (possibly delayed) prices — not a promise of "
+                   "future returns. Changing the holdings and saving starts a new baseline.")
+
+    st.markdown("#### 👀 Watchlist & alerts")
+    st.caption("Professionals keep a watchlist and set alerts so they react to moves instead of watching screens all "
+               "day. Alerts show here and in your Home briefing.")
+    current = pd.DataFrame(data.get("watchlist", []) if data else st.session_state.get("mp_watch", []),
+                           columns=["symbol", "move", "above", "below"])
+    edited = st.data_editor(current, num_rows="dynamic", hide_index=True, width="stretch", key="mp-watch-editor",
+                            column_config={
+                                "symbol": st.column_config.SelectboxColumn("Symbol", options=sorted(table["symbol"]),
+                                                                           required=True),
+                                "move": st.column_config.NumberColumn("Daily move ±%", min_value=0.0, format="%.1f",
+                                                                      help="Alert when the price moves more than this "
+                                                                           "in a day (in either direction)."),
+                                "above": st.column_config.NumberColumn("Price above $", min_value=0.0, format="%.2f"),
+                                "below": st.column_config.NumberColumn("Price below $", min_value=0.0, format="%.2f")})
+    watch = edited.dropna(subset=["symbol"]).to_dict("records")
+    if user:
+        if st.button("Save watchlist", key="mp-watch-save"):
+            path = mp.save_watchlist(user, watch)
+            cloud.persist(path, f"Watchlist saved by {user}")
+            st.success("Watchlist saved.")
+    else:
+        st.session_state["mp_watch"] = watch
+    triggered = mp.alerts([w for w in watch if w.get("symbol")], table)
+    for alert in triggered:
+        st.warning("🔔 " + alert["text"])
+    if watch and not triggered:
+        st.success("No alerts triggered right now.")
+
+
 def render_my_portfolio() -> None:
     st.markdown("### My Portfolio")
     st.caption("Build your own portfolio from 4,000+ US stocks and 200+ funds and assets — bonds, FX, commodities, "
@@ -202,6 +245,8 @@ def render_my_portfolio() -> None:
     if holdings:
         st.divider()
         _analysis(holdings, table, profile)
+    st.divider()
+    _performance_and_watchlist(table)
 
 
 SNAPSHOT = [("SPY", "S&P 500"), ("QQQ", "Nasdaq-100"), ("EFA", "Developed ex-US"), ("TLT", "20Y+ Treasuries"),

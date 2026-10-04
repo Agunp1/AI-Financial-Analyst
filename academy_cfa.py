@@ -49,7 +49,7 @@ LESSON_CFA_TOPIC = {
     "PV1": "Alternative Investments", "PV2": "Alternative Investments", "PV3": "Alternative Investments",
     "PV4": "Alternative Investments", "PV5": "Alternative Investments", "PV6": "Alternative Investments",
     "PM9": "Portfolio Management", "RA7": "Portfolio Management", "RA8": "Portfolio Management",
-    "ER8": "Quantitative Methods",
+    "ER8": "Quantitative Methods", "IA7": "Portfolio Management",
 }
 
 

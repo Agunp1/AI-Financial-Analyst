@@ -46,7 +46,8 @@ PAGE_HELP: Dict[str, dict] = {
                   "Start from a template (e.g. Classic 60/40) or add holdings one by one; edit quantities in the table.",
                   "Read the status: is volatility within your risk level? Then the checks and 'what drives your risk'.",
                   "Run through the stress tests (2022 rates, 2008 credit...) and follow the suggestions.",
-                  "Sign in and press Save to keep it."],
+                  "Sign in and press Save to keep it; later, 'Since you saved it' shows the return vs the S&P 500.",
+                  "Add a watchlist with alerts (daily move, price levels); alerts also appear in your Home briefing."],
         "tip": "A holding can be small by value but large by risk — professionals manage risk, not just weights.",
     },
     "Command Center": {
