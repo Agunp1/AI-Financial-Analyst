@@ -1,6 +1,6 @@
 check,passed,details,passed_tests,total_tests,pass_rate
 A report for every rated stock,True,33 of 33,5,5,1.0
-Every claim has evidence,True,592 claims,5,5,1.0
+Every claim has evidence,True,609 claims,5,5,1.0
 Balanced: bull and bear case for most stocks,True,26 of 33 have both,5,5,1.0
 No promises or certainty language,True,none found,5,5,1.0
 Risks section in every report,True,limits and data gaps disclosed,5,5,1.0

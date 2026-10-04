@@ -1,7 +1,7 @@
 check,passed,details,passed_tests,total_tests,pass_rate
 Market prices loaded,True,40 of 40 tickers priced,9,9,1.0
 No non-positive prices,True,All loaded prices are positive,9,9,1.0
-No future-dated prices,True,Latest as-of: 2026-10-04 14:20:00,9,9,1.0
+No future-dated prices,True,Latest as-of: 2026-10-04 16:10:00,9,9,1.0
 Market data freshness,True,100% of tickers updated within 4 days,9,9,1.0
 Every risk instrument has a live price,True,Missing: none,9,9,1.0
 Model prices are positive and finite,True,CORP_BOND=93.89786816847575; AAPL_CALL=126.2540594490554,9,9,1.0

@@ -1,32 +1,32 @@
 instrument_id,symbol,asset_class,metric,category,requirement,value,unit,status,method,reason
 EQ_AAPL,AAPL,Equity,market_value,Concentration Risk,Required,33379.00085449219,currency,Calculated,Position valuation,quantity × price × contract multiplier
-EQ_AAPL,AAPL,Equity,portfolio_weight,Concentration Risk,Required,0.053290397592611435,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
-EQ_AAPL,AAPL,Equity,volatility,Volatility Risk,Required,0.15622977227981036,percent,Calculated,Historical returns,Annualized standard deviation of periodic returns.
-EQ_AAPL,AAPL,Equity,beta,Market Risk,Required,0.5530267588521667,beta,Calculated,Historical covariance beta,Relative to benchmark VITTANTRA_BENCHMARK.
-EQ_AAPL,AAPL,Equity,var,Tail Risk,Required,0.015180864703569077,currency_or_percent,Calculated,Historical simulation,95% one-period historical return VaR.
-EQ_AAPL,AAPL,Equity,cvar,Tail Risk,Required,0.01890501873000952,currency_or_percent,Calculated,Historical tail average,Average loss beyond the 95% historical VaR threshold.
-EQ_AAPL,AAPL,Equity,maximum_drawdown,Drawdown Risk,Required,-0.13982277311454405,percent,Calculated,Historical peak-to-trough,Maximum observed peak-to-trough price decline.
-EQ_AAPL,AAPL,Equity,correlation,Market Risk,Applicable,0.49189328918905556,correlation,Calculated,Historical Pearson correlation,Relative to benchmark VITTANTRA_BENCHMARK.
+EQ_AAPL,AAPL,Equity,portfolio_weight,Concentration Risk,Required,0.1835712164806382,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
+EQ_AAPL,AAPL,Equity,volatility,Volatility Risk,Required,0.24613399845015305,percent,Calculated,Historical returns,Annualized standard deviation of periodic returns.
+EQ_AAPL,AAPL,Equity,beta,Market Risk,Required,0.7508850082430347,beta,Calculated,Historical covariance beta,Relative to benchmark VITTANTRA_BENCHMARK.
+EQ_AAPL,AAPL,Equity,var,Tail Risk,Required,0.0198317286366788,currency_or_percent,Calculated,Historical simulation,95% one-period historical return VaR.
+EQ_AAPL,AAPL,Equity,cvar,Tail Risk,Required,0.03396434669977596,currency_or_percent,Calculated,Historical tail average,Average loss beyond the 95% historical VaR threshold.
+EQ_AAPL,AAPL,Equity,maximum_drawdown,Drawdown Risk,Required,-0.13822983896021124,percent,Calculated,Historical peak-to-trough,Maximum observed peak-to-trough price decline.
+EQ_AAPL,AAPL,Equity,correlation,Market Risk,Applicable,0.3719931266001345,correlation,Calculated,Historical Pearson correlation,Relative to benchmark VITTANTRA_BENCHMARK.
 EQ_AAPL,AAPL,Equity,factor_exposure,Factor Risk,Applicable,,exposure,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
 EQ_AAPL,AAPL,Equity,liquidity_risk,Liquidity Risk,Applicable,,score_or_cost,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
 EQ_AAPL,AAPL,Equity,concentration_risk,Concentration Risk,Required,,percent_or_score,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
 ETF_SPY,SPY,ETF/Fund,market_value,Concentration Risk,Required,38483.49914550781,currency,Calculated,Position valuation,quantity × price × contract multiplier
-ETF_SPY,SPY,ETF/Fund,portfolio_weight,Concentration Risk,Required,0.0614398549303202,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
-ETF_SPY,SPY,ETF/Fund,volatility,Volatility Risk,Required,0.14048672280124155,percent,Calculated,Historical returns,Annualized standard deviation of periodic returns.
-ETF_SPY,SPY,ETF/Fund,beta,Market Risk,Applicable,0.5501414997147707,beta,Calculated,Historical covariance beta,Relative to benchmark VITTANTRA_BENCHMARK.
-ETF_SPY,SPY,ETF/Fund,var,Tail Risk,Required,0.015541286456780821,currency_or_percent,Calculated,Historical simulation,95% one-period historical return VaR.
-ETF_SPY,SPY,ETF/Fund,cvar,Tail Risk,Required,0.018005929685494443,currency_or_percent,Calculated,Historical tail average,Average loss beyond the 95% historical VaR threshold.
-ETF_SPY,SPY,ETF/Fund,maximum_drawdown,Drawdown Risk,Required,-0.1838308610880709,percent,Calculated,Historical peak-to-trough,Maximum observed peak-to-trough price decline.
-ETF_SPY,SPY,ETF/Fund,tracking_error,Market Risk,Applicable,0.1334169315290458,percent,Calculated,Historical active-return volatility,Tracking error versus VITTANTRA_BENCHMARK.
+ETF_SPY,SPY,ETF/Fund,portfolio_weight,Concentration Risk,Required,0.21164392497451662,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
+ETF_SPY,SPY,ETF/Fund,volatility,Volatility Risk,Required,0.12193632153578876,percent,Calculated,Historical returns,Annualized standard deviation of periodic returns.
+ETF_SPY,SPY,ETF/Fund,beta,Market Risk,Applicable,1.0000000016979054,beta,Calculated,Historical covariance beta,Relative to benchmark VITTANTRA_BENCHMARK.
+ETF_SPY,SPY,ETF/Fund,var,Tail Risk,Required,0.012551045686491227,currency_or_percent,Calculated,Historical simulation,95% one-period historical return VaR.
+ETF_SPY,SPY,ETF/Fund,cvar,Tail Risk,Required,0.017295065776907384,currency_or_percent,Calculated,Historical tail average,Average loss beyond the 95% historical VaR threshold.
+ETF_SPY,SPY,ETF/Fund,maximum_drawdown,Drawdown Risk,Required,-0.09133132118334442,percent,Calculated,Historical peak-to-trough,Maximum observed peak-to-trough price decline.
+ETF_SPY,SPY,ETF/Fund,tracking_error,Market Risk,Applicable,1.3019218628128901e-08,percent,Calculated,Historical active-return volatility,Tracking error versus VITTANTRA_BENCHMARK.
 ETF_SPY,SPY,ETF/Fund,factor_exposure,Factor Risk,Applicable,,exposure,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
 ETF_SPY,SPY,ETF/Fund,underlying_concentration,Concentration Risk,Applicable,,percent,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
 ETF_SPY,SPY,ETF/Fund,liquidity_risk,Liquidity Risk,Applicable,,score_or_cost,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
 ETF_SPY,SPY,ETF/Fund,concentration_risk,Concentration Risk,Required,,percent_or_score,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
 BOND_CORP_01,CORP_BOND,Fixed Income,market_value,Concentration Risk,Required,9389.786816847576,currency,Calculated,Position valuation,quantity × price × contract multiplier
-BOND_CORP_01,CORP_BOND,Fixed Income,portfolio_weight,Concentration Risk,Required,0.01499102609335073,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
-BOND_CORP_01,CORP_BOND,Fixed Income,volatility,Volatility Risk,Applicable,0.06667213919264624,percent,Calculated,Historical returns,Annualized standard deviation of periodic returns.
-BOND_CORP_01,CORP_BOND,Fixed Income,var,Tail Risk,Required,0.006143126908441706,currency_or_percent,Calculated,Historical simulation,95% one-period historical return VaR.
-BOND_CORP_01,CORP_BOND,Fixed Income,cvar,Tail Risk,Applicable,0.00836354006804347,currency_or_percent,Calculated,Historical tail average,Average loss beyond the 95% historical VaR threshold.
+BOND_CORP_01,CORP_BOND,Fixed Income,portfolio_weight,Concentration Risk,Required,0.051640089407607066,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
+BOND_CORP_01,CORP_BOND,Fixed Income,volatility,Volatility Risk,Applicable,0.056338788246378314,percent,Calculated,Historical returns,Annualized standard deviation of periodic returns.
+BOND_CORP_01,CORP_BOND,Fixed Income,var,Tail Risk,Required,0.006251748391980615,currency_or_percent,Calculated,Historical simulation,95% one-period historical return VaR.
+BOND_CORP_01,CORP_BOND,Fixed Income,cvar,Tail Risk,Applicable,0.008016154068525988,currency_or_percent,Calculated,Historical tail average,Average loss beyond the 95% historical VaR threshold.
 BOND_CORP_01,CORP_BOND,Fixed Income,duration,Interest Rate Risk,Required,4.10892241223428,years,Calculated,Cash-flow fixed-income approximation,"Calculated from coupon, maturity and yield-to-maturity."
 BOND_CORP_01,CORP_BOND,Fixed Income,modified_duration,Interest Rate Risk,Required,3.9878899521854514,years,Calculated,Cash-flow fixed-income approximation,"Calculated from coupon, maturity and yield-to-maturity."
 BOND_CORP_01,CORP_BOND,Fixed Income,convexity,Interest Rate Risk,Applicable,18.759195809162957,convexity,Calculated,Cash-flow fixed-income approximation,"Calculated from coupon, maturity and yield-to-maturity."
@@ -36,71 +36,71 @@ BOND_CORP_01,CORP_BOND,Fixed Income,credit_risk,Credit Risk,Required,BBB,score_o
 BOND_CORP_01,CORP_BOND,Fixed Income,yield_curve_exposure,Yield Curve Risk,Required,3.9878899521854514,exposure,Calculated,Duration proxy,Modified duration used as first-order parallel-rate sensitivity proxy.
 BOND_CORP_01,CORP_BOND,Fixed Income,liquidity_risk,Liquidity Risk,Applicable,,score_or_cost,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
 BOND_CORP_01,CORP_BOND,Fixed Income,concentration_risk,Concentration Risk,Required,,percent_or_score,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
-OPT_AAPL_CALL,AAPL_CALL,Option,market_value,Concentration Risk,Required,63127.029724527696,currency,Calculated,Position valuation,quantity × price × contract multiplier
-OPT_AAPL_CALL,AAPL_CALL,Option,portfolio_weight,Concentration Risk,Required,0.10078385891553555,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
-OPT_AAPL_CALL,AAPL_CALL,Option,volatility,Volatility Risk,Applicable,0.405144485146893,percent,Calculated,Historical returns,Annualized standard deviation of periodic returns.
-OPT_AAPL_CALL,AAPL_CALL,Option,var,Tail Risk,Applicable,0.04066787898093635,currency_or_percent,Calculated,Historical simulation,95% one-period historical return VaR.
-OPT_AAPL_CALL,AAPL_CALL,Option,delta,Optionality Risk,Required,0.9994058480928338,delta,Calculated,Black-Scholes approximation,European-option Greek using supplied market assumptions.
-OPT_AAPL_CALL,AAPL_CALL,Option,gamma,Optionality Risk,Required,4.160062949663772e-05,gamma,Calculated,Black-Scholes approximation,European-option Greek using supplied market assumptions.
-OPT_AAPL_CALL,AAPL_CALL,Option,vega,Optionality Risk,Required,0.0037308146501207266,currency_per_vol_point,Calculated,Black-Scholes approximation,European-option Greek using supplied market assumptions.
-OPT_AAPL_CALL,AAPL_CALL,Option,theta,Optionality Risk,Required,-0.024180073470879776,currency_per_day,Calculated,Black-Scholes approximation,European-option Greek using supplied market assumptions.
-OPT_AAPL_CALL,AAPL_CALL,Option,rho,Optionality Risk,Applicable,0.5959085183979798,rho,Calculated,Black-Scholes approximation,European-option Greek using supplied market assumptions.
+OPT_AAPL_CALL,AAPL_CALL,Option,market_value,Concentration Risk,Required,4252.197314725625,currency,Calculated,Position valuation,quantity × price × contract multiplier
+OPT_AAPL_CALL,AAPL_CALL,Option,portfolio_weight,Concentration Risk,Required,0.02338539242629351,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
+OPT_AAPL_CALL,AAPL_CALL,Option,volatility,Volatility Risk,Applicable,0.817662899149504,percent,Calculated,Historical returns,Annualized standard deviation of periodic returns.
+OPT_AAPL_CALL,AAPL_CALL,Option,var,Tail Risk,Applicable,0.0679381991098521,currency_or_percent,Calculated,Historical simulation,95% one-period historical return VaR.
+OPT_AAPL_CALL,AAPL_CALL,Option,delta,Optionality Risk,Required,0.9994622906328314,delta,Calculated,Black-Scholes approximation,European-option Greek using supplied market assumptions.
+OPT_AAPL_CALL,AAPL_CALL,Option,gamma,Optionality Risk,Required,3.830015309311035e-05,gamma,Calculated,Black-Scholes approximation,European-option Greek using supplied market assumptions.
+OPT_AAPL_CALL,AAPL_CALL,Option,vega,Optionality Risk,Required,0.003369397169278696,currency_per_vol_point,Calculated,Black-Scholes approximation,European-option Greek using supplied market assumptions.
+OPT_AAPL_CALL,AAPL_CALL,Option,theta,Optionality Risk,Required,-0.024148250738608948,currency_per_day,Calculated,Black-Scholes approximation,European-option Greek using supplied market assumptions.
+OPT_AAPL_CALL,AAPL_CALL,Option,rho,Optionality Risk,Applicable,0.5847471995908962,rho,Calculated,Black-Scholes approximation,European-option Greek using supplied market assumptions.
 OPT_AAPL_CALL,AAPL_CALL,Option,implied_volatility,Volatility Risk,Required,0.28,percent,Calculated,Market input,Implied volatility supplied by market-data layer.
 OPT_AAPL_CALL,AAPL_CALL,Option,leverage,Leverage Risk,Required,1.0,multiple,Calculated,Notional / market value,Approximate gross economic exposure relative to recorded market value.
 OPT_AAPL_CALL,AAPL_CALL,Option,liquidity_risk,Liquidity Risk,Required,,score_or_cost,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
 OPT_AAPL_CALL,AAPL_CALL,Option,concentration_risk,Concentration Risk,Required,,percent_or_score,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
-FUT_ES,ES,Future,market_value,Concentration Risk,Required,388862.5,currency,Calculated,Position valuation,quantity × price × contract multiplier
-FUT_ES,ES,Future,portfolio_weight,Concentration Risk,Required,0.6208285659655384,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
-FUT_ES,ES,Future,volatility,Volatility Risk,Required,0.20360865364370745,percent,Calculated,Historical returns,Annualized standard deviation of periodic returns.
-FUT_ES,ES,Future,var,Tail Risk,Required,0.021012849197641792,currency_or_percent,Calculated,Historical simulation,95% one-period historical return VaR.
-FUT_ES,ES,Future,cvar,Tail Risk,Applicable,0.025341599802014544,currency_or_percent,Calculated,Historical tail average,Average loss beyond the 95% historical VaR threshold.
+FUT_ES,ES,Future,market_value,Concentration Risk,Required,28710.09958033704,currency,Calculated,Position valuation,quantity × price × contract multiplier
+FUT_ES,ES,Future,portfolio_weight,Concentration Risk,Required,0.15789411816781332,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
+FUT_ES,ES,Future,volatility,Volatility Risk,Required,0.12251444371990769,percent,Calculated,Historical returns,Annualized standard deviation of periodic returns.
+FUT_ES,ES,Future,var,Tail Risk,Required,0.012515465179149808,currency_or_percent,Calculated,Historical simulation,95% one-period historical return VaR.
+FUT_ES,ES,Future,cvar,Tail Risk,Applicable,0.01715769354598736,currency_or_percent,Calculated,Historical tail average,Average loss beyond the 95% historical VaR threshold.
 FUT_ES,ES,Future,leverage,Leverage Risk,Required,1.0,multiple,Calculated,Notional / market value,Approximate gross economic exposure relative to recorded market value.
 FUT_ES,ES,Future,basis_risk,Basis Risk,Required,0.002,spread_or_percent,Calculated,Spot-derivative basis,Basis supplied by market-data layer.
 FUT_ES,ES,Future,liquidity_risk,Liquidity Risk,Applicable,,score_or_cost,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
-FUT_ES,ES,Future,commodity_price_risk,Commodity Risk,Applicable,388862.5,exposure,Calculated,Notional commodity exposure,Quantity × price × multiplier.
-FUT_ES,ES,Future,currency_exposure,Currency Risk,Applicable,388862.5,currency_or_percent,Calculated,Position exposure,Approximate exposure denominated in USD.
+FUT_ES,ES,Future,commodity_price_risk,Commodity Risk,Applicable,28710.09958033704,exposure,Calculated,Notional commodity exposure,Quantity × price × multiplier.
+FUT_ES,ES,Future,currency_exposure,Currency Risk,Applicable,28710.09958033704,currency_or_percent,Calculated,Position exposure,Approximate exposure denominated in USD.
 FUT_ES,ES,Future,concentration_risk,Concentration Risk,Required,,percent_or_score,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
 FX_EURUSD,EURUSD,FX,market_value,Concentration Risk,Required,11257.457733154297,currency,Calculated,Position valuation,quantity × price × contract multiplier
-FX_EURUSD,EURUSD,FX,portfolio_weight,Concentration Risk,Required,0.017972808745743914,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
-FX_EURUSD,EURUSD,FX,volatility,Volatility Risk,Required,0.10084378915154224,percent,Calculated,Historical returns,Annualized standard deviation of periodic returns.
-FX_EURUSD,EURUSD,FX,var,Tail Risk,Required,0.010939408054978214,currency_or_percent,Calculated,Historical simulation,95% one-period historical return VaR.
-FX_EURUSD,EURUSD,FX,cvar,Tail Risk,Applicable,0.013429860123311682,currency_or_percent,Calculated,Historical tail average,Average loss beyond the 95% historical VaR threshold.
+FX_EURUSD,EURUSD,FX,portfolio_weight,Concentration Risk,Required,0.06191153592532965,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
+FX_EURUSD,EURUSD,FX,volatility,Volatility Risk,Required,0.05950866140765297,percent,Calculated,Historical returns,Annualized standard deviation of periodic returns.
+FX_EURUSD,EURUSD,FX,var,Tail Risk,Required,0.0058649997831052405,currency_or_percent,Calculated,Historical simulation,95% one-period historical return VaR.
+FX_EURUSD,EURUSD,FX,cvar,Tail Risk,Applicable,0.00784547960917855,currency_or_percent,Calculated,Historical tail average,Average loss beyond the 95% historical VaR threshold.
 FX_EURUSD,EURUSD,FX,currency_exposure,Currency Risk,Required,11257.457733154297,currency_or_percent,Calculated,Position exposure,Approximate exposure denominated in EUR.
 FX_EURUSD,EURUSD,FX,carry,Currency Risk,Applicable,0.01,percent,Calculated,Instrument metadata,Carry supplied by market/macro data layer.
-FX_EURUSD,EURUSD,FX,correlation,Market Risk,Applicable,0.2651919371880041,correlation,Calculated,Historical Pearson correlation,Relative to benchmark VITTANTRA_BENCHMARK.
+FX_EURUSD,EURUSD,FX,correlation,Market Risk,Applicable,0.057070418406792944,correlation,Calculated,Historical Pearson correlation,Relative to benchmark VITTANTRA_BENCHMARK.
 FX_EURUSD,EURUSD,FX,liquidity_risk,Liquidity Risk,Applicable,,score_or_cost,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
 FX_EURUSD,EURUSD,FX,concentration_risk,Concentration Risk,Required,,percent_or_score,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
-CMD_GOLD,GOLD,Commodity,market_value,Concentration Risk,Required,41622.998046875,currency,Calculated,Position valuation,quantity × price × contract multiplier
-CMD_GOLD,GOLD,Commodity,portfolio_weight,Concentration Risk,Required,0.06645214230898534,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
-CMD_GOLD,GOLD,Commodity,volatility,Volatility Risk,Required,0.17780837799787022,percent,Calculated,Historical returns,Annualized standard deviation of periodic returns.
-CMD_GOLD,GOLD,Commodity,var,Tail Risk,Required,0.01761783487307785,currency_or_percent,Calculated,Historical simulation,95% one-period historical return VaR.
-CMD_GOLD,GOLD,Commodity,cvar,Tail Risk,Applicable,0.024076592259204936,currency_or_percent,Calculated,Historical tail average,Average loss beyond the 95% historical VaR threshold.
-CMD_GOLD,GOLD,Commodity,maximum_drawdown,Drawdown Risk,Applicable,-0.1666449552356699,percent,Calculated,Historical peak-to-trough,Maximum observed peak-to-trough price decline.
-CMD_GOLD,GOLD,Commodity,commodity_price_risk,Commodity Risk,Required,41622.998046875,exposure,Calculated,Notional commodity exposure,Quantity × price × multiplier.
-CMD_GOLD,GOLD,Commodity,correlation,Market Risk,Applicable,0.15335390000422822,correlation,Calculated,Historical Pearson correlation,Relative to benchmark VITTANTRA_BENCHMARK.
+CMD_GOLD,GOLD,Commodity,market_value,Concentration Risk,Required,29115.160089860594,currency,Calculated,Position valuation,quantity × price × contract multiplier
+CMD_GOLD,GOLD,Commodity,portfolio_weight,Concentration Risk,Required,0.16012178971513283,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
+CMD_GOLD,GOLD,Commodity,volatility,Volatility Risk,Required,0.2665158498117813,percent,Calculated,Historical returns,Annualized standard deviation of periodic returns.
+CMD_GOLD,GOLD,Commodity,var,Tail Risk,Required,0.027726638543075676,currency_or_percent,Calculated,Historical simulation,95% one-period historical return VaR.
+CMD_GOLD,GOLD,Commodity,cvar,Tail Risk,Applicable,0.041412448805814656,currency_or_percent,Calculated,Historical tail average,Average loss beyond the 95% historical VaR threshold.
+CMD_GOLD,GOLD,Commodity,maximum_drawdown,Drawdown Risk,Applicable,-0.24937948037740476,percent,Calculated,Historical peak-to-trough,Maximum observed peak-to-trough price decline.
+CMD_GOLD,GOLD,Commodity,commodity_price_risk,Commodity Risk,Required,29115.160089860594,exposure,Calculated,Notional commodity exposure,Quantity × price × multiplier.
+CMD_GOLD,GOLD,Commodity,correlation,Market Risk,Applicable,0.25022269834727284,correlation,Calculated,Historical Pearson correlation,Relative to benchmark VITTANTRA_BENCHMARK.
 CMD_GOLD,GOLD,Commodity,inflation_risk,Inflation Risk,Applicable,,exposure,Unavailable,Not calculated,Inflation sensitivity requires historical inflation/factor data or supplied exposure.
 CMD_GOLD,GOLD,Commodity,liquidity_risk,Liquidity Risk,Applicable,,score_or_cost,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
 CMD_GOLD,GOLD,Commodity,concentration_risk,Concentration Risk,Required,,percent_or_score,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
 CASH_USD,USD,Cash/Money Market,market_value,Concentration Risk,Required,10000.0,currency,Calculated,Position valuation,quantity × price × contract multiplier
-CASH_USD,USD,Cash/Money Market,portfolio_weight,Concentration Risk,Required,0.01596524648083933,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
+CASH_USD,USD,Cash/Money Market,portfolio_weight,Concentration Risk,Required,0.05499601898836735,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
 CASH_USD,USD,Cash/Money Market,currency_exposure,Currency Risk,Applicable,10000.0,currency_or_percent,Calculated,Position exposure,Approximate exposure denominated in USD.
 CASH_USD,USD,Cash/Money Market,inflation_risk,Inflation Risk,Required,,exposure,Unavailable,Not calculated,Inflation sensitivity requires historical inflation/factor data or supplied exposure.
 CASH_USD,USD,Cash/Money Market,counterparty_risk,Counterparty Risk,Applicable,,exposure_or_score,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
 CASH_USD,USD,Cash/Money Market,concentration_risk,Concentration Risk,Applicable,,percent_or_score,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
-CRYPTO_BTC,BTC,Crypto,market_value,Concentration Risk,Required,21288.2421875,currency,Calculated,Position valuation,quantity × price × contract multiplier
-CRYPTO_BTC,BTC,Crypto,portfolio_weight,Concentration Risk,Required,0.03398720336672397,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
-CRYPTO_BTC,BTC,Crypto,volatility,Volatility Risk,Required,0.45742563041062084,percent,Calculated,Historical returns,Annualized standard deviation of periodic returns.
-CRYPTO_BTC,BTC,Crypto,var,Tail Risk,Required,0.044045060207282466,currency_or_percent,Calculated,Historical simulation,95% one-period historical return VaR.
-CRYPTO_BTC,BTC,Crypto,cvar,Tail Risk,Required,0.0527109432381826,currency_or_percent,Calculated,Historical tail average,Average loss beyond the 95% historical VaR threshold.
-CRYPTO_BTC,BTC,Crypto,maximum_drawdown,Drawdown Risk,Required,-0.4642281624881537,percent,Calculated,Historical peak-to-trough,Maximum observed peak-to-trough price decline.
-CRYPTO_BTC,BTC,Crypto,correlation,Market Risk,Applicable,0.0843393350009264,correlation,Calculated,Historical Pearson correlation,Relative to benchmark VITTANTRA_BENCHMARK.
+CRYPTO_BTC,BTC,Crypto,market_value,Concentration Risk,Required,8294.141604933442,currency,Calculated,Position valuation,quantity × price × contract multiplier
+CRYPTO_BTC,BTC,Crypto,portfolio_weight,Concentration Risk,Required,0.04561447691971272,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
+CRYPTO_BTC,BTC,Crypto,volatility,Volatility Risk,Required,0.41862939106631797,percent,Calculated,Historical returns,Annualized standard deviation of periodic returns.
+CRYPTO_BTC,BTC,Crypto,var,Tail Risk,Required,0.038975654050381434,currency_or_percent,Calculated,Historical simulation,95% one-period historical return VaR.
+CRYPTO_BTC,BTC,Crypto,cvar,Tail Risk,Required,0.05918764823652841,currency_or_percent,Calculated,Historical tail average,Average loss beyond the 95% historical VaR threshold.
+CRYPTO_BTC,BTC,Crypto,maximum_drawdown,Drawdown Risk,Required,-0.530599830010033,percent,Calculated,Historical peak-to-trough,Maximum observed peak-to-trough price decline.
+CRYPTO_BTC,BTC,Crypto,correlation,Market Risk,Applicable,0.4755426867121936,correlation,Calculated,Historical Pearson correlation,Relative to benchmark VITTANTRA_BENCHMARK.
 CRYPTO_BTC,BTC,Crypto,liquidity_risk,Liquidity Risk,Required,,score_or_cost,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
 CRYPTO_BTC,BTC,Crypto,counterparty_risk,Counterparty Risk,Applicable,,exposure_or_score,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
 CRYPTO_BTC,BTC,Crypto,concentration_risk,Concentration Risk,Required,,percent_or_score,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."
 REIT_SAMPLE,REIT,Real Estate/REIT,market_value,Concentration Risk,Required,8950.0,currency,Calculated,Position valuation,quantity × price × contract multiplier
-REIT_SAMPLE,REIT,Real Estate/REIT,portfolio_weight,Concentration Risk,Required,0.0142888956003512,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
-REIT_SAMPLE,REIT,Real Estate/REIT,volatility,Volatility Risk,Optional,0.1579413247233933,percent,Calculated,Historical returns,Annualized standard deviation of periodic returns.
-REIT_SAMPLE,REIT,Real Estate/REIT,var,Tail Risk,Optional,0.015717843688265454,currency_or_percent,Calculated,Historical simulation,95% one-period historical return VaR.
+REIT_SAMPLE,REIT,Real Estate/REIT,portfolio_weight,Concentration Risk,Required,0.04922143699458877,percent,Calculated,Portfolio aggregation,position market value / total portfolio market value
+REIT_SAMPLE,REIT,Real Estate/REIT,volatility,Volatility Risk,Optional,0.13749548015987917,percent,Calculated,Historical returns,Annualized standard deviation of periodic returns.
+REIT_SAMPLE,REIT,Real Estate/REIT,var,Tail Risk,Optional,0.014728348139183922,currency_or_percent,Calculated,Historical simulation,95% one-period historical return VaR.
 REIT_SAMPLE,REIT,Real Estate/REIT,real_estate_exposure,Market Risk,Required,8950.0,exposure,Calculated,Position exposure,Recorded real-estate/REIT market value.
 REIT_SAMPLE,REIT,Real Estate/REIT,interest_rate_risk,Interest Rate Risk,Optional,,exposure,Unavailable,Not calculated,Instrument-specific rate exposure data required.
 REIT_SAMPLE,REIT,Real Estate/REIT,liquidity_risk,Liquidity Risk,Required,,score_or_cost,Unavailable,Not calculated,"Additional portfolio, market or instrument data required."

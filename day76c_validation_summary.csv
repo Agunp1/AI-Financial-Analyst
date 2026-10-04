@@ -7,4 +7,4 @@ Prices fresh (within 7 days),True,99% of instruments,9,9,1.0
 Treasury curve complete,True,11 of 11 maturities,9,9,1.0
 Credit spreads loaded,True,10 of 10 segments,9,9,1.0
 FX carry coverage,True,78% of pairs have both short rates,9,9,1.0
-Stablecoins near $1 (data sanity),True,"0.9998, 1.0000",9,9,1.0
+Stablecoins near $1 (data sanity),True,"0.9999, 1.0000",9,9,1.0

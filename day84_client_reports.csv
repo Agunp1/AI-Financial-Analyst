@@ -20,16 +20,16 @@ Willingness to take risk 4/5, capacity 5/5. You told us a loss of about 30% in a
 Expected return about **9.6% a year** (before inflation of about 2.4%), with typical swings (volatility) of 13%. In a bad year (about 1 in 20) the portfolio could fall about **12%**.
 
 ## Your goal
-Chance of reaching 600,000 (today's money) in 30 years: **51%**. Median outcome 608,588; poor case (10th percentile) 337,372.
-Saving about **9,291 a year** would raise the chance to 80%.
+Chance of reaching 600,000 (today's money) in 30 years: **51%**. Median outcome 608,486; poor case (10th percentile) 337,323.
+Saving about **9,292 a year** would raise the chance to 80%.
 
 ## Suitability checks
-- ✅ Volatility within the risk profile: 13.0% vs limit 13.0% *(CFA Standard III(C) Suitability)*
-- ✅ A 1-in-20 bad year within loss tolerance: possible loss 12% vs tolerance 30% *(CFA Standard III(C) Suitability)*
-- ✅ Equity share suits the horizon and profile: equity 85% vs cap 85% (30-year horizon) *(CFA Standard III(C) Suitability)*
-- ✅ No single sleeve above 60%: largest US equity 51% *(CFA Standard III(C) Suitability)*
-- ✅ Complex or speculative holdings only for experienced investors: complex holdings 0%; experience Some *(CFA Standard III(C) Suitability)*
-- ✅ Cash covers the next 12 months' needs: cash 2.0% vs need 0.0% *(CFA Standard III(C) Suitability)*
+- ✓ Volatility within the risk profile: 13.0% vs limit 13.0% *(CFA Standard III(C) Suitability)*
+- ✓ A 1-in-20 bad year within loss tolerance: possible loss 12% vs tolerance 30% *(CFA Standard III(C) Suitability)*
+- ✓ Equity share suits the horizon and profile: equity 85% vs cap 85% (30-year horizon) *(CFA Standard III(C) Suitability)*
+- ✓ No single sleeve above 60%: largest US equity 51% *(CFA Standard III(C) Suitability)*
+- ✓ Complex or speculative holdings only for experienced investors: complex holdings 0%; experience Some *(CFA Standard III(C) Suitability)*
+- ✓ Cash covers the next 12 months' needs: cash 2.0% vs need 0.0% *(CFA Standard III(C) Suitability)*
 
 ## Important
 - Projections use assumptions (below) and 10,000 simulated market paths. They are estimates, not guarantees; real returns can be worse.
@@ -47,25 +47,25 @@ Willingness to take risk 3/5, capacity 4/5. You told us a loss of about 20% in a
 | Holding | Weight | Example fund |
 |---|---:|---|
 | US equity | 43% | SPY |
-| Inflation-linked Treasuries | 21% | TIP |
+| Inflation-linked Treasuries | 22% | TIP |
 | International developed equity | 19% | EFA |
 | US REITs | 10% | VNQ |
 | Cash (T-bills) | 4% | BIL |
-| Investment-grade credit | 3% | LQD |
+| Investment-grade credit | 1% | LQD |
 
 Expected return about **8.4% a year** (before inflation of about 2.4%), with typical swings (volatility) of 10%. In a bad year (about 1 in 20) the portfolio could fall about **8%**.
 
 ## Your goal
-Chance of reaching 220,000 (today's money) in 12 years: **67%**. Median outcome 242,986; poor case (10th percentile) 181,313.
-Saving about **10,510 a year** would raise the chance to 80%.
+Chance of reaching 220,000 (today's money) in 12 years: **67%**. Median outcome 242,835; poor case (10th percentile) 181,203.
+Saving about **10,520 a year** would raise the chance to 80%.
 
 ## Suitability checks
-- ✅ Volatility within the risk profile: 10.0% vs limit 10.0% *(CFA Standard III(C) Suitability)*
-- ✅ A 1-in-20 bad year within loss tolerance: possible loss 8% vs tolerance 20% *(CFA Standard III(C) Suitability)*
-- ✅ Equity share suits the horizon and profile: equity 62% vs cap 65% (12-year horizon) *(CFA Standard III(C) Suitability)*
-- ✅ No single sleeve above 60%: largest US equity 43% *(CFA Standard III(C) Suitability)*
-- ✅ Complex or speculative holdings only for experienced investors: complex holdings 0%; experience Some *(CFA Standard III(C) Suitability)*
-- ✅ Cash covers the next 12 months' needs: cash 4.0% vs need 4.0% *(CFA Standard III(C) Suitability)*
+- ✓ Volatility within the risk profile: 10.0% vs limit 10.0% *(CFA Standard III(C) Suitability)*
+- ✓ A 1-in-20 bad year within loss tolerance: possible loss 8% vs tolerance 20% *(CFA Standard III(C) Suitability)*
+- ✓ Equity share suits the horizon and profile: equity 62% vs cap 65% (12-year horizon) *(CFA Standard III(C) Suitability)*
+- ✓ No single sleeve above 60%: largest US equity 43% *(CFA Standard III(C) Suitability)*
+- ✓ Complex or speculative holdings only for experienced investors: complex holdings 0%; experience Some *(CFA Standard III(C) Suitability)*
+- ✓ Cash covers the next 12 months' needs: cash 4.0% vs need 4.0% *(CFA Standard III(C) Suitability)*
 
 ## Important
 - Projections use assumptions (below) and 10,000 simulated market paths. They are estimates, not guarantees; real returns can be worse.
@@ -84,10 +84,10 @@ Willingness to take risk 2/5, capacity 4/5. You told us a loss of about 10% in a
 |---|---:|---|
 | US equity | 32% | SPY |
 | Inflation-linked Treasuries | 25% | TIP |
-| Cash (T-bills) | 16% | BIL |
+| Cash (T-bills) | 18% | BIL |
 | International developed equity | 12% | EFA |
 | US REITs | 8% | VNQ |
-| Investment-grade credit | 7% | LQD |
+| Investment-grade credit | 5% | LQD |
 
 Expected return about **7.4% a year** (before inflation of about 2.4%), with typical swings (volatility) of 8%. In a bad year (about 1 in 20) the portfolio could fall about **5%**.
 
@@ -95,12 +95,12 @@ Expected return about **7.4% a year** (before inflation of about 2.4%), with typ
 Chance the money lasts 25 years while withdrawing 30,000 a year (rising with inflation): **98%**.
 
 ## Suitability checks
-- ✅ Volatility within the risk profile: 7.5% vs limit 7.5% *(CFA Standard III(C) Suitability)*
-- ✅ A 1-in-20 bad year within loss tolerance: possible loss 5% vs tolerance 10% *(CFA Standard III(C) Suitability)*
-- ✅ Equity share suits the horizon and profile: equity 43% vs cap 45% (25-year horizon) *(CFA Standard III(C) Suitability)*
-- ✅ No single sleeve above 60%: largest US equity 32% *(CFA Standard III(C) Suitability)*
-- ✅ Complex or speculative holdings only for experienced investors: complex holdings 0%; experience Extensive *(CFA Standard III(C) Suitability)*
-- ✅ Cash covers the next 12 months' needs: cash 16.2% vs need 4.6% *(CFA Standard III(C) Suitability)*
+- ✓ Volatility within the risk profile: 7.5% vs limit 7.5% *(CFA Standard III(C) Suitability)*
+- ✓ A 1-in-20 bad year within loss tolerance: possible loss 5% vs tolerance 10% *(CFA Standard III(C) Suitability)*
+- ✓ Equity share suits the horizon and profile: equity 44% vs cap 45% (25-year horizon) *(CFA Standard III(C) Suitability)*
+- ✓ No single sleeve above 60%: largest US equity 32% *(CFA Standard III(C) Suitability)*
+- ✓ Complex or speculative holdings only for experienced investors: complex holdings 0%; experience Extensive *(CFA Standard III(C) Suitability)*
+- ✓ Cash covers the next 12 months' needs: cash 18.1% vs need 4.6% *(CFA Standard III(C) Suitability)*
 
 ## Important
 - Projections use assumptions (below) and 10,000 simulated market paths. They are estimates, not guarantees; real returns can be worse.
@@ -116,10 +116,10 @@ Set by the IPS: volatility at most 13%; required return 7.36% (spending/liabilit
 ## Recommended mix
 | Holding | Weight | Example fund |
 |---|---:|---|
-| US equity | 40% | SPY |
+| US equity | 41% | SPY |
 | International developed equity | 30% | EFA |
 | Emerging-market equity | 13% | EEM |
-| Investment-grade credit | 11% | LQD |
+| Investment-grade credit | 10% | LQD |
 | Cash (T-bills) | 4% | BIL |
 | US REITs | 1% | VNQ |
 
@@ -129,16 +129,16 @@ Expected return about **9.4% a year** (before inflation of about 2.4%), with typ
 Chance the money lasts 30 years while withdrawing 1,125,000 a year (rising with inflation): **93%**.
 
 ## Suitability checks
-- ✅ Volatility within the risk profile: 13.0% vs limit 13.0% *(CFA Standard III(C) Suitability)*
-- ✅ A 1-in-20 bad year within loss tolerance: possible loss 12% vs tolerance 20% *(CFA Standard III(C) Suitability)*
-- ✅ Equity share suits the horizon and profile: equity 84% vs cap 85% (30-year horizon) *(CFA Standard III(C) Suitability)*
-- ✅ No single sleeve above 60%: largest US equity 40% *(CFA Standard III(C) Suitability)*
-- ✅ Complex or speculative holdings only for experienced investors: complex holdings 0%; experience institutional *(CFA Standard III(C) Suitability)*
-- ✅ Cash covers the next 12 months' needs: cash 4.5% vs need 4.5% *(CFA Standard III(C) Suitability)*
-- ✅ IPS exclusions respected: none held *(Investment policy statement)*
-- ✅ IPS minimum fixed income: 15% vs minimum 15% *(Investment policy statement)*
-- ✅ IPS maximum alternatives: 1% vs maximum 25% *(Investment policy statement)*
-- ✅ Expected return meets the return objective: expected 9.42% vs required 7.36% *(Investment policy statement)*
+- ✓ Volatility within the risk profile: 13.0% vs limit 13.0% *(CFA Standard III(C) Suitability)*
+- ✓ A 1-in-20 bad year within loss tolerance: possible loss 12% vs tolerance 20% *(CFA Standard III(C) Suitability)*
+- ✓ Equity share suits the horizon and profile: equity 84% vs cap 85% (30-year horizon) *(CFA Standard III(C) Suitability)*
+- ✓ No single sleeve above 60%: largest US equity 41% *(CFA Standard III(C) Suitability)*
+- ✓ Complex or speculative holdings only for experienced investors: complex holdings 0%; experience institutional *(CFA Standard III(C) Suitability)*
+- ✓ Cash covers the next 12 months' needs: cash 4.5% vs need 4.5% *(CFA Standard III(C) Suitability)*
+- ✓ IPS exclusions respected: none held *(Investment policy statement)*
+- ✓ IPS minimum fixed income: 15% vs minimum 15% *(Investment policy statement)*
+- ✓ IPS maximum alternatives: 1% vs maximum 25% *(Investment policy statement)*
+- ✓ Expected return meets the return objective: expected 9.41% vs required 7.36% *(Investment policy statement)*
 
 ## Important
 - Projections use assumptions (below) and 10,000 simulated market paths. They are estimates, not guarantees; real returns can be worse.
@@ -156,10 +156,10 @@ Set by the IPS: volatility at most 9%; required return 5.00% (spending/liabiliti
 |---|---:|---|
 | US equity | 32% | SPY |
 | Inflation-linked Treasuries | 25% | TIP |
-| Cash (T-bills) | 16% | BIL |
+| Cash (T-bills) | 18% | BIL |
 | International developed equity | 12% | EFA |
 | US REITs | 8% | VNQ |
-| Investment-grade credit | 7% | LQD |
+| Investment-grade credit | 5% | LQD |
 
 Expected return about **7.4% a year** (before inflation of about 2.4%), with typical swings (volatility) of 8%. In a bad year (about 1 in 20) the portfolio could fall about **5%**.
 
@@ -167,16 +167,16 @@ Expected return about **7.4% a year** (before inflation of about 2.4%), with typ
 Chance the money lasts 15 years while withdrawing 4,000,000 a year (rising with inflation): **100%**.
 
 ## Suitability checks
-- ✅ Volatility within the risk profile: 7.5% vs limit 9.0% *(CFA Standard III(C) Suitability)*
-- ✅ A 1-in-20 bad year within loss tolerance: possible loss 5% vs tolerance 12% *(CFA Standard III(C) Suitability)*
-- ✅ Equity share suits the horizon and profile: equity 43% vs cap 45% (15-year horizon) *(CFA Standard III(C) Suitability)*
-- ✅ No single sleeve above 60%: largest US equity 32% *(CFA Standard III(C) Suitability)*
-- ✅ Complex or speculative holdings only for experienced investors: complex holdings 0%; experience institutional *(CFA Standard III(C) Suitability)*
-- ✅ Cash covers the next 12 months' needs: cash 16.2% vs need 5.0% *(CFA Standard III(C) Suitability)*
-- ✅ IPS exclusions respected: none held *(Investment policy statement)*
-- ✅ IPS minimum fixed income: 48% vs minimum 45% *(Investment policy statement)*
-- ✅ IPS maximum alternatives: 8% vs maximum 10% *(Investment policy statement)*
-- ✅ Expected return meets the return objective: expected 7.37% vs required 5.00% *(Investment policy statement)*
+- ✓ Volatility within the risk profile: 7.5% vs limit 9.0% *(CFA Standard III(C) Suitability)*
+- ✓ A 1-in-20 bad year within loss tolerance: possible loss 5% vs tolerance 12% *(CFA Standard III(C) Suitability)*
+- ✓ Equity share suits the horizon and profile: equity 44% vs cap 45% (15-year horizon) *(CFA Standard III(C) Suitability)*
+- ✓ No single sleeve above 60%: largest US equity 32% *(CFA Standard III(C) Suitability)*
+- ✓ Complex or speculative holdings only for experienced investors: complex holdings 0%; experience institutional *(CFA Standard III(C) Suitability)*
+- ✓ Cash covers the next 12 months' needs: cash 18.1% vs need 5.0% *(CFA Standard III(C) Suitability)*
+- ✓ IPS exclusions respected: none held *(Investment policy statement)*
+- ✓ IPS minimum fixed income: 48% vs minimum 45% *(Investment policy statement)*
+- ✓ IPS maximum alternatives: 8% vs maximum 10% *(Investment policy statement)*
+- ✓ Expected return meets the return objective: expected 7.36% vs required 5.00% *(Investment policy statement)*
 
 ## Important
 - Projections use assumptions (below) and 10,000 simulated market paths. They are estimates, not guarantees; real returns can be worse.
