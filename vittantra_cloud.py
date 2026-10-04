@@ -2,9 +2,11 @@
 One link for everything: owner sign-in and saving work from the online app.
 
 On the laptop nothing changes: files are written locally and you push with git.
-On Streamlit Community Cloud the disk is temporary, so when the owner is signed
-in, every save is also committed to GitHub; the app then reloads with the work
-kept. Visitors can explore everything but cannot save.
+On Streamlit Community Cloud the disk is temporary, so saves are committed to
+GitHub; the app then reloads with the work kept. Visitors can explore
+everything. Anyone can create an account (vittantra_accounts.py) and keep their
+own Academy progress; only the owner can change shared data (client book,
+approval queue).
 
 Settings live in Streamlit Cloud → app → Settings → Secrets (never in code):
 
@@ -18,11 +20,15 @@ from __future__ import annotations
 
 import base64
 import hmac
+import json
+import time
 from pathlib import Path
 from typing import Optional
 
 import requests
 import streamlit as st
+
+import vittantra_accounts as accounts
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -52,31 +58,131 @@ def password_matches(given: str, expected: str) -> bool:
     return bool(expected) and hmac.compare_digest(given.encode(), expected.encode())
 
 
+def current_user() -> Optional[str]:
+    """'owner', a signed-in username, or None for a visitor."""
+    if is_owner():
+        return "owner"
+    return st.session_state.get("vt_user")
+
+
+def progress_path() -> Optional[Path]:
+    """Where the signed-in person's Academy work record lives (None for visitors)."""
+    user = current_user()
+    if user is None:
+        return None
+    if user == "owner":
+        from academy_desk import PROGRESS_FILE
+        return PROGRESS_FILE
+    return accounts.progress_file(user)
+
+
+def _show_save_status() -> None:
+    status = st.session_state.get("vt_save_status")
+    if status:
+        (st.success if status.startswith(("Saved", "Saving works")) else st.warning)(status)
+
+
+def _sign_out() -> None:
+    for key in ("vt_owner", "vt_user", "vt_save_status"):
+        st.session_state.pop(key, None)
+    st.rerun()
+
+
+def _too_many_attempts() -> bool:
+    until = st.session_state.get("vt_locked_until", 0)
+    if time.time() < until:
+        st.error(f"Too many attempts. Try again in {int(until - time.time()) + 1} seconds.")
+        return True
+    return False
+
+
+def _failed_attempt() -> None:
+    fails = st.session_state.get("vt_fails", 0) + 1
+    st.session_state["vt_fails"] = fails
+    if fails >= 5:
+        st.session_state["vt_locked_until"] = time.time() + 60
+        st.session_state["vt_fails"] = 0
+
+
+def _latest_users() -> dict:
+    """Accounts from GitHub when available (another session may have just added one), else local."""
+    remote = fetch_file(accounts.USERS_FILE)
+    if remote is not None:
+        try:
+            users = json.loads(remote)
+            accounts.save_users(users)
+            return users
+        except ValueError:
+            pass
+    return accounts.load_users()
+
+
 def sign_in_box() -> None:
-    """Sidebar control: sign in / sign out (shown only on the online app)."""
+    """Sidebar: sign in, create an account, sign out (shown only on the online app)."""
     if not cloud_mode():
         return
     if st.session_state.get("vt_owner"):
         st.caption("Signed in as owner · your work is saved to GitHub")
-        status = st.session_state.get("vt_save_status")
-        if status:
-            (st.success if status.startswith(("Saved", "Saving works")) else st.warning)(status)
+        _show_save_status()
         if st.button("Test saving", key="vt-test-save"):
             st.session_state["vt_save_status"] = check_github()
             st.rerun()
         if st.button("Sign out", key="vt-sign-out"):
-            st.session_state["vt_owner"] = False
-            st.rerun()
+            _sign_out()
         return
-    with st.expander("Owner sign-in"):
-        password = st.text_input("Password", type="password", key="vt-password")
-        if st.button("Sign in", key="vt-sign-in"):
-            if password_matches(password, _secret("owner_password")):
-                st.session_state["vt_owner"] = True
-                st.session_state.pop("vt-password", None)
-                st.rerun()
-            st.error("Wrong password.")
-        st.caption("Visitors can explore everything; only the owner can save work.")
+    user = st.session_state.get("vt_user")
+    if user:
+        st.caption(f"Signed in as **{user}** · your Academy work is saved")
+        _show_save_status()
+        if st.button("Sign out", key="vt-sign-out"):
+            _sign_out()
+        return
+    with st.expander("Sign in / create account"):
+        sign_in, create = st.tabs(["Sign in", "Create account"])
+        with sign_in:
+            name = st.text_input("Username", key="vt-username")
+            password = st.text_input("Password", type="password", key="vt-password")
+            if st.button("Sign in", key="vt-sign-in") and not _too_many_attempts():
+                if accounts.normalize(name) == "owner":
+                    if password_matches(password, _secret("owner_password")):
+                        st.session_state["vt_owner"] = True
+                        st.rerun()
+                else:
+                    found = accounts.check_login(accounts.load_users(), name, password) or \
+                        accounts.check_login(_latest_users(), name, password)
+                    if found:
+                        st.session_state["vt_user"] = found
+                        st.rerun()
+                _failed_attempt()
+                st.error("Wrong username or password.")
+        with create:
+            new_name = st.text_input("Choose a username", key="vt-new-username",
+                                     help="3–20 characters: letters, numbers, - or _. Usernames are public.")
+            new_password = st.text_input("Choose a password", type="password", key="vt-new-password",
+                                         help=f"At least {accounts.MIN_PASSWORD} characters.")
+            repeat = st.text_input("Repeat the password", type="password", key="vt-new-password-2")
+            st.caption("Don't reuse a password you use elsewhere. Passwords are never stored, only a scrambled "
+                       "fingerprint, but usernames and Academy work are saved in Vittantra's public project.")
+            if st.button("Create account", key="vt-create"):
+                if st.session_state.get("vt_created"):
+                    st.error("One new account per visit. Please sign in.")
+                elif new_password != repeat:
+                    st.error("The two passwords do not match.")
+                else:
+                    users, problem = accounts.add_user(_latest_users(), new_name, new_password)
+                    if problem:
+                        st.error(problem)
+                    else:
+                        accounts.save_users(users)
+                        saved = commit_file(accounts.USERS_FILE, f"New Vittantra account: "
+                                            f"{accounts.normalize(new_name)}") if github_settings() else ""
+                        if saved:
+                            st.error(f"Account not saved: {saved}")
+                        else:
+                            st.session_state["vt_created"] = True
+                            st.session_state["vt_user"] = accounts.normalize(new_name)
+                            st.rerun()
+        st.caption("Visitors can explore everything. Sign in to keep your own Academy progress.")
 
 
 def github_settings() -> Optional[dict]:
@@ -108,6 +214,23 @@ def check_github(settings: Optional[dict] = None, session=requests) -> str:
     return "Saving works: the token can write to the repository."
 
 
+def fetch_file(path: Path, settings: Optional[dict] = None, session=requests) -> Optional[str]:
+    """Current text of a repository file on GitHub, or None (not set up, missing or unreachable)."""
+    settings = settings or github_settings()
+    if not settings:
+        return None
+    relative = Path(path).resolve().relative_to(BASE_DIR).as_posix()
+    headers = {"Authorization": f"Bearer {settings['token'].strip()}", "Accept": "application/vnd.github+json"}
+    try:
+        response = session.get(f"{API}/repos/{settings['repo'].strip()}/contents/{relative}", headers=headers,
+                               params={"ref": settings["branch"]}, timeout=20)
+    except Exception:
+        return None
+    if response.status_code != 200:
+        return None
+    return base64.b64decode(response.json()["content"]).decode()
+
+
 def commit_file(path: Path, message: str, settings: Optional[dict] = None, session=requests) -> str:
     """Create or update one file on GitHub through the contents API."""
     settings = settings or github_settings()
@@ -129,8 +252,14 @@ def commit_file(path: Path, message: str, settings: Optional[dict] = None, sessi
 
 
 def persist(path: Path, message: str) -> None:
-    """Call after writing a file. Online and signed in → commit it to GitHub."""
-    if not (cloud_mode() and is_owner()):
+    """Call after writing a file. Online → commit it to GitHub if this person may save it.
+
+    The owner may save anything; a signed-in user only their own work record.
+    """
+    if not cloud_mode():
+        return
+    own_record = progress_path()
+    if not (is_owner() or (own_record is not None and Path(path).resolve() == own_record.resolve())):
         return
     try:
         problem = commit_file(Path(path), message)
@@ -145,4 +274,4 @@ def persist(path: Path, message: str) -> None:
 
 
 def owner_only_note(action: str = "save") -> None:
-    st.caption(f"Sign in as owner (sidebar) to {action}. Visitors can try everything without saving.")
+    st.caption(f"Only the owner can {action}. You can try everything here without saving.")

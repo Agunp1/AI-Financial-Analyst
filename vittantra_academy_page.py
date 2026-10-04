@@ -29,12 +29,16 @@ def _role_label(key: str) -> str:
 
 
 def _save(progress: dict) -> None:
-    """Save the work record; online and signed in, it is also committed to GitHub."""
-    if not cloud.is_owner():
-        st.toast("Not saved — sign in as owner (sidebar) to keep your work.")
+    """Save the signed-in person's work record; online it is also committed to GitHub."""
+    path = cloud.progress_path()
+    if path is None:
+        st.toast("Not saved — sign in or create an account (sidebar) to keep your work.")
         return
-    desk.save_progress(progress)
-    cloud.persist(desk.PROGRESS_FILE, "Academy progress (saved from the app)")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    desk.save_progress(progress, path)
+    user = cloud.current_user()
+    cloud.persist(path, "Academy progress (saved from the app)" if user == "owner"
+                  else f"Academy progress for {user} (saved from the app)")
 
 
 def render_lesson(lesson: dict, progress: dict, key_prefix: str = "") -> None:
@@ -446,7 +450,14 @@ def render_academy() -> None:
     st.markdown("### Vittantra Academy — learn by doing")
     st.caption("Do the real work of each role on live data. Get reviewed like a junior on a desk. "
                "Lessons appear when you need them.")
-    progress = desk.load_progress()
+    path = cloud.progress_path()
+    progress = desk.load_progress(path) if path is not None else desk.load_progress()
+    user = cloud.current_user()
+    if cloud.cloud_mode():
+        st.caption(f"Work record: **{user}**" if user and user != "owner" else
+                   "Work record: **owner**" if user else
+                   "You are viewing the owner's work record. Sign in or create an account (sidebar) to keep "
+                   "your own.")
 
     cols = st.columns(len(ROLE_KEYS))
     for col, key in zip(cols, ROLE_KEYS):
