@@ -212,7 +212,12 @@ def value_company(row: dict, beta_raw: Optional[float], market: dict) -> Dict[st
                 "risk_free": rf, "cost_of_equity": cost_of_equity, "terminal_growth": terminal})
 
     market_cap = price * shares
-    debt = _num(row, "total_debt") or 0.0
+    debt = _num(row, "total_debt")
+    debt_missing = debt is None
+    if debt is None:
+        debt = 0.0
+        notes.append("total debt not found in the filings: value assumes no debt, so it is overstated if the "
+                     "company borrows (common for firms with finance arms)")
     cash = _num(row, "cash") or 0.0
     coverage = _num(row, "interest_coverage")
     rating = synthetic_rating(coverage)
@@ -304,6 +309,9 @@ def value_company(row: dict, beta_raw: Optional[float], market: dict) -> Dict[st
             "valuation_signal": ("Undervalued" if upside > band else "Overvalued" if upside < -band
                                  else "Fairly valued"),
         })
+        if debt_missing and out["model_dispersion"] > 0.75:
+            out["valuation_signal"] = "Low confidence"
+            notes.append("debt unknown and the models disagree widely: no under/overvalued call is made")
         if primary == "dcf_value" and "ri_value" in models and models["ri_value"] < 0.5 * fair:
             notes.append("residual income well below DCF: RI assumes returns above the cost of equity fade within "
                          "10 years, so it is conservative for high-ROE or buyback-heavy companies")

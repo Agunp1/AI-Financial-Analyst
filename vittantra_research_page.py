@@ -126,9 +126,75 @@ def render_ratings() -> None:
             st.dataframe(validation[["check", "passed", "details"]], width="stretch", hide_index=True)
 
 
+def _value_chart(row, height: int = 300):
+    models = {m: row.get(f"{m.lower()}_value") for m in ("DCF", "RI", "DDM")}
+    models = {m: float(v) for m, v in models.items() if v is not None and pd.notna(v)}
+    if not models:
+        return None
+    figure = go.Figure(go.Bar(x=list(models), y=list(models.values()), marker_color=vt.FOREST,
+                              text=[f"${v:,.0f}" for v in models.values()], textposition="outside"))
+    figure.add_hline(y=float(row["price"]), line_dash="dash", line_color=vt.BRASS,
+                     annotation_text=f"Price ${float(row['price']):,.0f}")
+    figure.update_layout(height=height, margin=dict(l=10, r=10, t=40, b=10), title="Value per share by model",
+                         yaxis_title="$ per share")
+    return figure
+
+
+def _note_for_page(note: str) -> str:
+    # Smaller headings inside the page; escape $ so Streamlit does not read it as LaTeX
+    return note.replace("$", "\\$").replace("\n## ", "\n#### ").replace("# ", "### ", 1)
+
+
+def render_any_company() -> None:
+    """On-demand note for any US-listed company in the all-US scan."""
+    from research_report import report_markdown, research_any
+
+    st.markdown("#### Research any US-listed company")
+    query = st.text_input("Ticker (e.g. TSLA, F, NFLX)", key="any-ticker",
+                          placeholder="Type a ticker and press Enter").strip().upper()
+    if not query:
+        st.caption("Full reports with multi-factor ratings cover the 33-stock research universe below; any other "
+                   "US-listed company gets an on-demand valuation and note from its SEC filings.")
+        return
+    result = research_any(query)
+    if result is None:
+        st.warning(f"{query} is not in Vittantra's US company scan (operating companies with SEC filings; funds "
+                   "and ETFs are excluded). Check the ticker, or browse Research → All US-listed stocks.")
+        return
+    summary, valuation = result["summary"], result["valuation"]
+    m = st.columns(4)
+    m[0].metric("Price", _fmt(summary["price"], "${:,.2f}"))
+    m[1].metric(f"Intrinsic value ({summary['primary_model'] or 'n/a'})", _fmt(summary["fair_value"], "${:,.2f}"))
+    m[2].metric("Upside", _fmt(summary["upside"], "{:+.0%}"))
+    m[3].metric("Valuation", summary["valuation_signal"] or "not valued")
+    left, right = st.columns([3, 2])
+    note = report_markdown(query, result["claims"], summary)
+    with left:
+        st.markdown(_note_for_page(note))
+    with right:
+        figure = _value_chart(valuation)
+        if figure is not None:
+            st.plotly_chart(figure, width="stretch")
+        grid = result["sensitivity"]
+        if not grid.empty:
+            pivot = grid.pivot(index="wacc", columns="terminal_growth", values="value_per_share")
+            pivot.index = [f"WACC {w:.1%}" for w in pivot.index]
+            pivot.columns = [f"g {g:.1%}" for g in pivot.columns]
+            st.markdown("**DCF sensitivity ($ per share)**")
+            st.dataframe(pivot.round(0), width="stretch")
+        st.download_button("Download note (Markdown)", note, file_name=f"vittantra_note_{query}.md",
+                           key="any-download")
+    st.caption("On-demand notes use the same valuation models and the same evidence rule as the full reports. "
+               "Beta defaults to 1.0 (no price history for companies outside the research universe), and the "
+               "note lists what is missing. Research only, not a recommendation.")
+    st.divider()
+
+
 def render_valuation_reports() -> None:
     """Day 78: intrinsic value models and evidence-linked research notes."""
     from research_report import report_markdown
+
+    render_any_company()
 
     valuation = _load("day78_valuation.csv")
     summary = _load("day78_report_summary.csv")
@@ -170,19 +236,10 @@ def render_valuation_reports() -> None:
     left, right = st.columns([3, 2])
     with left:
         note = report_markdown(ticker, claims, summary.set_index("ticker").loc[ticker])
-        # Smaller headings inside the page; escape $ so Streamlit does not read it as LaTeX
-        note = note.replace("$", "\\$").replace("\n## ", "\n#### ").replace("# ", "### ", 1)
-        st.markdown(note)
+        st.markdown(_note_for_page(note))
     with right:
-        models = {m: row.get(f"{m.lower()}_value") for m in ("DCF", "RI", "DDM")}
-        models = {m: float(v) for m, v in models.items() if pd.notna(v)}
-        if models:
-            figure = go.Figure(go.Bar(x=list(models), y=list(models.values()), marker_color=vt.FOREST,
-                                      text=[f"${v:,.0f}" for v in models.values()], textposition="outside"))
-            figure.add_hline(y=float(row["price"]), line_dash="dash", line_color=vt.BRASS,
-                             annotation_text=f"Price ${float(row['price']):,.0f}")
-            figure.update_layout(height=300, margin=dict(l=10, r=10, t=40, b=10), title="Value per share by model",
-                                 yaxis_title="$ per share")
+        figure = _value_chart(row)
+        if figure is not None:
             st.plotly_chart(figure, width="stretch")
         grid = sensitivity[sensitivity["ticker"] == ticker] if not sensitivity.empty else sensitivity
         if not grid.empty:
