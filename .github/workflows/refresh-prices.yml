@@ -1,0 +1,50 @@
+# Near-real-time prices for every security and asset class (free data, may be
+# ~15 minutes delayed): every 15 minutes while US markets are open, hourly at
+# night and at weekends (crypto trades 24/7). Refreshes prices, the market
+# pages, macro moves, the World Brief and the risk chain, then commits; the
+# online app reloads by itself. The slow research (SEC filings, ratings,
+# valuation) stays in the daily "Refresh data" workflow.
+name: Refresh prices
+
+on:
+  schedule:
+    - cron: "*/15 13-21 * * 1-5"      # US market hours (UTC, covers EDT and EST)
+    - cron: "7 0-12,22-23 * * 1-5"    # weekday nights, hourly
+    - cron: "7 * * * 0,6"             # weekends, hourly (crypto)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-data                 # never overlaps the daily full refresh
+  cancel-in-progress: false
+
+jobs:
+  prices:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+      SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Refresh prices and the risk chain
+        run: python run_vittantra.py --prices
+      - name: Check the rules still hold
+        run: python -m unittest test_governance_rules test_finance_formulas
+      - name: Commit the new prices
+        run: |
+          git config user.name "vittantra-bot"
+          git config user.email "vittantra-bot@users.noreply.github.com"
+          git add -A -- '*.csv' '*.md'
+          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+          git commit -m "Price refresh $(date -u '+%F %H:%M') UTC"
+          git stash --include-untracked || true
+          git pull --rebase -X theirs origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

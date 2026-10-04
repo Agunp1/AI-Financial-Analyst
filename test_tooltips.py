@@ -46,5 +46,29 @@ class TooltipTests(unittest.TestCase):
                 self.assertTrue(why)
 
 
+class PriceRefreshTests(unittest.TestCase):
+
+    def test_fast_mode_runs_only_quick_price_steps(self):
+        import run_vittantra as rv
+        from pathlib import Path
+        scripts = [s for _, s in rv.PRICE_STEPS]
+        for script in scripts:
+            self.assertTrue((Path(rv.BASE_DIR) / script).exists(), script)
+        self.assertNotIn("fundamental_engine.py", scripts)        # SEC filings stay daily
+        self.assertNotIn("multi_factor_rating.py", scripts)
+
+    def test_price_workflow_schedules_market_hours_and_weekends(self):
+        try:
+            import yaml
+        except ImportError:
+            self.skipTest("PyYAML not installed")
+        from pathlib import Path
+        flow = yaml.safe_load((Path(guide.BASE_DIR) / ".github/workflows/refresh-prices.yml").read_text())
+        crons = [c["cron"] for c in flow[True]["schedule"]]
+        self.assertIn("*/15 13-21 * * 1-5", crons)
+        self.assertTrue(any(c.endswith("0,6") for c in crons))
+        self.assertIn("--prices", str(flow["jobs"]))
+
+
 if __name__ == "__main__":
     unittest.main()

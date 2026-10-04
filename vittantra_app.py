@@ -84,6 +84,18 @@ from vittantra_guide_page import page_help, render_guide
 from vittantra_approval_page import render_pending_fix, sidebar_note
 import vittantra_tooltips
 vittantra_tooltips.install()
+BASE_DIR_STAMP = Path(__file__).resolve().parent
+
+
+def refresh_caption(live_prices: pd.DataFrame) -> str:
+    """'prices refreshed 14:45 UTC · 05 Oct' from the pipeline stamp, else the price date."""
+    stamp = BASE_DIR_STAMP / "day75_refresh_stamp.csv"
+    try:
+        when = pd.to_datetime(pd.read_csv(stamp)["refreshed_utc"].iloc[0])
+        return (f"prices refreshed {when:%H:%M} UTC · {when:%d %b %Y} · updates every 15 min in "
+                "market hours, hourly otherwise")
+    except Exception:
+        return f"as of {live_prices['as_of_date'].dropna().max()}"
 import vittantra_theme as vt
 from vittantra_research_page import render_research
 from vittantra_markets_page import render_markets
@@ -1862,8 +1874,8 @@ with st.sidebar:
         and os.getenv("VITTANTRA_DATA_MODE", "live").lower() != "sample"
     ):
         st.caption(
-            "Data: LIVE (free sources, may be delayed) · as of "
-            f"{live_prices_df['as_of_date'].dropna().max()}"
+            "Data: LIVE (free sources, may be ~15 min delayed) · "
+            + refresh_caption(live_prices_df)
         )
     else:
         st.caption("Data: SAMPLE (illustrative prices, synthetic history)")

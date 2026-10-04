@@ -88,6 +88,7 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 - Fundamentals come from SEC EDGAR companyfacts (needs `SEC_USER_AGENT` in
   `.env`; cached in `sec_cache/`, git-ignored). Use only facts filed on or
   before the as-of date.
+- Refresh schedule (GitHub Actions): `refresh-prices.yml` every 15 min in US market hours and hourly otherwise (prices, markets, brief, risk chain); `refresh-data.yml` daily full run incl. SEC and ratings. The sidebar shows the time from `day75_refresh_stamp.csv`.
 - The cloud sandbox cannot reach Yahoo/FRED/SEC; test with the fake fetchers in
   `test_data_hub.py`. Live downloads run on the owner's machine.
 
@@ -127,6 +128,7 @@ python -m unittest discover -p "test_*.py"
 streamlit run vittantra_app.py
 python run_vittantra.py              # refresh data + run Days 59-73
 python run_vittantra.py --sample     # original sample data
+python run_vittantra.py --prices     # fast intraday refresh (prices, markets, brief, risk chain)
 python vittantra_ai_analyst.py
 python vittantra_research_copilot.py
 python vittantra_copilot.py           # Day 85 copilot demo (VITTANTRA_LLM=ollama optional)

@@ -22,6 +22,7 @@ python run_vittantra.py --skip-data    # run the chain on existing data
 python run_vittantra.py --sample       # original illustrative sample data
 python run_vittantra.py --loop 15      # repeat every 15 minutes
 python run_vittantra.py --us-market    # also refresh all US-listed stocks (15-30 min)
+python run_vittantra.py --prices       # fast intraday refresh: prices, markets, brief, risk chain
 
 If the data refresh fails (for example, no internet), the chain still
 runs on the last successfully downloaded data.
@@ -44,8 +45,17 @@ import pandas as pd
 
 BASE_DIR = Path(__file__).resolve().parent
 OUTPUT_PIPELINE_LOG = BASE_DIR / "day75_pipeline_log.csv"
+OUTPUT_REFRESH_STAMP = BASE_DIR / "day75_refresh_stamp.csv"     # committed: shown in the app
 
 DATA_STEP = ("Data hub", "vittantra_data_hub.py")
+
+# Fast intraday refresh: every security and asset class, the World Brief and
+# macro moves; the slow research (SEC filings, ratings, valuation) stays daily.
+PRICE_STEPS = [
+    ("Day 76c multi-asset universe", "multi_asset_universe.py"),
+    ("Day 76d macro drivers", "macro_drivers.py"),
+    ("Day 78b world & markets brief", "world_brief.py"),
+]
 
 # Research steps that do not feed the risk chain: a failure is reported
 # but does not stop the pipeline.
@@ -102,7 +112,8 @@ def run_step(name: str, script: str, env: dict) -> dict:
     }
 
 
-def run_pipeline(skip_data: bool = False, sample: bool = False, us_market: bool = False) -> bool:
+def run_pipeline(skip_data: bool = False, sample: bool = False, us_market: bool = False,
+                 prices_only: bool = False) -> bool:
     env = dict(os.environ)
     env["PYTHONIOENCODING"] = "utf-8"
     env["VITTANTRA_DATA_MODE"] = "sample" if sample else "live"
@@ -120,8 +131,8 @@ def run_pipeline(skip_data: bool = False, sample: bool = False, us_market: bool 
         print(f"[{result['status']:>6}] {result['step']:<36} {result['seconds']:>6.1f}s")
         if result["status"] != "OK":
             print("         Data refresh failed; continuing with the last saved data.")
-        steps = RESEARCH_STEPS + ([("Day 76b US market fundamentals", "us_fundamental_engine.py")]
-                                  if us_market else [])
+        steps = PRICE_STEPS if prices_only else RESEARCH_STEPS + (
+            [("Day 76b US market fundamentals", "us_fundamental_engine.py")] if us_market else [])
         for name, script in steps:
             result = run_step(name, script, env)
             results.append(result)
@@ -145,6 +156,11 @@ def run_pipeline(skip_data: bool = False, sample: bool = False, us_market: bool 
     log.insert(0, "run_started_utc", started_at)
     log.insert(1, "data_mode_requested", "SAMPLE" if sample else "LIVE")
     log.drop(columns=["error"]).to_csv(OUTPUT_PIPELINE_LOG, index=False)
+    if not sample and not skip_data:
+        pd.DataFrame([{"refreshed_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M"),
+                       "mode": "prices" if prices_only else "full",
+                       "data_step": next((r["status"] for r in results if r["step"] == DATA_STEP[0]), "")}]
+                     ).to_csv(OUTPUT_REFRESH_STAMP, index=False)
 
     print("-" * 78)
     if ok:
@@ -166,15 +182,17 @@ def main() -> None:
     parser.add_argument("--loop", type=float, metavar="MINUTES", help="repeat every N minutes")
     parser.add_argument("--us-market", action="store_true",
                         help="also refresh fundamentals for all US-listed stocks (slow)")
+    parser.add_argument("--prices", action="store_true",
+                        help="fast intraday refresh: prices, markets, brief and risk chain (no SEC/ratings)")
     args = parser.parse_args()
 
     if not args.loop:
-        sys.exit(0 if run_pipeline(args.skip_data, args.sample, args.us_market) else 1)
+        sys.exit(0 if run_pipeline(args.skip_data, args.sample, args.us_market, args.prices) else 1)
 
     print(f"Running every {args.loop:g} minutes. Press Ctrl+C to stop.")
     try:
         while True:
-            run_pipeline(args.skip_data, args.sample, args.us_market)
+            run_pipeline(args.skip_data, args.sample, args.us_market, args.prices)
             time.sleep(max(args.loop, 1) * 60)
     except KeyboardInterrupt:
         print("\nStopped.")
