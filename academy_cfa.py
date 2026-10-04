@@ -48,6 +48,8 @@ LESSON_CFA_TOPIC = {
     "AD6": "Economics", "AD7": "Ethical and Professional Standards", "AD8": "Quantitative Methods",
     "PV1": "Alternative Investments", "PV2": "Alternative Investments", "PV3": "Alternative Investments",
     "PV4": "Alternative Investments", "PV5": "Alternative Investments", "PV6": "Alternative Investments",
+    "PM9": "Portfolio Management", "RA7": "Portfolio Management", "RA8": "Portfolio Management",
+    "ER8": "Quantitative Methods",
 }
 
 
@@ -506,20 +508,56 @@ def item_private_equity(day=None) -> dict:
             "vignette": vignette, "questions": questions}
 
 
+def item_stress_testing(day=None) -> dict:
+    """CFA L2 Portfolio Management: risk contributions, risk vs target and factor stress tests (live 60/40)."""
+    from academy_live import _classic_6040
+    rng = _rng("stress_testing", day)
+    out = _classic_6040()
+    if out.get("error"):
+        raise MissingData(out["error"])
+    shares = out["positions"].set_index("symbol")["risk_share"]
+    rate, crash = out["scenarios"]["Rate shock (2022-like)"], out["scenarios"]["Credit crisis (2008-like)"]
+    value, vol, target = out["value"], out["volatility"], out["profile"]["target_vol"]
+    vignette = (f"An adviser reviews a {money(value)} portfolio: 60% S&P 500 ETF (SPY), 40% US aggregate bond ETF "
+                f"(AGG). Vittantra's risk model (daily data, shrinkage covariance) estimates volatility of "
+                f"{pct(vol)} a year; the client's Moderate risk level targets {pct(target, 0)}. Factor scenarios "
+                f"sized like past episodes give {money(rate)} in a 2022-like rate shock and {money(crash)} in a "
+                f"2008-like credit crisis.")
+    questions = [
+        _question("The share of the portfolio's risk coming from the stock ETF is closest to:",
+                  pct(shares["SPY"], 0), [pct(0.60, 0), pct(0.40, 0), pct(1 - shares["SPY"], 0)],
+                  f"Euler risk contribution RC = w·(Σw)/σ². Stocks are far more volatile than bonds, so 60% of the "
+                  f"money is {pct(shares['SPY'], 0)} of the risk — weights understate where risk sits.", rng),
+        _question("Relative to the client's risk level, the portfolio is best described as:",
+                  "Within the target" if vol <= target else "Above the target",
+                  ["Above the target" if vol <= target else "Within the target", "Impossible to judge without returns"],
+                  f"Volatility {pct(vol)} vs target {pct(target, 0)}. Suitability compares risk with the IPS risk "
+                  "level, not past returns.", rng),
+        _question("The best check that the stress model is credible is to:",
+                  "Compare scenario losses with what similar portfolios lost in the real episodes",
+                  ["Increase the confidence level of VaR", "Use more factors until R² is close to 1"],
+                  f"A 60/40 lost about 17% in 2022 and about 20% in 2008; the model shows "
+                  f"{rate / value * 100:+.1f}% and {crash / value * 100:+.1f}%. Back-checking against history keeps "
+                  "scenarios honest; more factors can overfit.", rng),
+    ]
+    return {"topic": "Portfolio Management", "title": "Risk contributions and stress tests (live 60/40)",
+            "vignette": vignette, "questions": questions}
+
+
 ITEM_SETS: Dict[str, Callable] = {
     "fixed_income": item_fixed_income, "derivatives": item_derivatives,
     "portfolio_risk": item_portfolio_risk, "economics_fx": item_economics_fx,
     "equity": item_equity, "quant": item_quant, "real_estate": item_real_estate, "macro": item_macro,
     "equity_valuation": item_equity_valuation, "news_surprise": item_news_surprise,
     "active_management": item_active_management, "advisory": item_advisory,
-    "private_equity": item_private_equity,
+    "private_equity": item_private_equity, "stress_testing": item_stress_testing,
 }
 
 DESK_ITEM_SETS = {
     "investment_analyst": ["news_surprise", "macro", "economics_fx"],
     "equity_researcher": ["equity_valuation", "equity", "quant"],
-    "portfolio_analyst": ["portfolio_risk", "fixed_income"],
-    "portfolio_manager": ["active_management", "quant", "derivatives"],
+    "portfolio_analyst": ["portfolio_risk", "fixed_income", "stress_testing"],
+    "portfolio_manager": ["active_management", "quant", "derivatives", "stress_testing"],
     "advisor": ["advisory", "real_estate", "portfolio_risk"],
     "private_markets_analyst": ["private_equity", "equity_valuation", "real_estate"],
 }
