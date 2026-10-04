@@ -85,6 +85,7 @@ from vittantra_approval_page import render_pending_fix, sidebar_note
 from vittantra_my_portfolio_page import render_my_portfolio, sidebar_markets
 import vittantra_tooltips
 vittantra_tooltips.install()
+import vittantra_welcome
 BASE_DIR_STAMP = Path(__file__).resolve().parent
 
 
@@ -1724,6 +1725,7 @@ if current_max_utilization == 0:
 
 
 
+vittantra_welcome.show_pending_toast()
 with st.sidebar:
 
 
