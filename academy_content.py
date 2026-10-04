@@ -868,6 +868,23 @@ LESSONS = [
                          "Stable cash flows, low capex needs, room for margin improvement, strong market position, "
                          "and a realistic exit.")],
     },
+    {"id": "IA7", "role": "investment_analyst", "title": "Watchlists, alerts and measuring performance",
+     "concept": "Professionals cannot watch every price, so they keep a watchlist with alerts (a daily move beyond "
+                "a threshold, a price crossing a level) and react to what matters. Performance is always measured "
+                "against a benchmark over the same period, and reported as history, never as a promise.",
+     "formulas": [("Holding-period return", "R = \\frac{V_{\\text{now}}}{V_{\\text{then}}} - 1"),
+                  ("Active return vs benchmark", "R_{\\text{active}} = R_p - R_b")],
+     "live": "ia_watchlist_alerts",
+     "code": ["my_portfolio.py → alerts, performance"],
+     "on_the_job": "Analysts start the day with overnight alerts and end it explaining the biggest moves to the "
+                   "team; PMs review performance vs the benchmark every week.",
+     "exercise": "In My Portfolio, add three holdings to your watchlist with a ±3% daily-move alert. When one fires, "
+                 "find the reason in Markets → World Brief and write one sentence on whether it matters.",
+     "interview": [{"question": "Your portfolio is up 8% this year. Is that good?",
+                    "answer": "Only relative to its benchmark and risk: if the S&P 500 is up 15% with similar risk, "
+                              "you underperformed."},
+                   {"question": "How do you avoid alert fatigue?",
+                    "answer": "Set thresholds relative to each asset's normal volatility, so alerts mean something."}]},
     {"id": "PM9", "role": "portfolio_manager", "title": "Build and judge a personal portfolio",
      "concept": "Professionals judge a portfolio by its risk, not just its weights. Total risk (volatility) is compared "
                 "with the client's chosen risk level, as an investment policy statement does; Euler risk "

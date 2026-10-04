@@ -245,12 +245,94 @@ def load(user: Optional[str]) -> dict:
         return {"holdings": []}
 
 
-def save(user: str, holdings: List[dict], profile: int = 3, name: str = "My portfolio") -> Path:
+def _baseline(holdings: List[dict], table: Optional[pd.DataFrame]) -> Optional[dict]:
+    if table is None or table.empty:
+        return None
+    prices = table.set_index("symbol")["price"]
+    known = {h["symbol"]: float(prices[h["symbol"]]) for h in holdings if h["symbol"] in prices.index}
+    value = sum(h["quantity"] * known[h["symbol"]] for h in holdings if h["symbol"] in known)
+    return {"saved_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "prices": known,
+            "value": value, "spy": float(prices["SPY"]) if "SPY" in prices.index else None}
+
+
+def save(user: str, holdings: List[dict], profile: int = 3, name: str = "My portfolio",
+         table: Optional[pd.DataFrame] = None) -> Path:
+    """Save holdings and risk level; keeps the watchlist, and starts a new performance baseline when holdings change."""
     path = portfolio_file(user)
     path.parent.mkdir(parents=True, exist_ok=True)
     clean = [{"symbol": str(h["symbol"]).strip().upper(), "quantity": float(h["quantity"])}
              for h in holdings if str(h.get("symbol", "")).strip() and float(h.get("quantity") or 0) > 0]
-    path.write_text(json.dumps({"name": name, "profile": int(profile), "holdings": clean, "updated_utc":
-                                datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-                                "note": "Hypothetical model portfolio for learning; nothing is traded."}, indent=2))
+    old = load(user)
+    baseline = old.get("baseline")
+    if old.get("holdings") != clean or baseline is None:
+        baseline = _baseline(clean, table)
+    data = {"name": name, "profile": int(profile), "holdings": clean, "watchlist": old.get("watchlist", []),
+            "baseline": baseline, "updated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "note": "Hypothetical model portfolio for learning; nothing is traded."}
+    path.write_text(json.dumps(data, indent=2))
     return path
+
+
+def save_watchlist(user: str, watchlist: List[dict]) -> Path:
+    path = portfolio_file(user)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    data = load(user)
+    clean = []
+    for w in watchlist:
+        symbol = str(w.get("symbol") or "").strip().upper()
+        if not symbol:
+            continue
+        item = {"symbol": symbol}
+        for key in ("move", "above", "below"):
+            value = w.get(key)
+            if value is not None and value == value and float(value) > 0:
+                item[key] = float(value)
+        clean.append(item)
+    data["watchlist"] = clean
+    data.setdefault("holdings", [])
+    path.write_text(json.dumps(data, indent=2))
+    return path
+
+
+# ==============================================================
+# PERFORMANCE AND ALERTS
+# ==============================================================
+
+def performance(data: dict, table: pd.DataFrame) -> Optional[dict]:
+    """Return of the saved holdings since the baseline, next to the S&P 500 (SPY) over the same period."""
+    base = data.get("baseline")
+    if not base or not base.get("value"):
+        return None
+    prices = table.set_index("symbol")["price"]
+    holdings = [h for h in data.get("holdings", []) if h["symbol"] in base["prices"] and h["symbol"] in prices.index]
+    if not holdings:
+        return None
+    then = sum(h["quantity"] * base["prices"][h["symbol"]] for h in holdings)
+    now = sum(h["quantity"] * float(prices[h["symbol"]]) for h in holdings)
+    spy_now = float(prices["SPY"]) if "SPY" in prices.index else None
+    return {"since": base["saved_utc"][:10], "value_then": then, "value_now": now,
+            "portfolio_return": now / then - 1 if then else None,
+            "spy_return": (spy_now / base["spy"] - 1) if spy_now and base.get("spy") else None}
+
+
+def alerts(watchlist: List[dict], table: pd.DataFrame, base: Path = BASE_DIR) -> List[dict]:
+    """Triggered alerts: daily move beyond ±X%, price above or below a level. Only from saved market data."""
+    prices = table.set_index("symbol")["price"] if not table.empty else pd.Series(dtype=float)
+    moves = pd.Series(dtype=float)
+    analytics = base / ANALYTICS
+    if analytics.exists():
+        a = pd.read_csv(analytics)
+        moves = a.set_index("symbol")["return_1d"]
+    out = []
+    for w in watchlist:
+        s = w["symbol"]
+        price = float(prices[s]) if s in prices.index else None
+        move = float(moves[s]) if s in moves.index and pd.notna(moves[s]) else None
+        if w.get("move") and move is not None and abs(move) >= w["move"] / 100:
+            out.append({"symbol": s, "kind": "move", "text": f"{s} moved {move:+.1%} on the last trading day "
+                                                              f"(alert at ±{w['move']:g}%)."})
+        if w.get("above") and price is not None and price >= w["above"]:
+            out.append({"symbol": s, "kind": "above", "text": f"{s} is at ${price:,.2f}, above your ${w['above']:,.2f} level."})
+        if w.get("below") and price is not None and price <= w["below"]:
+            out.append({"symbol": s, "kind": "below", "text": f"{s} is at ${price:,.2f}, below your ${w['below']:,.2f} level."})
+    return out
