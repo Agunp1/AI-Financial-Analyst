@@ -20,9 +20,22 @@ STATUS_TEXT = {
 }
 
 
-@st.cache_resource(show_spinner="Building the risk model…", ttl=900)
-def _model():
-    return mp.build_model()
+@st.cache_resource(show_spinner="Loading price history…", ttl=900)
+def _history():
+    import whatif_engine as we
+    return mp.base_history(), we.load_fred()
+
+
+@st.cache_data(show_spinner="Downloading price history for new holdings…", ttl=86_400)
+def _fetched(symbols: tuple) -> pd.DataFrame:
+    return mp.fetch_history(list(symbols))
+
+
+@st.cache_resource(show_spinner="Building the risk model…", ttl=900, max_entries=50)
+def _model_for(symbols: tuple):
+    history, fred = _history()
+    missing = tuple(s for s in symbols if s not in history.columns)
+    return mp.model_for(list(symbols), history, fred, _fetched(missing) if missing else None)
 
 
 @st.cache_data(show_spinner=False, ttl=300)
@@ -70,7 +83,7 @@ def _builder(table: pd.DataFrame) -> None:
     with st.expander("➕ Add a holding"):
         c1, c2, c3 = st.columns([3, 1, 1])
         symbol = c1.selectbox("Security or asset", list(labels), format_func=labels.get, key="mp-add-symbol",
-                              index=None, placeholder="Type to search: Apple, gold, bitcoin, Treasury, hotel REIT…")
+                              index=None, placeholder="Type to search: Tesla, Ford, gold, bitcoin, Treasury, hotel REIT…")
         dollars = c2.number_input("Amount ($)", min_value=0, value=10_000, step=1_000, key="mp-add-dollars")
         if c3.button("Add", key="mp-add", width="stretch", disabled=symbol is None):
             price = float(table.set_index("symbol").at[symbol, "price"])
@@ -105,7 +118,8 @@ def _save_controls(holdings: list) -> None:
 
 
 def _analysis(holdings: list, table: pd.DataFrame, profile: int) -> None:
-    result = mp.analyse(holdings, _model(), table, profile)
+    symbols = tuple(sorted({str(h["symbol"]).upper() for h in holdings if h.get("symbol")}))
+    result = mp.analyse(holdings, _model_for(symbols), table, profile)
     if result.get("error"):
         st.info(result["error"])
         return
@@ -168,8 +182,8 @@ def _analysis(holdings: list, table: pd.DataFrame, profile: int) -> None:
 
 def render_my_portfolio() -> None:
     st.markdown("### My Portfolio")
-    st.caption("Build your own portfolio from 200+ securities and assets — stocks, bonds, FX, commodities, crypto, "
-               "real estate and alternatives — and see it the way a portfolio manager and risk team would.")
+    st.caption("Build your own portfolio from 4,000+ US stocks and 200+ funds and assets — bonds, FX, commodities, "
+               "crypto, real estate and alternatives — and see it the way a portfolio manager and risk team would.")
     table = _universe()
     if table.empty:
         st.info("Market data is not available yet.")

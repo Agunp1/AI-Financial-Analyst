@@ -77,5 +77,26 @@ class MyPortfolioTests(unittest.TestCase):
             self.assertEqual(mp.load(None), {"holdings": []})
 
 
+    def test_any_us_stock_can_be_held(self):
+        u = mp.universe()
+        self.assertGreater(len(u), 4000)
+        self.assertTrue({"TSLA", "F"} <= set(u["symbol"]))
+        self.assertEqual(u["symbol"].duplicated().sum(), 0)
+
+    def test_fetched_history_feeds_the_model(self):
+        prices, fred = market()
+        def fake(tickers, start):
+            rows = []
+            for i, t in enumerate(tickers):
+                px = prices["AAA"] * (1 + 0.1 * i)
+                rows += [{"date": d, "ticker": t, "close": p, "adj_close": p} for d, p in px.items()]
+            return pd.DataFrame(rows)
+        extra = mp.fetch_history(["TSLA"], fetch=fake)
+        self.assertEqual(list(extra.columns), ["TSLA"])
+        model = mp.model_for(["TSLA", "SPY"], prices, fred, extra)
+        self.assertIn("TSLA", model.cov.index)
+        self.assertTrue(mp.fetch_history(["X"], fetch=lambda *a: (_ for _ in ()).throw(OSError())).empty)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -54,6 +54,8 @@ def pct(x, digits=1) -> str:
 def money(x) -> str:
     if x is None or (isinstance(x, float) and math.isnan(x)):
         return "n/a"
+    if x < 0:
+        return "−" + money(-x)
     for unit, size in (("T", 1e12), ("B", 1e9), ("M", 1e6)):
         if abs(x) >= size:
             return f"${x / size:,.1f}{unit}"
@@ -574,3 +576,65 @@ def pv_lbo() -> str:
             f"{money(deal['exit_equity'])}: **MOIC {deal['moic']:.2f}×, IRR {pct(deal['irr'])}**. Value creation: "
             f"EBITDA growth {money(b['ebitda_growth'])}, debt paydown {money(b['debt_paydown'])}, multiple change "
             f"{money(b['multiple_change'])}, fees {money(b['fees'])}.")
+
+
+# ==============================================================
+# NEW FEATURES: personal portfolio, stress tests, limits, factor tests
+# ==============================================================
+
+def _classic_6040():
+    """60/40 SPY/AGG analysed with Vittantra's saved daily history (no downloads)."""
+    import my_portfolio as mp
+    import whatif_engine as we
+    history = _csv("day76c_price_history.csv", "multi_asset_universe.py")
+    history = history.set_index(history.columns[0])
+    history.index = pd.to_datetime(history.index)
+    if not {"SPY", "AGG"} <= set(history.columns):
+        raise MissingData("Live example needs SPY and AGG history. Run `python multi_asset_universe.py`.")
+    table = mp.universe()
+    model = mp.model_for(["SPY", "AGG"], history, we.load_fred())
+    return mp.analyse(mp.from_weights({"SPY": 0.6, "AGG": 0.4}, 100_000, table), model, table, profile=3)
+
+
+def pm_personal_portfolio() -> str:
+    out = _classic_6040()
+    if out.get("error"):
+        raise MissingData(out["error"])
+    shares = out["positions"].set_index("symbol")["risk_share"]
+    return (f"A $100,000 **Classic 60/40** (60% SPY, 40% AGG) today: volatility **{pct(out['volatility'])}** vs the "
+            f"Moderate target {pct(out['profile']['target_vol'], 0)} → **{out['status'].title()}**. Stocks are 60% of "
+            f"the money but **{pct(shares.get('SPY'), 0)} of the risk**; bonds 40% of the money, "
+            f"{pct(shares.get('AGG'), 0)} of the risk. That gap is why professionals manage risk, not just weights.")
+
+
+def ra_factor_stress() -> str:
+    out = _classic_6040()
+    if out.get("error"):
+        raise MissingData(out["error"])
+    s = out["scenarios"]
+    lines = ", ".join(f"{name}: **{'−' if v < 0 else '+'}${abs(v):,.0f}** ({v / out['value'] * 100:+.1f}%)" for name, v in s.items()
+                      if v == v)
+    return (f"Classic 60/40 ($100,000) under Vittantra's factor scenarios — {lines}. History check: a 60/40 lost "
+            "about 17% in 2022 and about 20% in 2008; a stress model that is far off history needs fixing.")
+
+
+def ra_limits_and_approval() -> str:
+    s = _csv("day69_sizing_summary.csv", "remediation_sizing.py").iloc[0]
+    if s["status"] != "PENDING_HUMAN_APPROVAL":
+        return ("The demo risk book is within its limits today: the sizing step proposes no change "
+                f"(worst position {pct(s['max_utilization_now'], 0)} of its limit).")
+    return (f"Demo risk book: {int(s['positions_over_budget_now'])} position(s) above their risk limit (worst "
+            f"**{pct(s['max_utilization_now'], 0)}** of its limit). The sizing step re-ran the risk chain and proposes "
+            f"reducing {int(s['positions_reduced'])} position(s) so the worst falls to **{pct(s['max_utilization_after'], 0)}**"
+            " — only reductions, so total risk falls. It now waits for a human: automatic execution stays 0.")
+
+
+def er_factor_testing() -> str:
+    import vittantra_guide as guide
+    evidence = guide.factor_evidence()
+    if evidence is None or evidence.empty:
+        raise MissingData("Live example needs `day77_ic_summary.csv`. Run `python multi_factor_rating.py` first.")
+    rows = "; ".join(f"{r.factor.split(' (')[0]}: IC {r.mean_ic:+.3f}, t {r.t_stat:+.1f} → {r.verdict.lower()}"
+                     for r in evidence.itertuples())
+    return (f"Vittantra's point-in-time tests on the research universe ({int(evidence['periods'].max())} dates): "
+            f"{rows}. Only factors with |t| above about 2 are treated as evidence — the rating weights them by it.")

@@ -586,11 +586,11 @@ def run_multi_asset(as_of: Optional[pd.Timestamp] = None, source: Optional[Marke
     out_dir = Path(out_dir)
     if analytics["price"].notna().any():
         master.to_csv(out_dir / OUTPUT_UNIVERSE, index=False)
-        analytics.to_csv(out_dir / OUTPUT_ANALYTICS, index=False)
+        analytics.round(6).to_csv(out_dir / OUTPUT_ANALYTICS, index=False)
         curve.to_csv(out_dir / OUTPUT_CURVE, index=False)
         credit.to_csv(out_dir / OUTPUT_CREDIT, index=False)
         fx_carry.to_csv(out_dir / OUTPUT_FX_CARRY, index=False)
-        summary.to_csv(out_dir / OUTPUT_CLASS_SUMMARY, index=False)
+        summary.round(6).to_csv(out_dir / OUTPUT_CLASS_SUMMARY, index=False)
         validation.to_csv(out_dir / OUTPUT_VALIDATION, index=False)
         economy.to_csv(out_dir / OUTPUT_ECONOMY, index=False)
         recent.round(6).to_csv(out_dir / OUTPUT_PRICE_HISTORY, index_label="date")

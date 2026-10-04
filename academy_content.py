@@ -868,6 +868,80 @@ LESSONS = [
                          "Stable cash flows, low capex needs, room for margin improvement, strong market position, "
                          "and a realistic exit.")],
     },
+    {"id": "PM9", "role": "portfolio_manager", "title": "Build and judge a personal portfolio",
+     "concept": "Professionals judge a portfolio by its risk, not just its weights. Total risk (volatility) is compared "
+                "with the client's chosen risk level, as an investment policy statement does; Euler risk "
+                "contributions show which holdings drive that risk, and diversification checks catch concentration.",
+     "formulas": [("Portfolio volatility", "\\sigma_p = \\sqrt{w^\\top \\Sigma w}"),
+                  ("Risk contribution of holding i", "RC_i = \\frac{w_i (\\Sigma w)_i}{\\sigma_p^2}, \\quad \\sum_i RC_i = 1"),
+                  ("1-day 99% VaR (parametric)", "2.33 \\, \\sigma_{1d} \\times \\text{value}")],
+     "live": "pm_personal_portfolio",
+     "code": ["my_portfolio.py → analyse, model_for", "whatif_engine.py → portfolio_risk"],
+     "on_the_job": "Advisers and PMs open every review with 'is the risk still where the client wants it?' before "
+                   "talking about returns.",
+     "exercise": "In My Portfolio, build the Growth template, then change it until it is On Target for the Moderate "
+                 "level. Which holding did you cut, and why that one?",
+     "interview": [{"question": "Your 60/40 portfolio — what share of its risk comes from stocks?",
+                    "answer": "Far more than 60%, often around 90%: stocks are much more volatile than bonds, so they "
+                              "dominate the risk even at 60% of the money."},
+                   {"question": "Why use risk contributions instead of weights?",
+                    "answer": "A small but volatile holding can drive more risk than a large calm one; contributions "
+                              "add up to 100% of risk and show where to act."}]},
+    {"id": "RA7", "role": "portfolio_analyst", "title": "Stress testing with factor scenarios",
+     "concept": "A scenario applies shocks to macro factors (equity market, rates, credit spreads, the dollar, oil) "
+                "and maps them to each holding through its measured sensitivities (betas). It answers 'what if 2022 "
+                "or 2008 happened again?'. A stress model must be checked against history — and an instrument that "
+                "IS a factor (SPY = equity market) must not be counted twice.",
+     "formulas": [("Scenario return of holding i", "r_i = \\sum_k \\beta_{i,k} \\, \\Delta f_k"),
+                  ("Portfolio scenario P&L", "\\text{P\\&L} = \\sum_i w_i \\, r_i \\times \\text{value}")],
+     "live": "ra_factor_stress",
+     "code": ["whatif_engine.py → scenario_pnl", "my_portfolio.py → analyse"],
+     "on_the_job": "Risk teams run standard and ad-hoc scenarios every week; boards and regulators ask for them.",
+     "exercise": "Run the stress tests on a 60/40 and on the Income template in My Portfolio. Which holds up better "
+                 "in the 2022-like rate shock, and why?",
+     "interview": [{"question": "What are the limits of linear factor scenarios?",
+                    "answer": "They ignore convexity (options, mortgages) and assume correlations stay as measured; in "
+                              "crises correlations jump, so add historical replays and judgment."},
+                   {"question": "How do you know a stress model is credible?",
+                    "answer": "Back-check it: replay past episodes and compare with what portfolios actually lost."}]},
+    {"id": "RA8", "role": "portfolio_analyst", "title": "Risk limits, sizing a fix and human approval",
+     "concept": "Risk limits cap the share of portfolio risk each asset class may use. Limits are caps, not an "
+                "allocation, so they need not add up to 100% — if they had to, some position would always be over. "
+                "When a limit is breached, the fix is sized by re-running the risk model (cutting one position "
+                "raises everyone else's share), only reductions are allowed, and a human approves before anything "
+                "changes.",
+     "formulas": [("Limit utilization", "u_i = \\frac{RC_i}{\\text{limit}_i} \\quad (\\text{breach if } u_i > 1)"),
+                  ("Feasibility", "\\sum_{i \\in \\text{risky}} \\text{limit}_i \\ge 1")],
+     "live": "ra_limits_and_approval",
+     "code": ["remediation_sizing.py → size_positions", "portfolio_risk_budgeting.py → calculate_risk_contributions"],
+     "on_the_job": "A breach is escalated the same day; the risk team proposes a fix, the PM and risk reviewer "
+                   "approve it, and the decision goes in the audit log.",
+     "exercise": "Why did reducing the option and the future also require trimming Apple stock in the demo book? "
+                 "Explain with risk shares.",
+     "interview": [{"question": "A position breaches its limit. What do you do?",
+                    "answer": "Confirm the number, escalate, size a reduction that brings every position back inside "
+                              "its limit without adding risk, get dual approval, record it."},
+                   {"question": "Why can't a system fix breaches automatically?",
+                    "answer": "Accountability: a human must own decisions that move client money; automation proposes, "
+                              "people approve."}]},
+    {"id": "ER8", "role": "equity_researcher", "title": "How professionals test a factor",
+     "concept": "Before trusting a factor (value, momentum, quality...), professionals test it: score every stock using "
+                "only data known at the time, correlate the scores with the returns that followed (the information "
+                "coefficient, IC), check the t-statistic so it is not luck, and weight factors by that evidence.",
+     "formulas": [("Information coefficient", "IC_t = \\text{corr}(\\text{score}_{i,t}, \\, r_{i,t \\to t+h})"),
+                  ("t-statistic of the mean IC", "t = \\frac{\\overline{IC}}{s_{IC} / \\sqrt{N}}"),
+                  ("Fundamental law", "IR \\approx IC \\sqrt{\\text{breadth}}")],
+     "live": "er_factor_testing",
+     "code": ["multi_factor_rating.py", "vittantra_guide.py → factor_evidence"],
+     "on_the_job": "Quant and fundamental teams re-test their signals regularly; a factor that stops working is "
+                   "down-weighted, not defended.",
+     "exercise": "In Guide → Factors, which factors are predictive so far and which worked in reverse? Give one "
+                 "economic reason for each result.",
+     "interview": [{"question": "Your backtest IC is 0.05 with t = 1.2. Do you use the factor?",
+                    "answer": "Not yet: t below 2 means it could be luck. Gather more history or breadth first."},
+                   {"question": "What is look-ahead bias?",
+                    "answer": "Using information not available at the time — e.g. restated financials — which makes "
+                              "backtests look better than reality."}]},
 ]
 
 
