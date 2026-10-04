@@ -140,10 +140,11 @@ def sign_in_box() -> None:
     with st.expander("Sign in / create account"):
         sign_in, create = st.tabs(["Sign in", "Create account"])
         with sign_in:
-            name = st.text_input("Username", key="vt-username")
+            name = st.text_input("Username", key="vt-username", placeholder="owner, or your username",
+                                 help="The owner signs in with username 'owner' (or leaves it empty).")
             password = st.text_input("Password", type="password", key="vt-password")
             if st.button("Sign in", key="vt-sign-in") and not _too_many_attempts():
-                if accounts.normalize(name) == "owner":
+                if accounts.normalize(name) in ("owner", ""):
                     if password_matches(password, _secret("owner_password")):
                         st.session_state["vt_owner"] = True
                         st.rerun()
@@ -154,7 +155,8 @@ def sign_in_box() -> None:
                         st.session_state["vt_user"] = found
                         st.rerun()
                 _failed_attempt()
-                st.error("Wrong username or password.")
+                st.error("Wrong username or password. Owner: username **owner** (or empty) and the password set "
+                         "in Streamlit Secrets. Passwords are case-sensitive.")
         with create:
             new_name = st.text_input("Choose a username", key="vt-new-username",
                                      help="3–20 characters: letters, numbers, - or _. Usernames are public.")
