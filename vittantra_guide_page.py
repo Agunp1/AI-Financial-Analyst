@@ -31,6 +31,7 @@ def page_help(page: str, labels: dict) -> None:
 
 def _navigation_tab(labels: dict) -> None:
     st.markdown("#### Find your way")
+    st.info("💡 Hover over any number or table column header to see what it means and why professionals use it.")
     for title, text in guide.NAVIGATION:
         st.markdown(f"**{title}.** {text}")
     st.markdown("#### What each page is for")
@@ -103,6 +104,23 @@ def _asset_classes_tab() -> None:
             if found:
                 st.markdown("**Lessons:** " + " · ".join(f"{l['id']} {l['title']}" for l in found)
                             + " (Academy → Lessons)")
+
+
+def _day_tab() -> None:
+    st.markdown("#### A day on the desk — what professionals actually do")
+    st.caption("Follow a real working day, hour by hour. Press Go to do each step in Vittantra, then the Academy "
+               "turns it into a graded task. Repeat daily and the routine becomes yours.")
+    roles = list(guide.DAY_ON_THE_DESK)
+    role = st.radio("Role", roles, horizontal=True, key="guide-day-role", label_visibility="collapsed")
+    info = guide.DAY_ON_THE_DESK[role]
+    st.markdown(f"**{role}** — {info['who']}")
+    for i, (time, task, page, why) in enumerate(info["day"]):
+        c1, c2, c3 = st.columns([1, 6, 1])
+        c1.markdown(f"**{time}**")
+        c2.markdown(f"{task}  \n<span style='opacity:0.7'>Why: {why}</span>", unsafe_allow_html=True)
+        c3.button("Go", key=f"guide-day-{role}-{i}", on_click=_go, args=(page,), width="stretch")
+    st.info("Make it a habit: do this day once a week for each role, and the Academy's daily task for your main "
+            "role every day. Your work record (Academy → My Work Record) becomes your interview evidence.")
 
 
 def _factors_tab() -> None:
@@ -184,17 +202,19 @@ def render_guide(labels: dict) -> None:
     st.markdown("### Guide — learn Vittantra and the markets")
     st.caption("How to find your way, how to do each job step by step, what every asset class is, and the words "
                "you will meet. For hands-on practice, use the Academy.")
-    tabs = st.tabs(["🧭 Find your way", "🛠️ Playbooks", "📐 Factors", "🌍 Asset classes", "📄 Every page",
-                    "🔤 Glossary"])
+    tabs = st.tabs(["🧭 Find your way", "🗓️ A day on the desk", "🛠️ Playbooks", "📐 Factors", "🌍 Asset classes",
+                    "📄 Every page", "🔤 Glossary"])
     with tabs[0]:
         _navigation_tab(labels)
     with tabs[1]:
-        _playbooks_tab()
+        _day_tab()
     with tabs[2]:
-        _factors_tab()
+        _playbooks_tab()
     with tabs[3]:
-        _asset_classes_tab()
+        _factors_tab()
     with tabs[4]:
-        _pages_tab(labels)
+        _asset_classes_tab()
     with tabs[5]:
+        _pages_tab(labels)
+    with tabs[6]:
         _glossary_tab()

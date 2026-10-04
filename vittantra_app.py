@@ -79,8 +79,11 @@ import plotly.graph_objects as go
 import streamlit as st
 
 import vittantra_cloud as cloud
+from vittantra_guide import PAGE_HELP
 from vittantra_guide_page import page_help, render_guide
 from vittantra_approval_page import render_pending_fix, sidebar_note
+import vittantra_tooltips
+vittantra_tooltips.install()
 import vittantra_theme as vt
 from vittantra_research_page import render_research
 from vittantra_markets_page import render_markets
@@ -1736,7 +1739,8 @@ with st.sidebar:
         NAV_PAGES,
         format_func=lambda name: NAV_LABELS.get(name, name),
         key="nav",
-        label_visibility="collapsed",
+        help="\n\n".join(f"**{NAV_LABELS.get(p, p)}** — {PAGE_HELP[p]['what']}" for p in NAV_PAGES
+                          if p in PAGE_HELP),
     )
 
 
