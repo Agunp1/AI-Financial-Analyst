@@ -32,6 +32,7 @@ DESKS = [
 ]
 
 TOUR = [
+    ("My Portfolio", "Build your own portfolio (or start from a 60/40 template) and see its risk like a professional."),
     ("Guide", "New to Vittantra? The Guide explains every page, how professionals pick factors, and each asset class."),
     ("Markets", "Start like a desk analyst: open the World Brief — this week's data moves next to the headlines."),
     ("Research", "Open Research → Multi-factor ratings: which pillars actually predict returns (IC)."),

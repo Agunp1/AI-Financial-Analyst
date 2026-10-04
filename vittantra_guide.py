@@ -39,6 +39,16 @@ PAGE_HELP: Dict[str, dict] = {
                   "Search the glossary for any term you meet in the app."],
         "tip": "Every page also has a 'How to use this page' box at the top.",
     },
+    "My Portfolio": {
+        "what": "Build your own portfolio from 200+ securities and assets and see its value, mix, risk, checks and "
+                "stress tests — the way a portfolio manager and risk team would.",
+        "steps": ["Choose your risk level (like an adviser's risk profile).",
+                  "Start from a template (e.g. Classic 60/40) or add holdings one by one; edit quantities in the table.",
+                  "Read the status: is volatility within your risk level? Then the checks and 'what drives your risk'.",
+                  "Run through the stress tests (2022 rates, 2008 credit...) and follow the suggestions.",
+                  "Sign in and press Save to keep it."],
+        "tip": "A holding can be small by value but large by risk — professionals manage risk, not just weights.",
+    },
     "Command Center": {
         "what": "One-screen status of the model portfolio's risk: alerts, the risk → remediation chain and the "
                 "decision workflow.",

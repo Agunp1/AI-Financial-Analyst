@@ -1,0 +1,81 @@
+"""Tests for My Portfolio: universe, valuation, risk-level status, checks, stress tests and saving."""
+
+import json
+import tempfile
+import unittest
+from pathlib import Path
+from unittest import mock
+
+import numpy as np
+import pandas as pd
+
+import my_portfolio as mp
+import whatif_engine as we
+from test_whatif_engine import market
+
+
+TABLE = pd.DataFrame([
+    {"symbol": "SPY", "name": "S&P 500 ETF", "asset_class": "Equity", "sub_class": "US", "price": 100.0},
+    {"symbol": "TLT", "name": "Treasuries", "asset_class": "Fixed Income", "sub_class": "UST", "price": 50.0},
+    {"symbol": "HYG", "name": "High yield", "asset_class": "Fixed Income", "sub_class": "HY", "price": 80.0},
+    {"symbol": "AAA", "name": "Alpha Inc", "asset_class": "Stock", "sub_class": "Tech", "price": 20.0},
+    {"symbol": "BBB", "name": "Beta Inc", "asset_class": "Stock", "sub_class": "Retail", "price": 10.0},
+])
+
+
+class MyPortfolioTests(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        prices, fred = market()
+        cls.model = we.RiskModel(prices, fred)
+
+    def test_universe_is_investable_with_prices(self):
+        u = mp.universe()
+        self.assertGreater(len(u), 100)
+        self.assertTrue(u["price"].gt(0).all())
+        self.assertFalse(u["symbol"].str.startswith("DGS").any())        # FRED yields are not investable
+        for template in mp.TEMPLATES.values():
+            self.assertTrue(set(template["weights"]) <= set(u["symbol"]))
+            self.assertAlmostEqual(sum(template["weights"].values()), 1.0)
+
+    def test_valuation_and_weights(self):
+        holdings = mp.from_weights({"SPY": 0.6, "TLT": 0.4}, 10_000, TABLE)
+        pos = mp.valuation(holdings + [{"symbol": "ZZZ", "quantity": 5}], TABLE)
+        self.assertAlmostEqual(pos["market_value"].sum(), 10_000, places=2)
+        self.assertAlmostEqual(pos.set_index("symbol").at["SPY", "weight"], 0.6, places=4)
+        self.assertNotIn("ZZZ", set(pos["symbol"]))                        # unknown symbols are not invented
+
+    def test_analysis_status_checks_and_stress(self):
+        holdings = mp.from_weights({"SPY": 0.6, "TLT": 0.4}, 100_000, TABLE)
+        out = mp.analyse(holdings, self.model, TABLE, profile=3)
+        self.assertIn(out["status"], ("ON TARGET", "SLIGHTLY ABOVE", "ABOVE RISK LEVEL"))
+        self.assertAlmostEqual(out["positions"]["risk_share"].sum(), 1.0, places=6)
+        crash = out["scenarios"]["Equity sell-off"]
+        self.assertLess(crash, 0)
+        self.assertAlmostEqual(crash, -0.6 * 0.20 * 100_000 + 0.4 * 100_000 * (-0.16) * -0.5, delta=1500)
+
+    def test_concentrated_stock_is_flagged(self):
+        holdings = mp.from_weights({"AAA": 0.5, "SPY": 0.5}, 100_000, TABLE)
+        out = mp.analyse(holdings, self.model, TABLE, profile=3)
+        checks = {name: ok for name, ok, _ in out["checks"]}
+        self.assertFalse(checks["No single company above 20% of the portfolio"])
+        self.assertTrue(any("20%" in tip for tip in out["tips"]))
+
+    def test_risk_level_status(self):
+        self.assertEqual(mp.risk_level_status(0.09, 0.10), "ON TARGET")
+        self.assertEqual(mp.risk_level_status(0.11, 0.10), "SLIGHTLY ABOVE")
+        self.assertEqual(mp.risk_level_status(0.15, 0.10), "ABOVE RISK LEVEL")
+
+    def test_save_and_load_per_user(self):
+        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(mp, "PORTFOLIO_DIR", Path(tmp)):
+            path = mp.save("Sam", [{"symbol": "spy", "quantity": 3}, {"symbol": "", "quantity": 1}], profile=4)
+            data = json.loads(path.read_text())
+            self.assertEqual(path.name, "sam.json")
+            self.assertEqual(data["holdings"], [{"symbol": "SPY", "quantity": 3.0}])
+            self.assertEqual(mp.load("sam")["profile"], 4)
+            self.assertEqual(mp.load(None), {"holdings": []})
+
+
+if __name__ == "__main__":
+    unittest.main()
