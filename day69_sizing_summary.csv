@@ -1,0 +1,2 @@
+created_utc,positions_over_budget_now,positions_over_budget_after,max_utilization_now,max_utilization_after,rounds,positions_reduced,status,automatic_execution_authorized_count
+2026-10-04T13:53:20Z,2,0,3.5000000008796555,0.7910886615962783,13,5,PENDING_HUMAN_APPROVAL,0

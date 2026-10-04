@@ -45,7 +45,8 @@ PAGE_HELP: Dict[str, dict] = {
         "steps": ["Read the status badges first (portfolio state and workflow state).",
                   "Scan Portfolio Alerts: each alert names the instrument, the limit and how far it is breached.",
                   "Follow Risk → Remediation to see what fix is proposed and whether it lowers risk.",
-                  "Decisions stay pending until a human approves them in Governance."],
+                  "When a fix is ready, the owner reviews the proposed sizes, ticks both reviewer boxes, writes a "
+                  "comment and approves; the risk chain then re-runs with the new sizes."],
         "tip": "Red means a limit is breached now; amber means close to a limit. Nothing here trades by itself.",
     },
     "Research": {

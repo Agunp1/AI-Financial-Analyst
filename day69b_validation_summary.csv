@@ -1,0 +1,5 @@
+check,passed,details,passed_tests,total_tests
+Every position below 80% of its limit after the fix,True,max utilization after: 79%,4,4
+No position is increased,True,only reductions; no position grows,4,4
+Only positions at or above 80% of their limit are reduced,True,5 reduced,4,4
+Nothing executed automatically,True,proposal waits for human approval,4,4

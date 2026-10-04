@@ -23,6 +23,7 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 | 67 | `portfolio_risk_monitor.py` | `day67_portfolio_risk_dashboard.csv` |
 | 68 | `portfolio_risk_governance.py` | `day68_*governance*` |
 | 69 | `portfolio_risk_remediation.py` | `day69_*remediation*` |
+| 69b | `remediation_sizing.py`, `vittantra_approval_page.py` | Sizes the remediation by re-running Days 59–66 (reductions only, every position below 80% of its risk limit); owner approves in the app → `approved_positions.json` → chain re-runs |
 | 70 | `portfolio_approval_workflow.py` | `day70_*` tickets, queue, audit log |
 | 71–72 | `vittantra_app.py` | Streamlit app (7 pages) |
 | 73 | `vittantra_ai_analyst.py` | Analyst brief from Days 67–70 |

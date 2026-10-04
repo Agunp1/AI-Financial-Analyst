@@ -865,6 +865,26 @@ def calculate_basic_risk_results(
 # SAMPLE MULTI-ASSET PORTFOLIO
 # ==============================================================
 
+APPROVED_POSITIONS = Path(__file__).resolve().parent / "approved_positions.json"
+
+
+def approved_quantities(path: Path = APPROVED_POSITIONS) -> Dict[str, float]:
+    """Position sizes a human approved in the remediation workflow ({} if none)."""
+    try:
+        data = json.loads(Path(path).read_text())
+        return {k: float(v) for k, v in data.get("quantities", {}).items()}
+    except Exception:
+        return {}
+
+
+def apply_approved_quantities(instruments: List["Instrument"], path: Path = APPROVED_POSITIONS) -> None:
+    """Replace example quantities with human-approved ones (never decided automatically)."""
+    approved = approved_quantities(path)
+    for instrument in instruments:
+        if instrument.instrument_id in approved:
+            instrument.quantity = approved[instrument.instrument_id]
+
+
 def build_sample_instruments(
     use_live_data: Optional[bool] = None,
 ) -> List[Instrument]:
@@ -983,6 +1003,7 @@ def build_sample_instruments(
             price=100.0,
         ),
     ]
+    apply_approved_quantities(instruments)
 
     if use_live_data is False:
         return instruments

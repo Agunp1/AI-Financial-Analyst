@@ -76,6 +76,7 @@ CHAIN_STEPS = [
     ("Day 69 remediation", "portfolio_risk_remediation.py"),
     ("Day 70 approval workflow", "portfolio_approval_workflow.py"),
     ("Day 73 AI Analyst", "vittantra_ai_analyst.py"),
+    ("Day 69b remediation sizing", "remediation_sizing.py"),
 ]
 
 
