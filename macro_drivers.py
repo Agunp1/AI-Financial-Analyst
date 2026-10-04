@@ -271,9 +271,9 @@ def run_macro_drivers(prices: Optional[pd.DataFrame] = None, fred: Optional[pd.D
     validation = validate(betas, factor_moves, returns.shape[1], alignment_lags(returns, factors))
 
     out_dir = Path(out_dir)
-    betas.to_csv(out_dir / OUTPUT_BETAS)
-    attributions.to_csv(out_dir / OUTPUT_ATTRIBUTION, index=False)
-    factor_moves.to_csv(out_dir / OUTPUT_FACTOR_MOVES, index=False)
+    betas.round(6).to_csv(out_dir / OUTPUT_BETAS)
+    attributions.round(6).to_csv(out_dir / OUTPUT_ATTRIBUTION, index=False)
+    factor_moves.round(6).to_csv(out_dir / OUTPUT_FACTOR_MOVES, index=False)
     stories.to_csv(out_dir / OUTPUT_NARRATIVE, index=False)
     validation.to_csv(out_dir / OUTPUT_VALIDATION, index=False)
     if verbose:

@@ -42,9 +42,16 @@ jobs:
         run: |
           git config user.name "vittantra-bot"
           git config user.email "vittantra-bot@users.noreply.github.com"
-          git add -A -- '*.csv' '*.md'
+          # Save only what changes intraday; histories and regressions are saved by the daily full refresh,
+          # so the repository grows by small diffs instead of ~1 MB every 15 minutes.
+          git add -- day75_live_instrument_prices.csv day75_market_snapshot.csv day75_refresh_stamp.csv \
+                     day76c_asset_analytics.csv day76c_asset_class_summary.csv day76c_yield_curve.csv \
+                     day76c_credit_spreads.csv day76c_fx_carry.csv day76d_factor_moves.csv \
+                     day76d_macro_narrative.csv 'day78b_*.csv' 'day67_*.csv' 'day68_*.csv' 'day69_*.csv' \
+                     'day70_*.csv' 'day73_*' 2>/dev/null || true
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
           git commit -m "Price refresh $(date -u '+%F %H:%M') UTC"
+          git checkout -- . 2>/dev/null || true             # drop the files this run does not save
           git stash --include-untracked || true
           git pull --rebase -X theirs origin "${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"

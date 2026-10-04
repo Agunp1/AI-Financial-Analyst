@@ -24,6 +24,7 @@ PORTFOLIO_DIR = BASE_DIR / "portfolios"
 ANALYTICS = "day76c_asset_analytics.csv"
 PRICE_HISTORY = "day76c_price_history.csv"
 RATINGS = "day77_current_ratings.csv"
+US_METRICS = "day76_us_fundamental_metrics.csv"
 
 # Diversification guardrails professionals use for personal portfolios.
 MAX_SINGLE_STOCK = 0.20          # one company above 20% of the portfolio is concentrated
@@ -64,6 +65,12 @@ def universe(base: Path = BASE_DIR) -> pd.DataFrame:
             r = r[r["price"].notna()].rename(columns={"ticker": "symbol", "sector": "sub_class"})
             r["asset_class"] = "Stock"
             rows.append(r[["symbol", "name", "asset_class", "sub_class", "price"]])
+    us = base / US_METRICS
+    if us.exists():
+        u = pd.read_csv(us, usecols=["ticker", "name", "sector", "price"])
+        u = u[u["price"].notna() & (u["price"] > 0)].rename(columns={"ticker": "symbol", "sector": "sub_class"})
+        u["asset_class"] = "Stock"
+        rows.append(u[["symbol", "name", "asset_class", "sub_class", "price"]])
     if not rows:
         return pd.DataFrame(columns=["symbol", "name", "asset_class", "sub_class", "price"])
     out = pd.concat(rows, ignore_index=True).drop_duplicates("symbol")
@@ -96,6 +103,53 @@ def valuation(holdings: List[dict], table: pd.DataFrame) -> pd.DataFrame:
         frame = frame.groupby(["symbol", "name", "asset_class", "price"], as_index=False)[["quantity", "market_value"]].sum()
         frame["weight"] = frame["market_value"] / frame["market_value"].sum()
     return frame
+
+
+def base_history(base: Path = BASE_DIR) -> pd.DataFrame:
+    """Saved daily closes: the multi-asset history plus research stocks when their history is daily."""
+    import whatif_engine as we
+    frames = []
+    history = base / PRICE_HISTORY
+    if history.exists():
+        frames.append(pd.read_csv(history, index_col=0, parse_dates=True))
+    try:
+        import multi_factor_rating as mfr
+        stocks, _ = mfr.load_prices()
+        if len(stocks) and pd.Series(stocks.index).diff().dt.days.median() <= 1.5:
+            frames.append(stocks)
+    except Exception:
+        pass
+    return we.align_prices(frames) if frames else pd.DataFrame()
+
+
+def fetch_history(symbols: List[str], fetch=None, years: float = 1.5) -> pd.DataFrame:
+    """Daily closes for symbols without saved history (free Yahoo data); empty if the download fails."""
+    if not symbols:
+        return pd.DataFrame()
+    try:
+        if fetch is None:
+            from vittantra_data_hub import fetch_price_history_yfinance as fetch
+        start = (pd.Timestamp.now() - pd.DateOffset(days=int(365 * years))).strftime("%Y-%m-%d")
+        raw = fetch(list(symbols), start)
+        if raw is None or raw.empty:
+            return pd.DataFrame()
+        raw = raw.assign(close=raw["adj_close"].fillna(raw["close"]))
+        return raw.pivot_table(index="date", columns="ticker", values="close").sort_index()
+    except Exception:
+        return pd.DataFrame()
+
+
+def model_for(symbols: List[str], history: pd.DataFrame, fred: pd.DataFrame,
+              extra: Optional[pd.DataFrame] = None):
+    """A risk model for just these holdings (plus the factor proxies), from saved and fetched history."""
+    import whatif_engine as we
+    proxies = [source for _, source, kind in we.FACTORS.values() if kind == "return"]
+    keep = [c for c in dict.fromkeys(list(symbols) + proxies) if c in history.columns]
+    frames = [history[keep]] if keep else []
+    if extra is not None and not extra.empty:
+        frames.append(extra[[c for c in extra.columns if c not in keep]])
+    prices = we.align_prices(frames) if frames else pd.DataFrame()
+    return we.RiskModel(prices, fred)
 
 
 def build_model(base: Path = BASE_DIR):
@@ -150,11 +204,11 @@ def analyse(holdings: List[dict], model, table: pd.DataFrame, profile: int = 3) 
     vol = float(risk["volatility_annual"])
     checks = []
     stocks = positions[positions["asset_class"] == "Stock"]
-    big = stocks[stocks["weight"] > MAX_SINGLE_STOCK]
+    big = stocks[stocks["weight"] > MAX_SINGLE_STOCK + 0.005]          # tolerance for share rounding
     checks.append(("No single company above 20% of the portfolio", big.empty,
                    "Concentrated in " + ", ".join(big["symbol"]) if len(big) else "Company risk is spread out"))
     crypto = float(positions.loc[positions["asset_class"] == "Digital Asset", "weight"].sum())
-    checks.append(("Crypto at most 10% of the portfolio", crypto <= MAX_CRYPTO, f"Crypto weight {crypto:.0%}"))
+    checks.append(("Crypto at most 10% of the portfolio", crypto <= MAX_CRYPTO + 0.005, f"Crypto weight {crypto:.0%}"))
     top = positions.sort_values("risk_share", ascending=False).iloc[0]
     checks.append(("No holding drives more than half the risk", bool(top["risk_share"] <= MAX_RISK_SHARE),
                    f"Largest: {top['symbol']} with {top['risk_share']:.0%} of the risk"))

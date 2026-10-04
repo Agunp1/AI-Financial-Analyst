@@ -44,7 +44,7 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 | 86 | `test_governance_rules.py` | One test per non-negotiable rule, run on committed outputs |
 | 87–90 | `vittantra_home_page.py`, `case_studies.py`, `DEPLOY.md`, `CAREER_KIT.md`, `CHANGELOG.md` | Home page and polish, free deployment, data-generated case studies, career kit, v1.0 |
 | 91 | `private_markets.py` | VC/PE desk: VC method, rounds and option-pool shuffle, cap table, exit waterfall, unit economics, power-law fund math, LBO; fictional deal simulator with real public comps |
-| My Portfolio | `my_portfolio.py`, `vittantra_my_portfolio_page.py` | Anyone builds their own portfolio (templates or holdings from 200+ instruments); daily Day 81 risk model; judged against the chosen advisory risk level, diversification checks, stress tests; signed-in users save to `portfolios/<user>.json`. Visitors see a market snapshot in the sidebar; the demo risk book (Days 59–70) status is shown to the owner only |
+| My Portfolio | `my_portfolio.py`, `vittantra_my_portfolio_page.py` | Anyone builds their own portfolio (templates or holdings from 4,000+ US stocks and 200+ instruments; history for stocks without saved prices is fetched on demand and cached a day); daily Day 81 risk model built per portfolio; judged against the chosen advisory risk level, diversification checks, stress tests; signed-in users save to `portfolios/<user>.json`. Visitors see a market snapshot in the sidebar; the demo risk book (Days 59–70) status is shown to the owner only |
 | Cloud | `vittantra_cloud.py`, `vittantra_accounts.py` | Online sign-in: owner (username `owner`) saves everything; anyone can create an account (PBKDF2-hashed passwords in `users.json`) and keeps their own Academy progress in `academy_progress/<user>.json`; saves are committed to GitHub via a token in Streamlit secrets |
 | Welcome | `vittantra_welcome.py` | Sign-in toast and a time-of-day greeting with a personal briefing on Home (market move, own portfolio, Academy level, pending approvals); owner's name from the optional `owner_name` secret (default Arjun) |
 | Guide | `vittantra_guide.py`, `vittantra_guide_page.py` | Guide page (navigation, playbooks, how professionals test factors with live IC and macro-beta evidence, asset-class primers with live numbers, glossary) and a 'How to use this page' box on every page; add a `PAGE_HELP` entry for every new page; 'A day on the desk' (`DAY_ON_THE_DESK`) per role |
@@ -90,7 +90,7 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 - Fundamentals come from SEC EDGAR companyfacts (needs `SEC_USER_AGENT` in
   `.env`; cached in `sec_cache/`, git-ignored). Use only facts filed on or
   before the as-of date.
-- Refresh schedule (GitHub Actions): `refresh-prices.yml` every 15 min in US market hours and hourly otherwise (prices, markets, brief, risk chain); `refresh-data.yml` daily full run incl. SEC and ratings. The sidebar shows the time from `day75_refresh_stamp.csv`.
+- Refresh schedule (GitHub Actions): `refresh-prices.yml` every 15 min in US market hours and hourly otherwise (prices, markets, brief, risk chain; commits only the live files, not histories); `refresh-data.yml` daily full run incl. SEC and ratings. The sidebar shows the time from `day75_refresh_stamp.csv`.
 - The cloud sandbox cannot reach Yahoo/FRED/SEC; test with the fake fetchers in
   `test_data_hub.py`. Live downloads run on the owner's machine.
 

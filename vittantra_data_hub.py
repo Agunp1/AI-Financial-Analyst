@@ -635,7 +635,7 @@ def run_refresh(db_path: Path = DB_PATH, out_dir: Path = BASE_DIR,
             macro.to_csv(out_dir / OUTPUT_MACRO_SNAPSHOT, index=False)
         live_prices.to_csv(out_dir / OUTPUT_LIVE_PRICES, index=False)
         if len(history):
-            history.to_csv(out_dir / OUTPUT_PRICE_HISTORY)
+            history.round(6).to_csv(out_dir / OUTPUT_PRICE_HISTORY)
         rates = load_macro_matrix(conn)
         if "DGS3MO" in rates.columns:
             rates["DGS3MO"].dropna().rename("dgs3mo_percent").to_csv(
