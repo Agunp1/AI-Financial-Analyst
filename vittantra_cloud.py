@@ -138,6 +138,7 @@ def sign_in_box() -> None:
             _sign_out()
         return
     with st.expander("Sign in / create account"):
+        st.caption("Owner: use **Sign in** (username empty or 'owner'). New here? Use **Create account**.")
         sign_in, create = st.tabs(["Sign in", "Create account"])
         with sign_in:
             name = st.text_input("Username", key="vt-username", placeholder="owner, or your username",
@@ -159,7 +160,8 @@ def sign_in_box() -> None:
                          "in Streamlit Secrets. Passwords are case-sensitive.")
         with create:
             new_name = st.text_input("Choose a username", key="vt-new-username",
-                                     help="3–20 characters: letters, numbers, - or _. Usernames are public.")
+                                     help="3–20 characters: letters, numbers, - or _ (not an email). Usernames are public.",
+                                     placeholder="e.g. arjun")
             new_password = st.text_input("Choose a password", type="password", key="vt-new-password",
                                          help=f"At least {accounts.MIN_PASSWORD} characters.")
             repeat = st.text_input("Repeat the password", type="password", key="vt-new-password-2")
