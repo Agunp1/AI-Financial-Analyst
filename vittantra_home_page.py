@@ -106,6 +106,8 @@ def _snapshot() -> dict:
 
 
 def render_home() -> None:
+    import vittantra_welcome
+    vittantra_welcome.render_welcome()
     st.markdown(
         """
         <div class="vt-hero">

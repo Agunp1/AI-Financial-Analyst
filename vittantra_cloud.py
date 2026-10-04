@@ -76,6 +76,11 @@ def progress_path() -> Optional[Path]:
     return accounts.progress_file(user)
 
 
+def _welcome(user: str, new_account: bool = False) -> None:
+    import vittantra_welcome
+    vittantra_welcome.announce_sign_in(user, new_account)
+
+
 def _show_save_status() -> None:
     status = st.session_state.get("vt_save_status")
     if status:
@@ -122,7 +127,8 @@ def sign_in_box() -> None:
     if not cloud_mode():
         return
     if st.session_state.get("vt_owner"):
-        st.caption("Signed in as owner · your work is saved to GitHub")
+        import vittantra_welcome
+        st.caption(f"Signed in as **{vittantra_welcome.display_name('owner')}** (owner) · your work is saved to GitHub")
         _show_save_status()
         if st.button("Test saving", key="vt-test-save"):
             st.session_state["vt_save_status"] = check_github()
@@ -148,12 +154,14 @@ def sign_in_box() -> None:
                 if accounts.normalize(name) in ("owner", ""):
                     if password_matches(password, _secret("owner_password")):
                         st.session_state["vt_owner"] = True
+                        _welcome("owner")
                         st.rerun()
                 else:
                     found = accounts.check_login(accounts.load_users(), name, password) or \
                         accounts.check_login(_latest_users(), name, password)
                     if found:
                         st.session_state["vt_user"] = found
+                        _welcome(found)
                         st.rerun()
                 _failed_attempt()
                 st.error("Wrong username or password. Owner: username **owner** (or empty) and the password set "
@@ -185,6 +193,7 @@ def sign_in_box() -> None:
                         else:
                             st.session_state["vt_created"] = True
                             st.session_state["vt_user"] = accounts.normalize(new_name)
+                            _welcome(accounts.normalize(new_name), new_account=True)
                             st.rerun()
         st.caption("Visitors can explore everything. Sign in to keep your own Academy progress.")
 

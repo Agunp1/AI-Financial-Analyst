@@ -79,6 +79,7 @@ clients and what-if proposals are saved to GitHub, so they survive restarts.
 2. Paste this, with your own password and token, and click **Save**:
    ```toml
    owner_password = "choose-a-long-password"
+   owner_name = "Arjun"                 # optional: how the app greets you
    github_token = "github_pat_paste_here"
    github_repo = "Agunp1/AI-Financial-Analyst"
    github_branch = "main"
