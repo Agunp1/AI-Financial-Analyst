@@ -1,2 +1,2 @@
 portfolio_workflow_status,decision_ticket_count,pending_review_count,no_action_required_count,risk_review_required_count,portfolio_review_required_count,dual_approval_required_count,incremental_risk_block_count,risk_reduction_ticket_count,immediate_priority_count,approval_queue_count,maximum_current_risk_budget_utilization,maximum_estimated_post_remediation_utilization,automatic_execution_authorized_count
-AWAITING_DUAL_APPROVAL,10,4,6,4,1,1,1,1,0,4,1.0066372283042773,1.0,0
+AWAITING_DUAL_APPROVAL,10,4,6,4,1,1,1,1,0,4,1.0059292302884109,1.0,0
