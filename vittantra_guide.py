@@ -220,6 +220,108 @@ PLAYBOOKS: List[dict] = [
 ]
 
 # ==============================================================
+# 3b. A DAY ON THE DESK: what professionals actually do, hour by hour
+# ==============================================================
+
+DAY_ON_THE_DESK: Dict[str, dict] = {
+    "Investment analyst": {
+        "who": "Covers markets and the economy for a fund or bank; tells the team what changed and why it matters.",
+        "day": [
+            ("7:00", "Read overnight news and what moved in Asia and Europe", "Markets",
+             "Being first to understand a move is the job; surprises cost money."),
+            ("7:45", "Check the economic calendar: data and central-bank events today", "Markets",
+             "Big data (jobs, inflation) and Fed days move every asset class."),
+            ("8:30", "Morning meeting: 3 key points for the team", "Academy",
+             "PMs have minutes; a sharp summary is valued more than a long one."),
+            ("10:00", "Dig into one theme (e.g. why yields rose) with data", "Markets",
+             "Headlines explain; data confirms. Check the move in rates, spreads and FX."),
+            ("14:00", "Update models and charts; answer PM questions", "Copilot",
+             "Every claim needs a number and a source."),
+            ("16:30", "Write the end-of-day note: what happened, what to watch tomorrow", "Academy",
+             "A written record shows judgment over time — and builds your reputation."),
+        ]},
+    "Equity research analyst": {
+        "who": "Covers 10–30 companies; builds models, values them and recommends buy, hold or sell.",
+        "day": [
+            ("7:00", "Check news and filings for covered companies", "Research",
+             "An earnings release or 10-Q can change the thesis overnight."),
+            ("8:30", "Morning meeting: pitch any change in view", "Research",
+             "Analysts are judged on calls that are right and explained clearly."),
+            ("9:30", "Update the model after new data (revenue, margins, cash flow)", "Research",
+             "Fundamentals drive long-run value; the model keeps you honest."),
+            ("11:00", "Valuation: DCF, multiples vs peers, reverse DCF", "Research",
+             "Price vs value is the decision; the reverse DCF shows what the market expects."),
+            ("14:00", "Call management or industry experts; compare with peers", "Research",
+             "Peer comparison separates company-specific news from sector trends."),
+            ("16:00", "Write or update the research note with evidence", "Research",
+             "Every claim cites its source — exactly how Vittantra notes work."),
+        ]},
+    "Portfolio manager": {
+        "who": "Owns the portfolio's results versus a benchmark; decides what to buy and sell within risk limits.",
+        "day": [
+            ("7:30", "Review overnight P&L and what drove it", "Portfolio Manager",
+             "Know why you made or lost money before the market opens."),
+            ("8:30", "Morning meeting: hear analysts and the risk team", "Command Center",
+             "Ideas come from analysts; limits come from risk. The PM decides."),
+            ("9:30", "Check the portfolio: active weights, tracking error, risk use", "Portfolio Manager",
+             "The tracking-error budget limits how big the bets can be."),
+            ("11:00", "Test ideas with what-if and scenarios", "Portfolio Manager",
+             "See the risk of a trade before making it."),
+            ("14:00", "Propose changes with a written rationale; get approval", "Governance",
+             "Decisions are documented and approved — governance protects clients and the firm."),
+            ("17:00", "Attribution: allocation vs selection", "Portfolio Manager",
+             "Explains whether skill or luck drove results; clients and bosses ask."),
+        ]},
+    "Risk analyst": {
+        "who": "Independent check on the portfolio: measures risk, enforces limits and escalates breaches.",
+        "day": [
+            ("7:30", "Run overnight risk: VaR, stress tests, limit use", "Risk Intelligence",
+             "Risk must be known before trading starts."),
+            ("8:15", "Check limit breaches and alerts", "Command Center",
+             "A breach must be escalated the same day."),
+            ("9:00", "Explain the biggest risk drivers (risk contributions)", "Portfolio",
+             "Often the biggest risk is not the biggest position."),
+            ("11:00", "Back-test VaR: were losses beyond VaR too frequent?", "Risk Intelligence",
+             "A model that is wrong gives false comfort."),
+            ("14:00", "Review proposed fixes: does each one lower risk?", "Remediation",
+             "A fix must never increase modeled risk."),
+            ("16:00", "Brief management; record decisions in the audit log", "AI Analyst",
+             "Regulators and boards ask who knew what, and when."),
+        ]},
+    "Financial advisor": {
+        "who": "Helps clients reach their goals with suitable investments; explains risk in plain words.",
+        "day": [
+            ("8:30", "Review markets and anything clients will ask about", "Markets",
+             "Clients call when markets move; be ready."),
+            ("9:30", "Client meeting: goals, time horizon, risk questionnaire", "Advisory",
+             "Know the client before recommending anything."),
+            ("11:00", "Build the allocation; check suitability", "Advisory",
+             "Advice must fit the client's profile — a legal and ethical duty (CFA III(C))."),
+            ("14:00", "Goal planning: chance of success and extra saving needed", "Advisory",
+             "Clients understand probabilities and dollars better than volatility."),
+            ("16:00", "Write the client report; document the advice", "Advisory",
+             "If it is not written down, it did not happen."),
+        ]},
+    "PE / VC analyst (small fund)": {
+        "who": "At a small fund: finds startups, screens them, builds the numbers for the partners and supports "
+               "portfolio companies.",
+        "day": [
+            ("8:30", "Scan new deal flow: decks from founders, intros, news", "Academy",
+             "A small fund sees hundreds of companies to invest in a handful; fast screening is the skill."),
+            ("10:00", "Screen 3–5 companies: team, market, traction, unit economics", "Academy",
+             "Most deals are a quick 'no'; your memo explains why in a few lines."),
+            ("11:30", "Founder call: ask about growth, retention and burn", "Academy",
+             "Burn multiple and retention show if growth is efficient and real."),
+            ("14:00", "Model a round: pre/post-money, option pool, dilution, VC method", "Academy",
+             "Partners need the ownership and return math before the partner meeting."),
+            ("16:00", "Check public comparables and exit values", "Research",
+             "Exit multiples of listed peers anchor what a startup could be worth."),
+            ("17:00", "Update the portfolio tracker and fund math (TVPI, DPI)", "Academy",
+             "LPs judge the fund on these multiples; the power law means a few winners matter most."),
+        ]},
+}
+
+# ==============================================================
 # 4. ASSET CLASSES
 # ==============================================================
 
