@@ -1,4 +1,4 @@
 run_id,job,started_at_utc,finished_at_utc,status,rows,detail
-b44e5e760772,macro,2026-10-03T17:59:14Z,2026-10-03T17:59:15Z,OK,69354,failed: none
-b44e5e760772,latest_quotes,2026-10-03T17:59:13Z,2026-10-03T17:59:14Z,OK,40,
-b44e5e760772,price_history,2026-10-03T17:59:10Z,2026-10-03T17:59:13Z,OK,48274,from 2022-01-01; missing: none
+9c8503c22d92,macro,2026-10-04T14:23:43Z,2026-10-04T14:23:45Z,OK,69354,failed: none
+9c8503c22d92,latest_quotes,2026-10-04T14:23:42Z,2026-10-04T14:23:43Z,OK,40,
+9c8503c22d92,price_history,2026-10-04T14:23:37Z,2026-10-04T14:23:41Z,OK,47040,from 2022-01-01; missing: EURUSD=X
