@@ -79,6 +79,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 import vittantra_cloud as cloud
+from vittantra_guide_page import page_help, render_guide
 import vittantra_theme as vt
 from vittantra_research_page import render_research
 from vittantra_markets_page import render_markets
@@ -125,11 +126,11 @@ APP_VERSION = "1.0"
 
 # Navigation: workflow order (research → portfolio → advisory → risk → learn)
 NAV_PAGES = [
-    "Home", "Command Center", "Research", "Markets", "Portfolio Manager", "Advisory", "Copilot",
+    "Home", "Guide", "Command Center", "Research", "Markets", "Portfolio Manager", "Advisory", "Copilot",
     "Risk Intelligence", "Portfolio", "Governance", "Remediation", "AI Analyst", "Academy", "System",
 ]
 NAV_LABELS = {
-    "Home": "Home", "Command Center": "Command Center", "Research": "Research & Valuation",
+    "Home": "Home", "Guide": "Guide (start here)", "Command Center": "Command Center", "Research": "Research & Valuation",
     "Markets": "Markets & World Brief", "Portfolio Manager": "Portfolio Manager", "Advisory": "Advisory",
     "Copilot": "Copilot", "Risk Intelligence": "Risk Intelligence", "Portfolio": "Risk Budgets",
     "Governance": "Governance", "Remediation": "Remediation", "AI Analyst": "AI Risk Analyst",
@@ -1912,6 +1913,7 @@ with st.sidebar:
 if page != "Home":
     st.markdown('<div class="vittantra-title">Vittantra</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="vittantra-subtitle">{APP_SUBTITLE}</div>', unsafe_allow_html=True)
+    page_help(page, NAV_LABELS)
 
 
 
@@ -1942,6 +1944,8 @@ if page != "Home":
 if page == "Home":
 
     render_home()
+elif page == "Guide":
+    render_guide(NAV_LABELS)
 
 
 elif page == "Command Center":

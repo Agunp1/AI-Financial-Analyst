@@ -32,6 +32,7 @@ DESKS = [
 ]
 
 TOUR = [
+    ("Guide", "New to Vittantra? The Guide explains every page, how professionals pick factors, and each asset class."),
     ("Markets", "Start like a desk analyst: open the World Brief — this week's data moves next to the headlines."),
     ("Research", "Open Research → Multi-factor ratings: which pillars actually predict returns (IC)."),
     ("Research", "Then Valuation & reports: pick a stock and read its evidence-linked note and reverse DCF."),
