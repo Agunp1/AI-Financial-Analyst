@@ -71,6 +71,20 @@ class CloudTests(unittest.TestCase):
         self.assertIsNone(cloud.github_settings())           # no secrets in the test environment
         self.assertIn("not set up", cloud.commit_file(FILE, "msg"))
 
+    def test_users_may_only_save_their_own_record(self):
+        from unittest import mock
+        own = cloud.BASE_DIR / "academy_progress" / "sam.json"
+        commits = []
+        with mock.patch.object(cloud, "cloud_mode", return_value=True), \
+                mock.patch.object(cloud, "is_owner", return_value=False), \
+                mock.patch.object(cloud, "progress_path", return_value=own), \
+                mock.patch.object(cloud, "commit_file", side_effect=lambda path, msg: commits.append(path) or ""), \
+                mock.patch.object(cloud.st, "toast"), mock.patch.object(cloud.st, "session_state", {}):
+            cloud.persist(cloud.BASE_DIR / "advisory_clients.json", "client")
+            cloud.persist(cloud.BASE_DIR / "academy_progress.json", "owner record")
+            cloud.persist(own, "own record")
+        self.assertEqual(commits, [own])
+
     def test_token_never_in_code(self):
         for path in Path(cloud.BASE_DIR).glob("*.py"):
             self.assertNotRegex(path.read_text(errors="ignore"), r"github_pat_[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{30,}")

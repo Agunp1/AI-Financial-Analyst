@@ -83,7 +83,7 @@ clients and what-if proposals are saved to GitHub, so they survive restarts.
    github_repo = "Agunp1/AI-Financial-Analyst"
    github_branch = "main"
    ```
-3. Open the app → sidebar → **Owner sign-in** → enter your password.
+3. Open the app → sidebar → **Sign in / create account** → username `owner` and your password.
    The sidebar says *Signed in as owner*.
 
 Each save makes a small commit on GitHub; the app reloads for a moment and
@@ -107,3 +107,17 @@ New repository secret**, add:
 
 To refresh now: repo → **Actions → Refresh data → Run workflow**. If a run
 fails, GitHub emails you and the app keeps the last good data.
+
+## Accounts for friends
+
+Anyone can open the sidebar → **Sign in / create account** → **Create account**,
+choose a username and a password, and keep their own Academy progress
+(`academy_progress/<username>.json`). Friends cannot change the client book or
+the approval queue; only the owner can.
+
+- Passwords are never stored: `users.json` keeps a random salt and a PBKDF2-SHA256
+  fingerprint per account. The repository is public, so usernames and Academy work
+  are public; people should not reuse a password they use elsewhere.
+- Five wrong passwords lock sign-in for a minute in that browser session.
+- To remove an account, delete its entry from `users.json` (and its progress file).
+- A forgotten password cannot be recovered: delete the entry and the person signs up again.
