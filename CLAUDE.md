@@ -33,7 +33,7 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 | 76c | `multi_asset_universe.py`, `vittantra_markets_page.py` | Rates, credit, FX, commodities, crypto, REITs, alternatives |
 | 76d | `macro_drivers.py` | Macro factor betas and attribution per asset class; economic dashboard; CRE by property type |
 | 77 | `multi_factor_rating.py` | Five-pillar rating, IC tests; ratings use the IC-weighted composite, point in time |
-| 78 | `valuation_engine.py`, `research_report.py` | DCF (FCFF), residual income, DDM, reverse DCF; evidence-linked research notes |
+| 78 | `valuation_engine.py`, `research_report.py` | DCF (FCFF), residual income, DDM, reverse DCF; evidence-linked research notes; `research_any()` gives an on-demand note for any US-listed company from the all-US scan |
 | 78b | `world_brief.py` | Free RSS headlines tagged by theme, FOMC/FRED release calendar, data moves linked to headlines |
 | 79 | `portfolio_construction.py` | Grinold–Kahn alpha, shrinkage covariance, optimizer within a 4% tracking-error budget; proposal pending human approval |
 | 80 | `performance_attribution.py` | Brinson–Fachler (Carino-linked) and pillar-factor attribution of the Day 77 backtest |

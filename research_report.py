@@ -39,6 +39,9 @@ IC_SUMMARY = "day77_ic_summary.csv"
 METRICS = "day76_fundamental_metrics.csv"
 SCORES = "day76_fundamental_scores.csv"
 VALUATION = "day78_valuation.csv"
+US_METRICS = "day76_us_fundamental_metrics.csv"
+US_SCORES = "day76_us_fundamental_scores.csv"
+ON_DEMAND_VALUATION = "on-demand valuation (day78 models, not saved)"
 
 OUTPUT_CLAIMS = "day78_research_claims.csv"
 OUTPUT_SUMMARY = "day78_report_summary.csv"
@@ -107,7 +110,11 @@ class Report:
                             "source_file": source, "field": field, "value": shown})
 
 
-def build_report(ticker: str, data: Dict[str, Optional[pd.DataFrame]]) -> Report:
+def build_report(ticker: str, data: Dict[str, Optional[pd.DataFrame]],
+                 sources: Optional[Dict[str, str]] = None) -> Report:
+    """`sources` relabels evidence files (e.g. the all-US metrics for an on-demand note)."""
+    src = {"metrics": METRICS, "valuation": VALUATION, **(sources or {})}
+    METRICS_SRC, VALUATION_SRC = src["metrics"], src["valuation"]
     ratings, metrics, scores = data["ratings"], data["metrics"], data["scores"]
     valuation, ic = data["valuation"], data["ic"]
     r = Report(ticker)
@@ -139,33 +146,38 @@ def build_report(ticker: str, data: Dict[str, Optional[pd.DataFrame]]) -> Report
     model, upside = v(valuation, "primary_model"), v(valuation, "upside")
     if fair is not None and price is not None:
         r.add("Valuation", f"{model} intrinsic value ${fair:,.2f} vs price ${price:,.2f} "
-              f"({upside:+.0%}): {v(valuation, 'valuation_signal')}.", VALUATION, "fair_value", fair)
+              f"({upside:+.0%}): {v(valuation, 'valuation_signal')}.", VALUATION_SRC, "fair_value", fair)
         checks = [(m, v(valuation, f"{m.lower()}_value")) for m in ("DCF", "RI", "DDM") if m != model]
         checks = [(m, x) for m, x in checks if x is not None]
         if checks:
             r.add("Valuation", "Cross-checks: " + ", ".join(f"{m} ${x:,.2f}" for m, x in checks) + ".",
-                  VALUATION, "models_used", v(valuation, "models_used"))
+                  VALUATION_SRC, "models_used", v(valuation, "models_used"))
     w, re_ = v(valuation, "wacc"), v(valuation, "cost_of_equity")
     if w is not None:
         r.add("Valuation", f"Discount rates: WACC {w:.1%}, cost of equity {re_:.1%} "
               f"(adjusted beta {v(valuation, 'beta_adjusted'):.2f}, synthetic rating "
-              f"{v(valuation, 'synthetic_rating')}).", VALUATION, "wacc", w)
+              f"{v(valuation, 'synthetic_rating')}).", VALUATION_SRC, "wacc", w)
     implied, base_growth = v(valuation, "implied_growth"), v(valuation, "dcf_initial_growth")
     if implied is not None and base_growth is not None:
         r.add("Valuation", f"Reverse DCF: the price implies {implied:.1%} a year growth for five years "
               f"(then fading), vs {base_growth:.1%} assumed from recent revenue growth.",
-              VALUATION, "implied_growth", implied)
+              VALUATION_SRC, "implied_growth", implied)
         if implied > base_growth + 0.05:
             r.add("Bear case", f"High expectations priced in: the market needs {implied:.0%} growth vs "
-                  f"{base_growth:.0%} recently.", VALUATION, "implied_growth", implied)
+                  f"{base_growth:.0%} recently.", VALUATION_SRC, "implied_growth", implied)
         elif implied < base_growth - 0.05:
             r.add("Bull case", f"Low expectations priced in: the price needs only {implied:.0%} growth vs "
-                  f"{base_growth:.0%} recently.", VALUATION, "implied_growth", implied)
+                  f"{base_growth:.0%} recently.", VALUATION_SRC, "implied_growth", implied)
     if upside is not None:
         if upside > 0.15:
-            r.add("Bull case", f"Trades {upside:.0%} below its {model} value.", VALUATION, "upside", upside)
+            r.add("Bull case", f"{model} value is {upside:.0%} above the price.", VALUATION_SRC, "upside", upside)
         elif upside < -0.15:
-            r.add("Bear case", f"Trades {-upside:.0%} above its {model} value.", VALUATION, "upside", upside)
+            r.add("Bear case", f"{model} value is {-upside:.0%} below the price.", VALUATION_SRC, "upside", upside)
+    dispersion = v(valuation, "model_dispersion")
+    if dispersion is not None and dispersion > 0.75:
+        r.add("Risks and limits", f"The valuation models disagree widely (spread {dispersion:.0%} of the "
+              f"{model} value): treat the intrinsic value as low confidence.", VALUATION_SRC, "model_dispersion",
+              dispersion)
 
     # 3–4. Bull and bear evidence ----------------------------------------
     for pillar in PILLAR_TEXT:
@@ -197,7 +209,7 @@ def build_report(ticker: str, data: Dict[str, Optional[pd.DataFrame]]) -> Report
     for field, test, section, template in rules:
         x = v(metrics, field)
         if x is not None and test(x):
-            r.add(section, template.format(x), METRICS, field, x)
+            r.add(section, template.format(x), METRICS_SRC, field, x)
 
     vol, beta = v(ratings, "volatility_1y"), v(ratings, "beta")
     if vol is not None and vol > 0.40:
@@ -208,14 +220,14 @@ def build_report(ticker: str, data: Dict[str, Optional[pd.DataFrame]]) -> Report
     notes = v(valuation, "notes")
     if isinstance(notes, str) and notes:
         for note in notes.split(" | "):
-            r.add("Risks and limits", note[0].upper() + note[1:] + ".", VALUATION, "notes", note)
+            r.add("Risks and limits", note[0].upper() + note[1:] + ".", VALUATION_SRC, "notes", note)
     if beta is not None:
         r.add("Risks and limits", f"Market sensitivity: beta {beta:.2f} — a 10% market fall has historically "
               f"meant about {beta * 10:.0f}% for this stock.", RATINGS, "beta", beta)
     filed = v(metrics, "latest_filing_date")
     if isinstance(filed, str):
         r.add("Risks and limits", f"Fundamentals as of the filing dated {filed}; later news is not reflected.",
-              METRICS, "latest_filing_date", filed)
+              METRICS_SRC, "latest_filing_date", filed)
     missing = [label for field, label in (("fair_value", "intrinsic value"), ("rating", "multi-factor rating"),
                                           ("roe", "return on equity"), ("revenue_growth", "revenue growth"))
                if v(valuation if field == "fair_value" else ratings if field == "rating" else metrics, field) is None]
@@ -322,6 +334,47 @@ def run_reports(base: Path = BASE_DIR, out_dir: Optional[Path] = None, verbose: 
         print("\nDay 78 research reports complete. Research notes, not recommendations.")
         print(line)
     return claims, summary, validation
+
+
+def research_any(ticker: str, base: Path = BASE_DIR) -> Optional[Dict[str, object]]:
+    """On-demand note for any US-listed company in the Day 76b scan.
+
+    Uses only saved Vittantra data: the company's SEC fundamentals from the
+    all-US scan, today's risk-free rate and credit spreads, and the Day 78
+    valuation models. Nothing is downloaded or invented; what is missing (for
+    example the multi-factor rating, which covers the research universe only)
+    is listed in the note.
+    """
+    import valuation_engine as ve
+
+    ticker = ticker.strip().upper()
+    metrics, scores = _load(base, US_METRICS), _load(base, US_SCORES)
+    if metrics is None or ticker not in metrics.index:
+        return None
+    row = metrics.loc[ticker].to_dict()
+    row["ticker"] = ticker
+    market = ve.market_inputs(base)
+    result = ve.value_company(row, None, market)       # no price history for beta: 1.0, stated in the notes
+    grid = ve.dcf_sensitivity(row, result)
+    result["notes"] = " | ".join(result["notes"])
+    valuation = pd.DataFrame([result]).set_index("ticker")
+    data = {"ratings": None, "metrics": metrics, "scores": scores, "valuation": valuation, "ic": None}
+    report = build_report(ticker, data, sources={"metrics": US_METRICS, "valuation": ON_DEMAND_VALUATION})
+    score, rank = _value(scores, ticker, "fundamental_score"), _value(scores, ticker, "sector_rank")
+    sector = row.get("sector")
+    if score is not None:
+        peers = int(scores.loc[scores["sector"] == sector, "fundamental_score"].notna().sum())
+        report.claims.insert(0, {"ticker": ticker, "section": "Thesis",
+                                 "claim": f"Fundamental score {score:.0f}/100 within {sector}"
+                                          + (f" (rank {rank:.0f} of {peers})." if rank is not None else "."),
+                                 "source_file": US_SCORES, "field": "fundamental_score", "value": round(score, 4)})
+    claims = pd.DataFrame(report.claims)
+    summary = pd.Series({"ticker": ticker, "name": row.get("name"), "sector": sector,
+                         "rating": "not rated (outside the 33-stock research universe)",
+                         "price": result.get("price"), "fair_value": result.get("fair_value"),
+                         "upside": result.get("upside"), "primary_model": result.get("primary_model"),
+                         "valuation_signal": result.get("valuation_signal"), "as_of": row.get("as_of")})
+    return {"valuation": result, "sensitivity": grid, "claims": claims, "summary": summary, "market": market}
 
 
 if __name__ == "__main__":

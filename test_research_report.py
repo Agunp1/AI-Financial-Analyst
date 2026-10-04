@@ -72,7 +72,7 @@ class ResearchReportTests(unittest.TestCase):
     def test_bull_and_bear_cases_from_evidence(self):
         bull = " ".join(self.claims_for("AAA", "Bull case")["claim"])
         bear = " ".join(self.claims_for("AAA", "Bear case")["claim"])
-        self.assertIn("below its DCF value", bull)
+        self.assertIn("DCF value is 30% above the price", bull)
         self.assertIn("Low expectations", bull)          # implied 2% vs 12% assumed
         self.assertIn("P/E", bear)
         self.assertIn("volatile", bear.lower())
@@ -98,6 +98,62 @@ class ResearchReportTests(unittest.TestCase):
         failed = self.validation[~self.validation["passed"]]
         # Balanced check needs ≥70% of stocks with both cases; both stocks here have both
         self.assertTrue(failed.empty, failed.to_string())
+
+
+    def test_upside_wording_matches_the_maths(self):
+        bull = " ".join(self.claims_for("AAA", "Bull case")["claim"])
+        self.assertIn("DCF value is 30% above the price", bull)
+
+
+class AnyCompanyTests(unittest.TestCase):
+    """On-demand notes for companies outside the research universe (all-US scan)."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.TemporaryDirectory()
+        cls.base = Path(cls.tmp.name)
+        pd.DataFrame([
+            {"ticker": "CAR", "name": "Car Co", "sector": "Consumer Discretionary", "price": 20.0,
+             "shares_outstanding": 1e9, "operating_cash_flow_ttm": 4e9, "capex_ttm": 2e9, "interest_expense_ttm": 1e8,
+             "total_debt": np.nan, "cash": 1e9, "equity": 1e10, "roe": 0.08, "net_income_ttm": 8e8,
+             "dividends_ttm": 2e8, "revenue_growth": 0.04, "latest_filing_date": "2026-08-14", "as_of": "2026-10-03"},
+        ]).to_csv(cls.base / rr.US_METRICS, index=False)
+        pd.DataFrame([{"ticker": "CAR", "sector": "Consumer Discretionary", "fundamental_score": 55.0,
+                       "sector_rank": 3.0}]).to_csv(cls.base / rr.US_SCORES, index=False)
+        cls.result = rr.research_any(" car ", cls.base)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tmp.cleanup()
+
+    def test_unknown_ticker_returns_none(self):
+        self.assertIsNone(rr.research_any("ZZZZ", self.base))
+
+    def test_values_and_cites_the_us_files(self):
+        claims = self.result["claims"]
+        self.assertIsNotNone(self.result["summary"]["fair_value"])
+        self.assertIn(rr.US_SCORES, set(claims["source_file"]))
+        self.assertIn(rr.US_METRICS, set(claims["source_file"]))
+        self.assertNotIn(rr.METRICS, set(claims["source_file"]))     # never cites the 33-stock file
+        self.assertTrue(claims["value"].notna().all())                # every claim has its evidence value
+
+    def test_states_what_is_missing_or_assumed(self):
+        risks = " ".join(self.result["claims"].query("section == 'Risks and limits'")["claim"])
+        self.assertIn("multi-factor rating", risks)
+        self.assertIn("market beta 1.0 assumed", risks.lower())
+        self.assertIn("total debt not found", risks.lower())
+        self.assertIn("not rated", self.result["summary"]["rating"])
+
+    def test_no_call_when_debt_unknown_and_models_disagree(self):
+        v = self.result["valuation"]
+        if v.get("model_dispersion", 0) > 0.75:
+            self.assertEqual(v["valuation_signal"], "Low confidence")
+
+    def test_never_executes_or_recommends(self):
+        md = rr.report_markdown("CAR", self.result["claims"], self.result["summary"])
+        self.assertIn("Not a recommendation", md)
+        for word in rr.FORBIDDEN_WORDS:
+            self.assertNotIn(word, md.lower())
 
 
 if __name__ == "__main__":
