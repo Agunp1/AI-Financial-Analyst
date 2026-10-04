@@ -22,7 +22,7 @@ def page_help(page: str, labels: dict) -> None:
     help_ = guide.PAGE_HELP.get(page)
     if not help_ or page == "Guide":
         return
-    with st.expander(f"How to use this page — {labels.get(page, page)}"):
+    with st.expander("Page guide"):
         st.markdown(f"**What it is for:** {help_['what']}")
         st.markdown("\n".join(f"{i}. {step}" for i, step in enumerate(help_["steps"], start=1)))
         st.caption(f"Tip: {help_['tip']}")
@@ -31,7 +31,7 @@ def page_help(page: str, labels: dict) -> None:
 
 def _navigation_tab(labels: dict) -> None:
     st.markdown("#### Find your way")
-    st.info("💡 Hover over any number or table column header to see what it means and why professionals use it.")
+    st.caption("Hover over any figure or column header for its definition and how professionals use it.")
     for title, text in guide.NAVIGATION:
         st.markdown(f"**{title}.** {text}")
     st.markdown("#### What each page is for")
@@ -202,8 +202,8 @@ def render_guide(labels: dict) -> None:
     st.markdown("### Guide — learn Vittantra and the markets")
     st.caption("How to find your way, how to do each job step by step, what every asset class is, and the words "
                "you will meet. For hands-on practice, use the Academy.")
-    tabs = st.tabs(["🧭 Find your way", "🗓️ A day on the desk", "🛠️ Playbooks", "📐 Factors", "🌍 Asset classes",
-                    "📄 Every page", "🔤 Glossary"])
+    tabs = st.tabs(["Navigation", "A day on the desk", "Playbooks", "Factors", "Asset classes",
+                    "Pages", "Glossary"])
     with tabs[0]:
         _navigation_tab(labels)
     with tabs[1]:

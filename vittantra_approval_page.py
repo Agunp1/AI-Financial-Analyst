@@ -88,20 +88,17 @@ def record_decision(decision: str, proposal: pd.DataFrame, summary: dict, commen
 def render_pending_fix(where: str) -> None:
     proposal, summary = load_proposal(), load_summary()
     if recalculating(proposal):
-        st.info("✅ Fix approved. The risk chain is re-running on GitHub with the new position sizes (about "
-                "10 minutes); the status updates by itself when it finishes.")
+        st.info("Remediation approved. Risk is being recalculated with the new sizes (about 10 minutes).")
         return
     if not pending(proposal, summary):
         return
     before, after = summary.get("max_utilization_now", 0), summary.get("max_utilization_after", 0)
     with st.container(border=True):
-        st.markdown("#### ✅ Risk controls working — fix ready for approval")
+        st.markdown("#### Remediation proposal · pending approval")
         st.markdown(
-            f"Vittantra's risk monitor caught {int(summary.get('positions_over_budget_now', 0))} position(s) in the "
-            f"**demo risk book** (10 fictional positions) using more risk than their limit, and has already sized "
-            f"the fix: reduce {int(summary.get('positions_reduced', 0))} position(s) so every position is comfortably "
-            f"inside its limit (worst position: **{before:.0%} → {after:.0%}** of its limit). Only reductions — "
-            f"total risk falls. A human signs off before anything changes.")
+            f"{int(summary.get('positions_over_budget_now', 0))} position(s) in the model risk book exceed their risk "
+            f"limit (max **{before:.0%}** of limit). Proposed: reduce {int(summary.get('positions_reduced', 0))} "
+            f"position(s); max utilization after **{after:.0%}**. Reductions only — total risk falls.")
         shown = proposal[proposal["action"] == "REDUCE"].assign(
             change=lambda d: d["change"] * 100,
             current_utilization=lambda d: d["current_utilization"] * 100,
@@ -116,16 +113,16 @@ def render_pending_fix(where: str) -> None:
                            "% of limit after": st.column_config.NumberColumn(format="%.0f%%"),
                            "Proposed size": st.column_config.NumberColumn(format="%.4f")})
         if not cloud.is_owner():
-            st.caption("Only the owner can approve or reject. Nothing changes until a human decides.")
+            st.caption("Approval restricted to the owner.")
             return
-        risk_ok = st.checkbox("As risk reviewer: the fix lowers risk and brings every position within its limit",
+        risk_ok = st.checkbox("Risk reviewer sign-off: risk falls and every position is within its limit",
                               key=f"fix-risk-{where}")
-        pm_ok = st.checkbox("As portfolio reviewer: the new sizes are acceptable for the portfolio",
+        pm_ok = st.checkbox("Portfolio reviewer sign-off: the proposed sizes are acceptable",
                             key=f"fix-pm-{where}")
         comment = st.text_input("Comment for the audit log", key=f"fix-comment-{where}",
                                 placeholder="e.g. Approved: derivatives were far above their risk limits")
         approve, reject = st.columns(2)
-        if approve.button("Approve fix", type="primary", key=f"fix-approve-{where}",
+        if approve.button("Approve", type="primary", key=f"fix-approve-{where}",
                           disabled=not (risk_ok and pm_ok and comment.strip())):
             record_decision("APPROVED", proposal, summary, comment)
             cloud.persist(APPROVED, "Risk fix approved by owner (demo book; nothing traded)")
@@ -134,9 +131,8 @@ def render_pending_fix(where: str) -> None:
             record_decision("REJECTED", proposal, summary, comment)
             cloud.persist(APPROVED, "Risk fix rejected by owner")
             st.rerun()
-        st.caption("Dual approval: in this one-person demo you act as both reviewers. The decision is recorded "
-                   "in approved_positions.json. The book is fictional — nothing is traded, automatic execution "
-                   "stays 0.")
+        st.caption("Dual approval (owner acts as both reviewers). Recorded in the audit file. Model book — no orders "
+                   "are generated.")
 
 
 def _go_to_fix() -> None:
@@ -145,9 +141,9 @@ def _go_to_fix() -> None:
 
 def sidebar_note() -> None:
     if recalculating():
-        st.caption("✅ Fix approved · updating")
+        st.caption("Remediation approved · recalculating")
     elif pending():
-        st.caption("✅ Issue caught · fix ready for approval")
+        st.caption("Remediation proposal pending approval")
         if cloud.is_owner():
-            st.button("Review & approve the fix", key="fix-sidebar-go", type="primary", on_click=_go_to_fix,
+            st.button("Review remediation", key="fix-sidebar-go", type="primary", on_click=_go_to_fix,
                       width="stretch")

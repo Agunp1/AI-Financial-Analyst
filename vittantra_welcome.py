@@ -43,8 +43,8 @@ def greeting(now: Optional[datetime] = None) -> str:
 def announce_sign_in(user: str, new_account: bool = False) -> None:
     """Remember to show a welcome toast on the next run (the sign-in reruns the page)."""
     name = display_name(user)
-    st.session_state["vt_welcome"] = (f"Welcome to Vittantra, {name}! 🎉" if new_account
-                                      else f"Welcome back, {name} 👋")
+    st.session_state["vt_welcome"] = (f"Welcome to Vittantra, {name}." if new_account
+                                      else f"Welcome back, {name}.")
 
 
 def show_pending_toast() -> None:
@@ -69,7 +69,7 @@ def briefing(user: str) -> List[str]:
     points = []
     market = _market_line()
     if market:
-        points.append("📈 " + market)
+        points.append("**Markets** · " + market)
     try:
         import my_portfolio as mp
         holdings = mp.load(user).get("holdings", [])
@@ -78,14 +78,12 @@ def briefing(user: str) -> List[str]:
         perf = mp.performance(data, table)
         if holdings and perf and perf["portfolio_return"] is not None:
             spy = f" vs S&P 500 {perf['spy_return']:+.1%}" if perf["spy_return"] is not None else ""
-            points.append(f"💼 Your portfolio: {perf['portfolio_return']:+.1%} since {perf['since']}{spy} — open "
-                          "**My Portfolio** for today's risk.")
+            points.append(f"**Portfolio** · {perf['portfolio_return']:+.1%} since {perf['since']}{spy}.")
         else:
-            points.append(f"💼 Your portfolio has {len(holdings)} holding(s) — open **My Portfolio** to see today's "
-                          "risk." if holdings else "💼 You haven't built a portfolio yet — try a template in "
-                                                    "**My Portfolio**.")
+            points.append(f"**Portfolio** · {len(holdings)} holding(s)." if holdings else
+                          "**Portfolio** · Not set up — start from a model portfolio in My Portfolio.")
         for alert in mp.alerts(data.get("watchlist", []), table):
-            points.append("🔔 " + alert["text"])
+            points.append("**Alert** · " + alert["text"])
     except Exception:
         pass
     try:
@@ -95,16 +93,15 @@ def briefing(user: str) -> List[str]:
         xp = sum(progress.get("xp", {}).values())
         level, nxt, needed = desk.level_for(xp)
         tasks = len(progress.get("records", []))
-        points.append(f"🎓 Academy: {tasks} task(s) done, {xp} XP — level {level}"
-                      + (f", {needed} XP to {nxt}." if nxt else ".") + " Today's desk task is waiting.")
+        points.append(f"**Academy** · {tasks} task(s), {xp} XP, level {level}"
+                      + (f" ({needed} XP to {nxt})." if nxt else "."))
     except Exception:
         pass
     if user == "owner":
         try:
             from vittantra_approval_page import pending
             if pending():
-                points.append("🛠️ A risk fix is waiting for your approval — use **Review & approve the fix** in the "
-                              "sidebar.")
+                points.append("**Approvals** · 1 remediation proposal pending (Risk Overview).")
         except Exception:
             pass
     return points
@@ -119,12 +116,12 @@ def render_welcome() -> None:
     with st.container(border=True):
         st.markdown(f"#### {greeting()}, {name}")
         if user != "owner" and not cloud.progress_path().exists() and not briefing_has_portfolio(user):
-            st.markdown("Welcome to Vittantra — here is a good way to start:\n"
-                        "1. **Guide → A day on the desk**: see what professionals do, hour by hour.\n"
-                        "2. **My Portfolio**: start from a template and see its risk like a portfolio manager.\n"
-                        "3. **Academy → Work Desk**: do today's task for one role and get reviewed.")
+            st.markdown("Getting started\n"
+                        "1. **Guide → A day on the desk** — the daily routine of each role.\n"
+                        "2. **My Portfolio** — start from a model portfolio and review its risk.\n"
+                        "3. **Academy → Work Desk** — today's task for one role, with a review.")
         else:
-            st.markdown("\n".join(f"- {p}" for p in briefing(user)))
+            st.markdown("  \n".join(briefing(user)))
 
 
 def briefing_has_portfolio(user: str) -> bool:

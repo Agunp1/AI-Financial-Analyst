@@ -88,8 +88,8 @@ def size_positions(base: Path = BASE_DIR) -> Tuple[pd.DataFrame, dict]:
     proposal["risk_budget"] = proposal["symbol"].map(before["instrument_risk_budget"])
     proposal["action"] = proposal["change"].apply(lambda c: "REDUCE" if c < -1e-9 else "HOLD")
     proposal["reason"] = proposal["symbol"].map(
-        lambda s: ("over its limit now" if before.at[s, "risk_budget_utilization"] >= 1.0 else
-                   "share of risk rose above 80% of its limit once the others were reduced") if s in flagged else "")
+        lambda s: ("Over limit" if before.at[s, "risk_budget_utilization"] >= 1.0 else
+                   "Above 80% of limit after other reductions") if s in flagged else "")
     summary = {
         "created_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "positions_over_budget_now": int((before["risk_budget_utilization"] > 1.0).sum()),

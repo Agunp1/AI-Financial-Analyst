@@ -14,9 +14,9 @@ import vittantra_theme as vt
 
 
 STATUS_TEXT = {
-    "ON TARGET": ("✅", "Within your chosen risk level."),
-    "SLIGHTLY ABOVE": ("🟡", "A little more risk than your chosen level — see the suggestions below."),
-    "ABOVE RISK LEVEL": ("🟠", "Clearly more risk than your chosen level — see the suggestions below."),
+    "ON TARGET": ("green", "Within the selected risk level."),
+    "SLIGHTLY ABOVE": ("orange", "Modestly above the selected risk level."),
+    "ABOVE RISK LEVEL": ("red", "Above the selected risk level."),
 }
 
 
@@ -70,7 +70,7 @@ def _set_base(holdings: list) -> None:
 
 def _builder(table: pd.DataFrame) -> None:
     labels = {r.symbol: f"{r.symbol} — {r.name} ({r.asset_class})" for r in table.itertuples()}
-    with st.expander("➕ Start from a template", expanded=not st.session_state.get("mp_holdings")):
+    with st.expander("Start from a model portfolio", expanded=not st.session_state.get("mp_holdings")):
         names = list(mp.TEMPLATES)
         c1, c2, c3 = st.columns([2, 1, 1])
         choice = c1.selectbox("Template", names, key="mp-template",
@@ -80,7 +80,7 @@ def _builder(table: pd.DataFrame) -> None:
         if c3.button("Use template", key="mp-use-template", width="stretch"):
             _set_base(mp.from_weights(mp.TEMPLATES[choice]["weights"], amount, table))
             st.rerun()
-    with st.expander("➕ Add a holding"):
+    with st.expander("Add a holding"):
         c1, c2, c3 = st.columns([3, 1, 1])
         symbol = c1.selectbox("Security or asset", list(labels), format_func=labels.get, key="mp-add-symbol",
                               index=None, placeholder="Type to search: Tesla, Ford, gold, bitcoin, Treasury, hotel REIT…")
@@ -111,7 +111,7 @@ def _save_controls(holdings: list) -> None:
         st.caption("You are trying this as a visitor: the portfolio lasts until you close the page. Sign in or "
                    "create an account (sidebar) to save it.")
         return
-    if st.button("💾 Save my portfolio", key="mp-save", type="primary"):
+    if st.button("Save portfolio", key="mp-save", type="primary"):
         path = mp.save(user, holdings, int(st.session_state.get("mp_profile", 3)), table=_universe())
         cloud.persist(path, f"Portfolio saved by {user}")
         st.success("Saved.")
@@ -124,7 +124,7 @@ def _analysis(holdings: list, table: pd.DataFrame, profile: int) -> None:
         st.info(result["error"])
         return
     level, status = result["profile"], result["status"]
-    icon, text = STATUS_TEXT[status]
+    colour, text = STATUS_TEXT[status]
     risk = result["risk"]
     m = st.columns(4)
     m[0].metric("Portfolio value", _money(result["value"]))
@@ -132,7 +132,7 @@ def _analysis(holdings: list, table: pd.DataFrame, profile: int) -> None:
                 f"target {level['target_vol']:.0%} ({level['name']})", delta_color="off")
     m[2].metric("1-day 99% VaR", _money(risk["var99_1d_parametric"]))
     m[3].metric("Beta to S&P 500", f"{risk['beta_spy']:.2f}" if pd.notna(risk.get("beta_spy")) else "n/a")
-    st.markdown(f"### {icon} {status.title()} — {text}")
+    st.markdown(f"**Risk status** :{colour}[**{status.title()}**] · {text}")
 
     left, right = st.columns(2)
     with left:
@@ -147,14 +147,13 @@ def _analysis(holdings: list, table: pd.DataFrame, profile: int) -> None:
                                textposition="outside"))
         fig.update_layout(height=300, margin=dict(l=10, r=30, t=40, b=10), title="What drives your risk (%)")
         st.plotly_chart(fig, width="stretch")
-    st.caption("Professionals look at both: a holding can be small by value but large by risk (Euler risk "
-               "contributions — the shares add up to 100%).")
+    st.caption("Risk contribution (Euler): each holding's share of total risk; shares sum to 100%.")
 
-    st.markdown("#### Checks professionals run")
+    st.markdown("#### Portfolio checks")
     for name, ok, detail in result["checks"]:
-        st.markdown(f"{'✅' if ok else '⚠️'} **{name}** — {detail}")
+        st.markdown(f"{':green[✓]' if ok else ':orange[✗]'} **{name}** — {detail}")
 
-    st.markdown("#### Stress tests: what would happen in…")
+    st.markdown("#### Stress tests")
     scen = pd.DataFrame([{"Scenario": k, "Estimated P&L ($)": v, "P&L (%)": v / result["value"] * 100}
                          for k, v in result["scenarios"].items()])
     st.dataframe(scen, hide_index=True, width="stretch",
@@ -194,9 +193,8 @@ def _performance_and_watchlist(table: pd.DataFrame) -> None:
         st.caption("Historical result of a hypothetical portfolio at free (possibly delayed) prices — not a promise of "
                    "future returns. Changing the holdings and saving starts a new baseline.")
 
-    st.markdown("#### 👀 Watchlist & alerts")
-    st.caption("Professionals keep a watchlist and set alerts so they react to moves instead of watching screens all "
-               "day. Alerts show here and in your Home briefing.")
+    st.markdown("#### Watchlist & alerts")
+    st.caption("Alerts on daily moves and price levels; triggered alerts also appear on Home.")
     current = pd.DataFrame(data.get("watchlist", []) if data else st.session_state.get("mp_watch", []),
                            columns=["symbol", "move", "above", "below"])
     edited = st.data_editor(current, num_rows="dynamic", hide_index=True, width="stretch", key="mp-watch-editor",
@@ -218,15 +216,15 @@ def _performance_and_watchlist(table: pd.DataFrame) -> None:
         st.session_state["mp_watch"] = watch
     triggered = mp.alerts([w for w in watch if w.get("symbol")], table)
     for alert in triggered:
-        st.warning("🔔 " + alert["text"])
+        st.warning(alert["text"])
     if watch and not triggered:
         st.success("No alerts triggered right now.")
 
 
 def render_my_portfolio() -> None:
     st.markdown("### My Portfolio")
-    st.caption("Build your own portfolio from 4,000+ US stocks and 200+ funds and assets — bonds, FX, commodities, "
-               "crypto, real estate and alternatives — and see it the way a portfolio manager and risk team would.")
+    st.caption("Holdings from 4,000+ US stocks and 200+ funds and assets. Risk is measured against your selected "
+               "risk level.")
     table = _universe()
     if table.empty:
         st.info("Market data is not available yet.")

@@ -37,7 +37,7 @@ PAGE_HELP: Dict[str, dict] = {
                   "Pick a playbook (research a stock, manage the portfolio...) and press Go at each step.",
                   "Open an asset class to learn what drives it, with live numbers from Vittantra.",
                   "Search the glossary for any term you meet in the app."],
-        "tip": "Every page also has a 'How to use this page' box at the top.",
+        "tip": "Every page also has a 'Page guide' box at the top.",
     },
     "My Portfolio": {
         "what": "Build your own portfolio from 200+ securities and assets and see its value, mix, risk, checks and "
@@ -170,14 +170,14 @@ PAGE_HELP: Dict[str, dict] = {
 # ==============================================================
 
 NAVIGATION = [
-    ("Sidebar (left)", "Every page is listed there. Click a name to open it. On a phone, tap the » arrow at the "
+    ("Sidebar (left)", "Pages are grouped by function (Overview, Research & Markets, Portfolio & Risk...). On a phone, tap the » arrow at the "
                        "top left to show the sidebar."),
     ("Sign in", "At the bottom of the sidebar: 'Sign in / create account'. Signed in, your Academy work is saved. "
                 "Visitors can still see everything."),
     ("Tabs", "Most pages have tabs across the top (e.g. Markets → World Brief, Overview...). Click a tab to switch."),
     ("Tables", "Click a column name to sort. Hover over a table to search it or make it full screen."),
     ("Charts", "Hover for exact values; drag to zoom; double-click to reset."),
-    ("How to use this page", "Every page starts with this box. Open it whenever you are unsure."),
+    ("Page guide", "Every page starts with this collapsed box: what the page is for and how to use it."),
     ("Data date", "The sidebar shows whether data is LIVE and its date. It refreshes every weekday evening."),
 ]
 

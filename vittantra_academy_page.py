@@ -67,11 +67,11 @@ def render_lesson(lesson: dict, progress: dict, key_prefix: str = "") -> None:
             _save(progress)
             st.rerun()
     else:
-        st.caption("✅ Learned")
+        st.caption("✓ Learned")
 
 
 def _lesson_help(ids, progress, key):
-    with st.expander("📘 Stuck? Learn what you need for this task"):
+    with st.expander("Reference: what you need for this task"):
         for lesson_id in ids:
             lesson = LESSON_BY_ID[lesson_id]
             st.markdown(f"#### {lesson_id} · {lesson['title']}")
@@ -108,7 +108,7 @@ def _checklist(role: str, key: str) -> float:
 def desk_investment_analyst(progress):
     role = "investment_analyst"
     task = SIMULATOR_TASKS[role]
-    st.markdown(f"#### 🕗 {task['title']}")
+    st.markdown(f"#### {task['title']}")
     st.write(task["brief"])
     try:
         data = desk.morning_brief_task()
@@ -126,7 +126,7 @@ def desk_investment_analyst(progress):
 def desk_equity_researcher(progress):
     role = "equity_researcher"
     task = SIMULATOR_TASKS[role]
-    st.markdown(f"#### 📄 {task['title']}")
+    st.markdown(f"#### {task['title']}")
     st.write(task["brief"])
     try:
         data = desk.tear_sheet_task()
@@ -145,7 +145,7 @@ def desk_equity_researcher(progress):
         _review(score, feedback, data["reference"])
     _lesson_help(data["lessons"], progress, "er")
 
-    st.markdown("#### 💰 Valuation call")
+    st.markdown("#### Valuation call")
     try:
         call_task = desk.valuation_call_task()
     except live.MissingData as exc:
@@ -168,7 +168,7 @@ def desk_equity_researcher(progress):
 def desk_portfolio_analyst(progress):
     role = "portfolio_analyst"
     task = SIMULATOR_TASKS[role]
-    st.markdown(f"#### 🛡️ {task['title']}")
+    st.markdown(f"#### {task['title']}")
     st.write(task["brief"])
     try:
         data = desk.risk_check_task()
@@ -185,7 +185,7 @@ def desk_portfolio_analyst(progress):
         _review(score, feedback, data["reference"])
 
     st.divider()
-    st.markdown("#### ⚡ Weekly stress question")
+    st.markdown("#### Weekly stress question")
     st.write("Looking at Vittantra's stress scenarios: which one hurts this portfolio most, and which position "
              "contributes the largest loss in it?")
     scenario = st.selectbox("Worst scenario", stress["scenarios"], key="ra-scn")
@@ -201,7 +201,7 @@ def desk_portfolio_analyst(progress):
 def desk_portfolio_manager(progress):
     role = "portfolio_manager"
     task = SIMULATOR_TASKS[role]
-    st.markdown(f"#### ⚖️ {task['title']}")
+    st.markdown(f"#### {task['title']}")
     st.write(task["brief"])
     st.caption(f"Limits: no position above {desk.RISK_CAP:.0%} of portfolio risk; one-way turnover at most "
                f"{desk.TURNOVER_CAP:.0%}.")
@@ -246,7 +246,7 @@ def desk_portfolio_manager(progress):
 def desk_advisor(progress):
     role = "advisor"
     task = SIMULATOR_TASKS[role]
-    st.markdown(f"#### 🤝 {task['title']}")
+    st.markdown(f"#### {task['title']}")
     st.write(task["brief"])
     data = desk.client_task()
     c = data["client"]
@@ -267,7 +267,7 @@ def desk_advisor(progress):
             vols = {"Stocks": 0.16, "Bonds": 0.06, "Cash": 0.005, "Alternatives": 0.18}
         result = desk.evaluate_allocation(c, {k: v / 100 for k, v in weights.items()}, vols)
         best = desk.reference_allocation(c, vols)
-        feedback = "\n".join(f"- {'✅' if ok else '❌'} {name}: {detail}" for name, ok, detail in result["checks"])
+        feedback = "\n".join(f"- {'✓' if ok else '✗'} {name}: {detail}" for name, ok, detail in result["checks"])
         reference = "Suitable reference allocation: " + ", ".join(
             f"{k} {v:.0%}" for k, v in best["weights"].items()) + \
             f" → expected {best['expected_return']:.1%}/yr (assumption), bad year ≈ {best['bad_year_loss']:.0%}." \
@@ -294,7 +294,7 @@ def desk_private_markets(progress):
             f"{fund['team']}, {fund['stage']}, cheques {money(fund['check_range'][0])}–"
             f"{money(fund['check_range'][1])}, about {fund['target_deals']} companies. All companies below are "
             "fictional practice cases.")
-    flow, terms, lbo_tab, interview = st.tabs(["📥 Deal flow", "📝 Term sheet", "🏭 LBO (PE)", "🎤 Mock interview"])
+    flow, terms, lbo_tab, interview = st.tabs(["Deal flow", "Term sheet", "LBO", "Interview prep"])
 
     with flow:
         st.markdown(f"#### {task['title']}")
@@ -409,7 +409,7 @@ def render_item_set(item: dict, progress: dict, role: str, key: str) -> None:
         score, correct = cfa.grade(item, choices)
         lines = []
         for i, (choice, q) in enumerate(zip(choices, item["questions"])):
-            mark = "✅" if choice == q["answer"] else f"❌ correct: {'ABC'[q['answer']]}"
+            mark = "✓" if choice == q["answer"] else f"✗ correct: {'ABC'[q['answer']]}"
             lines.append(f"{i + 1}. {mark} — {q['explanation']}")
         review = "\n".join(lines)
         state = f"{key}-done-{item['title']}"
@@ -424,7 +424,7 @@ def render_item_set(item: dict, progress: dict, role: str, key: str) -> None:
 
 def _desk_item_set(role: str, progress: dict) -> None:
     st.divider()
-    st.markdown("#### 🎓 CFA Level II item set from today's desk")
+    st.markdown("#### CFA Level II item set")
     item = cfa.todays_item_set(role)
     if item is None:
         st.info("Run the data engines to unlock today's item set.")
@@ -467,7 +467,7 @@ def render_academy() -> None:
                    delta_color="off")
 
     work, handbook, lessons, cfa_tab, cases, record = st.tabs(
-        ["🖥️ Work Desk", "📘 Role Handbook", "🎓 Lessons", "📗 CFA Level II", "📁 Case Studies", "🗂️ My Work Record"])
+        ["Work Desk", "Role Handbook", "Lessons", "CFA Level II", "Case Studies", "Work Record"])
 
     with cases:
         try:
@@ -512,7 +512,7 @@ def render_academy() -> None:
         st.progress(sum(l["id"] in read for l in track) / len(track),
                     text=f"{sum(l['id'] in read for l in track)} of {len(track)} lessons learned")
         for lesson in track:
-            with st.expander(f"{'✅ ' if lesson['id'] in read else ''}{lesson['id']} · {lesson['title']}"):
+            with st.expander(f"{'✓ ' if lesson['id'] in read else ''}{lesson['id']} · {lesson['title']}"):
                 render_lesson(lesson, progress, key_prefix="tab-")
 
     with cfa_tab:

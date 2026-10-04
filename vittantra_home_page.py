@@ -89,48 +89,74 @@ def _highlights() -> list:
 
 def _snapshot() -> dict:
     out = {}
-    ratings = _load("day77_current_ratings.csv")
-    analytics = _load("day76c_asset_analytics.csv")
     us = _load("day76_us_fundamental_scores.csv")
-    clients = BASE_DIR / "advisory_clients.json"
-    out["Stocks rated"] = len(ratings) if not ratings.empty else "—"
-    if not us.empty:
-        out["US companies scored"] = f"{len(us):,}"
-    out["Instruments tracked"] = len(analytics) if not analytics.empty else "—"
-    out["Clients (sample)"] = len(json.loads(clients.read_text())["clients"]) if clients.exists() else "—"
+    analytics = _load("day76c_asset_analytics.csv")
+    ratings = _load("day77_current_ratings.csv")
+    out["US companies covered"] = f"{len(us):,}" if not us.empty else "—"
+    out["Instruments"] = len(analytics) if not analytics.empty else "—"
+    out["Rated stocks"] = len(ratings) if not ratings.empty else "—"
+    out["Asset classes"] = analytics["asset_class"].nunique() if not analytics.empty else "—"
     out["Rule & formula tests"] = _count_tests()
-    live = _load("day75_live_instrument_prices.csv")
-    out["Data as of"] = (pd.to_datetime(live["as_of_date"].dropna().max()).strftime("%d %b %Y")
-                         if not live.empty else "sample")
     return out
 
 
+OVERVIEW = [("Equities", ["SPY", "QQQ", "IWM", "EFA", "EEM"]), ("Rates & credit", ["TLT", "AGG", "LQD", "HYG"]),
+            ("FX", ["DX-Y.NYB", "EURUSD=X", "USDJPY=X"]), ("Commodities", ["GC=F", "CL=F", "HG=F"]),
+            ("Real assets & alternatives", ["VNQ", "PSP"]), ("Digital assets", ["BTC-USD", "ETH-USD"])]
+
+
+def _market_overview() -> None:
+    data = _load("day76c_asset_analytics.csv")
+    if data.empty:
+        return
+    data = data.set_index("symbol")
+    rows = []
+    for group, symbols in OVERVIEW:
+        for s in symbols:
+            if s in data.index:
+                r = data.loc[s]
+                rows.append({"Class": group, "Instrument": r["name"], "Symbol": s, "Last": r["price"],
+                             "1D %": r["return_1d"] * 100, "1M %": r["return_1m"] * 100,
+                             "12M %": r["return_12m"] * 100, "Volatility (a year) %": r["volatility_1y"] * 100})
+    st.markdown('<div class="vt-section">Market overview</div>', unsafe_allow_html=True)
+    st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch",
+                 column_config={"Last": st.column_config.NumberColumn(format="%.2f"),
+                                "1D %": st.column_config.NumberColumn(format="%+.2f"),
+                                "1M %": st.column_config.NumberColumn(format="%+.1f"),
+                                "12M %": st.column_config.NumberColumn(format="%+.1f"),
+                                "Volatility (a year) %": st.column_config.NumberColumn(format="%.1f")})
+    st.caption("Free market data, may be delayed. Full coverage: Markets.")
+
+
 def render_home() -> None:
+    import vittantra_cloud as cloud
     import vittantra_welcome
     vittantra_welcome.render_welcome()
-    st.markdown(
-        """
-        <div class="vt-hero">
-          <div class="vt-eyebrow">VITTANTRA</div>
-          <div class="vt-hero-title">Investment research you can trust — every number traced, every decision human.</div>
-          <div class="vt-hero-sub">One platform for the analyst, the equity researcher, the portfolio manager, the risk
-          team and the advisor. Built on free public data, finance-textbook methods, and governance that never lets a
-          model trade on its own.</div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    signed_in = cloud.current_user() if cloud.cloud_mode() else True
+    if not signed_in:
+        st.markdown('<div class="vt-lede">Investment research, portfolio construction and risk management on public '
+                    'data — every figure sourced, every decision approved by a person.</div>',
+                    unsafe_allow_html=True)
     snapshot = _snapshot()
-    # A wrapping stat strip instead of fixed columns, so labels and numbers never truncate on narrow screens
-    short = {"US companies scored": "US companies", "Instruments tracked": "Instruments",
-             "Clients (sample)": "Sample clients", "Rule & formula tests": "Automated tests"}
     st.markdown('<div class="vt-stats">' + "".join(
-        f'<div class="vt-stat"><div class="vt-stat-label">{short.get(label, label)}</div>'
-        f'<div class="vt-stat-value">{value}</div></div>' for label, value in snapshot.items()) + "</div>",
-        unsafe_allow_html=True)
+        f'<div class="vt-stat"><div class="vt-stat-label">{label}</div>'
+        f'<div class="vt-stat-value">{value}</div></div>' for label, value in snapshot.items()
+        if label != "Rule & formula tests") + "</div>", unsafe_allow_html=True)
 
-    st.markdown('<div class="vt-section">Six desks, one workflow</div>', unsafe_allow_html=True)
-    for start in range(0, len(DESKS), 3):          # rows of three stay readable on laptop screens
+    left, right = st.columns([3, 2])
+    with left:
+        _market_overview()
+    with right:
+        highlights = _highlights()
+        if highlights:
+            st.markdown('<div class="vt-section">Research highlights</div>', unsafe_allow_html=True)
+            for label, value, note in highlights:
+                st.markdown(f'<div class="vt-card"><div class="vt-card-label">{label}</div>'
+                            f'<div class="vt-card-value">{value}</div><div class="vt-card-text">{note}</div></div>',
+                            unsafe_allow_html=True)
+
+    st.markdown('<div class="vt-section">Workspaces</div>', unsafe_allow_html=True)
+    for start in range(0, len(DESKS), 3):
         cols = st.columns(3)
         for col, (desk, page, text) in zip(cols, DESKS[start:start + 3]):
             with col:
@@ -138,37 +164,17 @@ def render_home() -> None:
                             f'<div class="vt-card-text">{text}</div></div>', unsafe_allow_html=True)
                 st.button("Open", key=f"desk-{desk}", on_click=_go, args=(page,), width="stretch")
 
-    st.markdown('<div class="vt-section">How it works</div>', unsafe_allow_html=True)
-    steps = ["Free data", "Research & valuation", "Portfolio & risk", "Governance & approval", "Human decision"]
-    st.markdown('<div class="vt-flow">' + "".join(
-        f'<span class="vt-step">{s}</span>' + ('<span class="vt-arrow">→</span>' if i < len(steps) - 1 else "")
-        for i, s in enumerate(steps)) + "</div>", unsafe_allow_html=True)
-
-    left, right = st.columns([3, 2])
-    with left:
-        highlights = _highlights()
-        if highlights:
-            st.markdown('<div class="vt-section">Today from the data</div>', unsafe_allow_html=True)
-            cols = st.columns(2)
-            for i, (label, value, note) in enumerate(highlights):
-                with cols[i % 2]:
-                    st.markdown(f'<div class="vt-card"><div class="vt-card-label">{label}</div>'
-                                f'<div class="vt-card-value">{value}</div><div class="vt-card-text">{note}</div></div>',
-                                unsafe_allow_html=True)
-    with right:
-        st.markdown('<div class="vt-section">Trust by design</div>', unsafe_allow_html=True)
+    with st.expander("Methodology and controls"):
         st.markdown(
-            "- **Sourced:** SEC EDGAR filings, FRED, Yahoo Finance, official RSS — free and labelled\n"
-            "- **Point in time:** a backtest only sees facts filed by that date\n"
-            "- **Evidence-linked:** every research claim cites its file, field and value\n"
-            "- **No invented answers:** the copilot says when the data does not cover a question\n"
-            "- **Suitability first:** advice is checked against the client profile or IPS\n"
-            "- **Human in the loop:** proposals wait for approval; automatic execution is always 0\n"
-            f"- **Tested:** {snapshot['Rule & formula tests']} automated tests pin formulas and rules")
-
-    st.markdown('<div class="vt-section">Guided tour (5 minutes)</div>', unsafe_allow_html=True)
-    for i, (page, text) in enumerate(TOUR, start=1):
-        c1, c2 = st.columns([6, 1])
-        c1.markdown(f"**{i}.** {text}")
-        c2.button("Go", key=f"tour-{i}", on_click=_go, args=(page,), width="stretch")
-
+            "- **Sources:** SEC EDGAR filings, FRED, Yahoo Finance and official RSS feeds — free and labelled.\n"
+            "- **Point in time:** backtests use only facts filed by each date.\n"
+            "- **Evidence-linked research:** every claim cites its file, field and value.\n"
+            "- **No unsupported answers:** the copilot states when the data does not cover a question.\n"
+            "- **Suitability:** advice is checked against the client profile or IPS.\n"
+            "- **Human approval:** proposals wait for approval; automatic execution is always 0.\n"
+            f"- **Testing:** {snapshot['Rule & formula tests']} automated tests pin formulas and rules.")
+    with st.expander("Guided tour"):
+        for i, (page, text) in enumerate(TOUR, start=1):
+            c1, c2 = st.columns([6, 1])
+            c1.markdown(f"**{i}.** {text}")
+            c2.button("Go", key=f"tour-{i}", on_click=_go, args=(page,), width="stretch")

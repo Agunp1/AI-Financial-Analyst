@@ -20,6 +20,23 @@ class GuideTests(unittest.TestCase):
             for page, _ in playbook["steps"]:
                 self.assertIn(page, pages, playbook["title"])
 
+    def test_menu_groups_cover_every_page(self):
+        import ast
+        from pathlib import Path
+        import vittantra_chrome as chrome
+        tree = ast.parse(Path(guide.BASE_DIR / "vittantra_app.py").read_text())
+        pages = next(ast.literal_eval(n.value) for n in ast.walk(tree)
+                     if isinstance(n, ast.Assign) and getattr(n.targets[0], "id", "") == "NAV_PAGES")
+        grouped = [p for _, ps in chrome.NAV_GROUPS for p in ps]
+        self.assertEqual(sorted(grouped), sorted(pages))
+
+    def test_no_emoji_in_interface_text(self):
+        import glob
+        import re
+        emoji = re.compile("[\U0001F300-\U0001FAFF\u2B50\u2705\u274C\u26A0\u2696\u26A1\u2B55]")
+        for path in glob.glob(str(guide.BASE_DIR / "vittantra_*.py")):
+            self.assertFalse(emoji.search(open(path, encoding="utf-8").read()), path)
+
     def test_lessons_exist(self):
         from academy_content import LESSONS
         ids = {lesson["id"] for lesson in LESSONS}
