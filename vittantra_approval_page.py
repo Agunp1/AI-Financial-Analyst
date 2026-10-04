@@ -139,8 +139,15 @@ def render_pending_fix(where: str) -> None:
                    "stays 0.")
 
 
+def _go_to_fix() -> None:
+    st.session_state["nav"] = "Command Center"
+
+
 def sidebar_note() -> None:
     if recalculating():
         st.caption("✅ Fix approved · updating")
     elif pending():
-        st.caption("✅ Issue caught · fix ready for approval (Command Center)")
+        st.caption("✅ Issue caught · fix ready for approval")
+        if cloud.is_owner():
+            st.button("Review & approve the fix", key="fix-sidebar-go", type="primary", on_click=_go_to_fix,
+                      width="stretch")
