@@ -50,6 +50,9 @@ def normalize(username: str) -> str:
 def username_problem(username: str) -> str:
     """Empty string when the username is allowed, otherwise the reason."""
     name = normalize(username)
+    if "@" in name:
+        return ("Please choose a short username, not an email address — usernames are public "
+                "(e.g. arjun or priya_k).")
     if not USERNAME.match(name):
         return "Use 3–20 characters: letters, numbers, - or _, starting with a letter or number."
     if name in RESERVED:

@@ -32,6 +32,7 @@ class AccountTests(unittest.TestCase):
     def test_username_and_password_rules(self):
         self.assertIn("reserved", accounts.add_user({}, "owner", "longpassword")[1])
         self.assertIn("3–20", accounts.add_user({}, "a b", "longpassword")[1])
+        self.assertIn("not an email", accounts.add_user({}, "someone@example.com", "longpassword")[1])
         self.assertIn("at least", accounts.add_user({}, "sam", "short")[1])
         users, _ = accounts.add_user({}, "sam", "longpassword")
         self.assertIn("taken", accounts.add_user(users, "SAM", "otherpassword")[1])
