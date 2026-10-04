@@ -7,5 +7,5 @@ Critical instruments require human review,True,Critical instruments: 2,2,10,10,1
 Critical instruments block incremental risk,True,Critical instruments: 2,2,10,10,1.0
 Remediation never increases modeled risk,True,Reduction candidates: 2,2,10,10,1.0
 High and critical targets do not exceed risk budget,True,High/Critical instruments: 2,2,10,10,1.0
-Priority queue contains valid workflow states,True,Priority rows: 3,3,10,10,1.0
+Priority queue contains valid workflow states,True,Priority rows: 2,2,10,10,1.0
 Portfolio remediation summary generated,True,Summary rows: 1,10,10,10,1.0

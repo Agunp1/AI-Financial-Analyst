@@ -69,6 +69,21 @@ class RemediationNeverIncreasesRisk(unittest.TestCase):
         self.assertLessEqual(s["maximum_estimated_post_remediation_utilization"],
                              s["maximum_current_risk_budget_utilization"] + 1e-9)
 
+    def test_sizing_only_reduces_positions(self):
+        p = csv("day69_proposed_positions.csv")
+        self.assertTrue((p["proposed_quantity"] <= p["quantity"] + 1e-9).all())
+
+    def test_approved_sizes_never_exceed_the_original_book(self):
+        import json
+        path = BASE / "approved_positions.json"
+        if not path.exists():
+            return
+        approved = json.loads(path.read_text())
+        for entry in approved.get("history", []):
+            self.assertEqual(entry.get("automatic_execution_authorized"), 0)
+            for change in entry.get("changes", {}).values():
+                self.assertLessEqual(change["to"], change["from"] + 1e-9)
+
 
 class RiskLimits(unittest.TestCase):
     """Rule: portfolio proposals respect the risk budget and limits."""

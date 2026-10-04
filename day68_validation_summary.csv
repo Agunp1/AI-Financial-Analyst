@@ -3,9 +3,9 @@ Portfolio governance decision generated,True,Rows: 1,10,10,1.0
 Every Day 66 instrument received governance classification,True,Source instruments: 10; governance instruments: 10,10,10,1.0
 Instrument identifiers remain unique,True,Unique symbols: 10,10,10,1.0
 Risk-budget utilization values are finite,True,Rows checked: 10,10,10,1.0
-Instrument governance actions use approved vocabulary,True,"Actions observed: FREEZE_NEW_RISK, HOLD, MONITOR",10,10,1.0
+Instrument governance actions use approved vocabulary,True,"Actions observed: FREEZE_NEW_RISK, HOLD",10,10,1.0
 Critical utilization freezes incremental risk,True,Critical threshold: 120%,10,10,1.0
 Full risk-budget utilization requires review,True,100% utilization tested.,10,10,1.0
 Comfortable utilization permits HOLD,True,50% utilization tested.,10,10,1.0
-Governance action register generated,True,Rows: 4,10,10,1.0
+Governance action register generated,True,Rows: 3,10,10,1.0
 Governance layer remains separate from trade execution,True,No automatic execution fields are generated.,10,10,1.0

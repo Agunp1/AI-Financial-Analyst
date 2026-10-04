@@ -80,6 +80,7 @@ import streamlit as st
 
 import vittantra_cloud as cloud
 from vittantra_guide_page import page_help, render_guide
+from vittantra_approval_page import render_pending_fix, sidebar_note
 import vittantra_theme as vt
 from vittantra_research_page import render_research
 from vittantra_markets_page import render_markets
@@ -1773,6 +1774,7 @@ with st.sidebar:
 
 
     )
+    sidebar_note()
 
 
 
@@ -1957,6 +1959,7 @@ elif page == "Command Center":
 
 
     st.markdown("### Investment Command Center")
+    render_pending_fix("command")
 
 
 
@@ -4136,6 +4139,7 @@ elif page == "Governance":
 
 
     st.markdown("### Portfolio Governance")
+    render_pending_fix("governance")
 
 
 

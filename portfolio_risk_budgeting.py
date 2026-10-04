@@ -53,7 +53,7 @@ OUTPUT_VALIDATION = Path("day66_validation_summary.csv")
 EPSILON = 1e-12
 
 # Maximum instrument-level share of total portfolio risk budget.
-MAX_INSTRUMENT_RISK_BUDGET = 0.25
+MAX_INSTRUMENT_RISK_BUDGET = 0.30
 
 # Warn when an instrument consumes more than this fraction of its
 # assigned risk budget.
@@ -66,22 +66,23 @@ BREACH_UTILIZATION = 1.00
 MATERIALITY_THRESHOLD = 0.0001
 
 
-# Strategic risk-budget assumptions.
+# Risk limits: the maximum share of portfolio risk each asset class may use.
 #
-# These are research assumptions rather than predictions.
-# The engine automatically renormalizes the budgets across asset
-# classes that actually exist in the Day 65 portfolio.
+# These are limits, not allocations, so they do not have to add up to 100%
+# (Vittantra 2026-10 correction: allocations summing to exactly 100%, including
+# cash which carries no risk, could never be met by any book). Cash has no
+# risk, so it has no risk limit.
 ASSET_CLASS_RISK_BUDGETS = {
-    "Equity": 0.25,
-    "ETF/Fund": 0.15,
-    "Fixed Income": 0.12,
-    "Commodity": 0.10,
-    "Crypto": 0.08,
-    "FX": 0.08,
-    "Real Estate/REIT": 0.08,
-    "Option": 0.05,
-    "Future": 0.06,
-    "Cash/Money Market": 0.03,
+    "Equity": 0.30,
+    "ETF/Fund": 0.30,
+    "Fixed Income": 0.20,
+    "Commodity": 0.20,
+    "Crypto": 0.10,
+    "FX": 0.15,
+    "Real Estate/REIT": 0.15,
+    "Option": 0.10,
+    "Future": 0.25,
+    "Cash/Money Market": 0.0,
 }
 
 
@@ -310,20 +311,8 @@ def build_asset_class_budget_map(
             )
         )
 
-    total = sum(raw_budgets.values())
-
-    if total <= EPSILON:
-        equal_budget = 1.0 / len(asset_classes)
-
-        return {
-            asset_class: equal_budget
-            for asset_class in asset_classes
-        }
-
-    return {
-        asset_class: budget / total
-        for asset_class, budget in raw_budgets.items()
-    }
+    # Limits are used as configured (no rescaling to 100%).
+    return raw_budgets
 
 
 # ============================================================
@@ -415,7 +404,7 @@ def allocate_instrument_budgets(
 
     # If clipping removed budget capacity, redistribute residual risk
     # budget among instruments that still have capacity.
-    result = redistribute_budget_residual(result)
+    # Limits need no redistribution: they are caps, not an allocation of 100%.
 
     return result
 
@@ -979,14 +968,13 @@ def run_validation(
     total_budget = float(
         df["instrument_risk_budget"].sum()
     )
-
-    budget_sum_pass = abs(total_budget - 1.0) <= 1e-6
-
+    risky = pd.to_numeric(df["target_risk_weight"], errors="coerce").fillna(0.0).abs() > EPSILON
+    feasible_total = float(df.loc[risky, "instrument_risk_budget"].sum())
     checks.append(
         validation_row(
-            "Instrument risk budgets sum to 100%",
-            budget_sum_pass,
-            f"Total instrument risk budget: {total_budget:.6%}",
+            "Risk limits can be met (limits of risky positions cover 100% of risk)",
+            feasible_total >= 1.0 - 1e-9,
+            f"Limits of positions that carry risk: {feasible_total:.1%}",
         )
     )
 

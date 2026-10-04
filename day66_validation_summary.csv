@@ -1,12 +1,12 @@
 check,passed,details,passed_tests,total_tests,pass_rate
 Risk-budget outputs contain finite values,True,Columns checked: 9,11,11,1.0
-Instrument risk budgets sum to 100%,True,Total instrument risk budget: 100.000000%,11,11,1.0
-Instrument risk budgets respect concentration cap,True,Largest budget: 25.0000%; limit: 25.0000%,11,11,1.0
+Risk limits can be met (limits of risky positions cover 100% of risk),True,Limits of positions that carry risk: 175.0%,11,11,1.0
+Instrument risk budgets respect concentration cap,True,Largest budget: 30.0000%; limit: 30.0000%,11,11,1.0
 Modeled risk contributions are normalized,True,Total modeled risk contribution: 100.000000%,11,11,1.0
 Risk-budget scalers remain within policy,True,Required range: 0.0 to 1.0,11,11,1.0
 Risk budgeting does not increase capital exposure,True,Largest absolute capital increase: 0.000000%,11,11,1.0
 Risk budgeting does not increase gross exposure,True,Largest absolute gross increase: 0.000000%,11,11,1.0
 Signed-notional direction is preserved,True,Risk budgeting may reduce exposure but must not reverse long/short direction.,11,11,1.0
-Asset-class and instrument budgets reconcile,True,Asset-class total: 100.000000%; instrument total: 100.000000%,11,11,1.0
+Asset-class and instrument budgets reconcile,True,Asset-class total: 175.000000%; instrument total: 175.000000%,11,11,1.0
 Instrument identifiers remain unique,True,Instruments: 10,11,11,1.0
 Portfolio risk-budget summary generated,True,Rows: 1,11,11,1.0
