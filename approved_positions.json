@@ -1,0 +1,44 @@
+{
+  "quantities": {
+    "EQ_AAPL": 100.0,
+    "ETF_SPY": 50.0,
+    "BOND_CORP_01": 100.0,
+    "OPT_AAPL_CALL": 0.3367968787127532,
+    "FUT_ES": 0.0738309803088162,
+    "FX_EURUSD": 10000.0,
+    "CMD_GOLD": 6.994969477468123,
+    "CASH_USD": 10000.0,
+    "CRYPTO_BTC": 0.0972429433206,
+    "REIT_SAMPLE": 100.0
+  },
+  "history": [
+    {
+      "decision": "APPROVED",
+      "decided_at_utc": "2026-10-04T16:09:57Z",
+      "decided_by": "owner (risk reviewer and portfolio reviewer)",
+      "comment": "Approved by the owner.",
+      "max_utilization_before": 3.5000000001071063,
+      "max_utilization_after_estimated": 0.7791667691137057,
+      "changes": {
+        "OPT_AAPL_CALL": {
+          "from": 5.0,
+          "to": 0.3367968787127532
+        },
+        "FUT_ES": {
+          "from": 1.0,
+          "to": 0.0738309803088162
+        },
+        "CMD_GOLD": {
+          "from": 10.0,
+          "to": 6.994969477468123
+        },
+        "CRYPTO_BTC": {
+          "from": 0.25,
+          "to": 0.0972429433206
+        }
+      },
+      "automatic_execution_authorized": 0
+    }
+  ],
+  "note": "Demo multi-asset risk book (fictional). Sizes changed only by human approval."
+}
