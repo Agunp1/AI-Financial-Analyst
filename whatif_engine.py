@@ -145,6 +145,14 @@ class RiskModel:
         usable = [k for k in FACTORS if k in self.factors and self.factors[k].notna().mean() >= 0.8]
         rows = {}
         for symbol in self.returns.columns:
+            proxies = [k for k in usable if FACTORS[k][1] == symbol]
+            if proxies:
+                # The instrument IS a factor (e.g. SPY = equity market): it moves one-for-one with its own
+                # factor and has no separate exposure to the others; regressing it on the remaining factors
+                # would double-count its move in a scenario.
+                rows[symbol] = {k: (1.0 if k in proxies and FACTORS[k][2] == "return" else 0.0) for k in usable}
+                rows[symbol]["r_squared"] = 1.0
+                continue
             own = [k for k in usable if FACTORS[k][1] != symbol]
             data = pd.concat([self.returns[symbol].rename("y"), self.factors[own]], axis=1).dropna()
             if len(data) < max(len(own) + 10, 30):
@@ -152,9 +160,6 @@ class RiskModel:
             result = calculate_ols(data["y"], data[own])
             rows[symbol] = {k: result[k] for k in own}
             rows[symbol]["r_squared"] = result["r_squared"]
-            for k in usable:
-                if FACTORS[k][1] == symbol:          # the factor itself: beta 1 to its own move
-                    rows[symbol][k] = 1.0 if FACTORS[k][2] == "return" else 0.0
         return pd.DataFrame.from_dict(rows, orient="index")
 
     def available(self):

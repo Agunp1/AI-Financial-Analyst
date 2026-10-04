@@ -258,8 +258,13 @@ def persist(path: Path, message: str) -> None:
     """
     if not cloud_mode():
         return
-    own_record = progress_path()
-    if not (is_owner() or (own_record is not None and Path(path).resolve() == own_record.resolve())):
+    own_files = [progress_path()]
+    user = current_user()
+    if user and user != "owner":
+        import my_portfolio
+        own_files.append(my_portfolio.portfolio_file(user))
+    own = any(f is not None and Path(path).resolve() == f.resolve() for f in own_files)
+    if not (is_owner() or own):
         return
     try:
         problem = commit_file(Path(path), message)

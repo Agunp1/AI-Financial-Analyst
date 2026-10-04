@@ -42,6 +42,12 @@ class WhatIfTests(unittest.TestCase):
         self.assertAlmostEqual(b.loc["AAA", "equity_market"], 1.3, delta=0.1)
         self.assertAlmostEqual(b.loc["SPY", "equity_market"], 1.0)        # its own factor
 
+    def test_factor_instrument_is_not_double_counted(self):
+        # SPY is the equity factor: in a scenario it moves exactly with the equity shock, nothing more
+        pnl = we.scenario_pnl(self.model, {"SPY": 1.0}, {"equity_market": -0.2, "interest_rates": 2.0,
+                                                          "credit_spreads": 1.5}, 1.0)
+        self.assertAlmostEqual(float(pnl["scenario_return"].iloc[0]), -0.2, places=9)
+
     def test_scenario_pnl_is_linear_in_shocks(self):
         weights = {"AAA": 0.6, "TLT": 0.4}
         shock = {"equity_market": -0.20, "interest_rates": -0.5}

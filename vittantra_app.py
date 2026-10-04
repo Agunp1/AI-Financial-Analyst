@@ -82,6 +82,7 @@ import vittantra_cloud as cloud
 from vittantra_guide import PAGE_HELP
 from vittantra_guide_page import page_help, render_guide
 from vittantra_approval_page import render_pending_fix, sidebar_note
+from vittantra_my_portfolio_page import render_my_portfolio, sidebar_markets
 import vittantra_tooltips
 vittantra_tooltips.install()
 BASE_DIR_STAMP = Path(__file__).resolve().parent
@@ -141,12 +142,13 @@ APP_SUBTITLE = "AI Investment Research & Portfolio Intelligence"
 APP_VERSION = "1.0"
 
 # Navigation: workflow order (research → portfolio → advisory → risk → learn)
+DEMO_BOOK_PAGES = {"Command Center", "Risk Intelligence", "Portfolio", "Governance", "Remediation", "AI Analyst"}
 NAV_PAGES = [
-    "Home", "Guide", "Command Center", "Research", "Markets", "Portfolio Manager", "Advisory", "Copilot",
+    "Home", "Guide", "My Portfolio", "Command Center", "Research", "Markets", "Portfolio Manager", "Advisory", "Copilot",
     "Risk Intelligence", "Portfolio", "Governance", "Remediation", "AI Analyst", "Academy", "System",
 ]
 NAV_LABELS = {
-    "Home": "Home", "Guide": "Guide (start here)", "Command Center": "Command Center", "Research": "Research & Valuation",
+    "Home": "Home", "Guide": "Guide (start here)", "My Portfolio": "My Portfolio", "Command Center": "Command Center", "Research": "Research & Valuation",
     "Markets": "Markets & World Brief", "Portfolio Manager": "Portfolio Manager", "Advisory": "Advisory",
     "Copilot": "Copilot", "Risk Intelligence": "Risk Intelligence", "Portfolio": "Risk Budgets",
     "Governance": "Governance", "Remediation": "Remediation", "AI Analyst": "AI Risk Analyst",
@@ -1769,7 +1771,8 @@ with st.sidebar:
 
 
 
-    st.caption("PORTFOLIO STATE")
+    if cloud.is_owner():
+        st.caption("PORTFOLIO STATE")
 
 
 
@@ -1777,28 +1780,20 @@ with st.sidebar:
 
 
 
-    st.markdown(
+        st.markdown(
 
 
 
-        status_html(portfolio_status),
+            status_html(portfolio_status),
 
 
 
-        unsafe_allow_html=True,
+            unsafe_allow_html=True,
 
 
 
-    )
-    sidebar_note()
-
-
-
-
-
-
-
-    st.write("")
+        )
+        sidebar_note()
 
 
 
@@ -1806,7 +1801,7 @@ with st.sidebar:
 
 
 
-    st.caption("WORKFLOW")
+        st.write("")
 
 
 
@@ -1814,19 +1809,29 @@ with st.sidebar:
 
 
 
-    st.markdown(
+        st.caption("WORKFLOW")
 
 
 
-        status_html(workflow_status),
 
 
 
-        unsafe_allow_html=True,
+
+        st.markdown(
 
 
 
-    )
+            status_html(workflow_status),
+
+
+
+            unsafe_allow_html=True,
+
+
+
+        )
+    else:
+        sidebar_markets()
 
 
 
@@ -1932,6 +1937,10 @@ if page != "Home":
     st.markdown('<div class="vittantra-title">Vittantra</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="vittantra-subtitle">{APP_SUBTITLE}</div>', unsafe_allow_html=True)
     page_help(page, NAV_LABELS)
+    if page in DEMO_BOOK_PAGES and not cloud.is_owner():
+        st.info("📘 You are viewing Vittantra's **demo risk book** — 10 fictional positions used to show how a "
+                "professional risk team monitors limits, fixes breaches and gets human approval. To see your "
+                "own portfolio, open **My Portfolio**.")
 
 
 
@@ -1964,6 +1973,8 @@ if page == "Home":
     render_home()
 elif page == "Guide":
     render_guide(NAV_LABELS)
+elif page == "My Portfolio":
+    render_my_portfolio()
 
 
 elif page == "Command Center":

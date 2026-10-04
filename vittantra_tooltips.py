@@ -143,6 +143,7 @@ TIPS: Dict[str, str] = {
     "median outcome": "The middle result of the simulations: half better, half worse.",
     "poor case (10th pct)": "Only 1 in 10 simulations end worse than this. A planning floor.",
     # --- system / account -------------------------------------------------
+    "portfolio value": "Market value of all holdings at the latest prices (free data, may be delayed).",
     "as of": "The date the data refers to.",
     "data checks": "Automated validation checks that passed. Professionals check data before trusting a number.",
     "checks": "Automated validation checks that passed.",
