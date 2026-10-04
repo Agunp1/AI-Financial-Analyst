@@ -119,18 +119,24 @@ def render_pending_fix(where: str) -> None:
                               key=f"fix-risk-{where}")
         pm_ok = st.checkbox("Portfolio reviewer sign-off: the proposed sizes are acceptable",
                             key=f"fix-pm-{where}")
-        comment = st.text_input("Comment for the audit log", key=f"fix-comment-{where}",
+        comment = st.text_input("Comment for the audit log (optional)", key=f"fix-comment-{where}",
                                 placeholder="e.g. Approved: derivatives were far above their risk limits")
         approve, reject = st.columns(2)
-        if approve.button("Approve", type="primary", key=f"fix-approve-{where}",
-                          disabled=not (risk_ok and pm_ok and comment.strip())):
-            record_decision("APPROVED", proposal, summary, comment)
-            cloud.persist(APPROVED, "Risk fix approved by owner (demo book; nothing traded)")
-            st.rerun()
-        if reject.button("Reject", key=f"fix-reject-{where}", disabled=not comment.strip()):
-            record_decision("REJECTED", proposal, summary, comment)
+        # Buttons stay enabled: a disabled button that depends on a text box loses the first click
+        # (the text box only commits on Enter or blur), so the inputs are validated on click instead.
+        if approve.button("Approve", type="primary", key=f"fix-approve-{where}"):
+            if not (risk_ok and pm_ok):
+                st.error("Tick both sign-off boxes (risk reviewer and portfolio reviewer), then click Approve.")
+            else:
+                record_decision("APPROVED", proposal, summary, comment.strip() or "Approved by the owner.")
+                cloud.persist(APPROVED, "Risk fix approved by owner (demo book; nothing traded)")
+                if str(st.session_state.get("vt_save_status", "Saved")).startswith("Saved") or not cloud.cloud_mode():
+                    st.rerun()
+        if reject.button("Reject", key=f"fix-reject-{where}"):
+            record_decision("REJECTED", proposal, summary, comment.strip() or "Rejected by the owner.")
             cloud.persist(APPROVED, "Risk fix rejected by owner")
-            st.rerun()
+            if str(st.session_state.get("vt_save_status", "Saved")).startswith("Saved") or not cloud.cloud_mode():
+                st.rerun()
         st.caption("Dual approval (owner acts as both reviewers). Recorded in the audit file. Model book — no orders "
                    "are generated.")
 
