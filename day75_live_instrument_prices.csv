@@ -1,11 +1,11 @@
 symbol,price,sample_price,as_of_date,method,source,proxy_ticker,model_yield,status,note
 AAPL,333.7900085449219,200.0,2026-10-02,DIRECT,intraday quote,AAPL,,FRESH,Apple common stock
 SPY,769.6699829101562,550.0,2026-10-02,DIRECT,intraday quote,SPY,,FRESH,SPDR S&P 500 ETF
-ES,7777.25,6000.0,2026-10-02,DIRECT,intraday quote,ES=F,,FRESH,E-mini S&P 500 front-month future
-EURUSD,1.1262530088424683,1.1,2026-10-04,DIRECT,daily close,EURUSD=X,,FRESH,EUR/USD spot rate
-GOLD,4162.2998046875,2600.0,2026-10-02,DIRECT,intraday quote,GC=F,,FRESH,COMEX gold front-month future (USD/oz)
-BTC,85970.0,100000.0,2026-10-04,DIRECT,intraday quote,BTC-USD,,FRESH,Bitcoin in USD
+ES,7787.75,6000.0,2026-10-05,DIRECT,intraday quote,ES=F,,FRESH,E-mini S&P 500 front-month future
+EURUSD,1.1246063709259033,1.1,2026-10-05,DIRECT,intraday quote,EURUSD=X,,FRESH,EUR/USD spot rate
+GOLD,4181.2001953125,2600.0,2026-10-05,DIRECT,intraday quote,GC=F,,FRESH,COMEX gold front-month future (USD/oz)
+BTC,86553.359375,100000.0,2026-10-05,DIRECT,intraday quote,BTC-USD,,FRESH,Bitcoin in USD
 REIT,89.5,100.0,2026-10-02,PROXY,intraday quote,VNQ,,FRESH,Vanguard Real Estate ETF as REIT proxy
 CORP_BOND,93.89786816847575,98.5,2026-10-01,MODEL,5Y Treasury + BBB OAS (FRED),LQD,0.060700000000000004,FRESH,Priced from 5Y Treasury + BBB spread (FRED); history from LQD returns
-AAPL_CALL,126.2540594490554,8.5,2026-10-02,MODEL,Black-Scholes on AAPL intraday quote,AAPL,,FRESH,Black-Scholes on live AAPL; implied volatility is an assumption
-USD,1.0,1.0,2026-10-04,CONSTANT,constant,,,FRESH,US dollar cash
+AAPL_CALL,126.22991782250261,8.5,2026-10-02,MODEL,Black-Scholes on AAPL intraday quote,AAPL,,FRESH,Black-Scholes on live AAPL; implied volatility is an assumption
+USD,1.0,1.0,2026-10-05,CONSTANT,constant,,,FRESH,US dollar cash
