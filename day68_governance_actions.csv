@@ -1,6 +1,6 @@
 scope,identifier,governance_status,governance_action,requires_review,block_incremental_risk,reason
-PORTFOLIO,TOTAL_PORTFOLIO,BREACH,REDUCE_RISK,True,False,"Day 67 portfolio status indicates a breach. | 1 risk-budget breach(es) are present. | 1 position(s) require risk review. | Maximum risk-budget utilization is 101.08%, at or above 100% of budget. | 3 instrument(s) are in watch status."
-INSTRUMENT,GOLD,BREACH,REDUCE_RISK,True,False,Risk-budget utilization 101.08% >= 100%. | Modeled risk exceeds budget by 0.002150. | Day 66 action: REDUCE_RISK.
-INSTRUMENT,AAPL_CALL,WATCH,MONITOR,True,False,Risk-budget utilization 94.56% is elevated. | Day 66 action: UNCHANGED.
-INSTRUMENT,AAPL,WATCH,MONITOR,True,False,Risk-budget utilization 93.63% is elevated. | Day 66 action: UNCHANGED.
-INSTRUMENT,BTC,WATCH,MONITOR,True,False,Risk-budget utilization 85.03% is elevated. | Day 66 action: UNCHANGED.
+PORTFOLIO,TOTAL_PORTFOLIO,BREACH,REDUCE_RISK,True,False,"Day 67 portfolio status indicates a breach. | 1 risk-budget breach(es) are present. | 1 position(s) require risk review. | Maximum risk-budget utilization is 100.78%, at or above 100% of budget. | 3 instrument(s) are in watch status."
+INSTRUMENT,GOLD,BREACH,REDUCE_RISK,True,False,Risk-budget utilization 100.78% >= 100%. | Modeled risk exceeds budget by 0.001558. | Day 66 action: REDUCE_RISK.
+INSTRUMENT,AAPL_CALL,WATCH,MONITOR,True,False,Risk-budget utilization 94.89% is elevated. | Day 66 action: UNCHANGED.
+INSTRUMENT,AAPL,WATCH,MONITOR,True,False,Risk-budget utilization 93.97% is elevated. | Day 66 action: UNCHANGED.
+INSTRUMENT,BTC,WATCH,MONITOR,True,False,Risk-budget utilization 83.93% is elevated. | Day 66 action: UNCHANGED.
