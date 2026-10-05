@@ -7,7 +7,7 @@ R1,Complex or speculative holdings only for experienced investors,True,ok,comple
 R1,Cash covers the next 12 months' needs,True,ok,cash 2.0% vs need 0.0%,CFA Standard III(C) Suitability
 R2,Volatility within the risk profile,True,ok,10.0% vs limit 10.0%,CFA Standard III(C) Suitability
 R2,A 1-in-20 bad year within loss tolerance,True,ok,possible loss 8% vs tolerance 20%,CFA Standard III(C) Suitability
-R2,Equity share suits the horizon and profile,True,ok,equity 62% vs cap 65% (12-year horizon),CFA Standard III(C) Suitability
+R2,Equity share suits the horizon and profile,True,ok,equity 63% vs cap 65% (12-year horizon),CFA Standard III(C) Suitability
 R2,No single sleeve above 60%,True,ok,largest US equity 43%,CFA Standard III(C) Suitability
 R2,Complex or speculative holdings only for experienced investors,True,ok,complex holdings 0%; experience Some,CFA Standard III(C) Suitability
 R2,Cash covers the next 12 months' needs,True,ok,cash 4.0% vs need 4.0%,CFA Standard III(C) Suitability
@@ -16,7 +16,7 @@ R3,A 1-in-20 bad year within loss tolerance,True,ok,possible loss 5% vs toleranc
 R3,Equity share suits the horizon and profile,True,ok,equity 44% vs cap 45% (25-year horizon),CFA Standard III(C) Suitability
 R3,No single sleeve above 60%,True,ok,largest US equity 32%,CFA Standard III(C) Suitability
 R3,Complex or speculative holdings only for experienced investors,True,ok,complex holdings 0%; experience Extensive,CFA Standard III(C) Suitability
-R3,Cash covers the next 12 months' needs,True,ok,cash 18.1% vs need 4.6%,CFA Standard III(C) Suitability
+R3,Cash covers the next 12 months' needs,True,ok,cash 18.5% vs need 4.6%,CFA Standard III(C) Suitability
 I1,Volatility within the risk profile,True,ok,13.0% vs limit 13.0%,CFA Standard III(C) Suitability
 I1,A 1-in-20 bad year within loss tolerance,True,ok,possible loss 12% vs tolerance 20%,CFA Standard III(C) Suitability
 I1,Equity share suits the horizon and profile,True,ok,equity 84% vs cap 85% (30-year horizon),CFA Standard III(C) Suitability
@@ -32,8 +32,8 @@ I2,A 1-in-20 bad year within loss tolerance,True,ok,possible loss 5% vs toleranc
 I2,Equity share suits the horizon and profile,True,ok,equity 44% vs cap 45% (15-year horizon),CFA Standard III(C) Suitability
 I2,No single sleeve above 60%,True,ok,largest US equity 32%,CFA Standard III(C) Suitability
 I2,Complex or speculative holdings only for experienced investors,True,ok,complex holdings 0%; experience institutional,CFA Standard III(C) Suitability
-I2,Cash covers the next 12 months' needs,True,ok,cash 18.1% vs need 5.0%,CFA Standard III(C) Suitability
+I2,Cash covers the next 12 months' needs,True,ok,cash 18.5% vs need 5.0%,CFA Standard III(C) Suitability
 I2,IPS exclusions respected,True,ok,none held,Investment policy statement
 I2,IPS minimum fixed income,True,ok,48% vs minimum 45%,Investment policy statement
-I2,IPS maximum alternatives,True,ok,8% vs maximum 10%,Investment policy statement
+I2,IPS maximum alternatives,True,ok,9% vs maximum 10%,Investment policy statement
 I2,Expected return meets the return objective,True,ok,expected 7.36% vs required 5.00%,Investment policy statement

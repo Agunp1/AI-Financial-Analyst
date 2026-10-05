@@ -1,12 +1,12 @@
 check,passed,details,passed_tests,total_tests,pass_rate
-Instrument exposure rows generated,True,Rows: 10,11,11,1.0
-Exposure calculations finite,True,Core exposure fields must contain finite values.,11,11,1.0
-Capital weights sum to one,True,Capital weight sum: 1.00000000,11,11,1.0
-Gross exposure weights sum to one,True,Gross exposure weight sum: 1.00000000,11,11,1.0
-Risk weights sum to one,True,Risk weight sum: 1.00000000,11,11,1.0
-ES recognized as future,True,ES must be treated as derivative exposure rather than ordinary fully funded equity.,11,11,1.0
-Derivative capital and notional separated,True,"ES capital exposure: $2,871.01; ES gross notional: $28,710.10",11,11,1.0
-Asset-class exposure summary generated,True,Rows: 10,11,11,1.0
-Portfolio exposure summary generated,True,Rows: 1,11,11,1.0
-Concentration diagnostics generated,True,Checks: 10; instruments: 10,11,11,1.0
-Fully funded positions within capital policy,True,Largest applicable capital weight: 24.6701%; limit: 25.0000%,11,11,1.0
+Instrument exposure rows generated,True,Rows: 10,10,11,0.9090909090909091
+Exposure calculations finite,True,Core exposure fields must contain finite values.,10,11,0.9090909090909091
+Capital weights sum to one,True,Capital weight sum: 1.00000000,10,11,0.9090909090909091
+Gross exposure weights sum to one,True,Gross exposure weight sum: 1.00000000,10,11,0.9090909090909091
+Risk weights sum to one,True,Risk weight sum: 1.00000000,10,11,0.9090909090909091
+ES recognized as future,True,ES must be treated as derivative exposure rather than ordinary fully funded equity.,10,11,0.9090909090909091
+Derivative capital and notional separated,True,"ES capital exposure: $2,879.96; ES gross notional: $28,799.62",10,11,0.9090909090909091
+Asset-class exposure summary generated,True,Rows: 10,10,11,0.9090909090909091
+Portfolio exposure summary generated,True,Rows: 1,10,11,0.9090909090909091
+Concentration diagnostics generated,True,Checks: 10; instruments: 10,10,11,0.9090909090909091
+Fully funded positions within capital policy,False,Largest applicable capital weight: 30.0597%; limit: 25.0000%,10,11,0.9090909090909091

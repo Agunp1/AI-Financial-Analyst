@@ -2,14 +2,14 @@ check,passed,details,passed_tests,total_tests,pass_rate
 Every Day 69 instrument receives a Day 70 ticket,True,Day 69 rows: 10; Day 70 tickets: 10,15,15,1.0
 Decision ticket identifiers are unique,True,Unique tickets: 10,15,15,1.0
 Instrument coverage reconciles with Day 69,True,Instruments: 10,15,15,1.0
-Decision states use approved vocabulary,True,"Observed: NO_ACTION_REQUIRED, PENDING_REVIEW",15,15,1.0
-Workflow states use approved vocabulary,True,"Observed: AWAITING_DUAL_APPROVAL, AWAITING_RISK_REVIEW, CLOSED_NO_ACTION",15,15,1.0
-Remediation actions remain within approved vocabulary,True,"Observed: HOLD, REDUCE_RISK, REVIEW_AND_MONITOR",15,15,1.0
-Priority buckets remain valid,True,"Observed: P2_HIGH, P3_REVIEW, P4_MONITOR",15,15,1.0
-Risk-changing actions require review,True,Risk-changing tickets: 1,15,15,1.0
+Decision states use approved vocabulary,True,Observed: NO_ACTION_REQUIRED,15,15,1.0
+Workflow states use approved vocabulary,True,Observed: CLOSED_NO_ACTION,15,15,1.0
+Remediation actions remain within approved vocabulary,True,Observed: HOLD,15,15,1.0
+Priority buckets remain valid,True,Observed: P4_MONITOR,15,15,1.0
+Risk-changing actions require review,True,Risk-changing tickets: 0,15,15,1.0
 Critical remediation requires dual approval,True,Critical tickets: 0,15,15,1.0
 Automatic execution remains disabled,True,No Day 70 ticket authorizes automatic execution.,15,15,1.0
-Approval queue reconciles with pending decisions,True,Pending tickets: 4; queue rows: 4,15,15,1.0
+Approval queue reconciles with pending decisions,True,Pending tickets: 0; queue rows: 0,15,15,1.0
 Every decision ticket receives an audit event,True,Tickets: 10; audit events: 10,15,15,1.0
 Audit hashes are generated,True,Audit events checked: 10,15,15,1.0
 Portfolio approval summary generated,True,Summary rows: 1,15,15,1.0
