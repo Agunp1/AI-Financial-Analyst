@@ -1,14 +1,14 @@
 {
   "quantities": {
-    "EQ_AAPL": 100.0,
+    "EQ_AAPL": 64.02345566679246,
     "ETF_SPY": 50.0,
     "BOND_CORP_01": 100.0,
-    "OPT_AAPL_CALL": 0.3367968787127532,
+    "OPT_AAPL_CALL": 0.2135209812941001,
     "FUT_ES": 0.0738309803088162,
     "FX_EURUSD": 10000.0,
-    "CMD_GOLD": 6.994969477468123,
+    "CMD_GOLD": 4.257479326547307,
     "CASH_USD": 10000.0,
-    "CRYPTO_BTC": 0.0972429433206,
+    "CRYPTO_BTC": 0.0652824018008145,
     "REIT_SAMPLE": 100.0
   },
   "history": [
@@ -35,6 +35,33 @@
         "CRYPTO_BTC": {
           "from": 0.25,
           "to": 0.0972429433206
+        }
+      },
+      "automatic_execution_authorized": 0
+    },
+    {
+      "decision": "APPROVED",
+      "decided_at_utc": "2026-10-05T14:22:55Z",
+      "decided_by": "owner (risk reviewer and portfolio reviewer)",
+      "comment": "Approved by the owner.",
+      "max_utilization_before": 1.007791550148402,
+      "max_utilization_after_estimated": 0.7909295854346144,
+      "changes": {
+        "EQ_AAPL": {
+          "from": 100.0,
+          "to": 64.02345566679246
+        },
+        "OPT_AAPL_CALL": {
+          "from": 0.3367968787127532,
+          "to": 0.2135209812941001
+        },
+        "CMD_GOLD": {
+          "from": 6.994969477468123,
+          "to": 4.257479326547307
+        },
+        "CRYPTO_BTC": {
+          "from": 0.0972429433206,
+          "to": 0.0652824018008145
         }
       },
       "automatic_execution_authorized": 0
