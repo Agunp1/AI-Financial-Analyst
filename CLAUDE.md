@@ -91,6 +91,10 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
   `.env`; cached in `sec_cache/`, git-ignored). Use only facts filed on or
   before the as-of date.
 - Refresh schedule (GitHub Actions): `refresh-prices.yml` every 15 min in US market hours and hourly otherwise (prices, markets, brief, risk chain; commits only the live files, not histories); `refresh-data.yml` daily full run incl. SEC and ratings. The sidebar shows the time from `day75_refresh_stamp.csv`.
+  GitHub's free scheduler is best-effort: after the workflow was added (2026-10-04) timed runs
+  only began hours later and arrive irregularly (gaps of 3–4 h seen). Manual dispatch always works.
+  Fallback if it stays unreliable (owner has not approved it yet): a Claude routine that dispatches
+  `refresh-prices.yml` hourly (costs Claude usage; hourly at best).
 - The cloud sandbox cannot reach Yahoo/FRED/SEC; test with the fake fetchers in
   `test_data_hub.py`. Live downloads run on the owner's machine.
 
@@ -117,6 +121,14 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 - The finished Vittantra must look impressive and professional (owner's goal):
   consistent design, clear navigation, no raw/debug output in the UI, labelled
   sources and assumptions. A dedicated polish phase is on the roadmap.
+
+## Working with the owner
+
+- Owner (Arjun) is non-technical and prefers Claude to do the work: create the PR and merge it into
+  `main` (that redeploys vittantra.streamlit.app). Explain results plainly; steps only when they must act.
+- Claude must never approve risk decisions for the owner; the owner clicks Approve in the app.
+- Never ask for or handle secrets in chat; they live in Streamlit Secrets and GitHub repo secrets.
+- Career use: resume/LinkedIn wording lives in `CAREER_KIT.md` section 7; keep its numbers accurate.
 
 ## Conventions
 
