@@ -1,8 +1,8 @@
 series_id,description,latest_value,latest_date,previous_value,change,data_source
-DGS3MO,3-Month Treasury yield (%),4.17,2026-10-01,4.2,-0.03000000000000025,"FRED (St. Louis Fed, free)"
-DGS2,2-Year Treasury yield (%),4.78,2026-10-01,4.88,-0.09999999999999964,"FRED (St. Louis Fed, free)"
-DGS5,5-Year Treasury yield (%),5.01,2026-10-01,5.09,-0.08000000000000007,"FRED (St. Louis Fed, free)"
-DGS10,10-Year Treasury yield (%),5.24,2026-10-01,5.29,-0.04999999999999982,"FRED (St. Louis Fed, free)"
+DGS3MO,3-Month Treasury yield (%),4.19,2026-10-02,4.17,0.020000000000000462,"FRED (St. Louis Fed, free)"
+DGS2,2-Year Treasury yield (%),4.83,2026-10-02,4.78,0.04999999999999982,"FRED (St. Louis Fed, free)"
+DGS5,5-Year Treasury yield (%),5.06,2026-10-02,5.01,0.04999999999999982,"FRED (St. Louis Fed, free)"
+DGS10,10-Year Treasury yield (%),5.28,2026-10-02,5.24,0.040000000000000036,"FRED (St. Louis Fed, free)"
 BAMLC0A4CBBB,ICE BofA BBB corporate option-adjusted spread (%),1.04,2026-10-02,1.06,-0.020000000000000018,"FRED (St. Louis Fed, free)"
 VIXCLS,CBOE VIX volatility index,15.31,2026-10-02,16.39,-1.08,"FRED (St. Louis Fed, free)"
 CPIAUCSL,Consumer Price Index (index level),334.131,2026-08-01,332.813,1.3179999999999836,"FRED (St. Louis Fed, free)"

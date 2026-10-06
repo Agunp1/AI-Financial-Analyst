@@ -11,7 +11,7 @@ max_terminal_growth,0.03,Vittantra policy assumption
 default_retention,0.5,Vittantra policy assumption
 default_risk_free,0.0425,Vittantra policy assumption
 fair_value_band,0.15,Vittantra policy assumption
-risk_free_rate,0.0524,10Y Treasury (FRED DGS10) on 2026-10-01
+risk_free_rate,0.0528,10Y Treasury (FRED DGS10) on 2026-10-02
 credit_spread_AAA,0.0041,ICE BofA option-adjusted spreads by rating (FRED)
 credit_spread_AA,0.006,ICE BofA option-adjusted spreads by rating (FRED)
 credit_spread_A,0.0072,ICE BofA option-adjusted spreads by rating (FRED)
