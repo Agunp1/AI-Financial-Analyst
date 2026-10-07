@@ -1,6 +1,6 @@
 check,passed,details,passed_tests,total_tests,pass_rate
 News feeds reachable,True,8 of 9 feeds; failed: Yahoo Finance,5,5,1.0
 Recent headlines collected,True,66 headlines in the last 7 days,5,5,1.0
-Headlines tagged to themes,True,47% tagged,5,5,1.0
+Headlines tagged to themes,True,50% tagged,5,5,1.0
 Every theme has a data move,True,9 of 9 themes,5,5,1.0
 Calendar built,True,1 events; FRED calendar unavailable (400 Client Error: Bad Request for url: https://api.stlouisfed.org/fred/releases/),5,5,1.0
