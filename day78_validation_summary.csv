@@ -2,6 +2,6 @@ check,passed,details,passed_tests,total_tests,pass_rate
 Stocks with at least one model,True,32 of 33,6,6,1.0
 Model values positive and finite,True,111 model values,6,6,1.0
 WACC within 4%–15%,True,range 5.0% – 12.6%,6,6,1.0
-Terminal value share of DCF plausible (median 40%–90%),True,median 66%,6,6,1.0
-Terminal growth ≤ risk-free rate,True,g ≤ 5.31%,6,6,1.0
+Terminal value share of DCF plausible (median 40%–90%),True,median 67%,6,6,1.0
+Terminal growth ≤ risk-free rate,True,g ≤ 5.27%,6,6,1.0
 Reverse DCF reproduces the market price,True,value at implied growth = price (±1%),6,6,1.0
