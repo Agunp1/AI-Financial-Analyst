@@ -2,9 +2,9 @@ check,passed,details,passed_tests,total_tests,pass_rate
 Market instruments priced,True,173 of 175 instruments,9,9,1.0
 No non-positive prices,True,All prices positive,9,9,1.0
 Every asset class covered,True,Missing: none,9,9,1.0
-Volatilities positive and plausible,True,range 0.2% to 126.3%,9,9,1.0
+Volatilities positive and plausible,True,range 0.2% to 126.4%,9,9,1.0
 Prices fresh (within 7 days),True,99% of instruments,9,9,1.0
 Treasury curve complete,True,11 of 11 maturities,9,9,1.0
 Credit spreads loaded,True,10 of 10 segments,9,9,1.0
 FX carry coverage,True,78% of pairs have both short rates,9,9,1.0
-Stablecoins near $1 (data sanity),True,"0.9994, 0.9998",9,9,1.0
+Stablecoins near $1 (data sanity),True,"0.9992, 0.9998",9,9,1.0
