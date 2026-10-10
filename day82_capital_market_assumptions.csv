@@ -1,11 +1,11 @@
 sleeve,ticker,group,expected_return,method,volatility,volatility_past_year,volatility_long_run
-US equity,SPY,Equity,0.0972,10Y yield + equity risk premium,0.14233481789187202,0.12466963578374406,0.16
+US equity,SPY,Equity,0.0972,10Y yield + equity risk premium,0.14233479363296214,0.12466958726592431,0.16
 International developed equity,EFA,Equity,0.1022,US equity + 0.5% (lower valuations),0.16355088971019793,0.15710177942039583,0.17
 Emerging-market equity,EEM,Equity,0.1122,US equity + 1.5% (higher risk premium),0.2308756431256473,0.24175128625129452,0.22
-US Treasuries,IEF,Fixed income,0.051100000000000007,7-year Treasury yield (fund duration ≈ 7),0.05426826672370355,0.0485365334474071,0.06
-Inflation-linked Treasuries,TIP,Fixed income,0.052000000000000005,10Y real yield + breakeven inflation,0.04781209659278826,0.03562419318557652,0.06
-Investment-grade credit,LQD,Fixed income,0.058399999999999994,10Y yield + IG spread − 0.2% expected loss,0.06279219695844813,0.05558439391689626,0.07
-High-yield credit,HYG,Fixed income,0.060399999999999995,5Y yield + HY spread − default rate 3.5% × loss 60%,0.06438331791109735,0.038766635822194716,0.09
-US REITs,VNQ,Alternatives,0.0822,10Y yield + 3% real-estate premium,0.1702013085964776,0.14040261719295521,0.2
+US Treasuries,IEF,Fixed income,0.051100000000000007,7-year Treasury yield (fund duration ≈ 7),0.054268327203034074,0.04853665440606813,0.06
+Inflation-linked Treasuries,TIP,Fixed income,0.052000000000000005,10Y real yield + breakeven inflation,0.04781209499818922,0.03562418999637843,0.06
+Investment-grade credit,LQD,Fixed income,0.058399999999999994,10Y yield + IG spread − 0.2% expected loss,0.06279213079870574,0.05558426159741148,0.07
+High-yield credit,HYG,Fixed income,0.060399999999999995,5Y yield + HY spread − default rate 3.5% × loss 60%,0.06438342162585015,0.03876684325170028,0.09
+US REITs,VNQ,Alternatives,0.0822,10Y yield + 3% real-estate premium,0.17020130613174353,0.1404026122634871,0.2
 Gold,GLD,Alternatives,0.0233,keeps pace with expected inflation (no income),0.21783153627167015,0.2756630725433404,0.16
-Cash (T-bills),BIL,Cash,0.042300000000000004,3-month T-bill yield,0.0035180393655695604,0.0020360787311391204,0.005
+Cash (T-bills),BIL,Cash,0.042300000000000004,3-month T-bill yield,0.0035180532713161863,0.002036106542632371,0.005
