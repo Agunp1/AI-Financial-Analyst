@@ -1,2 +1,2 @@
 portfolio_status,governance_status,governance_action,governance_reason,instrument_count,watch_count,warning_count,breach_count,critical_count,requires_review_count,mean_risk_budget_utilization,maximum_risk_budget_utilization,largest_asset_class_by_risk,largest_asset_class_risk_share,freeze_new_risk,portfolio_review_required
-NORMAL,NORMAL,HOLD,No portfolio governance threshold is currently breached.,10,0,0,0,0,0,0.4891403033667502,0.7880356772802405,Equity,0.2340230461434976,False,False
+NORMAL,NORMAL,HOLD,No portfolio governance threshold is currently breached.,10,0,0,0,0,0,0.4892052045727412,0.7877340172694803,Equity,0.2340365674676967,False,False
