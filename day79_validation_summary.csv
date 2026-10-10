@@ -5,5 +5,5 @@ Sector active-weight limit,True,largest 9.1%,8,8,1.0
 Tracking error within the risk budget,True,4.00% vs budget 4%,8,8,1.0
 No holding above the risk-share cap,True,largest 15.0%,8,8,1.0
 Beta to benchmark within 0.9–1.1,True,beta 1.03,8,8,1.0
-Diversified (at least 15 holdings),True,21 holdings,8,8,1.0
+Diversified (at least 15 holdings),True,22 holdings,8,8,1.0
 Human approval required; no automatic execution,True,status PENDING_HUMAN_APPROVAL,8,8,1.0
