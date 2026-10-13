@@ -1,19 +1,19 @@
 factor,label,window,move,unit
-equity_market,Equity market,1 week,0.004256,return
-interest_rates,"Interest rates (10Y yield, pp)",1 week,-0.09,percentage points
+equity_market,Equity market,1 week,-0.001357,return
+interest_rates,"Interest rates (10Y yield, pp)",1 week,-0.03,percentage points
 inflation_expectations,"Inflation expectations (10Y breakeven, pp)",1 week,-0.03,percentage points
-credit_spreads,"Credit spreads (high yield, pp)",1 week,-0.01,percentage points
-us_dollar,US dollar,1 week,0.004026,return
-oil,Oil,1 week,0.048016,return
-equity_market,Equity market,1 month,0.020771,return
-interest_rates,"Interest rates (10Y yield, pp)",1 month,0.26,percentage points
-inflation_expectations,"Inflation expectations (10Y breakeven, pp)",1 month,-0.03,percentage points
-credit_spreads,"Credit spreads (high yield, pp)",1 month,0.46,percentage points
-us_dollar,US dollar,1 month,0.034414,return
-oil,Oil,1 month,-0.059026,return
-equity_market,Equity market,3 months,0.034328,return
+credit_spreads,"Credit spreads (high yield, pp)",1 week,0.08,percentage points
+us_dollar,US dollar,1 week,0.003795,return
+oil,Oil,1 week,0.057718,return
+equity_market,Equity market,1 month,0.025117,return
+interest_rates,"Interest rates (10Y yield, pp)",1 month,0.27,percentage points
+inflation_expectations,"Inflation expectations (10Y breakeven, pp)",1 month,-0.04,percentage points
+credit_spreads,"Credit spreads (high yield, pp)",1 month,0.4,percentage points
+us_dollar,US dollar,1 month,0.027426,return
+oil,Oil,1 month,-0.062605,return
+equity_market,Equity market,3 months,0.039631,return
 interest_rates,"Interest rates (10Y yield, pp)",3 months,0.67,percentage points
-inflation_expectations,"Inflation expectations (10Y breakeven, pp)",3 months,0.1,percentage points
+inflation_expectations,"Inflation expectations (10Y breakeven, pp)",3 months,0.11,percentage points
 credit_spreads,"Credit spreads (high yield, pp)",3 months,0.4,percentage points
-us_dollar,US dollar,3 months,0.020763,return
-oil,Oil,3 months,0.191118,return
+us_dollar,US dollar,3 months,0.014916,return
+oil,Oil,3 months,0.209098,return
