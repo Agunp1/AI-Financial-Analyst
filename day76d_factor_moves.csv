@@ -3,17 +3,17 @@ equity_market,Equity market,1 week,-0.001242,return
 interest_rates,"Interest rates (10Y yield, pp)",1 week,-0.03,percentage points
 inflation_expectations,"Inflation expectations (10Y breakeven, pp)",1 week,-0.03,percentage points
 credit_spreads,"Credit spreads (high yield, pp)",1 week,0.08,percentage points
-us_dollar,US dollar,1 week,0.003366,return
-oil,Oil,1 week,0.063692,return
+us_dollar,US dollar,1 week,0.003386,return
+oil,Oil,1 week,0.064866,return
 equity_market,Equity market,1 month,0.025233,return
 interest_rates,"Interest rates (10Y yield, pp)",1 month,0.27,percentage points
 inflation_expectations,"Inflation expectations (10Y breakeven, pp)",1 month,-0.04,percentage points
 credit_spreads,"Credit spreads (high yield, pp)",1 month,0.4,percentage points
-us_dollar,US dollar,1 month,0.026997,return
-oil,Oil,1 month,-0.056631,return
+us_dollar,US dollar,1 month,0.027016,return
+oil,Oil,1 month,-0.055457,return
 equity_market,Equity market,3 months,0.039747,return
 interest_rates,"Interest rates (10Y yield, pp)",3 months,0.67,percentage points
 inflation_expectations,"Inflation expectations (10Y breakeven, pp)",3 months,0.11,percentage points
 credit_spreads,"Credit spreads (high yield, pp)",3 months,0.4,percentage points
-us_dollar,US dollar,3 months,0.014487,return
-oil,Oil,3 months,0.215072,return
+us_dollar,US dollar,3 months,0.014506,return
+oil,Oil,3 months,0.216245,return
