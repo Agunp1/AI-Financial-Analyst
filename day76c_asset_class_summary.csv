@@ -1,41 +1,41 @@
 asset_class,sub_class,instruments,median_return_1m,median_return_12m,median_volatility,median_beta_to_spx
-Alternative,Hedge-fund style,3,0.020935,0.218497,0.121198,0.188282
-Alternative,Infrastructure & MLPs,3,-0.006705,0.115257,0.126214,0.409084
-Alternative,Private credit (BDCs),5,-0.047992,-0.045459,0.237634,0.714901
-Alternative,Private equity (listed),6,-0.140321,-0.269756,0.364799,1.382078
-Alternative,Real assets,4,-0.024758,0.082148,0.253347,0.608759
-Alternative,Volatility,2,-0.0522,-0.372891,0.875663,-5.610026
-Commodity,Commodity ETF,5,-0.012798,0.561475,0.294433,-0.340139
-Commodity,Energy,5,-0.005603,0.708607,0.551297,-1.520141
-Commodity,Grains,5,-0.034314,0.341747,0.223598,-0.164403
-Commodity,Industrial metals,1,0.05237,0.337516,0.271455,1.083001
-Commodity,Livestock,3,-0.024522,-0.118432,0.19255,0.16656
-Commodity,Precious metals,4,-0.10633,-0.019501,0.554743,1.498862
-Commodity,Softs,4,-0.011111,0.127336,0.344112,0.284876
-Digital Asset,Crypto ETF,3,0.036991,-0.274057,0.45203,1.632468
-Digital Asset,Cryptocurrency,20,0.087209,-0.459374,0.679704,1.63983
-Digital Asset,Stablecoin,2,-0.000449,-0.000881,0.003493,0.002239
-Equity,International,9,-0.023064,0.150557,0.177694,1.045211
-Equity,US broad,5,-0.012837,0.13989,0.126703,1.0
-FX,Cross,4,-0.010346,0.002106,0.052077,-0.021303
-FX,Dollar index,1,0.033913,0.038193,0.05145,-0.155174
-FX,Emerging,10,0.008172,-0.005424,0.076524,0.001913
-FX,G10,9,0.025663,0.01577,0.077876,-0.007374
-Fixed Income,Aggregate ETF,2,-0.009623,-0.02226,0.038825,0.132858
-Fixed Income,High yield ETF,3,-0.017934,0.016089,0.03833,0.23537
-Fixed Income,Inflation-linked ETF,1,-0.011576,-0.022329,0.03486,0.076737
-Fixed Income,Investment grade ETF,3,-0.010602,-0.024814,0.043141,0.177966
-Fixed Income,Other bond ETF,5,-0.01208,-0.010384,0.037074,0.159625
-Fixed Income,Treasury ETF,4,-0.006421,-0.015326,0.030714,0.086754
-Real Estate,Apartments & single-family rental,4,-0.057203,-0.064491,0.200262,0.083728
-Real Estate,"CRE debt (mortgage REITs, CMBS)",4,-0.100495,-0.133404,0.185394,0.437272
-Real Estate,Data centers & towers,4,0.011529,0.019781,0.274673,0.385771
-Real Estate,Healthcare & senior housing,3,-0.044404,0.276035,0.226347,-0.20609
-Real Estate,Hotels & lodging,6,0.052153,0.518,0.250926,0.690813
-Real Estate,Industrial & logistics,3,-0.007715,0.184588,0.210995,0.459098
-Real Estate,Motels & economy hotel brands,2,0.066488,-0.008845,0.33851,0.42485
-Real Estate,Net lease,2,-0.063276,0.008755,0.167763,-0.010954
-Real Estate,Office,5,-0.086502,-0.138497,0.320508,0.926235
-Real Estate,REIT ETF,4,-0.031369,0.044359,0.138344,0.319216
-Real Estate,Retail (malls & shopping centers),4,-0.042555,0.106009,0.168772,0.154644
-Real Estate,Self-storage,3,-0.029104,-0.028446,0.225825,0.448692
+Alternative,Hedge-fund style,3,0.0185,0.215591,0.121249,0.192281
+Alternative,Infrastructure & MLPs,3,-0.00811,0.111664,0.1262,0.408563
+Alternative,Private credit (BDCs),5,-0.048902,-0.046372,0.237627,0.713229
+Alternative,Private equity (listed),6,-0.143388,-0.272435,0.365194,1.385291
+Alternative,Real assets,4,-0.023117,0.081566,0.253388,0.607516
+Alternative,Volatility,2,-0.035827,-0.36152,0.876847,-5.611361
+Commodity,Commodity ETF,5,-0.013022,0.561242,0.294369,-0.33743
+Commodity,Energy,5,-0.001532,0.706203,0.551238,-1.512555
+Commodity,Grains,5,-0.033593,0.342748,0.223201,-0.162273
+Commodity,Industrial metals,1,0.050553,0.335207,0.271485,1.080114
+Commodity,Livestock,3,-0.02765,-0.12126,0.192946,0.166829
+Commodity,Precious metals,4,-0.104502,-0.017984,0.554691,1.494569
+Commodity,Softs,4,-0.013714,0.12615,0.34398,0.283149
+Digital Asset,Crypto ETF,3,0.032282,-0.277354,0.452198,1.631769
+Digital Asset,Cryptocurrency,20,0.076839,-0.462542,0.680204,1.641643
+Digital Asset,Stablecoin,2,-0.00046,-0.000892,0.003492,0.002249
+Equity,International,9,-0.024398,0.151171,0.177694,1.042199
+Equity,US broad,5,-0.013514,0.139108,0.126957,1.0
+FX,Cross,4,-0.014982,0.001984,0.052048,-0.02154
+FX,Dollar index,1,0.032475,0.036749,0.051298,-0.154244
+FX,Emerging,10,0.007825,-0.004507,0.07653,0.002606
+FX,G10,9,0.023817,0.015243,0.077898,-0.007691
+Fixed Income,Aggregate ETF,2,-0.008027,-0.020684,0.038816,0.130762
+Fixed Income,High yield ETF,3,-0.017295,0.016543,0.038281,0.234365
+Fixed Income,Inflation-linked ETF,1,-0.010052,-0.020821,0.034913,0.074693
+Fixed Income,Investment grade ETF,3,-0.009123,-0.023355,0.043115,0.175866
+Fixed Income,Other bond ETF,5,-0.010484,-0.009541,0.037087,0.157949
+Fixed Income,Treasury ETF,4,-0.005063,-0.013998,0.030701,0.085128
+Real Estate,Apartments & single-family rental,4,-0.055092,-0.062399,0.200179,0.082741
+Real Estate,"CRE debt (mortgage REITs, CMBS)",4,-0.102045,-0.13447,0.185534,0.440017
+Real Estate,Data centers & towers,4,0.012111,0.020225,0.27481,0.387898
+Real Estate,Healthcare & senior housing,3,-0.040558,0.278686,0.226434,-0.208879
+Real Estate,Hotels & lodging,6,0.05154,0.517809,0.250975,0.689711
+Real Estate,Industrial & logistics,3,-0.006398,0.185833,0.210914,0.455474
+Real Estate,Motels & economy hotel brands,2,0.067945,-0.007439,0.338504,0.423029
+Real Estate,Net lease,2,-0.061654,0.01051,0.167864,-0.014362
+Real Estate,Office,5,-0.091712,-0.140426,0.321067,0.931665
+Real Estate,REIT ETF,4,-0.029668,0.046163,0.138296,0.3175
+Real Estate,Retail (malls & shopping centers),4,-0.038336,0.109954,0.16861,0.152242
+Real Estate,Self-storage,3,-0.02504,-0.024952,0.22587,0.442313
