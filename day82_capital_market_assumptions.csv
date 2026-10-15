@@ -1,11 +1,11 @@
 sleeve,ticker,group,expected_return,method,volatility,volatility_past_year,volatility_long_run
-US equity,SPY,Equity,0.0974,10Y yield + equity risk premium,0.14234799648801044,0.12469599297602085,0.16
-International developed equity,EFA,Equity,0.1024,US equity + 0.5% (lower valuations),0.16366376953973644,0.1573275390794729,0.17
-Emerging-market equity,EEM,Equity,0.1124,US equity + 1.5% (higher risk premium),0.23113718522317497,0.24227437044635003,0.22
-US Treasuries,IEF,Fixed income,0.0513,7-year Treasury yield (fund duration ≈ 7),0.05429131164443598,0.04858262328887196,0.06
-Inflation-linked Treasuries,TIP,Fixed income,0.0524,10Y real yield + breakeven inflation,0.0478473252600575,0.035694650520115015,0.06
-Investment-grade credit,LQD,Fixed income,0.0587,10Y yield + IG spread − 0.2% expected loss,0.06280391617464015,0.05560783234928029,0.07
-High-yield credit,HYG,Fixed income,0.06029999999999999,5Y yield + HY spread − default rate 3.5% × loss 60%,0.06442535076207542,0.038850701524150856,0.09
-US REITs,VNQ,Alternatives,0.0824,10Y yield + 3% real-estate premium,0.1701979956144662,0.14039599122893237,0.2
-Gold,GLD,Alternatives,0.0233,keeps pace with expected inflation (no income),0.21813018907021242,0.27626037814042487,0.16
-Cash (T-bills),BIL,Cash,0.0425,3-month T-bill yield,0.0035164947234602195,0.0020329894469204397,0.005
+US equity,SPY,Equity,0.09709999999999999,10Y yield + equity risk premium,0.14224643790358565,0.12449287580717128,0.16
+International developed equity,EFA,Equity,0.1021,US equity + 0.5% (lower valuations),0.1633635539096412,0.1567271078192824,0.17
+Emerging-market equity,EEM,Equity,0.11209999999999999,US equity + 1.5% (higher risk premium),0.23122825350047355,0.24245650700094712,0.22
+US Treasuries,IEF,Fixed income,0.051100000000000007,7-year Treasury yield (fund duration ≈ 7),0.054266780751396064,0.048533561502792116,0.06
+Inflation-linked Treasuries,TIP,Fixed income,0.0523,10Y real yield + breakeven inflation,0.047832700103468,0.03566540020693598,0.06
+Investment-grade credit,LQD,Fixed income,0.0584,10Y yield + IG spread − 0.2% expected loss,0.06274561403435266,0.05549122806870534,0.07
+High-yield credit,HYG,Fixed income,0.0606,5Y yield + HY spread − default rate 3.5% × loss 60%,0.06448283270643629,0.0389656654128726,0.09
+US REITs,VNQ,Alternatives,0.0821,10Y yield + 3% real-estate premium,0.1701863895155102,0.14037277903102044,0.2
+Gold,GLD,Alternatives,0.0235,keeps pace with expected inflation (no income),0.21806764398991757,0.2761352879798351,0.16
+Cash (T-bills),BIL,Cash,0.0426,3-month T-bill yield,0.0035177769955039716,0.002035553991007944,0.005
