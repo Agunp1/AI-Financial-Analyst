@@ -1,5 +1,5 @@
 metric,value,status
-portfolio_value,154612.519458318,Calculated
+portfolio_value,154978.7861049526,Calculated
 instrument_count,10,Calculated
 asset_class_count,10,Calculated
 total_routed_metrics,107,Calculated
@@ -8,8 +8,8 @@ unavailable_metrics,28,Calculated
 overall_metric_coverage,0.7383177570093458,Calculated
 required_metric_coverage,0.8115942028985508,Calculated
 largest_asset_class,ETF/Fund,Calculated
-largest_asset_class_weight,0.2488834630105881,Calculated
+largest_asset_class_weight,0.24897279213751528,Calculated
 existing_var_engine_available,True,Calculated
-existing_portfolio_var_result,"{'summary': [{'Confidence': '95%', 'Historical VaR ($)': 1518.7766786188718, 'Expected Shortfall ($)': 2135.08346349656, 'Observations': 319}, {'Confidence': '99%', 'Historical VaR ($)': 2402.0070058068213, 'Expected Shortfall ($)': 2951.576895358894, 'Observations': 319}], 'loss_observations': 319}",Calculated
+existing_portfolio_var_result,"{'summary': [{'Confidence': '95%', 'Historical VaR ($)': 1523.384030452875, 'Expected Shortfall ($)': 2137.972329913612, 'Observations': 319}, {'Confidence': '99%', 'Historical VaR ($)': 2404.6872197251873, 'Expected Shortfall ($)': 2955.019798714581, 'Observations': 319}], 'loss_observations': 319}",Calculated
 existing_portfolio_var_message,Calculated using existing var_engine.calculate_historical_var().,Diagnostic
 data_mode,LIVE,Diagnostic
