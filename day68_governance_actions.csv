@@ -1,2 +1,4 @@
 scope,identifier,governance_status,governance_action,requires_review,block_incremental_risk,reason
-PORTFOLIO,TOTAL_PORTFOLIO,NORMAL,HOLD,False,False,No portfolio governance threshold is currently breached.
+PORTFOLIO,TOTAL_PORTFOLIO,BREACH,REDUCE_RISK,True,False,"Day 67 portfolio status indicates a breach. | 1 risk-budget breach(es) are present. | 1 position(s) require risk review. | Maximum risk-budget utilization is 112.29%, above the 110% breach threshold."
+INSTRUMENT,ES,BREACH,REDUCE_RISK,True,False,Risk-budget utilization 112.29% >= 110%. | Modeled risk exceeds budget by 0.030731. | Day 66 action: REDUCE_RISK.
+INSTRUMENT,USD,NORMAL,REDUCE_RISK,True,False,Risk-budget utilization 0.00% is within policy. | Modeled risk exceeds budget by 0.015376. | Day 66 action: UNCHANGED.

@@ -1,9 +1,9 @@
 check,passed,value,limit,details
 Fully funded capital concentration,True,0.25,0.25,Largest applicable target capital weight: 25.0000%; limit: 25.0000%
-Single instrument gross exposure,True,0.2024859474854505,1.0,Largest instrument gross exposure weight: 20.2486%
-Single instrument risk concentration,True,0.23801945862086865,0.35,Largest instrument target risk weight: 23.8019%
-Portfolio gross exposure,True,0.9604401858189211,2.0,Target portfolio gross exposure: 0.9604x capital
-Portfolio absolute notional exposure,True,0.9604401858189211,2.0,Absolute target signed notional: 0.9604x capital
-One-way turnover,True,0.024421333105054704,0.35,One-way turnover: 2.4421%; limit: 35.0000%
+Single instrument gross exposure,True,0.2027616874472403,1.0,Largest instrument gross exposure weight: 20.2762%
+Single instrument risk concentration,True,0.28073092136382094,0.35,Largest instrument target risk weight: 28.0731%
+Portfolio gross exposure,True,0.9626058533062158,2.0,Target portfolio gross exposure: 0.9626x capital
+Portfolio absolute notional exposure,True,0.9626058533062158,2.0,Absolute target signed notional: 0.9626x capital
+One-way turnover,True,0.023053015565079188,0.35,One-way turnover: 2.3053%; limit: 35.0000%
 Valid rebalance actions,True,1.0,1.0,"Allowed actions: BUY, SELL, HOLD"
 Finite exposure-aware outputs,True,1.0,1.0,Target exposure and rebalance fields must contain finite values.

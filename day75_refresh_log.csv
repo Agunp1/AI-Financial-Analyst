@@ -1,4 +1,4 @@
 run_id,job,started_at_utc,finished_at_utc,status,rows,detail
-88a84626c569,macro,2026-10-16T00:25:56Z,2026-10-16T00:25:58Z,OK,69396,failed: none
-88a84626c569,latest_quotes,2026-10-16T00:25:54Z,2026-10-16T00:25:56Z,OK,40,
-88a84626c569,price_history,2026-10-16T00:25:50Z,2026-10-16T00:25:54Z,OK,48602,from 2022-01-01; missing: none
+3f1dac05b66a,macro,2026-10-17T00:30:19Z,2026-10-17T00:30:21Z,OK,69401,failed: none
+3f1dac05b66a,latest_quotes,2026-10-17T00:30:18Z,2026-10-17T00:30:19Z,OK,40,
+3f1dac05b66a,price_history,2026-10-17T00:30:15Z,2026-10-17T00:30:18Z,OK,47440,from 2022-01-01; missing: VNQ
