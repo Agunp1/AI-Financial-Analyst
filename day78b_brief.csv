@@ -3,8 +3,8 @@ Equities,S&P 500 (SPY) return: -1.9% this week,-0.019145,return,day76d_factor_mo
 Rates,10Y Treasury yield change: -15 bp this week,-0.15,pp,day76d_factor_moves.csv,5,Credit markets have entered uncharted territory as the riskiest junk bonds send a warning to investors (MarketWatch) || Major Economic Indicators Latest Numbers (US Bureau of Labor Statistics) || Japanese Prime Minister Takaichi rejects criticism around weak yen and high interest rates (CNBC)
 Credit,High-yield spread change: +20 bp this week,0.2,pp,day76d_factor_moves.csv,5,"Credit markets have entered uncharted territory as the riskiest junk bonds send a warning to investors (MarketWatch) || ‘I’m naturally skeptical’: I receive 10 calls a day offering me $15,000 loans at 8% interest. Is this a scam? (MarketWatch) || Retiring abroad? Don’t cut these financial ties to the U.S. (MarketWatch)"
 Economy,10Y breakeven inflation change: +2 bp this week,0.02,pp,day76d_factor_moves.csv,5,SpaceX earnings will be all about AI — for better or for worse (MarketWatch) || Why a former Intel skeptic is giving up his negative call on the stock after four years (MarketWatch) || Major Economic Indicators Latest Numbers (US Bureau of Labor Statistics)
-FX,US dollar index return: -0.6% this week,-0.006326,return,day76d_factor_moves.csv,1,Japanese Prime Minister Takaichi rejects criticism around weak yen and high interest rates (CNBC)
-Commodities,Crude oil return: +5.1% this week,0.050669,return,day76d_factor_moves.csv,0,
-Digital assets,Bitcoin 1-week return: -1.9% this week,-0.01900946355156219,return,day76c_price_history.csv,0,
+FX,US dollar index return: -0.6% this week,-0.006218,return,day76d_factor_moves.csv,1,Japanese Prime Minister Takaichi rejects criticism around weak yen and high interest rates (CNBC)
+Commodities,Crude oil return: +5.1% this week,0.050964,return,day76d_factor_moves.csv,0,
+Digital assets,Bitcoin 1-week return: -1.9% this week,-0.019207937144327114,return,day76c_price_history.csv,0,
 Real estate,US REITs (VNQ) 1-week return: +1.2% this week,0.012244897689025924,return,day76c_price_history.csv,0,
 Geopolitics,VIX 1-week change: +21.2% this week,0.2123603550295856,return,day76c_price_history.csv,0,
