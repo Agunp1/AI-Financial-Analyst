@@ -1,0 +1,6 @@
+series,name,unit,value,change,change_basis,as_of,source
+INDCPIALLMINMEI,Consumer price inflation,% a year,2.9518,0.3656,vs previous reading,2025-03-01,FRED (OECD / IMF / Federal Reserve)
+INDIRLTLT01STM,10-year government bond yield,%,7.06,0.475,vs a year earlier,2026-09-01,FRED (OECD / IMF / Federal Reserve)
+INDIR3TIB01STM,3-month interbank rate (policy-rate proxy),%,5.28,-0.2167,vs a year earlier,2026-09-01,FRED (OECD / IMF / Federal Reserve)
+INDPROINDMISMEI,Industrial production growth,% a year,5.5526,0.2194,vs previous reading,2023-01-01,FRED (OECD / IMF / Federal Reserve)
+DEXINUS,Rupees per US dollar (Fed H.10),INR,94.96,7.15,vs a year earlier,2026-10-16,FRED (OECD / IMF / Federal Reserve)

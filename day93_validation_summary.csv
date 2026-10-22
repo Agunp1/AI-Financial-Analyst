@@ -1,0 +1,6 @@
+check,passed,details,passed_tests,total_tests
+Nifty 50 index priced,True,benchmark for betas and the regime,5,5
+Most instruments priced,True,85 of 85,5,5
+Most Nifty 50 stocks priced,True,50 of 50,5,5
+Indian economic data available,True,5 of 6 series,5,5
+Kept separate from US data,True,day93_* files only,5,5
