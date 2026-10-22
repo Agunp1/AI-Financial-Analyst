@@ -17,6 +17,7 @@ import vittantra_theme as vt
 import academy_cfa as cfa
 import academy_desk as desk
 import academy_live as live
+import job_tracker
 from academy_content import LESSONS, ROLES, SIMULATOR_TASKS
 
 
@@ -64,6 +65,7 @@ def render_lesson(lesson: dict, progress: dict, key_prefix: str = "") -> None:
     if lesson["id"] not in progress.get("lessons_read", []):
         if st.button("Mark as learned", key=f"{key_prefix}read-{lesson['id']}"):
             progress.setdefault("lessons_read", []).append(lesson["id"])
+            job_tracker.log_lesson(progress, lesson["id"])
             _save(progress)
             st.rerun()
     else:

@@ -100,6 +100,7 @@ deal information out of Vittantra (it stays on fictional cases and public data).
   Home page in 5 minutes.
 - Bring two printed pages: one research note (Research → Valuation & reports →
   download) and one client proposal (Advisory → Clients → download).
+- Bring the **evidence pack** (Job Tracker → Evidence pack → download): readiness per desk, your best graded work and CFA accuracy by topic.
 - Mention the **300+ automated tests**, including one test per non-negotiable
   rule (`test_governance_rules.py`).
 

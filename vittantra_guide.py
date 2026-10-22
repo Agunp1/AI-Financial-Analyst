@@ -147,6 +147,16 @@ PAGE_HELP: Dict[str, dict] = {
                   "Use it as the starting point for a risk meeting, then check the numbers on the risk pages."],
         "tip": "Like the copilot, it only states what the data supports.",
     },
+    "Job Tracker": {
+        "what": "Your daily plan across all six desks and CFA Level II: one desk duty, one item set and one "
+                "lesson a day (about 45 minutes), a readiness scorecard and an evidence pack for interviews.",
+        "steps": ["Sign in (sidebar) so your work is saved.",
+                  "Today: do the three steps in order; each is ticked when the graded work is saved.",
+                  "Readiness: see which responsibilities on each desk you have demonstrated (score 70+).",
+                  "CFA Level II plan: set your exam date; item sets target your weakest topic.",
+                  "Evidence pack: download it before an interview."],
+        "tip": "Roles rotate Monday to Saturday; Sunday goes to your weakest desk.",
+    },
     "Academy": {
         "what": "Learn by doing: daily desk tasks on live data for six roles, lessons on demand, CFA Level II "
                 "item sets, case studies and your work record.",

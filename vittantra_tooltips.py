@@ -182,6 +182,18 @@ TIPS: Dict[str, str] = {
     "asset classes": "Number of asset-class groups (stocks, bonds, FX...). More classes = more diversification.",
     "period": "The time window the numbers cover.",
     # --- Academy roles -----------------------------------------------------
+    "today's steps": "How many of today's three Job Tracker steps (desk duty, CFA item set, lesson) are done. "
+                     "Small daily practice is how professionals keep skills sharp between real deals and reviews.",
+    "streak": "Consecutive days with at least one piece of saved work. Consistency matters more than long "
+              "sessions when preparing for exams and interviews.",
+    "last 7 days": "Desk tasks, CFA item sets and lessons completed in the past week — a quick check that every "
+                   "desk is getting attention.",
+    "cfa exam in": "Days until the Level II exam date you set. Candidates plan backwards from it so every topic "
+                   "is covered before the final review weeks.",
+    "readiness": "Share of a role's core responsibilities you have demonstrated with graded work scoring 70 or "
+                 "more — the evidence an interviewer can ask you to walk through.",
+    "exam weight (approx.)": "Approximate share of the Level II exam for the topic (CFA Institute ranges, which "
+                             "change by year). Candidates weight study time towards heavier topics.",
     "role level": "Your level in this role (Junior → Analyst → Senior → Lead) from XP earned on graded desk tasks.",
 }
 

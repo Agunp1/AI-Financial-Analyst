@@ -156,13 +156,13 @@ APP_VERSION = "1.0"
 DEMO_BOOK_PAGES = {"Command Center", "Risk Intelligence", "Portfolio", "Governance", "Remediation", "AI Analyst"}
 NAV_PAGES = [
     "Home", "Guide", "My Portfolio", "Command Center", "Research", "Markets", "Portfolio Manager", "Advisory", "Copilot",
-    "Risk Intelligence", "Portfolio", "Governance", "Remediation", "AI Analyst", "Academy", "System",
+    "Risk Intelligence", "Portfolio", "Governance", "Remediation", "AI Analyst", "Job Tracker", "Academy", "System",
 ]
 NAV_LABELS = {
     "Home": "Home", "Guide": "Guide", "My Portfolio": "My Portfolio", "Command Center": "Risk Overview",
     "Research": "Equity Research", "Markets": "Markets", "Portfolio Manager": "Portfolio Construction",
     "Advisory": "Advisory", "Copilot": "Copilot", "Risk Intelligence": "Risk Analytics", "Portfolio": "Risk Budgets",
-    "Governance": "Governance", "Remediation": "Remediation", "AI Analyst": "Risk Brief", "Academy": "Academy",
+    "Governance": "Governance", "Remediation": "Remediation", "AI Analyst": "Risk Brief", "Job Tracker": "Job Tracker", "Academy": "Academy",
     "System": "Data & System",
 }
 
@@ -4745,6 +4745,12 @@ elif page == "Remediation":
 elif page == "Academy":
 
     render_academy()
+
+
+elif page == "Job Tracker":
+
+    from vittantra_tracker_page import render_tracker
+    render_tracker()
 
 
 elif page == "Research":

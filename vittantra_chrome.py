@@ -23,7 +23,7 @@ NAV_GROUPS: List[Tuple[str, List[str]]] = [
                           "Remediation"]),
     ("Clients", ["Advisory"]),
     ("Tools", ["Copilot", "AI Analyst"]),
-    ("Learn", ["Guide", "Academy"]),
+    ("Learn", ["Guide", "Job Tracker", "Academy"]),
     ("System", ["System"]),
 ]
 
