@@ -66,6 +66,8 @@ class IndiaMarketTests(unittest.TestCase):
         self.assertAlmostEqual(macro.loc["INDCPIALLMINMEI", "value"], 5.0, places=1)
         self.assertAlmostEqual(macro.loc["INDIRLTLT01STM", "value"], 6.4, places=2)
         self.assertLess(macro.loc["INDIRLTLT01STM", "change"], 0)
+        old = {k: v[v.index < "2023-01-01"] for k, v in ((k, fake_fred(k)) for k in im.MACRO_SERIES)}
+        self.assertTrue(im.macro_table(old)["status"].str.startswith("Stale").all())
 
     def test_failed_download_keeps_previous_files(self):
         empty = MarketSource(history=lambda t, s: pd.DataFrame(), fred=lambda s: pd.Series(dtype=float))

@@ -111,6 +111,8 @@ INSTRUMENTS = (
     + [(s, n, "Equity", sector, "INR") for s, n, sector in NIFTY_50]
 )
 
+STALE_DAYS = 200              # monthly/quarterly series older than this are flagged, not hidden
+
 MACRO_SERIES = {  # FRED id: (name, unit, how to read it)
     "INDCPIALLMINMEI": ("Consumer price inflation", "% a year", "yoy"),
     "INDIRLTLT01STM": ("10-year government bond yield", "%", "level"),
@@ -153,7 +155,9 @@ def macro_table(fred: Dict[str, pd.Series]) -> pd.DataFrame:
             value = float(s.iloc[-1])
             year_ago = s[s.index <= last_date - pd.DateOffset(years=1)]
             change = value - float(year_ago.iloc[-1]) if len(year_ago) else None
+        age = (pd.Timestamp.now().normalize() - last_date).days
         rows.append({"series": series_id, "name": name, "unit": unit, "value": round(float(value), 4),
+                     "status": "Current" if age <= STALE_DAYS else f"Stale — source last published {last_date:%b %Y}",
                      "change": round(float(change), 4) if change is not None else None,
                      "change_basis": "vs previous reading" if kind == "yoy" else "vs a year earlier",
                      "as_of": last_date.date().isoformat(), "source": "FRED (OECD / IMF / Federal Reserve)"})
