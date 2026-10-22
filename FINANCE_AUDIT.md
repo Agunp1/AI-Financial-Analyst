@@ -99,6 +99,7 @@ These are acceptable for a research system but should be understood:
 | Fundamentals: REITs | P/E used; REITs are normally valued on FFO/AFFO | Add FFO from filings |
 | Fundamentals: EPS TTM | Diluted EPS TTM built with FY + YTD − prior YTD (approximation; EPS is not strictly additive) | Net income ÷ diluted shares per quarter |
 | Trader agent | ATR from closes (no daily highs/lows saved); stops and targets checked on daily closes, not intraday; no volume data, so no liquidity or market-impact model; execution fills in the Academy are simulated around the live price; short sample (~14 months) | Save OHLC and volume; intraday marking; square-root impact model |
+| India (Day 93) | Free sources only: no RBI repo-rate API (3-month interbank rate as proxy), no Indian bond prices (gilt ETFs as proxy), no MCX futures (gold/silver ETFs); Indian macro from FRED OECD/IMF series is monthly/quarterly and lags; Nifty 50 list is static in code | NSE/RBI data with a licence; update the constituent list at each index review |
 | Fundamentals: scoring | 33-stock universe uses universe percentiles (3 per sector is too few) | Done for the US market engine: sector-relative percentiles |
 | US market engine | SEC frames carry the latest value per period (restatements included) and no filing date | Use the point-in-time Day 76 engine for backtests |
 | US market engine | SIC codes mapped to GICS-style sectors approximately | Licensed GICS classification |

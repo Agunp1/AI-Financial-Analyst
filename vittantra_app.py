@@ -118,6 +118,7 @@ from vittantra_pm_page import render_portfolio_manager
 from vittantra_advisory_page import render_advisory
 from vittantra_copilot import render_copilot
 from vittantra_home_page import render_home
+import vittantra_market
 
 
 
@@ -1761,7 +1762,7 @@ with st.sidebar:
 
 
 
-    if cloud.is_owner():
+    if cloud.is_owner() and vittantra_market.current() == "US":
         st.caption("PORTFOLIO STATE")
 
 
@@ -1820,8 +1821,11 @@ with st.sidebar:
 
 
         )
-    else:
+    elif vittantra_market.current() == "US":
         sidebar_markets()
+    else:
+        from vittantra_india_page import sidebar_snapshot as india_snapshot
+        india_snapshot()
 
 
 
@@ -1956,7 +1960,13 @@ if page != "Home":
 
 
 
-if page == "Home":
+if page == "Home" and vittantra_market.current() == "India":
+    from vittantra_india_page import render_india_home
+    render_india_home()
+elif page == "Markets" and vittantra_market.current() == "India":
+    from vittantra_india_page import render_india_markets
+    render_india_markets()
+elif page == "Home":
 
     render_home()
 elif page == "Guide":
@@ -4750,7 +4760,7 @@ elif page == "Academy":
 elif page == "Trading Desk":
 
     from vittantra_trading_page import render_trading
-    render_trading()
+    render_trading(vittantra_market.current())
 
 
 elif page == "Job Tracker":

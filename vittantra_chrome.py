@@ -40,11 +40,19 @@ def _go(page: str) -> None:
 
 
 def render_nav(labels: Dict[str, str]) -> str:
-    """Grouped navigation in the sidebar; returns the current page."""
+    """Market switch and grouped navigation in the sidebar; returns the current page."""
+    import vittantra_market
     st.session_state.setdefault("nav", "Home")
-    current = st.session_state["nav"]
     st.markdown('<div class="vt-brand">VITTANTRA</div>', unsafe_allow_html=True)
+    vittantra_market.render_switch()
+    allowed = vittantra_market.allowed_pages()
+    if allowed is not None and st.session_state["nav"] not in allowed:
+        st.session_state["nav"] = "Markets"
+    current = st.session_state["nav"]
     for section, pages in NAV_GROUPS:
+        pages = [p for p in pages if allowed is None or p in allowed]
+        if not pages:
+            continue
         st.markdown(f'<div class="vt-nav-section">{section}</div>', unsafe_allow_html=True)
         for page in pages:
             st.button(labels.get(page, page), key=f"nav-{page}", on_click=_go, args=(page,), width="stretch",
@@ -66,10 +74,20 @@ def _quote(row, kind: str) -> Tuple[str, str]:
 
 
 def render_topbar(page_label: str, refreshed: str = "") -> None:
-    """Compact header (product | page | data time) and a ticker tape."""
+    """Compact header (product | market | page | data time) and a ticker tape for the selected market."""
+    import vittantra_market
+    market = vittantra_market.current()
     path = BASE_DIR / "day76c_asset_analytics.csv"
     items = []
-    if path.exists():
+    if market == "India":
+        from vittantra_india_page import ticker_items
+        for label, level, move in ticker_items():
+            change = (f'<span class="{"vt-up" if move >= 0 else "vt-down"}">{move:+.2%}</span>'
+                      if pd.notna(move) else "")
+            items.append(f'<span class="vt-tick"><span class="vt-tick-label">{label}</span> '
+                         f'<span class="vt-tick-level">{level}</span> {change}</span>')
+        page_label = f"India · {page_label}"
+    elif path.exists():
         data = pd.read_csv(path).set_index("symbol")
         for symbol, label, kind in TICKER:
             if symbol in data.index:

@@ -51,7 +51,7 @@ LESSON_CFA_TOPIC = {
     "PM9": "Portfolio Management", "RA7": "Portfolio Management", "RA8": "Portfolio Management",
     "ER8": "Quantitative Methods", "IA7": "Portfolio Management",
     "TR1": "Portfolio Management", "TR2": "Portfolio Management", "TR3": "Portfolio Management",
-    "TR4": "Economics", "TR5": "Quantitative Methods",
+    "TR4": "Economics", "TR5": "Quantitative Methods", "IA8": "Economics",
 }
 
 

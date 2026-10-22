@@ -9,7 +9,8 @@ name: Refresh prices
 on:
   schedule:
     - cron: "*/15 13-21 * * 1-5"      # US market hours (UTC, covers EDT and EST)
-    - cron: "11 0-12,22-23 * * 1-5"   # weekday nights, hourly
+    - cron: "*/15 4-9 * * 1-5"        # Indian market hours (NSE 09:15-15:30 IST = 03:45-10:00 UTC)
+    - cron: "11 0-3,10-12,22-23 * * 1-5"   # other weekday hours, hourly
     - cron: "11 * * * 0,6"            # weekends, hourly (crypto)
   workflow_dispatch:
 
@@ -49,6 +50,13 @@ jobs:
                      day76c_credit_spreads.csv day76c_fx_carry.csv day76d_factor_moves.csv \
                      day76d_macro_narrative.csv 'day78b_*.csv' 'day67_*.csv' 'day68_*.csv' 'day69_*.csv' \
                      'day70_*.csv' 'day73_*' 2>/dev/null || true
+          # India (kept separate): each file on its own so a missing one never blocks the others.
+          for f in day93_india_analytics.csv day93_india_macro.csv day93_validation_summary.csv; do
+            if [ -f "$f" ]; then git add -- "$f"; fi
+          done
+          # The India history is saved daily; add it here only the first time it exists.
+          git ls-files --error-unmatch day93_india_price_history.csv >/dev/null 2>&1 \
+            || git add -- day93_india_price_history.csv 2>/dev/null || true
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
           git commit -m "Price refresh $(date -u '+%F %H:%M') UTC"
           git checkout -- . 2>/dev/null || true             # drop the files this run does not save
