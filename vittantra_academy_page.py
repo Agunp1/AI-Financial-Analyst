@@ -434,6 +434,60 @@ def _desk_item_set(role: str, progress: dict) -> None:
     render_item_set(item, progress, role, f"cfa-{role}")
 
 
+def desk_trader(progress):
+    role = "trader"
+    task = SIMULATOR_TASKS[role]
+    st.markdown(f"#### {task['title']}")
+    st.write(task["brief"])
+    try:
+        plan = desk.trade_plan_task()
+        execution = desk.execution_task()
+    except live.MissingData as exc:
+        st.info(str(exc)); return
+    st.markdown(f"**Idea from the trader agent:** {plan['direction']} {plan['name']} ({plan['symbol']}) — "
+                f"{plan['setup']}; {plan['why']}.")
+    st.markdown(f"Entry {plan['price']:,.4g} · ATR (average daily move) {plan['atr']:,.4g} · risk budget "
+                f"{plan['budget']:,.0f} USD · position limit {plan['max_notional']:,.0f} USD notional.")
+    c1, c2 = st.columns(2)
+    stop = c1.number_input("Your stop", value=None, format="%.4f", key="tr-stop")
+    qty = c2.number_input("Your quantity (units)", value=None, min_value=0.0, format="%.2f", key="tr-qty")
+    if st.button("Submit trade plan", key="tr-submit"):
+        if stop is None or not qty:
+            st.error("Enter a stop and a quantity.")
+        else:
+            score, feedback = desk.grade_trade_plan(plan, stop, qty)
+            ref = plan["reference"]
+            reference = (f"Stop 2 ATR away at {ref['stop']:,.4g}; quantity = {plan['budget']:,.0f} ÷ "
+                         f"{abs(plan['price'] - ref['stop']):,.4g} = {ref['quantity']:,.2f} units "
+                         f"({ref['notional']:,.0f} USD notional, capped at the limit); target {ref['target']:,.4g} "
+                         "for reward-to-risk 1.5. Paper only.")
+            _submit(progress, role, f"Trade plan: {plan['symbol']}", score, {"stop": stop, "quantity": qty},
+                    feedback + "\n\n" + reference, "tr-done")
+            _review(score, feedback, reference)
+
+    st.divider()
+    st.markdown("#### Execution report")
+    st.write(f"Your paper {execution['side'].lower()} order in {execution['name']} ({execution['symbol']}) arrived "
+             f"at {execution['arrival']:,.4f}. The fills came back as below. Report the average fill and the "
+             "implementation shortfall to the PM.")
+    st.dataframe(pd.DataFrame(execution["fills"], columns=["Quantity", "Price"]), hide_index=True)
+    c3, c4 = st.columns(2)
+    avg = c3.number_input("Average fill", value=None, format="%.4f", key="tr-avg")
+    is_bps = c4.number_input("Implementation shortfall (bp)", value=None, format="%.1f", key="tr-is")
+    if st.button("Send execution report", key="tr-exec"):
+        if avg is None or is_bps is None:
+            st.error("Enter the average fill and the shortfall.")
+        else:
+            score, feedback = desk.grade_execution(execution, avg, is_bps)
+            reference = (f"Average fill {execution['avg_fill']:,.4f}; shortfall {execution['is_bps']:.1f} bp of "
+                         "cost versus the arrival price.")
+            _submit(progress, role, f"Execution report: {execution['symbol']}", score,
+                    {"avg_fill": avg, "is_bps": is_bps}, feedback + "\n\n" + reference, "tr-exec-done")
+            _review(score, feedback, reference)
+    st.caption("Open the Trading Desk page for all of today's ideas, charts and your paper blotter.")
+    _lesson_help(["TR2", "TR3"], progress, "tr")
+
+
 DESKS = {
     "investment_analyst": desk_investment_analyst,
     "equity_researcher": desk_equity_researcher,
@@ -441,6 +495,7 @@ DESKS = {
     "portfolio_manager": desk_portfolio_manager,
     "advisor": desk_advisor,
     "private_markets_analyst": desk_private_markets,
+    "trader": desk_trader,
 }
 
 

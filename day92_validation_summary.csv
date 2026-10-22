@@ -1,0 +1,6 @@
+check,passed,details,passed_tests,total_tests
+Every idea risks at most 0.5% of the book at its stop,True,79 ideas,5,5
+No idea is larger than 10% of the book,True,position cap,5,5
+Stops are on the losing side of entry,True,"long below, short above",5,5
+Backtest uses only past data for each signal,True,"rolling indicators, forward window after the signal",5,5
+Nothing executed automatically,True,paper blotter only; automatic execution 0,5,5

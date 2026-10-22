@@ -19,14 +19,10 @@ MONDAY = date(2026, 10, 19)
 
 class JobTrackerTests(unittest.TestCase):
 
-    def test_roles_rotate_monday_to_saturday(self):
-        roles = [jt.role_of_the_day({}, date(2026, 10, 19 + i)) for i in range(6)]
-        self.assertEqual(roles, list(ROLES))
-
-    def test_sunday_goes_to_the_weakest_role(self):
-        progress = {"records": [rec("2026-10-20", r, t) for r in ROLES for t in
-                                [i["prefixes"][0] for i in jt.RESPONSIBILITIES[r]] if r != "advisor"]}
-        self.assertEqual(jt.role_of_the_day(progress, date(2026, 10, 25)), "advisor")
+    def test_every_role_gets_one_day_a_week(self):
+        roles = [jt.role_of_the_day({}, date(2026, 10, 19 + i)) for i in range(7)]
+        self.assertEqual(sorted(roles), sorted(ROLES))
+        self.assertEqual(roles[2], "trader")
 
     def test_every_role_has_desk_duties(self):
         self.assertEqual(set(jt.RESPONSIBILITIES), set(ROLES))
@@ -51,7 +47,7 @@ class JobTrackerTests(unittest.TestCase):
 
     def test_desk_duty_prefers_responsibilities_never_done(self):
         progress = {"records": [rec("2026-10-14", "private_markets_analyst", "Deal flow screen", 90)]}
-        plan = jt.daily_plan(progress, date(2026, 10, 24))           # Saturday: PE/VC
+        plan = jt.daily_plan(progress, date(2026, 10, 25))           # Sunday: PE/VC
         self.assertEqual(plan["role"], "private_markets_analyst")
         self.assertNotEqual(plan["steps"][0]["what"], "Deal flow screening")
 

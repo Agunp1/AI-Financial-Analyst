@@ -125,9 +125,12 @@ vittantra.streamlit.app · github.com/Agunp1/AI-Financial-Analyst
 - Built a multi-asset risk engine (200+ instruments): VaR/ES with backtests,
   macro stress tests, Euler risk budgets and a dual-approval remediation
   workflow with zero automatic execution.
+- Built a rule-based trader agent on live multi-asset prices (regime filter, trend/momentum setups,
+  ATR stops, fixed-fractional sizing) with an honest walk-forward backtest after costs and a paper
+  blotter — no automatic execution.
 - Built an advisory module (risk questionnaire, IPS, CFA Standard III(C)
   suitability, Monte Carlo goal planning) and a learn-by-doing Academy for
-  6 finance roles, used to study for CFA Level II.
+  7 finance roles, used to study for CFA Level II.
 - 300+ automated tests including one per governance rule; Python, pandas,
   Streamlit, GitHub Actions; AI coding assistant used as pair programmer.
 

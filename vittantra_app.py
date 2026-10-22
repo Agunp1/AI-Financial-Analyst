@@ -155,14 +155,14 @@ APP_VERSION = "1.0"
 # Navigation: workflow order (research → portfolio → advisory → risk → learn)
 DEMO_BOOK_PAGES = {"Command Center", "Risk Intelligence", "Portfolio", "Governance", "Remediation", "AI Analyst"}
 NAV_PAGES = [
-    "Home", "Guide", "My Portfolio", "Command Center", "Research", "Markets", "Portfolio Manager", "Advisory", "Copilot",
+    "Home", "Guide", "My Portfolio", "Command Center", "Research", "Markets", "Trading Desk", "Portfolio Manager", "Advisory", "Copilot",
     "Risk Intelligence", "Portfolio", "Governance", "Remediation", "AI Analyst", "Job Tracker", "Academy", "System",
 ]
 NAV_LABELS = {
     "Home": "Home", "Guide": "Guide", "My Portfolio": "My Portfolio", "Command Center": "Risk Overview",
     "Research": "Equity Research", "Markets": "Markets", "Portfolio Manager": "Portfolio Construction",
     "Advisory": "Advisory", "Copilot": "Copilot", "Risk Intelligence": "Risk Analytics", "Portfolio": "Risk Budgets",
-    "Governance": "Governance", "Remediation": "Remediation", "AI Analyst": "Risk Brief", "Job Tracker": "Job Tracker", "Academy": "Academy",
+    "Governance": "Governance", "Remediation": "Remediation", "AI Analyst": "Risk Brief", "Trading Desk": "Trading Desk", "Job Tracker": "Job Tracker", "Academy": "Academy",
     "System": "Data & System",
 }
 
@@ -4745,6 +4745,12 @@ elif page == "Remediation":
 elif page == "Academy":
 
     render_academy()
+
+
+elif page == "Trading Desk":
+
+    from vittantra_trading_page import render_trading
+    render_trading()
 
 
 elif page == "Job Tracker":

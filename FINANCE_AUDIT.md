@@ -44,6 +44,7 @@ textbook values and independent calculations.
 | What-if risk (Day 81) | Parametric VaR = 2.326σ, ES = 2.665σ (normal, 99%); historical VaR; Euler risk shares; OLS factor betas → scenario P&L = Σβ×shock | `whatif_engine.py` | ✅ |
 | Advisory (Days 82–84) | Building-block capital market assumptions (yield − expected loss; 10Y + ERP); shrinkage correlations with volatility blended 50/50 with long-run levels; max-return-at-target-volatility allocation with policy ranges; profile = min(willingness, capacity); 1-in-20 loss = 1.645σ − μ; lognormal Monte Carlo matched to arithmetic mean and variance, flows inflation-indexed, results in real terms | `advisory_engine.py` | ✅ |
 | Private markets (Day 91) | VC method (exit × retention ÷ target multiple) and its reverse; priced round with option-pool shuffle; cap table dilution; 1× non-participating/participating waterfall solved by iteration; LTV, CAC payback, burn multiple, Rule of 40; power-law fund simulation (TVPI); LBO with FCF debt paydown, MOIC, IRR and value-creation bridge | `private_markets.py` | ✅ |
+| Trader agent (Day 92) | Time-series momentum filter (price vs 50/200-day SMA); Wilder RSI(14); 55-day breakout; ATR from closes (20-day mean absolute change) for stops (2 ATR) and targets (3 ATR); fixed-fractional sizing (0.5% of book at the stop, 10% notional cap, half size for risk assets in a risk-off regime); walk-forward setup backtest with 10 bp per side; implementation shortfall = signed (avg fill − arrival)/arrival | `trader_agent.py`, `academy_desk.py` | ✅ |
 | Multi-factor rating (Day 77) | Cross-sectional percentile pillars; IC = Spearman rank correlation with next-period return, t-stat across dates; IC-weighted composite using only completed outcomes; cost-adjusted quintile portfolios | `multi_factor_rating.py` | ✅ |
 
 ---
@@ -97,6 +98,7 @@ These are acceptable for a research system but should be understood:
 | Fundamentals: debt | Debt = long-term + short-term borrowings; operating leases excluded | Include lease liabilities |
 | Fundamentals: REITs | P/E used; REITs are normally valued on FFO/AFFO | Add FFO from filings |
 | Fundamentals: EPS TTM | Diluted EPS TTM built with FY + YTD − prior YTD (approximation; EPS is not strictly additive) | Net income ÷ diluted shares per quarter |
+| Trader agent | ATR from closes (no daily highs/lows saved); stops and targets checked on daily closes, not intraday; no volume data, so no liquidity or market-impact model; execution fills in the Academy are simulated around the live price; short sample (~14 months) | Save OHLC and volume; intraday marking; square-root impact model |
 | Fundamentals: scoring | 33-stock universe uses universe percentiles (3 per sector is too few) | Done for the US market engine: sector-relative percentiles |
 | US market engine | SEC frames carry the latest value per period (restatements included) and no filing date | Use the point-in-time Day 76 engine for backtests |
 | US market engine | SIC codes mapped to GICS-style sectors approximately | Licensed GICS classification |

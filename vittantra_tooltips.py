@@ -194,6 +194,44 @@ TIPS: Dict[str, str] = {
                  "more — the evidence an interviewer can ask you to walk through.",
     "exam weight (approx.)": "Approximate share of the Level II exam for the topic (CFA Institute ranges, which "
                              "change by year). Candidates weight study time towards heavier topics.",
+    "regime": "Risk-on, neutral or risk-off, from the S&P 500 vs its 200-day average and the VIX. Traders cut "
+              "size when the market is falling and volatile, because losses cluster in those periods.",
+    "vix": "Expected 30-day S&P 500 volatility implied by option prices (the 'fear gauge'). Traders watch it to "
+           "judge how big daily moves are likely to be and to size positions.",
+    "conviction": "The agent's 0–100 score: trend alignment, momentum agreeing, room in RSI, calm volatility, and "
+                  "a penalty if the setup had no positive record. A ranking aid, not a probability.",
+    "risk at stop (usd)": "What the paper trade loses if the stop is hit (quantity × distance to stop). Traders fix "
+                          "this first — 0.5% of the book here — and size the position from it.",
+    "r multiple": "Profit or loss divided by the risk taken at entry. +2R means the trade made twice what it "
+                  "risked; traders judge a process by its average R, not single wins.",
+    "average r": "Average profit per trade in units of risk taken. Above zero over many trades means the process "
+                 "has an edge after losses; a high hit rate with negative average R does not.",
+    "paper p&l": "Profit or loss of your paper trades marked on daily closes. Paper only — nothing was executed.",
+    "paper trades": "Trades you added to the paper blotter from the agent's ideas. Practice that builds a track "
+                    "record of decisions you can explain in interviews.",
+    "directional setups": "Instruments where the agent's rules see a long or short setup today, out of all it "
+                          "scanned. Breadth shows whether trends are broad or narrow.",
+    "s&p 500 vs 200-day": "How far the S&P 500 is above or below its 200-day average. A classic trend filter: many "
+                          "risk managers reduce exposure when the market is below it.",
+    "setup": "The pattern the trader agent sees: trend continuation, pullback in uptrend, breakout, downtrend and so "
+             "on. Each setup has a rule for entry, stop and target.",
+    "historical edge": "Whether this setup made money on average after costs in the saved history (at least 30 "
+                       "signals). Professionals only trust rules with evidence, and re-test them.",
+    "rsi (14)": "Relative Strength Index over 14 days (0–100): above 70 is stretched up, below 30 stretched down. "
+                "Traders use it to time entries inside a trend.",
+    "stop": "The price at which the trade is closed to cap the loss (2 ATR from entry here). Set before entering, "
+            "never moved further away.",
+    "target": "The price at which profit is taken (3 ATR from entry here, 1.5× the risk). Planning it in advance "
+              "keeps reward-to-risk positive.",
+    "entry": "The planned entry price — the last close for the agent's ideas. Real fills differ by spread and "
+             "market impact (see implementation shortfall).",
+    "vs 200-day": "Price relative to its 200-day moving average. Above means a long-term uptrend; the most common "
+                  "trend filter in time-series momentum strategies.",
+    "average return": "Average return per signal over the holding period after costs. Shows whether a rule paid "
+                      "off, not just how often it was right.",
+    "signals": "How many times the rule fired in the saved history. Fewer than about 30 is too few to judge.",
+    "implementation shortfall": "Execution cost: the gap between the price when you decided to trade (arrival) and "
+                                "the average fill, in basis points. The standard measure of trading cost.",
     "role level": "Your level in this role (Junior → Analyst → Senior → Lead) from XP earned on graded desk tasks.",
 }
 
@@ -211,7 +249,7 @@ def _norm(label: str) -> str:
 
 
 ROLE_LABELS = {"investment analyst", "equity research analyst", "portfolio / risk analyst", "portfolio manager",
-               "investment advisor", "private equity / venture capital analyst"}
+               "investment advisor", "private equity / venture capital analyst", "trader"}
 
 
 def tip(label: str) -> Optional[str]:

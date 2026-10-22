@@ -3,8 +3,8 @@ Job Tracker — a daily plan across every desk and a CFA Level II routine.
 
 Each day has three small steps (about 45 minutes in total):
 
-1. Desk duty     — one real task for the role of the day (the six roles rotate
-                   Monday to Saturday; Sunday goes to the weakest role).
+1. Desk duty     — one real task for the role of the day (the seven roles
+                   rotate through the week, one desk per day).
 2. CFA L2 step   — one item set in the topic area where accuracy is lowest.
 3. Lesson        — the next unread lesson for the role of the day.
 
@@ -24,7 +24,8 @@ from academy_content import LESSONS, ROLES
 
 
 PASS_SCORE = 70
-ROLE_ORDER = list(ROLES)                     # Monday … Saturday
+ROLE_ORDER = ["investment_analyst", "equity_researcher", "trader", "portfolio_analyst",     # Monday …
+              "portfolio_manager", "advisor", "private_markets_analyst"]                   # … Sunday
 CFA_TASK_PREFIX = "CFA L2 item set: "
 
 # Responsibilities per role and the recorded task names that evidence them
@@ -70,6 +71,12 @@ RESPONSIBILITIES: Dict[str, List[dict]] = {
         {"name": "Interview answers", "desk": True, "prefixes": ["Mock interview"]},
         {"name": "VC method and fund maths", "prefixes": [CFA_TASK_PREFIX + "Venture capital method"]},
     ],
+    "trader": [
+        {"name": "Trade plan (stop and size)", "desk": True, "prefixes": ["Trade plan"]},
+        {"name": "Execution report (shortfall)", "desk": True, "prefixes": ["Execution report"]},
+        {"name": "Sizing and trading costs", "prefixes": [CFA_TASK_PREFIX + "Trade sizing and execution"]},
+        {"name": "Option valuation and hedging", "prefixes": [CFA_TASK_PREFIX + "Option valuation and parity"]},
+    ],
 }
 
 # Approximate Level II topic weights (CFA Institute ranges; check the current
@@ -88,6 +95,7 @@ ITEM_SET_TOPIC = {
     "real_estate": "Alternative Investments", "macro": "Economics", "equity_valuation": "Equity Valuation",
     "news_surprise": "Economics", "active_management": "Portfolio Management", "advisory": "Portfolio Management",
     "private_equity": "Alternative Investments", "stress_testing": "Portfolio Management",
+    "trading": "Portfolio Management",
 }
 
 
@@ -138,11 +146,8 @@ def readiness(progress: dict, role: str, records: Optional[List[dict]] = None) -
 
 
 def role_of_the_day(progress: dict, day: date) -> str:
-    """Monday–Saturday rotate through the six roles; Sunday is for the weakest role."""
-    if day.weekday() < 6:
-        return ROLE_ORDER[day.weekday()]
-    before = records_before(progress, day)
-    return min(ROLE_ORDER, key=lambda r: (readiness(progress, r, before), ROLE_ORDER.index(r)))
+    """One desk per weekday: every role gets a day each week."""
+    return ROLE_ORDER[day.weekday()]
 
 
 def _next_duty(progress: dict, role: str, day: date) -> dict:
@@ -190,7 +195,7 @@ _TITLE_PREFIX = {
     "economics_fx": "Currency exchange", "equity": "Valuation and DuPont", "quant": "Multiple regression",
     "real_estate": "Commercial real estate", "macro": "Macro factor", "equity_valuation": "Free cash flow",
     "news_surprise": "Reading an inflation", "active_management": "Active management", "advisory": "Suitability",
-    "private_equity": "Venture capital", "stress_testing": "Risk contributions",
+    "private_equity": "Venture capital", "stress_testing": "Risk contributions", "trading": "Trade sizing",
 }
 
 

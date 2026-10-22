@@ -530,3 +530,94 @@ def grade_interview(question: dict, answer: str) -> tuple:
                 + (f" Consider adding: {', '.join(missing)}." if missing else " Strong coverage.")
                 + " Length: " + ("good" if 60 <= len(answer.split()) <= 220 else "aim for 60–220 words (about 1–2 minutes spoken)") + ".")
     return score, feedback
+
+
+# ==============================================================
+# TRADER — trade plan and execution report
+# ==============================================================
+
+def _trader_data():
+    try:
+        import trader_agent as ta
+        history = ta.load_history()
+    except FileNotFoundError as exc:
+        raise MissingData(str(exc))
+    return ta, history
+
+
+def trade_plan_task(day: Optional[date] = None) -> dict:
+    """One of today's agent ideas: the trader sets the stop and the size."""
+    ta, history = _trader_data()
+    ideas = ta.top_ideas(ta.scan(history))
+    if ideas.empty:
+        raise MissingData("The trader agent has no directional setups today.")
+    row = ideas.iloc[_rng("trader", day).randrange(len(ideas))]
+    budget = ta.BOOK * ta.RISK_PER_TRADE
+    return {"title": "Trade plan", "symbol": row["symbol"], "name": row["name"], "direction": row["direction"],
+            "setup": row["setup"], "price": float(row["price"]), "atr": float(row["atr20"]), "budget": budget,
+            "book": ta.BOOK, "max_notional": ta.BOOK * ta.MAX_POSITION, "why": row["why"],
+            "reference": ta.trade_plan(float(row["price"]), float(row["atr20"]), row["direction"])}
+
+
+def grade_trade_plan(task: dict, stop: float, quantity: float) -> tuple:
+    price, atr, sign = task["price"], task["atr"], 1 if task["direction"] == "Long" else -1
+    score, notes = 0.0, []
+    distance = sign * (price - stop)
+    if distance > 0:
+        score += 40
+        notes.append(f"✓ Stop is on the losing side ({distance / atr:.1f} ATR away).")
+        if 1.0 <= distance / atr <= 3.0:
+            score += 20
+            notes.append("✓ Stop distance is within 1–3 ATR — outside normal daily noise, not too wide.")
+        else:
+            notes.append(f"✗ Stop is {distance / atr:.1f} ATR away; 1–3 ATR is the usual range.")
+        risk = quantity * distance
+        if abs(risk / task["budget"] - 1) <= 0.15 or (quantity * price >= task["max_notional"] * 0.98
+                                                      and risk <= task["budget"] * 1.15):
+            score += 40
+            notes.append(f"✓ Risk at the stop {risk:,.0f} USD vs budget {task['budget']:,.0f} USD.")
+        else:
+            notes.append(f"✗ Risk at the stop is {risk:,.0f} USD; the budget is {task['budget']:,.0f} USD. "
+                         f"Size = budget ÷ distance to stop = {task['budget'] / distance:,.2f} units.")
+        if quantity * price > task["max_notional"] * 1.001:
+            score = max(score - 20, 0)
+            notes.append(f"✗ Notional {quantity * price:,.0f} USD exceeds the {task['max_notional']:,.0f} USD limit.")
+    else:
+        notes.append("✗ The stop must be below entry for a long and above entry for a short.")
+    return score, "\n".join(f"- {n}" for n in notes)
+
+
+def execution_task(day: Optional[date] = None) -> dict:
+    """Fills for a paper order around today's live price; the trader computes the average fill and IS."""
+    ta, history = _trader_data()
+    analytics = ta.load_analytics()
+    candidates = [s for s in ("SPY", "QQQ", "GLD", "TLT", "IWM", "EFA") if s in history and history[s].notna().any()]
+    if not candidates:
+        raise MissingData("No ETF prices in day76c_price_history.csv.")
+    rng = _rng("trader-exec", day)
+    symbol = candidates[rng.randrange(len(candidates))]
+    arrival = float(history[symbol].dropna().iloc[-1])
+    side = rng.choice(["Buy", "Sell"])
+    sign = 1 if side == "Buy" else -1
+    sizes = [rng.choice([200, 300, 400, 500]) for _ in range(4)]
+    fills = [(q, round(arrival * (1 + sign * (1 + 2 * i + rng.random()) / 10_000), 4)) for i, q in enumerate(sizes)]
+    avg = sum(q * p for q, p in fills) / sum(sizes)
+    name = analytics.loc[symbol, "name"] if symbol in analytics.index else symbol
+    return {"title": "Execution report", "symbol": symbol, "name": name, "side": side, "arrival": arrival,
+            "fills": fills, "avg_fill": avg, "is_bps": sign * (avg - arrival) / arrival * 10_000}
+
+
+def grade_execution(task: dict, avg_fill: float, is_bps: float) -> tuple:
+    score, notes = 0.0, []
+    if abs(avg_fill / task["avg_fill"] - 1) <= 0.0002:
+        score += 50
+        notes.append(f"✓ Average fill {task['avg_fill']:,.4f}.")
+    else:
+        notes.append(f"✗ Average fill is {task['avg_fill']:,.4f} (Σ quantity × price ÷ Σ quantity).")
+    if abs(is_bps - task["is_bps"]) <= 0.5:
+        score += 50
+        notes.append(f"✓ Implementation shortfall {task['is_bps']:.1f} bp.")
+    else:
+        notes.append(f"✗ Implementation shortfall is {task['is_bps']:.1f} bp: "
+                     f"{'(avg − arrival)' if task['side'] == 'Buy' else '(arrival − avg)'} ÷ arrival × 10,000.")
+    return score, "\n".join(f"- {n}" for n in notes)

@@ -56,7 +56,7 @@ def render_tracker() -> None:
 
     with today_tab:
         st.caption(f"{today:%A %d %B %Y} · desk of the day: **{ROLES[plan['role']]['title']}** "
-                   "(Monday to Saturday rotate through the six roles; Sunday goes to your weakest role).")
+                   "(the seven desks rotate through the week, one per day).")
         duty, cfa_step, lesson_step = plan["steps"]
         st.markdown("  \n".join(_step_header(step, i + 1) for i, step in enumerate(plan["steps"])))
         first_open = next((i for i, step in enumerate(plan["steps"]) if not step["done"]), 0)
