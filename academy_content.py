@@ -169,6 +169,39 @@ ROLES = {
                        "Networks and sector expertise matter most.",
         "vittantra": "Academy → Private Markets desk; private_markets.py",
     },
+    "trader": {
+        "title": "Trader (multi-asset)",
+        "mission": "Turn views into positions at a good price and with controlled risk: plan each trade (entry, stop, "
+                   "target, size), execute with low cost, manage open risk through the day and keep an honest journal.",
+        "framework": [
+            "**Plan before you trade:** setup → entry → stop (where the idea is wrong) → target → size from the "
+            "risk you accept at the stop.",
+            "**Trend and timing:** time-series momentum (price vs 50/200-day averages) for direction; RSI and "
+            "breakouts for timing; volatility (ATR) for distances.",
+            "**Regime first:** cut size when the market is below its 200-day average and the VIX is high.",
+            "**Execution:** spread, market impact and timing cost; measure them with implementation shortfall.",
+            "**Process over outcome:** judge yourself by average R over many trades, re-test rules with costs.",
+        ],
+        "duties": {
+            "Daily": ["Pre-market: regime, overnight moves, levels to watch, today's trade plans",
+                      "Execute orders (from your own book or the PM's) and report fills and costs",
+                      "Monitor open positions against stops and limits; update the trade journal"],
+            "Weekly": ["Review the journal: hit rate, average R, mistakes; adjust the process",
+                       "Check which setups are working in the current regime"],
+            "Monthly": ["Transaction-cost analysis with the PM; review risk limits and loss limits"],
+            "Quarterly": ["Re-test the rules out of sample with costs; retire what stopped working"],
+        },
+        "outputs": ["Trade plans", "Execution reports (fills, implementation shortfall)", "Trade journal",
+                    "Daily P&L and risk report"],
+        "tools": ["Order and execution management systems", "Market data terminal", "Charting",
+                  "Transaction-cost analysis"],
+        "kpis": ["Risk-adjusted P&L (average R, Sharpe)", "Execution cost vs benchmark",
+                 "Discipline: stops and limits respected"],
+        "career": "Trading assistant / junior trader → Trader → Senior trader → Head of desk / PM",
+        "credentials": "US: Series 7 and 63/57 for a broker-dealer; India: NISM equity/derivatives certifications. "
+                       "CFA helps; a track record matters most.",
+        "vittantra": "Trading Desk page (agent ideas, paper blotter, rule history); Academy → Trader desk",
+    },
 }
 
 
@@ -959,6 +992,79 @@ LESSONS = [
                    {"question": "What is look-ahead bias?",
                     "answer": "Using information not available at the time — e.g. restated financials — which makes "
                               "backtests look better than reality."}]},
+    {"id": "TR1", "role": "trader", "title": "Trend, momentum and timing",
+     "concept": "Time-series momentum: assets above their long-run average tend to keep trending for a while, and "
+                "those below tend to keep falling. Traders use the 50- and 200-day averages for direction and "
+                "oscillators such as RSI for timing — buying pullbacks inside an uptrend rather than chasing.",
+     "formulas": [("Simple moving average", r"SMA_n = \frac{1}{n}\sum_{i=0}^{n-1} P_{t-i}"),
+                  ("Relative Strength Index", r"RSI = 100 - \frac{100}{1 + \frac{\text{avg gain}}{\text{avg loss}}}")],
+     "live": "tr_setup", "code": ["trader_agent.py → indicator_frame, classify"],
+     "on_the_job": "Every morning a trader checks where key markets sit versus their averages and which are "
+                   "stretched, to decide what to trade and what to leave alone.",
+     "exercise": "Price 105, 50-day average 100, 200-day average 95, RSI 40. Which setup is this and why?",
+     "interview": [_q("What is time-series momentum?",
+                      "Trading an asset in the direction of its own past return (e.g. long if above its 200-day "
+                      "average). It is documented across asset classes but suffers in sharp reversals."),
+                   _q("Why not buy when RSI is 85?",
+                      "The move is stretched; the reward-to-risk of a new entry is poor. Wait for a pullback.")]},
+    {"id": "TR2", "role": "trader", "title": "Position sizing, stops and R multiples",
+     "concept": "Decide the loss you accept before you enter: put the stop where the idea is wrong (often a multiple "
+                "of the asset's typical daily move, ATR), then size the position so a stop-out costs a fixed share "
+                "of the book. Results are measured in R: profit divided by the risk taken.",
+     "formulas": [("Position size", r"Q = \frac{\text{book} \times \text{risk per trade}}{|P_{entry} - P_{stop}|}"),
+                  ("R multiple", r"R = \frac{\text{P\&L}}{Q \times |P_{entry} - P_{stop}|}")],
+     "live": "tr_sizing", "code": ["trader_agent.py → trade_plan"],
+     "on_the_job": "Desks set loss limits per trade and per day; sizing from the stop keeps every trade within them.",
+     "exercise": "Book $1m, risk 0.5% per trade, entry 50, stop 48. How many units, and what is the notional?",
+     "interview": [_q("How do you size a trade?",
+                      "From the stop: risk budget ÷ distance to the stop, then check the notional against "
+                      "position and liquidity limits."),
+                   _q("Win rate 40% — can that be a good strategy?",
+                      "Yes, if winners average well above losers: expectancy = 0.4 × avg win − 0.6 × avg loss.")]},
+    {"id": "TR3", "role": "trader", "title": "Execution costs and implementation shortfall",
+     "concept": "The decision price is not the price you get. Spread, market impact (your own order moving the "
+                "price) and delay all cost money. Implementation shortfall measures it: the average fill versus "
+                "the arrival price when you decided, in basis points. Large orders are split (VWAP/TWAP).",
+     "formulas": [("Average fill", r"\bar P = \frac{\sum q_i P_i}{\sum q_i}"),
+                  ("Implementation shortfall (buy)", r"IS = \frac{\bar P - P_{arrival}}{P_{arrival}} \times 10{,}000 \text{ bp}")],
+     "live": "tr_execution", "code": ["academy_desk.py → execution_task"],
+     "on_the_job": "Traders report fills and costs to the PM; transaction-cost analysis compares brokers and "
+                   "algorithms every month.",
+     "exercise": "Buy order, arrival 100.00. Fills: 400 at 100.02, 600 at 100.05. Average fill and IS in bp?",
+     "interview": [_q("What is implementation shortfall?",
+                      "The cost of executing versus the price at the decision time, including impact, delay and "
+                      "missed trades; the standard execution benchmark."),
+                   _q("VWAP or TWAP?",
+                      "VWAP follows the day's volume pattern to reduce impact; TWAP spreads evenly in time when "
+                      "volume is unpredictable.")]},
+    {"id": "TR4", "role": "trader", "title": "Reading the regime: trend and volatility",
+     "concept": "The same signal works differently in calm uptrends and in volatile sell-offs. Traders read the "
+                "regime from the index trend (above or below its 200-day average) and the VIX, and cut size or "
+                "stand aside when risk is high, because losses cluster.",
+     "formulas": [("Regime rule (Vittantra)",
+                   r"\text{risk-off} \iff P_{SPX} < SMA_{200} \;\text{and}\; VIX \ge 25")],
+     "live": "tr_regime", "code": ["trader_agent.py → regime"],
+     "on_the_job": "The morning meeting starts with the regime; it sets how much risk the desk takes that day.",
+     "exercise": "S&P 500 4% below its 200-day average, VIX 28. What do you do with a new long idea in crypto?",
+     "interview": [_q("Why does volatility matter for sizing?",
+                      "Higher volatility widens stops; keeping risk per trade fixed means smaller positions."),
+                   _q("What does a VIX of 30 tell you?",
+                      "Options price about 30% annualised S&P volatility — roughly 1.9% expected daily moves.")]},
+    {"id": "TR5", "role": "trader", "title": "Testing a trading rule honestly",
+     "concept": "A rule must be tested the way it would have been traded: signals only from data available at the "
+                "time, a holding period, costs, and enough signals to judge. Most rules that sound right lose after "
+                "costs in some periods; that is why desks re-test and retire rules.",
+     "formulas": [("Expectancy", r"E = p_{win} \times \bar W - (1 - p_{win}) \times \bar L"),
+                  ("Return after costs", r"r_{net} = r_{gross} - 2 \times \text{cost per side}")],
+     "live": "tr_backtest", "code": ["trader_agent.py → backtest_setups"],
+     "on_the_job": "Before a strategy gets capital, a quant or trader shows its out-of-sample record with costs.",
+     "exercise": "A rule fired 20 times with a 70% hit rate. Is that enough to trust it? What would you check?",
+     "interview": [_q("What is look-ahead bias?",
+                      "Using information in a backtest that was not available at the time, e.g. today's close to "
+                      "decide a trade at today's open. It inflates results."),
+                   _q("How do you know a backtest is overfitted?",
+                      "Many parameters, few trades, great in-sample and poor out-of-sample results, no economic "
+                      "reason for the edge.")]},
 ]
 
 
@@ -1010,5 +1116,13 @@ SIMULATOR_TASKS = {
         "checklist": ["Checked growth and retention before anything else", "Computed the burn multiple",
                       "Looked at valuation vs traction (ARR multiple)", "Named the team edge or its absence",
                       "Wrote a reason a founder would accept for each pass"],
+    },
+    "trader": {
+        "title": "Trade plan",
+        "brief": "The trader agent has an idea for you. Set the stop where the idea is wrong and size the position "
+                 "so a stop-out loses exactly the risk budget. Then report an execution.",
+        "checklist": ["Stop on the losing side, 1–3 ATR away", "Size from the stop, not from conviction",
+                      "Notional within the position limit", "Reward-to-risk at least 1.5",
+                      "Paper only — no order is sent"],
     },
 }

@@ -18,12 +18,12 @@ BASE_DIR = Path(__file__).resolve().parent
 
 NAV_GROUPS: List[Tuple[str, List[str]]] = [
     ("Overview", ["Home", "My Portfolio"]),
-    ("Research & Markets", ["Markets", "Research"]),
+    ("Research & Markets", ["Markets", "Research", "Trading Desk"]),
     ("Portfolio & Risk", ["Portfolio Manager", "Command Center", "Risk Intelligence", "Portfolio", "Governance",
                           "Remediation"]),
     ("Clients", ["Advisory"]),
     ("Tools", ["Copilot", "AI Analyst"]),
-    ("Learn", ["Guide", "Academy"]),
+    ("Learn", ["Guide", "Job Tracker", "Academy"]),
     ("System", ["System"]),
 ]
 

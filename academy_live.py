@@ -650,3 +650,71 @@ def ia_watchlist_alerts() -> str:
     return (f"Biggest moves on the last trading day in Vittantra's universe: {moves}. With a ±5% alert on these, "
             "you would have been told without watching screens — then the job is to find out *why* (World Brief) "
             "and whether it changes your view.")
+
+
+# ==============================================================
+# TRADER (Day 92)
+# ==============================================================
+
+def _trader():
+    try:
+        import trader_agent as ta
+        history = ta.load_history()
+    except FileNotFoundError:
+        raise MissingData("Trader examples need `day76c_price_history.csv`. Run `python multi_asset_universe.py`.")
+    return ta, history
+
+
+def tr_setup() -> str:
+    ta, history = _trader()
+    if "SPY" not in history:
+        raise MissingData("No S&P 500 ETF (SPY) history saved.")
+    row = ta.indicator_frame(history["SPY"]).iloc[-1]
+    setup, direction = ta.classify(row)
+    return (f"S&P 500 ETF (SPY) on {history['SPY'].dropna().index[-1]:%d %b %Y}: price {row['price']:,.2f}, "
+            f"50-day average {row['sma50']:,.2f}, 200-day average {row['sma200']:,.2f}, RSI {row['rsi14']:.0f}. "
+            f"The agent reads this as **{setup}**" + (f" ({direction.lower()})." if direction else "."))
+
+
+def tr_sizing() -> str:
+    ta, history = _trader()
+    ideas = ta.top_ideas(ta.scan(history))
+    if ideas.empty:
+        raise MissingData("The trader agent has no directional setups today.")
+    r = ideas.iloc[0]
+    return (f"Today's top idea: {r['direction']} **{r['name']}** ({r['symbol']}) at {r['entry']:,.4g}. ATR (average "
+            f"daily move) {r['atr20']:,.4g}, so the stop is 2 ATR away at {r['stop']:,.4g}. Risk budget "
+            f"{ta.BOOK * ta.RISK_PER_TRADE:,.0f} USD ÷ {abs(r['entry'] - r['stop']):,.4g} per unit = "
+            f"**{r['quantity']:,.2f} units** ({r['notional']:,.0f} USD notional, capped at "
+            f"{ta.BOOK * ta.MAX_POSITION:,.0f}). Target {r['target']:,.4g}: reward-to-risk {r['reward_to_risk']:.1f}.")
+
+
+def tr_execution() -> str:
+    import academy_desk as desk
+    t = desk.execution_task()
+    fills = "; ".join(f"{q} at {p:,.4f}" for q, p in t["fills"])
+    return (f"Paper {t['side'].lower()} order in {t['name']} ({t['symbol']}), arrival price {t['arrival']:,.4f} "
+            f"(last saved close). Fills: {fills}. Average fill **{t['avg_fill']:,.4f}**; implementation shortfall "
+            f"**{t['is_bps']:.1f} bp** — the cost of moving the market while filling. Fills are simulated around "
+            "the live price for practice.")
+
+
+def tr_regime() -> str:
+    ta, history = _trader()
+    reg = ta.regime(history)
+    vix = f"VIX {reg['vix']:.1f} ({reg['vix_percentile']:.0%} percentile of the saved year)" if reg["vix"] else "VIX n/a"
+    spy = f"S&P 500 {reg['spy_vs_200d']:+.1%} vs its 200-day average" if reg["spy_vs_200d"] is not None else "n/a"
+    return (f"{spy}; {vix}. Regime: **{reg['state']}**"
+            + (" — long risk-asset ideas are sized at half risk." if reg["state"] == "Risk-off" else "."))
+
+
+def tr_backtest() -> str:
+    ta, history = _trader()
+    bt = ta.backtest_setups(history)
+    if bt.empty:
+        raise MissingData("Not enough history to test the rules.")
+    lines = [f"- {r.setup} ({r.direction.lower()}): {r.signals} signals, {r.hit_rate:.0%} hit rate, "
+             f"{r.avg_return:+.2%} average over {ta.HORIZON} days after costs" for r in bt.itertuples()]
+    return ("Each rule applied every 5 days with data up to that day, measured over the next "
+            f"{ta.HORIZON} days, 10 bp cost each way:\n\n" + "\n".join(lines)
+            + "\n\nHistorical research on a short sample, not a forecast.")

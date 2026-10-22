@@ -147,8 +147,28 @@ PAGE_HELP: Dict[str, dict] = {
                   "Use it as the starting point for a risk meeting, then check the numbers on the risk pages."],
         "tip": "Like the copilot, it only states what the data supports.",
     },
+    "Trading Desk": {
+        "what": "The trader agent: reads the regime (S&P 500 trend, VIX), scans every instrument with daily history "
+                "and proposes trades with entry, stop, target and size. Ideas go to a paper blotter only.",
+        "steps": ["Agent brief: regime, breadth, top ideas and how the rules did historically.",
+                  "Ideas: pick one, read the chart (price, 50- and 200-day averages, stop and target) and the reasons.",
+                  "Add it to your paper blotter if you agree — nothing is executed.",
+                  "Paper blotter: trades are marked on daily closes; judge yourself by average R, not single wins.",
+                  "Rule history: see which setups made money after costs in the saved history."],
+        "tip": "Practise the Trader desk in Academy for sizing and execution-cost tasks.",
+    },
+    "Job Tracker": {
+        "what": "Your daily plan across all seven desks and CFA Level II: one desk duty, one item set and one "
+                "lesson a day (about 45 minutes), a readiness scorecard and an evidence pack for interviews.",
+        "steps": ["Sign in (sidebar) so your work is saved.",
+                  "Today: do the three steps in order; each is ticked when the graded work is saved.",
+                  "Readiness: see which responsibilities on each desk you have demonstrated (score 70+).",
+                  "CFA Level II plan: set your exam date; item sets target your weakest topic.",
+                  "Evidence pack: download it before an interview."],
+        "tip": "Seven desks rotate through the week: analyst, research, trader, risk, PM, advisor, PE/VC.",
+    },
     "Academy": {
-        "what": "Learn by doing: daily desk tasks on live data for six roles, lessons on demand, CFA Level II "
+        "what": "Learn by doing: daily desk tasks on live data for seven roles, lessons on demand, CFA Level II "
                 "item sets, case studies and your work record.",
         "steps": ["Sign in (sidebar) so your work is saved.",
                   "Work Desk: pick a role and do today's task; you get a score and a senior's reference answer.",
@@ -312,6 +332,22 @@ DAY_ON_THE_DESK: Dict[str, dict] = {
              "Clients understand probabilities and dollars better than volatility."),
             ("16:00", "Write the client report; document the advice", "Advisory",
              "If it is not written down, it did not happen."),
+        ]},
+    "Trader": {
+        "who": "Turns views into positions at a good price with controlled risk; plans, executes and journals trades.",
+        "day": [
+            ("7:30", "Read the regime: S&P 500 vs its 200-day average, VIX, overnight moves", "Trading Desk",
+             "The regime sets how much risk the desk takes today; losses cluster in volatile sell-offs."),
+            ("8:15", "Review the agent's ideas and write trade plans: entry, stop, target, size", "Trading Desk",
+             "Deciding the loss before entering keeps every trade inside the desk's limits."),
+            ("9:30", "Execute and report fills and implementation shortfall", "Academy",
+             "Execution cost is a direct drag on returns; the PM and compliance review it."),
+            ("12:00", "Check open positions against stops; check the macro calendar", "Markets",
+             "Data releases move prices; stops are respected, never moved further away."),
+            ("16:15", "Mark the blotter: P&L and R multiple per trade", "Trading Desk",
+             "Average R over many trades shows whether the process has an edge."),
+            ("17:00", "Weekly: re-check which setups worked, with costs", "Trading Desk",
+             "Rules that stop working are retired; that discipline separates traders from gamblers."),
         ]},
     "PE / VC analyst (small fund)": {
         "who": "At a small fund: finds startups, screens them, builds the numbers for the partners and supports "

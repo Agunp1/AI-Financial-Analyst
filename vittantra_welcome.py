@@ -95,6 +95,13 @@ def briefing(user: str) -> List[str]:
         tasks = len(progress.get("records", []))
         points.append(f"**Academy** · {tasks} task(s), {xp} XP, level {level}"
                       + (f" ({needed} XP to {nxt})." if nxt else "."))
+        import job_tracker as jt
+        plan = jt.daily_plan(progress)
+        if plan["done"] < 3:
+            todo = ", ".join(s["step"].lower() for s in plan["steps"] if not s["done"])
+            points.append(f"**Today** · {plan['done']} of 3 Job Tracker steps done — next: {todo}.")
+        else:
+            points.append("**Today** · All three Job Tracker steps done.")
     except Exception:
         pass
     if user == "owner":

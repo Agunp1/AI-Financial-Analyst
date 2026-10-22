@@ -50,6 +50,8 @@ LESSON_CFA_TOPIC = {
     "PV4": "Alternative Investments", "PV5": "Alternative Investments", "PV6": "Alternative Investments",
     "PM9": "Portfolio Management", "RA7": "Portfolio Management", "RA8": "Portfolio Management",
     "ER8": "Quantitative Methods", "IA7": "Portfolio Management",
+    "TR1": "Portfolio Management", "TR2": "Portfolio Management", "TR3": "Portfolio Management",
+    "TR4": "Economics", "TR5": "Quantitative Methods",
 }
 
 
@@ -544,13 +546,51 @@ def item_stress_testing(day=None) -> dict:
             "vignette": vignette, "questions": questions}
 
 
+def item_trading(day=None) -> dict:
+    """CFA L2 Portfolio Management: position sizing from risk, reward-to-risk and trading cost (live prices)."""
+    import academy_desk as desk
+    rng = _rng("trading", day)
+    try:
+        plan = desk.trade_plan_task(day)
+        execution = desk.execution_task(day)
+    except MissingData:
+        raise
+    ref = plan["reference"]
+    distance = abs(plan["price"] - ref["stop"])
+    budget = plan["budget"]
+    vignette = (f"A trader runs a {money(plan['book'])} paper book and risks {pct(budget / plan['book'])} of it per "
+                f"trade. Today's idea is {plan['direction'].lower()} {plan['name']} ({plan['symbol']}) at "
+                f"{plan['price']:,.4g}; its average daily move (ATR) is {plan['atr']:,.4g}. The stop is placed 2 ATR "
+                f"from entry and the target 3 ATR. Separately, a {execution['side'].lower()} order in "
+                f"{execution['symbol']} arrived at {execution['arrival']:,.4f} and filled at an average of "
+                f"{execution['avg_fill']:,.4f}.")
+    units = budget / distance
+    questions = [
+        _question("Ignoring position limits, the number of units the trader should take is closest to:",
+                  f"{units:,.0f}", [f"{budget / plan['atr']:,.0f}", f"{budget / plan['price']:,.0f}",
+                                    f"{units * 2:,.0f}"],
+                  f"Units = risk budget ÷ distance to stop = {budget:,.0f} ÷ {distance:,.4g} = {units:,.0f}. "
+                  "Size comes from the stop, not from conviction.", rng),
+        _question("The trade's reward-to-risk ratio is:", "1.5", ["2.0", "0.67", "3.0"],
+                  "Target 3 ATR ÷ stop 2 ATR = 1.5: a 40% hit rate already breaks even before costs "
+                  "(0.4 × 1.5 − 0.6 × 1 = 0).", rng),
+        _question("The implementation shortfall of the order is closest to:",
+                  f"{execution['is_bps']:.1f} bp", [f"{-execution['is_bps']:.1f} bp", f"{execution['is_bps'] * 10:.1f} bp",
+                                                     f"{execution['is_bps'] / 10:.2f} bp"],
+                  f"IS = {'(avg − arrival)' if execution['side'] == 'Buy' else '(arrival − avg)'} ÷ arrival × "
+                  f"10,000 = {execution['is_bps']:.1f} bp — a cost paid on top of the strategy's return.", rng),
+    ]
+    return {"topic": "Portfolio Management", "title": f"Trade sizing and execution costs: {plan['symbol']}",
+            "vignette": vignette, "questions": questions}
+
+
 ITEM_SETS: Dict[str, Callable] = {
     "fixed_income": item_fixed_income, "derivatives": item_derivatives,
     "portfolio_risk": item_portfolio_risk, "economics_fx": item_economics_fx,
     "equity": item_equity, "quant": item_quant, "real_estate": item_real_estate, "macro": item_macro,
     "equity_valuation": item_equity_valuation, "news_surprise": item_news_surprise,
     "active_management": item_active_management, "advisory": item_advisory,
-    "private_equity": item_private_equity, "stress_testing": item_stress_testing,
+    "private_equity": item_private_equity, "stress_testing": item_stress_testing, "trading": item_trading,
 }
 
 DESK_ITEM_SETS = {
@@ -560,6 +600,7 @@ DESK_ITEM_SETS = {
     "portfolio_manager": ["active_management", "quant", "derivatives", "stress_testing"],
     "advisor": ["advisory", "real_estate", "portfolio_risk"],
     "private_markets_analyst": ["private_equity", "equity_valuation", "real_estate"],
+    "trader": ["trading", "derivatives", "stress_testing"],
 }
 
 
