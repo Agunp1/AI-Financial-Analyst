@@ -1065,6 +1065,21 @@ LESSONS = [
                    _q("How do you know a backtest is overfitted?",
                       "Many parameters, few trades, great in-sample and poor out-of-sample results, no economic "
                       "reason for the edge.")]},
+    {"id": "IA8", "role": "investment_analyst", "title": "Reading the Indian market: Nifty, sectors, rupee, India VIX",
+     "concept": "An India analyst starts with the Nifty 50 and Sensex (large caps), Bank Nifty (banks are the biggest "
+                "weight), sector indices for rotation, India VIX for expected volatility, and USD/INR — a weaker rupee "
+                "helps exporters such as IT and pharma and hurts importers such as oil marketers. Foreign flows, RBI "
+                "policy and inflation drive the rest.",
+     "formulas": [("Relative sector performance", r"R_{\text{sector}} - R_{\text{Nifty 50}}"),
+                  ("Rupee move for a US investor", r"R_{USD} \approx R_{INR} - \Delta\%(USD/INR)")],
+     "live": "ia_india_market", "code": ["india_markets.py", "vittantra_india_page.py"],
+     "on_the_job": "Every morning an India desk notes the Nifty and Bank Nifty move, the leading and lagging sectors, "
+                   "India VIX and the rupee, then links them to news such as RBI decisions or FII flows.",
+     "exercise": "Nifty 50 +8% over a year, USD/INR from 83 to 87. Roughly what did a US-dollar investor earn?",
+     "interview": [_q("Why does Bank Nifty matter so much for the Nifty 50?",
+                      "Financials are the largest sector weight in the Nifty 50, so bank moves drive the index."),
+                   _q("What does a falling rupee do to Indian IT stocks?",
+                      "It raises their rupee revenue from dollar contracts, which usually helps margins.")]},
 ]
 
 

@@ -80,7 +80,8 @@ PAGE_HELP: Dict[str, dict] = {
                   "class reacts to them (macro betas).",
                   "Use the asset-class tabs (Rates & Credit, FX, Commodities, Digital Assets, Real Estate, "
                   "Alternatives, Equity Indices) to go deeper."],
-        "tip": "Headlines explain; data confirms. Check that a story actually shows up in prices before acting.",
+        "tip": "Switch Market to India (sidebar) for NSE/BSE indices, sectors, Nifty 50 stocks, the rupee and the Indian "
+               "economy — kept separate from the US view.",
     },
     "Portfolio Manager": {
         "what": "Turns the ratings into a model portfolio within a tracking-error budget, explains past returns "

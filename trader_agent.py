@@ -43,6 +43,40 @@ STOP_ATR, TARGET_ATR = 2.0, 3.0   # reward-to-risk 1.5
 MIN_HISTORY = 210                 # enough for a 200-day average
 HORIZON = 10                      # backtest holding period, trading days
 NOT_TRADED = {"^VIX"}             # used for the regime only
+
+# The US and India books are kept separate: own data files, index, volatility gauge, currency and book.
+MARKETS = {
+    "US": {"history": "day76c_price_history.csv", "analytics": "day76c_asset_analytics.csv",
+           "index": "SPY", "index_name": "S&P 500", "vol": "^VIX", "vol_name": "VIX", "vol_calm": 20.0,
+           "vol_stress": 25.0, "book": 1_000_000, "currency": "USD", "symbol": "$", "run": "multi_asset_universe.py"},
+    "India": {"history": "day93_india_price_history.csv", "analytics": "day93_india_analytics.csv",
+              "index": "^NSEI", "index_name": "Nifty 50", "vol": "^INDIAVIX", "vol_name": "India VIX",
+              "vol_calm": 18.0, "vol_stress": 24.0, "book": 10_000_000, "currency": "INR", "symbol": "₹",
+              "run": "india_markets.py"},
+}
+
+
+def not_traded(symbol: str, market: str = "US") -> bool:
+    """Gauges and indices are read, not traded (India: indices are traded through ETFs and stocks)."""
+    cfg = MARKETS[market]
+    return symbol in NOT_TRADED or symbol == cfg["vol"] or (market == "India" and symbol.startswith("^"))
+
+
+def money(value: float, market: str = "US") -> str:
+    """$1,234 for the US; ₹12,34,567 (lakh grouping) for India."""
+    if value is None or (isinstance(value, float) and math.isnan(value)):
+        return "n/a"
+    if market != "India":
+        return f"${value:,.0f}"
+    sign, digits = ("−" if value < 0 else ""), f"{abs(value):.0f}"
+    head, tail = digits[:-3], digits[-3:]
+    groups = []
+    while len(head) > 2:
+        groups.insert(0, head[-2:])
+        head = head[:-2]
+    if head:
+        groups.insert(0, head)
+    return sign + "₹" + (",".join(groups + [tail]) if groups else tail)
 CASH_LIKE_VOL = 0.02              # below 2% annual volatility: cash-like, not traded
 RISK_ASSETS = {"Equity", "Real Estate", "Digital Asset", "Commodity", "Alternative"}
 
@@ -54,14 +88,16 @@ SHORT_SETUPS = {"Downtrend", "Rally in downtrend"}
 # DATA
 # ==============================================================
 
-def load_history(base: Path = BASE_DIR, live: bool = True) -> pd.DataFrame:
+def load_history(base: Path = BASE_DIR, live: bool = True, market: str = "US") -> pd.DataFrame:
     """Daily closes; with `live`, today's latest price from the 15-minute snapshot is added as the last row."""
-    path = base / HISTORY
+    cfg = MARKETS[market]
+    path = base / cfg["history"]
     if not path.exists():
-        raise FileNotFoundError(f"{HISTORY} is missing — run multi_asset_universe.py")
+        raise FileNotFoundError(f"{cfg['history']} is missing — the {market} data arrives with the next refresh "
+                                f"(python {cfg['run']}).")
     history = pd.read_csv(path, parse_dates=["date"]).set_index("date").sort_index()
-    if live and (base / ANALYTICS).exists():
-        history = overlay_live(history, pd.read_csv(base / ANALYTICS))
+    if live and (base / cfg["analytics"]).exists():
+        history = overlay_live(history, pd.read_csv(base / cfg["analytics"]))
     return history
 
 
@@ -78,8 +114,8 @@ def overlay_live(history: pd.DataFrame, analytics: pd.DataFrame) -> pd.DataFrame
     return history.sort_index()
 
 
-def load_analytics(base: Path = BASE_DIR) -> pd.DataFrame:
-    return pd.read_csv(base / ANALYTICS).set_index("symbol")
+def load_analytics(base: Path = BASE_DIR, market: str = "US") -> pd.DataFrame:
+    return pd.read_csv(base / MARKETS[market]["analytics"]).set_index("symbol")
 
 
 # ==============================================================
@@ -158,21 +194,24 @@ def conviction(row, direction: Optional[str]) -> float:
 # REGIME
 # ==============================================================
 
-def regime(history: pd.DataFrame) -> dict:
-    """Risk-on / neutral / risk-off from the S&P 500 trend and the VIX."""
-    spy = indicator_frame(history["SPY"]).iloc[-1] if "SPY" in history else None
-    vix_series = history["^VIX"].dropna() if "^VIX" in history else pd.Series(dtype=float)
+def regime(history: pd.DataFrame, market: str = "US") -> dict:
+    """Risk-on / neutral / risk-off from the index trend (S&P 500 or Nifty 50) and the volatility index."""
+    cfg = MARKETS[market]
+    index = history[cfg["index"]].dropna() if cfg["index"] in history else pd.Series(dtype=float)
+    spy = indicator_frame(index).iloc[-1] if len(index) >= 200 else None
+    vix_series = history[cfg["vol"]].dropna() if cfg["vol"] in history else pd.Series(dtype=float)
     vix = float(vix_series.iloc[-1]) if len(vix_series) else None
     vix_pct = float((vix_series <= vix).mean()) if vix is not None else None
     above = bool(spy is not None and spy["price"] > spy["sma200"])
-    if above and (vix is None or vix < 20):
+    if above and (vix is None or vix < cfg["vol_calm"]):
         state = "Risk-on"
-    elif not above and (vix is not None and vix >= 25):
+    elif not above and (vix is not None and vix >= cfg["vol_stress"]):
         state = "Risk-off"
     else:
         state = "Neutral"
     return {"state": state, "spy_vs_200d": float(spy["price"] / spy["sma200"] - 1) if spy is not None else None,
-            "vix": vix, "vix_percentile": vix_pct, "size_scale_risk_assets": 0.5 if state == "Risk-off" else 1.0}
+            "vix": vix, "vix_percentile": vix_pct, "size_scale_risk_assets": 0.5 if state == "Risk-off" else 1.0,
+            "market": market, "index_name": cfg["index_name"], "vol_name": cfg["vol_name"]}
 
 
 # ==============================================================
@@ -206,11 +245,12 @@ def _reasons(row, setup: str) -> str:
 
 
 def scan(history: Optional[pd.DataFrame] = None, analytics: Optional[pd.DataFrame] = None,
-         base: Path = BASE_DIR, backtest: Optional[pd.DataFrame] = None) -> pd.DataFrame:
+         base: Path = BASE_DIR, backtest: Optional[pd.DataFrame] = None, market: str = "US") -> pd.DataFrame:
     """Every instrument's setup and plan. With a backtest, setups without a positive record lose 20 points."""
-    history = load_history(base) if history is None else history
-    analytics = load_analytics(base) if analytics is None else analytics
-    reg = regime(history)
+    history = load_history(base, market=market) if history is None else history
+    analytics = load_analytics(base, market) if analytics is None else analytics
+    reg = regime(history, market)
+    book = MARKETS[market]["book"]
     edge = {}
     if backtest is not None and not backtest.empty:
         edge = {r.setup: ("Positive" if r.signals >= 30 and r.avg_return > 0 else
@@ -218,7 +258,7 @@ def scan(history: Optional[pd.DataFrame] = None, analytics: Optional[pd.DataFram
                 for r in backtest.itertuples()}
     rows = []
     for symbol in history.columns:
-        if symbol in NOT_TRADED or history[symbol].dropna().shape[0] < MIN_HISTORY:
+        if not_traded(symbol, market) or history[symbol].dropna().shape[0] < MIN_HISTORY:
             continue
         frame = indicator_frame(history[symbol])
         last = frame.iloc[-1]
@@ -237,7 +277,7 @@ def scan(history: Optional[pd.DataFrame] = None, analytics: Optional[pd.DataFram
                 row["conviction"] = max(row["conviction"] - 20, 5.0)
         if direction:
             scale = reg["size_scale_risk_assets"] if (direction == "Long" and asset_class in RISK_ASSETS) else 1.0
-            row.update(trade_plan(last["price"], last["atr20"], direction, scale))
+            row.update(trade_plan(last["price"], last["atr20"], direction, scale, book))
         rows.append(row)
     table = pd.DataFrame(rows)
     for column in PLAN_COLUMNS:
@@ -258,15 +298,15 @@ def top_ideas(table: pd.DataFrame, n: int = 10, per_class: int = 3) -> pd.DataFr
 # ==============================================================
 
 def backtest_setups(history: Optional[pd.DataFrame] = None, horizon: int = HORIZON, step: int = 5,
-                    cost_bps: float = 10.0, base: Path = BASE_DIR) -> pd.DataFrame:
+                    cost_bps: float = 10.0, base: Path = BASE_DIR, market: str = "US") -> pd.DataFrame:
     """For every `step` days: classify with data up to that day, then measure the next `horizon` days.
 
     Returns per setup: signals, hit rate, average return after costs, average R (move ÷ stop distance).
     """
-    history = load_history(base) if history is None else history
+    history = load_history(base, market=market) if history is None else history
     records = []
     for symbol in history.columns:
-        if symbol in NOT_TRADED or history[symbol].dropna().shape[0] < MIN_HISTORY + horizon:
+        if not_traded(symbol, market) or history[symbol].dropna().shape[0] < MIN_HISTORY + horizon:
             continue
         frame = indicator_frame(history[symbol])
         prices = frame["price"].to_numpy()
@@ -296,8 +336,12 @@ def agent_brief(table: pd.DataFrame, reg: dict, backtest: Optional[pd.DataFrame]
     """Plain-English desk note. Every number comes from the scan or the regime."""
     ideas = top_ideas(table, n=5)
     lines = []
-    vix = f"VIX {reg['vix']:.1f} ({reg['vix_percentile']:.0%} percentile of the last year)" if reg["vix"] else "VIX n/a"
-    spy = f"S&P 500 {reg['spy_vs_200d']:+.1%} vs its 200-day average" if reg["spy_vs_200d"] is not None else ""
+    market = reg.get("market", "US")
+    vol_name, index_name = reg.get("vol_name", "VIX"), reg.get("index_name", "S&P 500")
+    vix = (f"{vol_name} {reg['vix']:.1f} ({reg['vix_percentile']:.0%} percentile of the last year)" if reg["vix"]
+           else f"{vol_name} n/a")
+    spy = (f"{index_name} {reg['spy_vs_200d']:+.1%} vs its 200-day average" if reg["spy_vs_200d"] is not None
+           else f"{index_name} trend n/a")
     lines.append(f"**Regime: {reg['state']}.** {spy}; {vix}."
                  + (" Long risk-asset ideas are sized at half risk." if reg["state"] == "Risk-off" else ""))
     counts = table["setup"].value_counts()
@@ -310,7 +354,7 @@ def agent_brief(table: pd.DataFrame, reg: dict, backtest: Optional[pd.DataFrame]
         for r in ideas.itertuples():
             lines.append(f"- {r.direction} **{r.name}** ({r.symbol}, {r.asset_class}) — {r.setup}; {r.why}. "
                          f"Entry {r.entry:,.4g}, stop {r.stop:,.4g}, target {r.target:,.4g}; "
-                         f"risk {r.risk_at_stop:,.0f} USD at the stop.")
+                         f"risk {money(r.risk_at_stop, market)} at the stop.")
     wait = table[table["setup"].str.contains("wait")]
     if not wait.empty:
         lines.append("**Wait:** " + ", ".join(f"{r.symbol} ({r.setup.split(' —')[0].lower()}, RSI {r.rsi14:.0f})"
@@ -342,7 +386,8 @@ def open_paper_trade(progress: dict, idea: dict, when: Optional[datetime] = None
     trade = {"id": len(trades) + 1, "symbol": idea["symbol"], "name": idea.get("name", idea["symbol"]),
              "direction": idea["direction"], "entry": float(idea["entry"]), "stop": float(idea["stop"]),
              "target": float(idea["target"]), "quantity": float(idea["quantity"]), "setup": idea.get("setup", ""),
-             "opened": (when or datetime.now()).date().isoformat(), "status": "Open", "executed": False}
+             "opened": (when or datetime.now()).date().isoformat(), "status": "Open", "executed": False,
+             "market": idea.get("market", "US")}
     trades.append(trade)
     return trade
 
@@ -354,10 +399,12 @@ def close_paper_trade(progress: dict, trade_id: int, price: float, when: Optiona
                           "closed": (when or datetime.now()).date().isoformat()})
 
 
-def mark_paper_trades(progress: dict, history: pd.DataFrame) -> pd.DataFrame:
+def mark_paper_trades(progress: dict, history: pd.DataFrame, market: Optional[str] = None) -> pd.DataFrame:
     """Mark each trade on daily closes: stop or target hit after the open date closes it at that close."""
     rows = []
     for trade in progress.get("paper_trades", []):
+        if market is not None and trade.get("market", "US") != market:
+            continue
         sign = 1 if trade["direction"] == "Long" else -1
         series = history[trade["symbol"]].dropna() if trade["symbol"] in history else pd.Series(dtype=float)
         after = series[series.index > pd.Timestamp(trade["opened"])]
@@ -390,12 +437,13 @@ def blotter_summary(marked: pd.DataFrame) -> dict:
 # VALIDATION / MAIN
 # ==============================================================
 
-def validate(table: pd.DataFrame, backtest: pd.DataFrame) -> pd.DataFrame:
+def validate(table: pd.DataFrame, backtest: pd.DataFrame, market: str = "US") -> pd.DataFrame:
     ideas = table[table["direction"].isin(["Long", "Short"])]
+    book = MARKETS[market]["book"]
     checks = [
         ("Every idea risks at most 0.5% of the book at its stop",
-         bool((ideas["risk_at_stop"] <= BOOK * RISK_PER_TRADE + 1e-6).all()), f"{len(ideas)} ideas"),
-        ("No idea is larger than 10% of the book", bool((ideas["notional"] <= BOOK * MAX_POSITION + 1e-6).all()),
+         bool((ideas["risk_at_stop"] <= book * RISK_PER_TRADE + 1e-6).all()), f"{len(ideas)} ideas"),
+        ("No idea is larger than 10% of the book", bool((ideas["notional"] <= book * MAX_POSITION + 1e-6).all()),
          "position cap"),
         ("Stops are on the losing side of entry",
          bool((((ideas["direction"] == "Long") & (ideas["stop"] < ideas["entry"]))
@@ -409,22 +457,32 @@ def validate(table: pd.DataFrame, backtest: pd.DataFrame) -> pd.DataFrame:
 
 
 def main(base: Path = BASE_DIR, verbose: bool = True) -> pd.DataFrame:
-    history = load_history(base)
-    backtest = backtest_setups(history)
-    table = scan(history, base=base, backtest=backtest)
-    validation = validate(table, backtest)
-    table.to_csv(base / OUTPUT_SCAN, index=False)
-    backtest.to_csv(base / OUTPUT_BACKTEST, index=False)
-    validation.to_csv(base / OUTPUT_VALIDATION, index=False)
+    """US book (day92_*) and, when its data exists, the separate India book (day93_india_trade_scan.csv)."""
+    results = {}
+    for market, scan_file in (("US", OUTPUT_SCAN), ("India", "day93_india_trade_scan.csv")):
+        try:
+            history = load_history(base, market=market)
+        except FileNotFoundError as exc:
+            if verbose:
+                print(f"{market}: {exc}")
+            continue
+        backtest = backtest_setups(history, market=market)
+        table = scan(history, base=base, backtest=backtest, market=market)
+        validation = validate(table, backtest, market)
+        table.to_csv(base / scan_file, index=False)
+        if market == "US":
+            backtest.to_csv(base / OUTPUT_BACKTEST, index=False)
+            validation.to_csv(base / OUTPUT_VALIDATION, index=False)
+        results[market] = validation
+        if verbose:
+            print(f"VITTANTRA — DAY 92 TRADER AGENT ({market})")
+            print(agent_brief(table, regime(history, market), backtest))
+            print(backtest.to_string(index=False))
+            print(validation[["check", "passed"]].to_string(index=False))
+            print(f"\nPassed: {int(validation['passed'].sum())}/{len(validation)}")
     if verbose:
-        print("VITTANTRA — DAY 92 TRADER AGENT")
-        print(agent_brief(table, regime(history), backtest))
-        print(backtest.to_string(index=False))
-        print(validation[["check", "passed"]].to_string(index=False))
-        print(f"\nPassed: {int(validation['passed'].sum())}/{len(validation)}")
         print("Day 92 trader agent complete. Paper ideas only; nothing executed.")
-    return validation
-
+    return results.get("US", pd.DataFrame())
 
 if __name__ == "__main__":
     main()

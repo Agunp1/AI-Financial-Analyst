@@ -232,6 +232,17 @@ TIPS: Dict[str, str] = {
     "signals": "How many times the rule fired in the saved history. Fewer than about 30 is too few to judge.",
     "implementation shortfall": "Execution cost: the gap between the price when you decided to trade (arrival) and "
                                 "the average fill, in basis points. The standard measure of trading cost.",
+    "risk at stop (inr)": "What the paper trade loses in rupees if the stop is hit (quantity × distance to stop). "
+                          "Traders fix this first — 0.5% of the book — and size the position from it.",
+    "p&l (inr)": "Profit or loss of the paper trade in rupees, marked on daily closes. Paper only.",
+    "p&l (usd)": "Profit or loss of the paper trade in dollars, marked on daily closes. Paper only.",
+    "india vix": "Expected 30-day Nifty 50 volatility implied by NSE option prices. Indian traders watch it to judge "
+                 "how big daily moves are likely to be and to size positions.",
+    "nifty 50 vs 200-day": "How far the Nifty 50 is above or below its 200-day average — the trend filter the India "
+                           "trader agent uses to set the regime.",
+    "beta to nifty 50": "How much the instrument moves when the Nifty 50 moves 1%. Indian PMs use it to see market "
+                        "exposure and to hedge with Nifty futures.",
+    "price (inr)": "Latest price in Indian rupees from Yahoo Finance (NSE/BSE), about 15 minutes delayed.",
     "role level": "Your level in this role (Junior → Analyst → Senior → Lead) from XP earned on graded desk tasks.",
 }
 

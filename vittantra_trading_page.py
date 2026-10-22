@@ -17,10 +17,10 @@ import vittantra_theme as vt
 
 
 @st.cache_data(ttl=900, show_spinner=False)
-def _run(stamp: float):
-    history = ta.load_history()
-    backtest = ta.backtest_setups(history)
-    return history, ta.scan(history, backtest=backtest), backtest, ta.regime(history)
+def _run(stamp: float, market: str = "US"):
+    history = ta.load_history(market=market)
+    backtest = ta.backtest_setups(history, market=market)
+    return (history, ta.scan(history, backtest=backtest, market=market), backtest, ta.regime(history, market))
 
 
 def _load_progress() -> dict:
@@ -45,26 +45,29 @@ def _chart(history: pd.DataFrame, row: pd.Series) -> go.Figure:
     return fig
 
 
-def render_trading() -> None:
-    st.markdown("### Trading Desk")
+def render_trading(market: str = "US") -> None:
+    cfg = ta.MARKETS[market]
+    cur = cfg["currency"]
+    st.markdown("### Trading Desk" + (" · India" if market == "India" else ""))
     st.markdown('<div class="vt-lede">A rule-based trader agent scans every instrument with daily history, '
                 'reads the regime and proposes trades with entry, stop, target and size. You decide; ideas go to '
                 'a paper blotter only. Nothing is executed.</div>', unsafe_allow_html=True)
     try:
-        stamp = max((ta.BASE_DIR / f).stat().st_mtime for f in (ta.HISTORY, ta.ANALYTICS))
-        history, table, backtest, reg = _run(stamp)
+        stamp = max((ta.BASE_DIR / cfg[f]).stat().st_mtime for f in ("history", "analytics"))
+        history, table, backtest, reg = _run(stamp, market)
     except FileNotFoundError as exc:
         st.info(str(exc))
         return
     ideas = ta.top_ideas(table)
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("Regime", reg["state"])
-    c2.metric("VIX", f"{reg['vix']:.1f}" if reg["vix"] else "—",
+    c2.metric(cfg["vol_name"], f"{reg['vix']:.1f}" if reg["vix"] else "—",
               f"{reg['vix_percentile']:.0%} percentile (1y)" if reg["vix"] else None, delta_color="off",
               delta_arrow="off")
-    c3.metric("S&P 500 vs 200-day", f"{reg['spy_vs_200d']:+.1%}" if reg["spy_vs_200d"] is not None else "—")
+    c3.metric(f"{cfg['index_name']} vs 200-day",
+              f"{reg['spy_vs_200d']:+.1%}" if reg["spy_vs_200d"] is not None else "—")
     c4.metric("Directional setups", f"{int(table['direction'].isin(['Long', 'Short']).sum())} of {len(table)}")
-    st.caption(f"Daily closes to {table['as_of'].max()} · paper book {ta.BOOK:,.0f} USD · risk per idea "
+    st.caption(f"Daily closes to {table['as_of'].max()} · paper book {ta.money(cfg['book'], market)} · risk per idea "
                f"{ta.RISK_PER_TRADE:.1%} of the book · stop {ta.STOP_ATR:.0f} ATR, target {ta.TARGET_ATR:.0f} ATR")
 
     brief, ideas_tab, blotter, history_tab, scan_tab = st.tabs(
@@ -83,14 +86,14 @@ def render_trading() -> None:
             st.dataframe(show.rename(columns={
                 "symbol": "Symbol", "name": "Name", "asset_class": "Asset class", "direction": "Direction",
                 "setup": "Setup", "conviction": "Conviction", "entry": "Entry", "stop": "Stop", "target": "Target",
-                "quantity": "Quantity", "risk_at_stop": "Risk at stop (USD)", "history_edge": "Historical edge"}),
+                "quantity": "Quantity", "risk_at_stop": f"Risk at stop ({cur})", "history_edge": "Historical edge"}),
                 hide_index=True, width="stretch",
                 column_config={"Conviction": st.column_config.ProgressColumn(min_value=0, max_value=100, format="%d"),
                                "Entry": st.column_config.NumberColumn(format="%.4g"),
                                "Stop": st.column_config.NumberColumn(format="%.4g"),
                                "Target": st.column_config.NumberColumn(format="%.4g"),
                                "Quantity": st.column_config.NumberColumn(format="%.2f"),
-                               "Risk at stop (USD)": st.column_config.NumberColumn(format="%.0f")})
+                               f"Risk at stop ({cur})": st.column_config.NumberColumn(format="%.0f")})
             pick = st.selectbox("Idea", ideas["symbol"], key="td-pick",
                                 format_func=lambda s: f"{s} · {ideas.set_index('symbol').loc[s, 'name']}")
             row = ideas.set_index("symbol").loc[pick].copy()
@@ -101,16 +104,16 @@ def render_trading() -> None:
                 st.caption("Sign in (sidebar) to keep a paper blotter.")
             elif st.button(f"Add {pick} to my paper blotter", key="td-add", type="primary"):
                 from vittantra_academy_page import _save
-                ta.open_paper_trade(progress, {**row.to_dict(), "symbol": pick})
+                ta.open_paper_trade(progress, {**row.to_dict(), "symbol": pick, "market": market})
                 _save(progress)
                 st.success(f"Paper trade added: {row['direction']} {pick}. Nothing was sent to any market.")
 
     with blotter:
-        marked = ta.mark_paper_trades(progress, history)
+        marked = ta.mark_paper_trades(progress, history, market)
         summary = ta.blotter_summary(marked)
         b1, b2, b3, b4 = st.columns(4)
         b1.metric("Paper trades", summary["trades"], f"{summary['open']} open", delta_color="off", delta_arrow="off")
-        b2.metric("Paper P&L", f"{summary['pnl']:+,.0f} USD")
+        b2.metric("Paper P&L", ("+" if summary["pnl"] >= 0 else "") + ta.money(summary["pnl"], market))
         b3.metric("Hit rate", f"{summary['hit_rate']:.0%}" if summary["hit_rate"] is not None else "—")
         b4.metric("Average R", f"{summary['avg_r']:+.2f}" if summary["avg_r"] is not None else "—")
         if marked.empty:
@@ -121,9 +124,9 @@ def render_trading() -> None:
             st.dataframe(view.rename(columns={"id": "#", "opened": "Opened", "direction": "Direction",
                                               "symbol": "Symbol", "setup": "Setup", "entry": "Entry", "stop": "Stop",
                                               "target": "Target", "last": "Last / exit", "status": "Status",
-                                              "pnl": "P&L (USD)", "r_multiple": "R multiple"}),
+                                              "pnl": f"P&L ({cur})", "r_multiple": "R multiple"}),
                          hide_index=True, width="stretch",
-                         column_config={"P&L (USD)": st.column_config.NumberColumn(format="%.0f"),
+                         column_config={f"P&L ({cur})": st.column_config.NumberColumn(format="%.0f"),
                                         "R multiple": st.column_config.NumberColumn(format="%.2f")})
             open_ids = marked.loc[marked["status"] == "Open", "id"].tolist()
             if open_ids and not (cloud.cloud_mode() and cloud.current_user() is None):

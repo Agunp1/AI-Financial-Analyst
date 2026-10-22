@@ -718,3 +718,31 @@ def tr_backtest() -> str:
     return ("Each rule applied every 5 days with data up to that day, measured over the next "
             f"{ta.HORIZON} days, 10 bp cost each way:\n\n" + "\n".join(lines)
             + "\n\nHistorical research on a short sample, not a forecast.")
+
+
+# ==============================================================
+# INDIA (Day 93)
+# ==============================================================
+
+def ia_india_market() -> str:
+    data = _csv("day93_india_analytics.csv", "india_markets.py").set_index("symbol")
+    needed = ["^NSEI", "^NSEBANK", "INR=X"]
+    if any(s not in data.index or pd.isna(data.at[s, "price"]) for s in needed):
+        raise MissingData("India data is incomplete; it arrives with the next refresh (india_markets.py).")
+    nifty, bank, inr = (data.loc[s] for s in needed)
+    sectors = data[data["sub_class"] == "Sector index"].dropna(subset=["return_1m"]).sort_values("return_1m")
+    lead = sectors.iloc[-1] if len(sectors) else None
+    lag = sectors.iloc[0] if len(sectors) else None
+    vix = data.loc["^INDIAVIX"] if "^INDIAVIX" in data.index else None
+    text = (f"Nifty 50 {nifty['price']:,.0f} ({pct(nifty['return_1d'], 2)} on the day, {pct(nifty['return_12m'])} over "
+            f"a year); Bank Nifty {pct(bank['return_1m'])} over a month. USD/INR {inr['price']:,.2f} "
+            f"({pct(inr['return_12m'])} over a year — positive means a weaker rupee).")
+    if lead is not None:
+        text += (f" Leading sector over a month: **{lead['name']}** ({pct(lead['return_1m'])}); lagging: "
+                 f"**{lag['name']}** ({pct(lag['return_1m'])}).")
+    if vix is not None and pd.notna(vix["price"]):
+        text += f" India VIX {vix['price']:.1f}."
+    if pd.notna(nifty["return_12m"]) and pd.notna(inr["return_12m"]):
+        usd = (1 + nifty["return_12m"]) / (1 + inr["return_12m"]) - 1
+        text += f" For a US-dollar investor the Nifty's year was about **{pct(usd)}** after the currency move."
+    return text
