@@ -174,14 +174,18 @@ def render_india_markets() -> None:
         if macro.empty:
             st.info("Indian economic data arrives with the next daily refresh.")
         else:
-            st.dataframe(macro[["name", "value", "unit", "change", "change_basis", "as_of", "source"]].rename(
+            if "status" not in macro:
+                macro["status"] = "—"
+            st.dataframe(macro[["name", "value", "unit", "change", "change_basis", "as_of", "status", "source"]].rename(
                 columns={"name": "Indicator", "value": "Latest", "unit": "Unit", "change": "Change",
-                         "change_basis": "Change basis", "as_of": "As of", "source": "Source"}),
+                         "change_basis": "Change basis", "as_of": "As of", "status": "Status", "source": "Source"}),
                 hide_index=True, width="stretch",
                 column_config={"Latest": st.column_config.NumberColumn(format="%.2f"),
                                "Change": st.column_config.NumberColumn(format="%+.2f")})
-            st.caption("Free international sources publish Indian data monthly or quarterly, so readings lag by weeks. "
-                       "The RBI repo rate has no reliable free API; the 3-month interbank rate is shown as a proxy.")
+            st.caption("Free international sources publish Indian data monthly or quarterly, so readings lag by weeks; "
+                       "some series have stopped updating at the source and are marked Stale rather than hidden. "
+                       "The RBI repo rate has no reliable free API; the 3-month interbank rate is shown as a proxy. "
+                       "For current CPI and RBI decisions, check MOSPI and rbi.org.in.")
 
     with rupee:
         fx = priced[priced["asset_class"].isin(["FX", "Commodity", "Fixed Income"])]

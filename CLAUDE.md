@@ -132,6 +132,9 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 - Claude must never approve risk decisions for the owner; the owner clicks Approve in the app.
 - Never ask for or handle secrets in chat; they live in Streamlit Secrets and GitHub repo secrets.
 - Career use: resume/LinkedIn wording lives in `CAREER_KIT.md` section 7; keep its numbers accurate.
+- Owner applies for **US roles** (investment/research/equity analyst, portfolio construction/management,
+  portfolio/risk analyst, trader); India is for a working grip of the Indian market. Prioritise US depth;
+  keep India lighter (markets, economy, trading) and always separate.
 
 ## Conventions
 
