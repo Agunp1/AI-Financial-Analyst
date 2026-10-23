@@ -13,15 +13,15 @@ Willingness to take risk 4/5, capacity 5/5. You told us a loss of about 30% in a
 | US equity | 52% | SPY |
 | International developed equity | 30% | EFA |
 | US REITs | 10% | VNQ |
-| Emerging-market equity | 3% | EEM |
 | Investment-grade credit | 3% | LQD |
+| Emerging-market equity | 3% | EEM |
 | Cash (T-bills) | 2% | BIL |
 
-Expected return about **9.5% a year** (before inflation of about 2.4%), with typical swings (volatility) of 13%. In a bad year (about 1 in 20) the portfolio could fall about **12%**.
+Expected return about **9.5% a year** (before inflation of about 2.3%), with typical swings (volatility) of 13%. In a bad year (about 1 in 20) the portfolio could fall about **12%**.
 
 ## Your goal
-Chance of reaching 600,000 (today's money) in 30 years: **50%**. Median outcome 598,867; poor case (10th percentile) 332,529.
-Saving about **9,437 a year** would raise the chance to 80%.
+Chance of reaching 600,000 (today's money) in 30 years: **50%**. Median outcome 599,696; poor case (10th percentile) 332,901.
+Saving about **9,425 a year** would raise the chance to 80%.
 
 ## Suitability checks
 - ✓ Volatility within the risk profile: 13.0% vs limit 13.0% *(CFA Standard III(C) Suitability)*
@@ -47,25 +47,25 @@ Willingness to take risk 3/5, capacity 4/5. You told us a loss of about 20% in a
 | Holding | Weight | Example fund |
 |---|---:|---|
 | US equity | 43% | SPY |
-| Inflation-linked Treasuries | 23% | TIP |
 | International developed equity | 19% | EFA |
+| Inflation-linked Treasuries | 12% | TIP |
+| Investment-grade credit | 10% | LQD |
 | US REITs | 10% | VNQ |
-| Cash (T-bills) | 4% | BIL |
-| Investment-grade credit | 1% | LQD |
+| Cash (T-bills) | 7% | BIL |
 
-Expected return about **8.3% a year** (before inflation of about 2.4%), with typical swings (volatility) of 10%. In a bad year (about 1 in 20) the portfolio could fall about **8%**.
+Expected return about **8.3% a year** (before inflation of about 2.3%), with typical swings (volatility) of 10%. In a bad year (about 1 in 20) the portfolio could fall about **8%**.
 
 ## Your goal
-Chance of reaching 220,000 (today's money) in 12 years: **66%**. Median outcome 241,324; poor case (10th percentile) 180,089.
-Saving about **10,612 a year** would raise the chance to 80%.
+Chance of reaching 220,000 (today's money) in 12 years: **66%**. Median outcome 241,261; poor case (10th percentile) 180,029.
+Saving about **10,617 a year** would raise the chance to 80%.
 
 ## Suitability checks
 - ✓ Volatility within the risk profile: 10.0% vs limit 10.0% *(CFA Standard III(C) Suitability)*
 - ✓ A 1-in-20 bad year within loss tolerance: possible loss 8% vs tolerance 20% *(CFA Standard III(C) Suitability)*
-- ✓ Equity share suits the horizon and profile: equity 62% vs cap 65% (12-year horizon) *(CFA Standard III(C) Suitability)*
+- ✓ Equity share suits the horizon and profile: equity 61% vs cap 65% (12-year horizon) *(CFA Standard III(C) Suitability)*
 - ✓ No single sleeve above 60%: largest US equity 43% *(CFA Standard III(C) Suitability)*
 - ✓ Complex or speculative holdings only for experienced investors: complex holdings 0%; experience Some *(CFA Standard III(C) Suitability)*
-- ✓ Cash covers the next 12 months' needs: cash 4.0% vs need 4.0% *(CFA Standard III(C) Suitability)*
+- ✓ Cash covers the next 12 months' needs: cash 6.7% vs need 4.0% *(CFA Standard III(C) Suitability)*
 
 ## Important
 - Projections use assumptions (below) and 10,000 simulated market paths. They are estimates, not guarantees; real returns can be worse.
@@ -83,13 +83,13 @@ Willingness to take risk 2/5, capacity 4/5. You told us a loss of about 10% in a
 | Holding | Weight | Example fund |
 |---|---:|---|
 | US equity | 32% | SPY |
-| Cash (T-bills) | 25% | BIL |
-| Inflation-linked Treasuries | 18% | TIP |
+| Cash (T-bills) | 30% | BIL |
 | International developed equity | 13% | EFA |
+| Investment-grade credit | 9% | LQD |
 | US REITs | 9% | VNQ |
-| Investment-grade credit | 3% | LQD |
+| Inflation-linked Treasuries | 8% | TIP |
 
-Expected return about **7.3% a year** (before inflation of about 2.4%), with typical swings (volatility) of 8%. In a bad year (about 1 in 20) the portfolio could fall about **5%**.
+Expected return about **7.3% a year** (before inflation of about 2.3%), with typical swings (volatility) of 8%. In a bad year (about 1 in 20) the portfolio could fall about **5%**.
 
 ## Your goal
 Chance the money lasts 25 years while withdrawing 30,000 a year (rising with inflation): **98%**.
@@ -100,7 +100,7 @@ Chance the money lasts 25 years while withdrawing 30,000 a year (rising with inf
 - ✓ Equity share suits the horizon and profile: equity 45% vs cap 45% (25-year horizon) *(CFA Standard III(C) Suitability)*
 - ✓ No single sleeve above 60%: largest US equity 32% *(CFA Standard III(C) Suitability)*
 - ✓ Complex or speculative holdings only for experienced investors: complex holdings 0%; experience Extensive *(CFA Standard III(C) Suitability)*
-- ✓ Cash covers the next 12 months' needs: cash 24.9% vs need 4.6% *(CFA Standard III(C) Suitability)*
+- ✓ Cash covers the next 12 months' needs: cash 29.8% vs need 4.6% *(CFA Standard III(C) Suitability)*
 
 ## Important
 - Projections use assumptions (below) and 10,000 simulated market paths. They are estimates, not guarantees; real returns can be worse.
@@ -111,7 +111,7 @@ I1,"# Investment proposal — Sample foundation (perpetual endowment)
 *Goal: Fund 4.5% annual spending in real terms · Horizon: 30 years · Profile: **Growth** · Suitability: **SUITABLE***
 
 ## Your risk profile
-Set by the IPS: volatility at most 13%; required return 7.35% (spending/liabilities + inflation + costs).
+Set by the IPS: volatility at most 13%; required return 7.32% (spending/liabilities + inflation + costs).
 
 ## Recommended mix
 | Holding | Weight | Example fund |
@@ -123,7 +123,7 @@ Set by the IPS: volatility at most 13%; required return 7.35% (spending/liabilit
 | Cash (T-bills) | 4% | BIL |
 | US REITs | 1% | VNQ |
 
-Expected return about **9.3% a year** (before inflation of about 2.4%), with typical swings (volatility) of 13%. In a bad year (about 1 in 20) the portfolio could fall about **12%**.
+Expected return about **9.3% a year** (before inflation of about 2.3%), with typical swings (volatility) of 13%. In a bad year (about 1 in 20) the portfolio could fall about **12%**.
 
 ## Your goal
 Chance the money lasts 30 years while withdrawing 1,125,000 a year (rising with inflation): **92%**.
@@ -138,7 +138,7 @@ Chance the money lasts 30 years while withdrawing 1,125,000 a year (rising with 
 - ✓ IPS exclusions respected: none held *(Investment policy statement)*
 - ✓ IPS minimum fixed income: 15% vs minimum 15% *(Investment policy statement)*
 - ✓ IPS maximum alternatives: 1% vs maximum 25% *(Investment policy statement)*
-- ✓ Expected return meets the return objective: expected 9.33% vs required 7.35% *(Investment policy statement)*
+- ✓ Expected return meets the return objective: expected 9.31% vs required 7.32% *(Investment policy statement)*
 
 ## Important
 - Projections use assumptions (below) and 10,000 simulated market paths. They are estimates, not guarantees; real returns can be worse.
@@ -155,13 +155,13 @@ Set by the IPS: volatility at most 9%; required return 5.00% (spending/liabiliti
 | Holding | Weight | Example fund |
 |---|---:|---|
 | US equity | 32% | SPY |
-| Cash (T-bills) | 25% | BIL |
-| Inflation-linked Treasuries | 18% | TIP |
+| Cash (T-bills) | 30% | BIL |
 | International developed equity | 13% | EFA |
+| Investment-grade credit | 9% | LQD |
 | US REITs | 9% | VNQ |
-| Investment-grade credit | 3% | LQD |
+| Inflation-linked Treasuries | 8% | TIP |
 
-Expected return about **7.3% a year** (before inflation of about 2.4%), with typical swings (volatility) of 8%. In a bad year (about 1 in 20) the portfolio could fall about **5%**.
+Expected return about **7.3% a year** (before inflation of about 2.3%), with typical swings (volatility) of 8%. In a bad year (about 1 in 20) the portfolio could fall about **5%**.
 
 ## Your goal
 Chance the money lasts 15 years while withdrawing 4,000,000 a year (rising with inflation): **100%**.
@@ -172,11 +172,11 @@ Chance the money lasts 15 years while withdrawing 4,000,000 a year (rising with 
 - ✓ Equity share suits the horizon and profile: equity 45% vs cap 45% (15-year horizon) *(CFA Standard III(C) Suitability)*
 - ✓ No single sleeve above 60%: largest US equity 32% *(CFA Standard III(C) Suitability)*
 - ✓ Complex or speculative holdings only for experienced investors: complex holdings 0%; experience institutional *(CFA Standard III(C) Suitability)*
-- ✓ Cash covers the next 12 months' needs: cash 24.9% vs need 5.0% *(CFA Standard III(C) Suitability)*
+- ✓ Cash covers the next 12 months' needs: cash 29.8% vs need 5.0% *(CFA Standard III(C) Suitability)*
 - ✓ IPS exclusions respected: none held *(Investment policy statement)*
 - ✓ IPS minimum fixed income: 46% vs minimum 45% *(Investment policy statement)*
 - ✓ IPS maximum alternatives: 9% vs maximum 10% *(Investment policy statement)*
-- ✓ Expected return meets the return objective: expected 7.31% vs required 5.00% *(Investment policy statement)*
+- ✓ Expected return meets the return objective: expected 7.27% vs required 5.00% *(Investment policy statement)*
 
 ## Important
 - Projections use assumptions (below) and 10,000 simulated market paths. They are estimates, not guarantees; real returns can be worse.
