@@ -52,7 +52,7 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 | Welcome | `vittantra_welcome.py` | Sign-in toast and a time-of-day greeting with a personal briefing on Home (market move, own portfolio, Academy level, pending approvals); owner's name from the optional `owner_name` secret (default Arjun) |
 | Guide | `vittantra_guide.py`, `vittantra_guide_page.py` | Guide page (navigation, playbooks, how professionals test factors with live IC and macro-beta evidence, asset-class primers with live numbers, glossary) and a 'How to use this page' box on every page; add a `PAGE_HELP` entry for every new page; 'A day on the desk' (`DAY_ON_THE_DESK`) per role |
 | Tooltips | `vittantra_tooltips.py` | Hover explanations (what it is + why professionals use it) on every metric and table column via `install()`; add a `TIPS` entry for every new metric |
-| Job Tracker | `job_tracker.py`, `vittantra_tracker_page.py` | Daily plan of three steps (desk duty for the role of the day — target roles Mon–Fri (`WEEKDAY_ROLES`: investment analyst, equity research, trader, risk/portfolio analyst, PM), weekend = two weakest of them; CFA L2 item set in the weakest topic; next lesson), built only from work before today so it stays put; readiness per role = responsibilities with graded work ≥70; CFA exam countdown and topic focus; evidence pack for interviews; lessons are logged with dates in `lesson_log`. Add new desk tasks/item sets to `RESPONSIBILITIES`/`ITEM_SET_TOPIC` |
+| Job Tracker | `job_tracker.py`, `vittantra_tracker_page.py` | Daily plan of three steps (desk duty for the role of the day — target roles Mon–Fri (`WEEKDAY_ROLES`: investment analyst, equity research, trader, risk/portfolio analyst, PM), Saturday PE/VC, Sunday the weakest; advisor is not in the plan; CFA L2 item set in the weakest topic; next lesson), built only from work before today so it stays put; readiness per role = responsibilities with graded work ≥70; CFA exam countdown and topic focus; evidence pack for interviews; lessons are logged with dates in `lesson_log`. Add new desk tasks/item sets to `RESPONSIBILITIES`/`ITEM_SET_TOPIC` |
 | Academy | `academy_content.py`, `academy_live.py`, `academy_desk.py`, `vittantra_academy_page.py` | Learn-by-doing desk for 7 roles (incl. PE/VC analyst at a small fund and a multi-asset trader); progress in `academy_progress.json` |
 
 ## Non-negotiable rules
@@ -134,7 +134,7 @@ outputs plus a `dayNN_validation_summary.csv`. Key chain:
 - Never ask for or handle secrets in chat; they live in Streamlit Secrets and GitHub repo secrets.
 - Career use: resume/LinkedIn wording lives in `CAREER_KIT.md` section 7; keep its numbers accurate.
 - Owner applies for **US roles** (investment/research/equity analyst, portfolio construction/management,
-  portfolio/risk analyst, trader); India is for a working grip of the Indian market. Prioritise US depth;
+  portfolio/risk analyst, trader) and keeps PE/VC (works at a small VC fund); the advisor desk is not in their plan. India is for a working grip of the Indian market. Prioritise US depth;
   keep India lighter (markets, economy, trading) and always separate.
 
 ## Conventions

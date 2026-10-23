@@ -23,10 +23,11 @@ class JobTrackerTests(unittest.TestCase):
         roles = [jt.role_of_the_day({}, date(2026, 10, 19 + i)) for i in range(5)]
         self.assertEqual(roles, jt.WEEKDAY_ROLES)
         self.assertEqual(roles[2], "trader")
-        progress = {"records": [rec("2026-10-20", r, i["prefixes"][0]) for r in jt.WEEKDAY_ROLES
+        progress = {"records": [rec("2026-10-20", r, i["prefixes"][0]) for r in jt.ROLE_ORDER
                                 for i in jt.RESPONSIBILITIES[r] if r != "trader"]}
-        self.assertEqual(jt.role_of_the_day(progress, date(2026, 10, 24)), "trader")      # Saturday: weakest
-        self.assertIn(jt.role_of_the_day(progress, date(2026, 10, 25)), jt.WEEKDAY_ROLES)
+        self.assertEqual(jt.role_of_the_day(progress, date(2026, 10, 24)), "private_markets_analyst")  # Saturday
+        self.assertEqual(jt.role_of_the_day(progress, date(2026, 10, 25)), "trader")       # Sunday: weakest
+        self.assertNotIn("advisor", jt.ROLE_ORDER)
 
     def test_every_role_has_desk_duties(self):
         self.assertEqual(set(jt.RESPONSIBILITIES), set(ROLES))
@@ -112,10 +113,11 @@ class JobTrackerTests(unittest.TestCase):
         self.assertIsNone(jt.days_to_exam({}, MONDAY))
 
     def test_evidence_pack_covers_every_role(self):
-        text = jt.evidence_pack({"records": [rec("2026-10-14", "advisor", "Client meeting: X", 90)]}, MONDAY)
-        for role in ROLES.values():
-            self.assertIn(role["title"], text)
-        self.assertIn("Client meeting: X", text)
+        text = jt.evidence_pack({"records": [rec("2026-10-14", "trader", "Trade plan: X", 90)]}, MONDAY)
+        for key in jt.ROLE_ORDER:
+            self.assertIn(ROLES[key]["title"], text)
+        self.assertNotIn(ROLES["advisor"]["title"], text)
+        self.assertIn("Trade plan: X", text)
         self.assertIn("no real money", text)
 
 

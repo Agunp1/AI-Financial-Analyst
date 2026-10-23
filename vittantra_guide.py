@@ -176,7 +176,7 @@ PAGE_HELP: Dict[str, dict] = {
                   "Readiness: see which responsibilities on each desk you have demonstrated (score 70+).",
                   "CFA Level II plan: set your exam date; item sets target your weakest topic.",
                   "Evidence pack: download it before an interview."],
-        "tip": "Mon–Fri: analyst, research, trader, risk, PM (your US target roles); the weekend catches up your two weakest.",
+        "tip": "Mon–Fri: analyst, research, trader, risk, PM (US target roles); Saturday: PE/VC; Sunday: your weakest desk.",
     },
     "Academy": {
         "what": "Learn by doing: daily desk tasks on live data for seven roles, lessons on demand, CFA Level II "
