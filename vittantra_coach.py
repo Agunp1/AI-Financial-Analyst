@@ -91,7 +91,7 @@ TRAINING: List[dict] = [
     ]},
     # ---------------- Week 2 — the daily routine, with depth ----------------
     {"week": 2, "title": "Macro: read the economy like a strategist", "steps": [
-        ("Agent Desk", "Morning pack: read the Investment Analyst note first (the desk's daily habit).", 10,
+        ("Agent Desk", "Morning pack: read the Investment Analyst note first (the desk's daily habit).", 5,
          "Starting every day the same way frees attention for what is actually new."),
         ("Markets", "'Macro & Economy': which indicator surprised most, and which asset classes react to it (macro betas)?", 15,
          "Markets move on surprises versus expectations; macro betas show which assets are exposed to each one."),
@@ -123,7 +123,7 @@ TRAINING: List[dict] = [
          "Stress tests answer 'what if 2008 happened again?' — the question boards and regulators ask."),
         ("Portfolio Manager", "What-if: cut the biggest risk contributor by half — how do VaR and stress losses change?", 15,
          "Testing a fix before proposing it is how risk and PM teams work together."),
-        ("Academy", "Work Desk → 'Portfolio / Risk Analyst': weekly stress question.", 15,
+        ("Academy", "Work Desk → 'Portfolio / Risk Analyst': weekly stress question.", 10,
          "Identifying the worst scenario and its driver is a standard risk-analyst interview case."),
         ("Job Tracker", "CFA Level II item set.", 15, "Portfolio-management topics carry heavy exam weight."),
     ]},
@@ -248,7 +248,9 @@ TRAINING: List[dict] = [
          "Skills fade without use; the daily routine keeps you sharp until your first day on the job."),
     ]},
 ]
-assert all(sum(m for _, _, m, _ in d["steps"]) <= 60 for d in TRAINING), "a training day exceeds one hour"
+# 55 minutes at most, so with the 5-minute daily market & economy check a day never exceeds one hour.
+MAX_DAY_MINUTES = 55
+assert all(sum(m for _, _, m, _ in d["steps"]) <= MAX_DAY_MINUTES for d in TRAINING), "a training day is too long"
 
 
 def day_minutes(day: int) -> int:
@@ -283,6 +285,18 @@ def current_day(progress: dict, today: Optional[date] = None) -> Optional[int]:
         if not _day_complete(done, day):
             return day
     return None
+
+
+def day_for_today(progress: dict, today: Optional[date] = None) -> Optional[int]:
+    """The training day that belongs to today: the one finished today, else the one to work on."""
+    t = progress.get("training") or {}
+    if not t.get("started") or t.get("dismissed"):
+        return None
+    today_iso = (today or date.today()).isoformat()
+    for day, when in (t.get("completed_on") or {}).items():
+        if when == today_iso:
+            return int(day) - 1
+    return current_day(progress, today)
 
 
 def next_step(progress: dict, today: Optional[date] = None) -> Optional[dict]:
