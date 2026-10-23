@@ -24,8 +24,12 @@ from academy_content import LESSONS, ROLES
 
 
 PASS_SCORE = 70
-ROLE_ORDER = ["investment_analyst", "equity_researcher", "trader", "portfolio_analyst",     # Monday …
-              "portfolio_manager", "advisor", "private_markets_analyst"]                   # … Sunday
+# The owner's target roles: the five US roles Monday–Friday, PE/VC on Saturday, the weakest on Sunday.
+# (The advisor desk stays in the Academy but is not part of the plan.)
+WEEKDAY_ROLES = ["investment_analyst", "equity_researcher", "trader", "portfolio_analyst",   # Mon–Thu
+                 "portfolio_manager"]                                                       # Fri
+SATURDAY_ROLE = "private_markets_analyst"
+ROLE_ORDER = WEEKDAY_ROLES + [SATURDAY_ROLE]          # the desks in the plan, scorecard and evidence pack
 CFA_TASK_PREFIX = "CFA L2 item set: "
 
 # Responsibilities per role and the recorded task names that evidence them
@@ -153,8 +157,13 @@ def readiness(progress: dict, role: str, records: Optional[List[dict]] = None) -
 
 
 def role_of_the_day(progress: dict, day: date) -> str:
-    """One desk per weekday: every role gets a day each week."""
-    return ROLE_ORDER[day.weekday()]
+    """Monday–Friday: one US target desk each; Saturday: PE/VC; Sunday: the weakest desk (catch-up)."""
+    if day.weekday() < 5:
+        return WEEKDAY_ROLES[day.weekday()]
+    if day.weekday() == 5:
+        return SATURDAY_ROLE
+    before = records_before(progress, day)
+    return min(ROLE_ORDER, key=lambda r: (readiness(progress, r, before), ROLE_ORDER.index(r)))
 
 
 def _next_duty(progress: dict, role: str, day: date) -> dict:
