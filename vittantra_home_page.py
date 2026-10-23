@@ -133,7 +133,7 @@ def render_home() -> None:
     import vittantra_welcome
     vittantra_welcome.render_welcome()
     signed_in = cloud.current_user() if cloud.cloud_mode() else True
-    if not signed_in:
+    if not signed_in and not cloud.cloud_mode():
         st.markdown('<div class="vt-lede">Investment research, portfolio construction and risk management on public '
                     'data — every figure sourced, every decision approved by a person.</div>',
                     unsafe_allow_html=True)
