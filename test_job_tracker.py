@@ -57,7 +57,7 @@ class JobTrackerTests(unittest.TestCase):
         rows = {r["responsibility"]: r["status"] for r in jt.responsibility_status(progress, "portfolio_analyst")}
         self.assertEqual(rows["Daily risk check and escalation"], "Demonstrated")
         self.assertEqual(rows["Stress testing"], "In progress")
-        self.assertAlmostEqual(jt.readiness(progress, "portfolio_analyst"), 1 / 5)
+        self.assertAlmostEqual(jt.readiness(progress, "portfolio_analyst"), 1 / len(jt.RESPONSIBILITIES["portfolio_analyst"]))
 
     def test_desk_task_of_another_role_does_not_count(self):
         progress = {"records": [rec("2026-10-14", "advisor", "Daily risk check (09:30)", 100)]}

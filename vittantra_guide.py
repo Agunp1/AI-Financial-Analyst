@@ -148,6 +148,16 @@ PAGE_HELP: Dict[str, dict] = {
                   "Use it as the starting point for a risk meeting, then check the numbers on the risk pages."],
         "tip": "Like the copilot, it only states what the data supports.",
     },
+    "Agent Desk": {
+        "what": "Seven analyst agents draft each desk's work on live data: morning note, research note, portfolio "
+                "review, PM memo, attribution, risk report and trading plan. Every number cites its source file.",
+        "steps": ["Pick an agent (for Equity Research, type any US ticker).",
+                  "Read the deliverable; switch on 'Show sources' to see the file and field behind each number.",
+                  "Check 'How the agent worked' and the Evidence table.",
+                  "Write your own call in 'Your review' and save it — it counts as desk work in the Job Tracker.",
+                  "Morning pack: run all seven agents and download the pack."],
+        "tip": "Treat the agent as a fast junior analyst: verify one number, challenge one conclusion, then decide.",
+    },
     "Trading Desk": {
         "what": "The trader agent: reads the regime (S&P 500 trend, VIX), scans every instrument with daily history "
                 "and proposes trades with entry, stop, target and size. Ideas go to a paper blotter only.",

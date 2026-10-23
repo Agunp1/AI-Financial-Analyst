@@ -746,3 +746,19 @@ def ia_india_market() -> str:
         usd = (1 + nifty["return_12m"]) / (1 + inr["return_12m"]) - 1
         text += f" For a US-dollar investor the Nifty's year was about **{pct(usd)}** after the currency move."
     return text
+
+
+def ia_agent_evidence() -> str:
+    import analyst_agents as aa
+    run = aa.investment_analyst()
+    findings = run.findings()
+    if not findings:
+        raise MissingData("The agents need Vittantra's market outputs (run_vittantra.py).")
+    numeric = [f for f in findings if any(ch.isdigit() for ch in f["text"])]
+    cited = [f for f in numeric if f["source"] and f["field"]]
+    sources = sorted({f["source"] for f in cited})
+    sample = cited[0]
+    return (f"Today's Investment Analyst agent made {len(findings)} findings in {len(run.steps)} steps; "
+            f"{len(cited)} of {len(numeric)} numeric findings cite a source file and field "
+            f"(coverage {len(cited) / len(numeric):.0%}), drawn from {len(sources)} files. Example to verify: "
+            f"“{sample['text']}” → `{sample['source']}` · `{sample['field']}` = {sample['value']}.")

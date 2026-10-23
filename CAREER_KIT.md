@@ -125,6 +125,9 @@ vittantra.streamlit.app · github.com/Agunp1/AI-Financial-Analyst
 - Built a multi-asset risk engine (200+ instruments): VaR/ES with backtests,
   macro stress tests, Euler risk budgets and a dual-approval remediation
   workflow with zero automatic execution.
+- Built seven analyst agents (morning note, equity research, portfolio construction, PM memo,
+  attribution, risk report, trading plan) that work on live data and cite the source of every
+  number, with a human review step — no automatic execution.
 - Built a rule-based trader agent on live multi-asset prices (regime filter, trend/momentum setups,
   ATR stops, fixed-fractional sizing) with an honest walk-forward backtest after costs and a paper
   blotter — no automatic execution.

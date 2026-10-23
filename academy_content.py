@@ -1080,6 +1080,24 @@ LESSONS = [
                       "Financials are the largest sector weight in the Nifty 50, so bank moves drive the index."),
                    _q("What does a falling rupee do to Indian IT stocks?",
                       "It raises their rupee revenue from dollar contracts, which usually helps margins.")]},
+    {"id": "IA9", "role": "investment_analyst", "title": "Working with AI agents: verify, challenge, decide",
+     "concept": "Desks now use AI agents to draft notes, screens and reports. The analyst's value moves to judgment: "
+                "checking the evidence behind each number, spotting what the agent missed, and making the call. "
+                "Under CFA Standard V(A) you still need a reasonable and adequate basis for any recommendation — "
+                "an agent's output is third-party research you must verify, not a conclusion to forward.",
+     "formulas": [("Evidence coverage", r"\text{coverage} = \frac{\text{findings with a cited source}}"
+                                         r"{\text{numeric findings}}")],
+     "live": "ia_agent_evidence", "code": ["analyst_agents.py", "vittantra_agents_page.py"],
+     "on_the_job": "Analysts review AI drafts every morning: confirm two or three key numbers at the source, add "
+                   "context the model lacks (management tone, positioning, policy), then sign their name to the view.",
+     "exercise": "Run the Equity Research agent on a company you know. Which claim would you challenge first, and "
+                 "what would you check?",
+     "interview": [_q("How do you use AI tools in your research?",
+                      "As a fast first draft: I verify key numbers at the source, test the conclusion against what "
+                      "the data cannot see, and keep the final judgment and the accountability."),
+                   _q("What is the biggest risk of relying on an AI agent?",
+                      "Confident output without evidence — invented or stale numbers. Insist on citations, check "
+                      "them, and know the data's limits.")]},
 ]
 
 
