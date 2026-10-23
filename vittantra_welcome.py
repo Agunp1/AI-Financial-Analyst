@@ -95,13 +95,6 @@ def briefing(user: str) -> List[str]:
         tasks = len(progress.get("records", []))
         points.append(f"**Academy** · {tasks} task(s), {xp} XP, level {level}"
                       + (f" ({needed} XP to {nxt})." if nxt else "."))
-        import job_tracker as jt
-        plan = jt.daily_plan(progress)
-        if plan["done"] < 3:
-            todo = ", ".join(s["step"].lower() for s in plan["steps"] if not s["done"])
-            points.append(f"**Today** · {plan['done']} of 3 Job Tracker steps done — next: {todo}.")
-        else:
-            points.append("**Today** · All three Job Tracker steps done.")
     except Exception:
         pass
     if user == "owner":
@@ -114,21 +107,73 @@ def briefing(user: str) -> List[str]:
     return points
 
 
+def _start_step(index: int) -> None:
+    st.session_state["nav"] = "Job Tracker"
+    st.session_state["trk-step"] = index
+
+
+def _today_panel(user: str) -> None:
+    """Today's three Job Tracker steps with a Start button each."""
+    try:
+        import academy_desk as desk
+        import job_tracker as jt
+        from academy_content import ROLES
+        path = cloud.progress_path()
+        progress = desk.load_progress(path) if path else {}
+        plan = jt.daily_plan(progress)
+    except Exception:
+        return
+    st.markdown(f"**Today · {ROLES[plan['role']]['title'].split(' (')[0]} desk** — {plan['done']} of 3 done")
+    cols = st.columns(3)
+    for i, (col, step) in enumerate(zip(cols, plan["steps"])):
+        with col.container(border=True):
+            st.markdown(f"{'✓' if step['done'] else '○'} **{step['step']}** · {step['minutes']} min")
+            st.markdown(step["what"])
+            if step.get("why"):
+                st.caption(f"Why: {step['why']}")
+            if not step["done"]:
+                st.button("Start", key=f"welcome-start-{i}", on_click=_start_step, args=(i,), width="stretch",
+                          type="primary" if i == next(j for j, s in enumerate(plan["steps"]) if not s["done"])
+                          else "secondary")
+
+
+def render_visitor_welcome() -> None:
+    """Welcome card with sign-in for visitors on the online app."""
+    with st.container(border=True):
+        left, right = st.columns([3, 2], gap="large")
+        with left:
+            st.markdown(f"## {greeting()}, welcome to Vittantra")
+            st.markdown("An investment research and portfolio platform on live public data, built to practise the "
+                        "real work of each desk:")
+            st.markdown("- **Markets and economy** — US and India, refreshed through the day\n"
+                        "- **Research** — a valuation note on any US company in seconds\n"
+                        "- **Agents** — seven AI analysts draft the work; you review and decide\n"
+                        "- **Training** — daily desk tasks and CFA Level II practice, with a record of your work")
+            st.caption("Explore freely. Sign in to save your work.")
+        with right:
+            st.markdown("#### Sign in")
+            cloud.sign_in_form("home")
+
+
 def render_welcome() -> None:
-    """Greeting card at the top of Home for a signed-in person."""
+    """Top of Home: a welcome and sign-in for visitors; a greeting, today's plan and training for signed-in people."""
     user = cloud.current_user() if cloud.cloud_mode() else ("owner" if cloud.is_owner() else None)
     if not user:
+        if cloud.cloud_mode():
+            render_visitor_welcome()
         return
     name = display_name(user)
+    today = datetime.now()
     with st.container(border=True):
-        st.markdown(f"#### {greeting()}, {name}")
+        st.markdown(f"## {greeting()}, {name}")
+        st.caption(f"{today:%A %d %B %Y}")
         if user != "owner" and not cloud.progress_path().exists() and not briefing_has_portfolio(user):
-            st.markdown("Getting started\n"
-                        "1. **Guide → A day on the desk** — the daily routine of each role.\n"
-                        "2. **My Portfolio** — start from a model portfolio and review its risk.\n"
-                        "3. **Academy → Work Desk** — today's task for one role, with a review.")
+            st.markdown("Getting started: take the guided training below, or open **Job Tracker** for today's plan.")
         else:
             st.markdown("  \n".join(briefing(user)))
+        _today_panel(user)
+    import vittantra_coach
+    vittantra_coach.home_card(st.session_state.get("vt_labels", {}))
 
 
 def briefing_has_portfolio(user: str) -> bool:

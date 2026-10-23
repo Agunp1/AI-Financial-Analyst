@@ -63,6 +63,8 @@ def render_tracker() -> None:
         chosen = st.radio("Work on", [0, 1, 2], index=first_open, horizontal=True, key="trk-step",
                           format_func=lambda i: plan["steps"][i]["step"])
         with st.container(border=True):
+            if plan["steps"][chosen].get("why"):
+                st.caption(f"Why this step: {plan['steps'][chosen]['why']}")
             if chosen == 0:
                 st.markdown(f"Suggested duty: **{duty['what']}** — the responsibility on this desk with the least "
                             "evidence so far. Any graded task on this desk completes the step.")

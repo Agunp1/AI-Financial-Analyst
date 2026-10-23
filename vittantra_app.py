@@ -1928,6 +1928,10 @@ with st.sidebar:
 
 
 vittantra_chrome.render_topbar(NAV_LABELS.get(page, page), refresh_caption_short())
+st.session_state["vt_labels"] = NAV_LABELS
+if page != "Home":
+    import vittantra_coach
+    vittantra_coach.page_banner(page, NAV_LABELS)
 if page != "Home":
     page_help(page, NAV_LABELS)
     if page in DEMO_BOOK_PAGES and not cloud.is_owner():

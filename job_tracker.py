@@ -240,14 +240,22 @@ def daily_plan(progress: dict, day: Optional[date] = None) -> dict:
     today = records_on(progress, day)
     duty = _next_duty(progress, role, day)
     lesson = next_lesson(progress, role, day)
+    title = ROLES[role]["title"].split(" (")[0]
+    cfa_key = cfa_item_key(progress, day)
+    cfa_topic = ITEM_SET_TOPIC[cfa_key]
     steps = [
         {"step": "Desk duty", "what": duty["responsibility"], "role": role, "minutes": 20,
+         "why": f"A core {title} duty you have the least evidence for so far; graded work here becomes an example "
+                "you can walk an interviewer through.",
          "done": any(r.get("role") == role and not str(r.get("task", "")).startswith(CFA_TASK_PREFIX)
                      for r in today)},
-        {"step": "CFA Level II", "what": ITEM_SET_TOPIC[cfa_item_key(progress, day)], "key": cfa_item_key(progress, day),
+        {"step": "CFA Level II", "what": cfa_topic, "key": cfa_key,
+         "why": f"{cfa_topic} is your weakest Level II area among the topics Vittantra covers (about "
+                f"{CFA_WEIGHTS.get(cfa_topic, '?')} of the exam); vignettes use today's live data.",
          "minutes": 15, "done": any(str(r.get("task", "")).startswith(CFA_TASK_PREFIX) for r in today)},
         {"step": "Lesson", "what": f"{lesson['id']} · {lesson['title']}" if lesson else "Review any lesson",
-         "lesson": lesson["id"] if lesson else None, "minutes": 10, "done": bool(lessons_on(progress, day))},
+         "lesson": lesson["id"] if lesson else None, "minutes": 10, "done": bool(lessons_on(progress, day)),
+         "why": (lesson["on_the_job"] if lesson else "Revisiting lessons keeps interview answers fresh.")},
     ]
     return {"day": day, "role": role, "steps": steps, "done": sum(s["done"] for s in steps)}
 

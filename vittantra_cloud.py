@@ -143,59 +143,80 @@ def sign_in_box() -> None:
         if st.button("Sign out", key="vt-sign-out"):
             _sign_out()
         return
-    with st.expander("Sign in / create account"):
-        st.caption("Owner: use **Sign in** (username empty or 'owner'). New here? Use **Create account**.")
-        sign_in, create = st.tabs(["Sign in", "Create account"])
-        with sign_in:
-            name = st.text_input("Username", key="vt-username", placeholder="owner, or your username",
-                                 help="The owner signs in with username 'owner' (or leaves it empty).")
-            password = st.text_input("Password", type="password", key="vt-password")
-            if st.button("Sign in", key="vt-sign-in") and not _too_many_attempts():
-                if accounts.normalize(name) in ("owner", ""):
-                    if password_matches(password, _secret("owner_password")):
-                        st.session_state["vt_owner"] = True
-                        _welcome("owner")
-                        st.rerun()
+    with st.expander("Sign in / create account", expanded=False):
+        sign_in_form("side")
+
+
+def owner_usernames() -> set:
+    """Usernames that sign in as the owner: the owner's name (Secrets `owner_name`, default Arjun), an optional
+    `owner_username` secret, and 'owner'."""
+    names = {"owner", accounts.normalize(_secret("owner_name", "Arjun")),
+             accounts.normalize(_secret("owner_username", ""))}
+    return {n for n in names if n}
+
+
+def try_sign_in(name: str, password: str) -> Optional[str]:
+    """'owner', a username, or None. The owner needs their username and the owner password."""
+    if accounts.normalize(name) in owner_usernames():
+        return "owner" if password_matches(password, _secret("owner_password")) else None
+    found = accounts.check_login(accounts.load_users(), name, password) or \
+        accounts.check_login(_latest_users(), name, password)
+    return found or None
+
+
+def sign_in_form(where: str) -> None:
+    """Username + password sign-in and account creation (used in the sidebar and on the Home welcome card)."""
+    owner_hint = sorted(owner_usernames() - {"owner"})
+    sign_in, create = st.tabs(["Sign in", "Create account"])
+    with sign_in:
+        with st.form(f"vt-sign-in-form-{where}", border=False):
+            name = st.text_input("Username", key=f"vt-username-{where}",
+                                 placeholder=owner_hint[0] if owner_hint else "your username")
+            password = st.text_input("Password", type="password", key=f"vt-password-{where}")
+            submitted = st.form_submit_button("Sign in", type="primary", width="stretch")
+        if submitted and not _too_many_attempts():
+            who = try_sign_in(name, password)
+            if who == "owner":
+                st.session_state["vt_owner"] = True
+                _welcome("owner")
+                st.rerun()
+            elif who:
+                st.session_state["vt_user"] = who
+                _welcome(who)
+                st.rerun()
+            _failed_attempt()
+            st.error("Wrong username or password. Passwords are case-sensitive.")
+    with create:
+        new_name = st.text_input("Choose a username", key=f"vt-new-username-{where}",
+                                 help="3–20 characters: letters, numbers, - or _ (not an email). Usernames are public.",
+                                 placeholder="e.g. priya")
+        new_password = st.text_input("Choose a password", type="password", key=f"vt-new-password-{where}",
+                                     help=f"At least {accounts.MIN_PASSWORD} characters.")
+        repeat = st.text_input("Repeat the password", type="password", key=f"vt-new-password-2-{where}")
+        st.caption("Don't reuse a password you use elsewhere. Passwords are never stored, only a scrambled "
+                   "fingerprint, but usernames and Academy work are saved in Vittantra's public project.")
+        if st.button("Create account", key=f"vt-create-{where}"):
+            if st.session_state.get("vt_created"):
+                st.error("One new account per visit. Please sign in.")
+            elif new_password != repeat:
+                st.error("The two passwords do not match.")
+            elif accounts.normalize(new_name) in owner_usernames():
+                st.error("That username is reserved. Please choose another.")
+            else:
+                users, problem = accounts.add_user(_latest_users(), new_name, new_password)
+                if problem:
+                    st.error(problem)
                 else:
-                    found = accounts.check_login(accounts.load_users(), name, password) or \
-                        accounts.check_login(_latest_users(), name, password)
-                    if found:
-                        st.session_state["vt_user"] = found
-                        _welcome(found)
-                        st.rerun()
-                _failed_attempt()
-                st.error("Wrong username or password. Owner: username **owner** (or empty) and the password set "
-                         "in Streamlit Secrets. Passwords are case-sensitive.")
-        with create:
-            new_name = st.text_input("Choose a username", key="vt-new-username",
-                                     help="3–20 characters: letters, numbers, - or _ (not an email). Usernames are public.",
-                                     placeholder="e.g. arjun")
-            new_password = st.text_input("Choose a password", type="password", key="vt-new-password",
-                                         help=f"At least {accounts.MIN_PASSWORD} characters.")
-            repeat = st.text_input("Repeat the password", type="password", key="vt-new-password-2")
-            st.caption("Don't reuse a password you use elsewhere. Passwords are never stored, only a scrambled "
-                       "fingerprint, but usernames and Academy work are saved in Vittantra's public project.")
-            if st.button("Create account", key="vt-create"):
-                if st.session_state.get("vt_created"):
-                    st.error("One new account per visit. Please sign in.")
-                elif new_password != repeat:
-                    st.error("The two passwords do not match.")
-                else:
-                    users, problem = accounts.add_user(_latest_users(), new_name, new_password)
-                    if problem:
-                        st.error(problem)
+                    accounts.save_users(users)
+                    saved = commit_file(accounts.USERS_FILE, f"New Vittantra account: "
+                                        f"{accounts.normalize(new_name)}") if github_settings() else ""
+                    if saved:
+                        st.error(f"Account not saved: {saved}")
                     else:
-                        accounts.save_users(users)
-                        saved = commit_file(accounts.USERS_FILE, f"New Vittantra account: "
-                                            f"{accounts.normalize(new_name)}") if github_settings() else ""
-                        if saved:
-                            st.error(f"Account not saved: {saved}")
-                        else:
-                            st.session_state["vt_created"] = True
-                            st.session_state["vt_user"] = accounts.normalize(new_name)
-                            _welcome(accounts.normalize(new_name), new_account=True)
-                            st.rerun()
-        st.caption("Visitors can explore everything. Sign in to keep your own Academy progress.")
+                        st.session_state["vt_created"] = True
+                        st.session_state["vt_user"] = accounts.normalize(new_name)
+                        _welcome(accounts.normalize(new_name), new_account=True)
+                        st.rerun()
 
 
 def github_settings() -> Optional[dict]:

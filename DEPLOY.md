@@ -84,8 +84,10 @@ clients and what-if proposals are saved to GitHub, so they survive restarts.
    github_repo = "Agunp1/AI-Financial-Analyst"
    github_branch = "main"
    ```
-3. Open the app → sidebar → **Sign in / create account** → username `owner` and your password.
-   The sidebar says *Signed in as owner*.
+3. Open the app → the **Sign in** card on Home (or the sidebar) → username = your name in lower case
+   (`arjun`, from `owner_name`; `owner` also works) and your password. Home greets you by name.
+   Optional: `owner_username = "..."` in Secrets adds another owner username. Nobody else can register
+   an owner username.
 
 Each save makes a small commit on GitHub; the app reloads for a moment and
 your work is there. Signing out (or closing the browser) ends the session;
