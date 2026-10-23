@@ -36,6 +36,7 @@ RESPONSIBILITIES: Dict[str, List[dict]] = {
         {"name": "Read economic data and surprises", "prefixes": [CFA_TASK_PREFIX + "Reading an inflation surprise"]},
         {"name": "Macro factor analysis", "prefixes": [CFA_TASK_PREFIX + "Macro factor sensitivities"]},
         {"name": "Currencies and parity", "prefixes": [CFA_TASK_PREFIX + "Currency exchange rates and parity"]},
+        {"name": "Review the agent's morning note", "desk": True, "prefixes": ["Agent review: Investment Analyst"]},
     ],
     "equity_researcher": [
         {"name": "Company tear sheet", "desk": True, "prefixes": ["Company tear sheet"]},
@@ -44,6 +45,7 @@ RESPONSIBILITIES: Dict[str, List[dict]] = {
         {"name": "Cash-flow and residual-income valuation",
          "prefixes": [CFA_TASK_PREFIX + "Free cash flow and residual income"]},
         {"name": "Testing a factor (regression)", "prefixes": [CFA_TASK_PREFIX + "Multiple regression"]},
+        {"name": "Review the agent's research note", "desk": True, "prefixes": ["Agent review: Equity Research"]},
     ],
     "portfolio_analyst": [
         {"name": "Daily risk check and escalation", "desk": True, "prefixes": ["Daily risk check"]},
@@ -51,12 +53,16 @@ RESPONSIBILITIES: Dict[str, List[dict]] = {
         {"name": "VaR and backtesting", "prefixes": [CFA_TASK_PREFIX + "Measuring and backtesting market risk"]},
         {"name": "Rate risk (duration, convexity)", "prefixes": [CFA_TASK_PREFIX + "Duration, convexity"]},
         {"name": "Risk contributions", "prefixes": [CFA_TASK_PREFIX + "Risk contributions and stress tests"]},
+        {"name": "Review the agent's risk or attribution report", "desk": True,
+         "prefixes": ["Agent review: Risk Analyst", "Agent review: Portfolio Analyst"]},
     ],
     "portfolio_manager": [
         {"name": "Rebalance proposal within limits", "desk": True, "prefixes": ["Rebalance proposal"]},
         {"name": "Active management (IR, breadth)", "prefixes": [CFA_TASK_PREFIX + "Active management"]},
         {"name": "Option valuation and hedging", "prefixes": [CFA_TASK_PREFIX + "Option valuation and parity"]},
         {"name": "Risk contributions and stress", "prefixes": [CFA_TASK_PREFIX + "Risk contributions and stress tests"]},
+        {"name": "Review the agent's portfolio review or PM memo", "desk": True,
+         "prefixes": ["Agent review: Portfolio Construction", "Agent review: Portfolio Manager"]},
     ],
     "advisor": [
         {"name": "Client meeting and allocation", "desk": True, "prefixes": ["Client meeting"]},
@@ -74,6 +80,7 @@ RESPONSIBILITIES: Dict[str, List[dict]] = {
     "trader": [
         {"name": "Trade plan (stop and size)", "desk": True, "prefixes": ["Trade plan"]},
         {"name": "Execution report (shortfall)", "desk": True, "prefixes": ["Execution report"]},
+        {"name": "Review the agent's trading plan", "desk": True, "prefixes": ["Agent review: Trader"]},
         {"name": "Sizing and trading costs", "prefixes": [CFA_TASK_PREFIX + "Trade sizing and execution"]},
         {"name": "Option valuation and hedging", "prefixes": [CFA_TASK_PREFIX + "Option valuation and parity"]},
     ],

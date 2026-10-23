@@ -66,6 +66,12 @@ def render_tracker() -> None:
             if chosen == 0:
                 st.markdown(f"Suggested duty: **{duty['what']}** — the responsibility on this desk with the least "
                             "evidence so far. Any graded task on this desk completes the step.")
+                if duty["what"].startswith("Review the agent"):
+                    st.info("This duty is on the Agent Desk: run the agent, check its evidence, write your call and "
+                            "save the review.")
+                    st.button("Open Agent Desk", key="trk-open-agents", type="primary",
+                              on_click=lambda: st.session_state.update(nav="Agent Desk"))
+                    st.caption("Or do a task on this desk below — any graded desk task completes the step.")
                 DESKS[plan["role"]](progress)
             elif chosen == 1:
                 st.markdown(f"Focus topic: **{cfa_step['what']}** — your weakest Level II area among the topics "

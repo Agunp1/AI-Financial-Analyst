@@ -1,0 +1,5 @@
+check,passed,details,passed_tests,total_tests
+Every agent produced a deliverable,True,7 agents,4,4
+Every numeric finding cites a source file and field,True,104 numeric findings,4,4
+Every agent lists judgment calls and limits,True,human stays in charge,4,4
+Nothing executed automatically,True,agents read saved outputs only; automatic execution 0,4,4

@@ -1,0 +1,107 @@
+agent,section,text,source,field,value
+Investment Analyst agent,Markets,"S&P 500 (SPY) -1.18% on the day, -1.2% over a month.",day76c_asset_analytics.csv,SPY.return_1d,-0.01181
+Investment Analyst agent,Markets,"Nasdaq 100 (QQQ) -2.86% on the day, -5.8% over a month.",day76c_asset_analytics.csv,QQQ.return_1d,-0.028585
+Investment Analyst agent,Markets,"Russell 2000 (IWM) +0.07% on the day, -3.7% over a month.",day76c_asset_analytics.csv,IWM.return_1d,0.000687
+Investment Analyst agent,Markets,"Developed ex-US (EFA) -0.87% on the day, -3.1% over a month.",day76c_asset_analytics.csv,EFA.return_1d,-0.008745
+Investment Analyst agent,Markets,"Emerging markets (EEM) -2.91% on the day, -10.7% over a month.",day76c_asset_analytics.csv,EEM.return_1d,-0.029102
+Investment Analyst agent,Markets,"Long Treasuries (TLT) +1.87% on the day, +0.4% over a month.",day76c_asset_analytics.csv,TLT.return_1d,0.018694
+Investment Analyst agent,Markets,"High-yield bonds (HYG) +0.16% on the day, -1.6% over a month.",day76c_asset_analytics.csv,HYG.return_1d,0.001559
+Investment Analyst agent,Markets,"Gold (GLD) -2.63% on the day, -7.8% over a month.",day76c_asset_analytics.csv,GLD.return_1d,-0.026257
+Investment Analyst agent,Markets,"WTI crude (CL=F) +2.57% on the day, +5.3% over a month.",day76c_asset_analytics.csv,CL=F.return_1d,0.025733
+Investment Analyst agent,Markets,"US dollar index (DX-Y.NYB) -0.21% on the day, +1.0% over a month.",day76c_asset_analytics.csv,DX-Y.NYB.return_1d,-0.002083
+Investment Analyst agent,Markets,"Bitcoin (BTC-USD) -3.25% on the day, -5.7% over a month.",day76c_asset_analytics.csv,BTC-USD.return_1d,-0.032523
+Investment Analyst agent,Regime,"Risk-on: S&P 500 +5.7% vs its 200-day average, VIX 19.0 (78% percentile of the year).",day76c_price_history.csv,SPY vs SMA200; ^VIX,Risk-on
+Investment Analyst agent,Rates,"10-year Treasury 5.13% (17 bp over a month, 115 bp over a year).",day76c_yield_curve.csv,10Y.yield_pct,5.13
+Investment Analyst agent,Rates,"Curve: 2s10s 32 bp, 3m10y 88 bp — positively sloped.",day76c_yield_curve.csv,slope_3m10y_bp,87.99999999999999
+Investment Analyst agent,Rates,"10-year real yield 2.76%, breakeven inflation 2.32%.",day76c_yield_curve.csv,breakeven_10y_pct,2.32
+Investment Analyst agent,Credit,US investment grade spread 88 bp (9 bp over a year; 59th percentile of its history).,day76c_credit_spreads.csv,US investment grade.spread_bp,88.0
+Investment Analyst agent,Credit,US high yield spread 327 bp (30 bp over a year; 79th percentile of its history).,day76c_credit_spreads.csv,US high yield.spread_bp,327.0
+Investment Analyst agent,Economy,"CPI inflation (headline, y/y %): 3.72 (previous 3.35; 2026-09-01).",day76c_economic_dashboard.csv,CPIAUCSL.latest,3.7173
+Investment Analyst agent,Economy,Core CPI inflation (y/y %): 2.57 (previous 2.45; 2026-09-01).,day76c_economic_dashboard.csv,CPILFESL.latest,2.5658
+Investment Analyst agent,Economy,Core PCE inflation — the Fed's target measure (y/y %): 3.01 (previous 2.98; 2026-08-01).,day76c_economic_dashboard.csv,PCEPILFE.latest,3.0076
+Investment Analyst agent,Economy,Unemployment rate (%): 4.20 (previous 4.10; 2026-09-01).,day76c_economic_dashboard.csv,UNRATE.latest,4.2
+Investment Analyst agent,Economy,"Nonfarm payrolls (monthly change, thousands): 29 (previous 133; 2026-09-01).",day76c_economic_dashboard.csv,PAYEMS.latest,29.0
+Investment Analyst agent,Economy,Real GDP growth (q/q annualized %): 2.22 (previous 2.49; 2026-04-01).,day76c_economic_dashboard.csv,GDPC1.latest,2.2202
+Investment Analyst agent,Economy,Retail sales (y/y %): 6.29 (previous 5.56; 2026-09-01).,day76c_economic_dashboard.csv,RSAFS.latest,6.2876
+Investment Analyst agent,Economy,Consumer sentiment (University of Michigan): 51.70 (previous 55.20; 2026-08-01).,day76c_economic_dashboard.csv,UMCSENT.latest,51.7
+Investment Analyst agent,Economy,Effective fed funds rate (%): 3.75 (previous 3.63; 2026-09-01).,day76c_economic_dashboard.csv,FEDFUNDS.latest,3.75
+Investment Analyst agent,What it means,Headline inflation 3.72% is rising and above the Fed's 2% goal; core 2.57%.,day76c_economic_dashboard.csv,CPIAUCSL.change,0.3642
+Investment Analyst agent,What it means,Unemployment 4.2% vs 4.4% a year ago — no material softening over the year.,day76c_economic_dashboard.csv,UNRATE.year_ago,4.4
+Investment Analyst agent,What it means,High-yield spreads are wide versus history: credit is pricing more stress (history since 2023).,day76c_credit_spreads.csv,US high yield.percentile_in_history,79.26208651399492
+Investment Analyst agent,What to watch,2026-10-28: FOMC rate decision (last Effective fed funds rate (%) 3.75).,day78b_calendar.csv,date,2026-10-28
+Investment Analyst agent,Headlines linked to data,"Equities: S&P 500 (SPY) return: -1.0% this week — e.g. “The U.S. stock market is fracturing into two camps, and it’s leaving investors with a brutal case of whiplash (MarketWatch)”.",day78b_brief.csv,data_move,-0.010037
+Investment Analyst agent,Headlines linked to data,Rates: 10Y Treasury yield change: +3 bp this week — e.g. “Japan core inflation in September surges to its highest this year at 2.1% (CNBC)”.,day78b_brief.csv,data_move,0.03
+Investment Analyst agent,Headlines linked to data,Economy: 10Y breakeven inflation change: +0 bp this week — e.g. “Treasury yields log biggest drop since the 2023 banking crisis. Here’s what’s going on. (MarketWatch)”.,day78b_brief.csv,data_move,0.0
+Equity Research agent,Summary,"NVIDIA: rating Overweight, price 216.48, fair value 137.40 (-36.5%) from the DCF model — Overvalued.",day78_report_summary.csv,fair_value,137.39894709214528
+Equity Research agent,Summary,Reverse DCF: today's price implies 29.1% growth a year — the bar the company must clear.,day78_report_summary.csv,implied_growth,0.2910519845094815
+Equity Research agent,Thesis,Multi-factor rating: Overweight (IC-weighted score 77/100).,day77_current_ratings.csv,rating,Overweight
+Equity Research agent,Thesis,Strongest pillar: the machine-learning return forecast (score 82).,day77_current_ratings.csv,quant,81.8182
+Equity Research agent,Thesis,Weakest pillar: fit with the current macro regime (score 3).,day77_current_ratings.csv,economic,3.0303
+Equity Research agent,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1179
+Equity Research agent,Valuation,DCF intrinsic value $137.40 vs price $216.48 (-37%): Overvalued.,day78_valuation.csv,fair_value,137.3989
+Equity Research agent,Valuation,"Cross-checks: RI $41.22, DDM $4.36.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+Equity Research agent,Valuation,"Discount rates: WACC 12.5%, cost of equity 12.6% (adjusted beta 1.65, synthetic rating AAA).",day78_valuation.csv,wacc,0.1251
+Equity Research agent,Valuation,"Reverse DCF: the price implies 29.1% a year growth for five years (then fading), vs 20.0% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.2911
+Equity Research agent,Bear case,High expectations priced in: the market needs 29% growth vs 20% recently.,day78_valuation.csv,implied_growth,0.2911
+Equity Research agent,Bear case,DCF value is 37% below the price.,day78_valuation.csv,upside,-0.3653
+Equity Research agent,Bear case,Poorly suited to the current macro regime: score 3/100.,day77_current_ratings.csv,economic,3.0303
+Equity Research agent,Bear case,More volatile than most peers: risk score 12/100.,day77_current_ratings.csv,risk,12.1212
+Equity Research agent,Bear case,Earnings run ahead of cash flow (accruals 25.4% of assets): an earnings-quality warning.,day76_fundamental_metrics.csv,accruals_ratio,0.2539
+Equity Research agent,Risks and limits,The valuation models disagree widely (spread 97% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.9682
+Equity Research agent,Risks and limits,"Residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies.",day78_valuation.csv,notes,"residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies"
+Equity Research agent,Risks and limits,Market sensitivity: beta 1.97 — a 10% market fall has historically meant about 20% for this stock.,day77_current_ratings.csv,beta,1.9703
+Equity Research agent,Risks and limits,Fundamentals as of the filing dated 2026-08-26; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-08-26
+Equity Research agent,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
+Equity Research agent,Bull case,Strong fundamentals versus peers: score 75/100.,day77_current_ratings.csv,fundamental,74.653
+Equity Research agent,Bull case,The machine-learning model ranks it near the top for the next 20 days: score 82/100.,day77_current_ratings.csv,quant,81.8182
+Equity Research agent,Bull case,Revenue growing 83% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.8338
+Equity Research agent,Bull case,High return on equity: 117%.,day76_fundamental_metrics.csv,roe,1.1721
+Equity Research agent,Bull case,Strong operating margin: 65%.,day76_fundamental_metrics.csv,operating_margin,0.6521
+Equity Research agent,Bull case,Very comfortable interest coverage: 426x.,day76_fundamental_metrics.csv,interest_coverage,425.8168
+Portfolio Construction agent,Risk budget,Tracking error 4.00% vs a 4.0% budget — fully used.,day79_portfolio_summary.csv,tracking_error,0.04
+Portfolio Construction agent,Risk budget,Beta 1.02; portfolio volatility 10.5% vs benchmark 9.6%.,day79_portfolio_summary.csv,beta_to_benchmark,1.0159
+Portfolio Construction agent,Expected payoff,"Expected active return +4.89% a year, information ratio 1.22, from a signal IC of 0.068.",day79_portfolio_summary.csv,information_ratio,1.2213
+Portfolio Construction agent,Expected payoff,Active share 45%; largest position 8.0%; largest risk share 15.0%.,day79_portfolio_summary.csv,active_share,0.4536
+Portfolio Construction agent,Biggest active bets,"Honeywell (HON): +5.0% vs benchmark, rating Overweight, Undervalued.",day79_model_portfolio.csv,HON.active_weight,0.049697
+Portfolio Construction agent,Biggest active bets,"Duke Energy (DUK): +5.0% vs benchmark, rating Neutral, Overvalued.",day79_model_portfolio.csv,DUK.active_weight,0.049697
+Portfolio Construction agent,Biggest active bets,"Alphabet (GOOGL): +5.0% vs benchmark, rating Overweight, Overvalued.",day79_model_portfolio.csv,GOOGL.active_weight,0.049697
+Portfolio Construction agent,Conflicts to explain,DUK is overweight (+5.0%) although valuation says Overvalued (-32.1% to fair value) — held for score/risk reasons.,day79_model_portfolio.csv,DUK.valuation_signal,Overvalued
+Portfolio Construction agent,Conflicts to explain,GOOGL is overweight (+5.0%) although valuation says Overvalued (-54.6% to fair value) — held for score/risk reasons.,day79_model_portfolio.csv,GOOGL.valuation_signal,Overvalued
+Portfolio Construction agent,Conflicts to explain,COP is overweight (+5.0%) although valuation says Overvalued (-43.9% to fair value) — held for score/risk reasons.,day79_model_portfolio.csv,COP.valuation_signal,Overvalued
+Portfolio Construction agent,Conflicts to explain,WMT is overweight (+5.0%) although valuation says Overvalued (-46.2% to fair value) — held for score/risk reasons.,day79_model_portfolio.csv,WMT.valuation_signal,Overvalued
+Portfolio Construction agent,Sector tilts,Real Estate: -9.1% vs benchmark.,day79_sector_weights.csv,Real Estate.active_weight,-0.090909
+Portfolio Construction agent,Sector tilts,Energy: +6.5% vs benchmark.,day79_sector_weights.csv,Energy.active_weight,0.065136
+Portfolio Construction agent,Sector tilts,Communication Services: +5.5% vs benchmark.,day79_sector_weights.csv,Communication Services.active_weight,0.054715
+Portfolio Manager agent,Market backdrop,Regime Risk-on (S&P 500 +5.7% vs 200-day; VIX 19.0).,day76c_price_history.csv,regime,Risk-on
+Portfolio Manager agent,Market backdrop,Valuation models call 11 of 21 holdings overvalued — a reminder that trailing-data DCFs look harsh on growth names; weigh with the rating.,day79_model_portfolio.csv,valuation_signal,11
+Portfolio Manager agent,Review,"Duke Energy (DUK) 8.0% of the book: rating Neutral, Overvalued (-32.1% to fair value), risk share 2.3%.",day79_model_portfolio.csv,DUK.upside,-0.3207870828911364
+Portfolio Manager agent,Review,"Meta Platforms (META) 3.7% of the book: rating Neutral, Overvalued (-18.6% to fair value), risk share 4.9%.",day79_model_portfolio.csv,META.upside,-0.1863375069689445
+Portfolio Manager agent,Review,"Eli Lilly (LLY) 1.2% of the book: rating Neutral, Overvalued (-86.8% to fair value), risk share 1.0%.",day79_model_portfolio.csv,LLY.upside,-0.8678006273091827
+Portfolio Manager agent,Review,"BlackRock (BLK) 1.2% of the book: rating Neutral, Overvalued (-64.2% to fair value), risk share 1.5%.",day79_model_portfolio.csv,BLK.upside,-0.6418822892074789
+Portfolio Manager agent,Review,"Air Products and Chemicals (APD) 0.6% of the book: rating Neutral, Overvalued (-85.3% to fair value), risk share 0.3%.",day79_model_portfolio.csv,APD.upside,-0.8526451214596658
+Portfolio Manager agent,Core holdings,"Honeywell (HON) 8.0%: rating Overweight, Undervalued.",day79_model_portfolio.csv,HON.rating,Overweight
+Portfolio Manager agent,Core holdings,"Alphabet (GOOGL) 8.0%: rating Overweight, Overvalued.",day79_model_portfolio.csv,GOOGL.rating,Overweight
+Portfolio Manager agent,Core holdings,"ConocoPhillips (COP) 8.0%: rating Overweight, Overvalued.",day79_model_portfolio.csv,COP.rating,Overweight
+Portfolio Manager agent,Risk use,Largest risk contributor: Newmont at 15.0% of portfolio risk with 5.7% of capital.,day79_model_portfolio.csv,NEM.risk_share,0.15
+Portfolio Manager agent,Proposed action,Review 5 holding(s) at the next rebalance; any change goes through the approval workflow (automatic execution 0).,day79_model_portfolio.csv,approval,PENDING_HUMAN_APPROVAL
+Portfolio Analyst agent,Performance,"Strategy +113.9% vs benchmark +63.4% cumulative (+27.8% vs +17.2% a year), 2023-07-27 to 2026-08-07.",day80_attribution_summary.csv,active_cumulative,0.504982
+Portfolio Analyst agent,Where it came from (Brinson–Fachler),"Allocation +24.0%, selection +17.0%, interaction +15.9%, costs -6.4%.",day80_attribution_summary.csv,selection_linked,0.17
+Portfolio Analyst agent,Where it came from (Brinson–Fachler),Best sector Information Technology; worst Energy.,day80_attribution_summary.csv,best_sector,Information Technology
+Portfolio Analyst agent,Sector detail,Information Technology: +30.3% total effect.,day80_brinson_by_sector.csv,Information Technology.total,0.302969
+Portfolio Analyst agent,Sector detail,Materials: +10.5% total effect.,day80_brinson_by_sector.csv,Materials.total,0.105099
+Portfolio Analyst agent,Factor attribution,Largest factor contribution: fundamental +17.8%.,day80_attribution_summary.csv,factor_fundamental_sum,0.178191
+Risk Analyst agent,Status,"Book status WATCH: 8 normal, 2 watch, 0 warning, 0 breach out of 10 positions.",day67_portfolio_risk_dashboard.csv,portfolio_status,WATCH
+Risk Analyst agent,Status,Highest use of a risk limit 82%; average 49%; largest asset class by risk Equity (24%).,day67_portfolio_risk_dashboard.csv,maximum_risk_budget_utilization,0.8155
+Risk Analyst agent,Alerts,AAPL_CALL (Option) WATCH: 82% of its risk limit — risk budget utilization elevated.,day67_risk_alerts.csv,AAPL_CALL.monitor_utilization,0.8155
+Risk Analyst agent,Alerts,AAPL (Equity) WATCH: 82% of its risk limit — risk budget utilization elevated.,day67_risk_alerts.csv,AAPL.monitor_utilization,0.8151
+Risk Analyst agent,Stress,"Worst scenario: Equity Crash -18.4% (-28,461 on 154,654).",day61_scenario_summary.csv,portfolio_return,-0.184031
+Risk Analyst agent,Escalation,Remediation proposal pending: reduce 2 position(s) so the highest limit use goes from 82% to 79%. Needs owner approval.,day69_sizing_summary.csv,status,PENDING_HUMAN_APPROVAL
+Trader agent,Regime,Risk-on: S&P 500 +5.7% vs 200-day; VIX 19.0.,day76c_price_history.csv,regime,Risk-on
+Trader agent,Ideas (paper only),"Long Sugar (SB=F) — Trend continuation; entry 20.13, stop 19.41, target 21.22, risk $3,597.",day76c_price_history.csv,SB=F.conviction,69.1
+Trader agent,Ideas (paper only),"Short Starwood Property Trust (STWD) — Downtrend; entry 12.58, stop 12.97, target 11.99, risk $3,126.",day76c_price_history.csv,STWD.conviction,68.4
+Trader agent,Ideas (paper only),"Long Broad Commodity ETF (DBC) — Trend continuation; entry 33.57, stop 33.04, target 34.36, risk $1,570.",day76c_price_history.csv,DBC.conviction,67.7
+Trader agent,Ideas (paper only),"Long Optimum Yield Commodity ETF (PDBC) — Breakout; entry 20.02, stop 19.69, target 20.51, risk $1,638.",day76c_price_history.csv,PDBC.conviction,67.7
+Trader agent,Ideas (paper only),"Short Carlyle (CG) — Downtrend; entry 39.2, stop 40.5, target 37.25, risk $3,314.",day76c_price_history.csv,CG.conviction,66.1
+Trader agent,Rule history,"Downtrend: 878 signals, 47% hit rate, -1.05% after costs over 10 days.",day92_setup_backtest.csv,Downtrend.avg_return,-0.010503
+Trader agent,Rule history,"Trend continuation: 720 signals, 44% hit rate, -0.44% after costs over 10 days.",day92_setup_backtest.csv,Trend continuation.avg_return,-0.004395
+Trader agent,Rule history,"Breakout: 287 signals, 32% hit rate, -0.72% after costs over 10 days.",day92_setup_backtest.csv,Breakout.avg_return,-0.007235
