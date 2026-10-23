@@ -17,7 +17,7 @@ class CoachTests(unittest.TestCase):
         self.assertEqual(len(coach.TRAINING), 28)
         self.assertEqual({d["week"] for d in coach.TRAINING}, {1, 2, 3, 4})
         for day in range(28):
-            self.assertLessEqual(coach.day_minutes(day), 60)
+            self.assertLessEqual(coach.day_minutes(day) + 5, 60)
             for page, text, minutes, why in coach.TRAINING[day]["steps"]:
                 self.assertTrue(text and why and minutes > 0)
 

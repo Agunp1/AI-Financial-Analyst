@@ -112,29 +112,83 @@ def _start_step(index: int) -> None:
     st.session_state["trk-step"] = index
 
 
-def _today_panel(user: str) -> None:
-    """Today's three Job Tracker steps with a Start button each."""
+def _go(page: str) -> None:
+    st.session_state["nav"] = page
+
+
+def _tick(item_id: str, training: bool) -> None:
+    import academy_desk as desk
+    import daily_checklist as dc
+    import vittantra_coach as coach
+    path = cloud.progress_path()
+    if path is None:
+        return
+    progress = desk.load_progress(path)
+    if training:
+        coach.mark_done(progress, item_id)
+    else:
+        dc.tick(progress, item_id)
+    from vittantra_academy_page import _save
+    _save(progress)
+
+
+@st.cache_data(ttl=900, show_spinner=False)
+def _snapshot(stamp: str) -> list:
+    import daily_checklist as dc
+    try:
+        return dc.market_snapshot()
+    except Exception:
+        return []
+
+
+def _checklist_panel(user: str) -> None:
+    """Today's checklist: market & economy check, then training steps or the Job Tracker's three steps."""
     try:
         import academy_desk as desk
-        import job_tracker as jt
-        from academy_content import ROLES
+        import daily_checklist as dc
         path = cloud.progress_path()
         progress = desk.load_progress(path) if path else {}
-        plan = jt.daily_plan(progress)
+        items = dc.checklist(progress)
     except Exception:
         return
-    st.markdown(f"**Today · {ROLES[plan['role']]['title'].split(' (')[0]} desk** — {plan['done']} of 3 done")
-    cols = st.columns(3)
-    for i, (col, step) in enumerate(zip(cols, plan["steps"])):
-        with col.container(border=True):
-            st.markdown(f"{'✓' if step['done'] else '○'} **{step['step']}** · {step['minutes']} min")
-            st.markdown(step["what"])
-            if step.get("why"):
-                st.caption(f"Why: {step['why']}")
-            if not step["done"]:
-                st.button("Start", key=f"welcome-start-{i}", on_click=_start_step, args=(i,), width="stretch",
-                          type="primary" if i == next(j for j, s in enumerate(plan["steps"]) if not s["done"])
-                          else "secondary")
+    s = dc.summary(items)
+    st.markdown(f"#### Today's checklist · {s['done']} of {s['total']} done")
+    st.progress(s["done"] / s["total"], text=(f"About {s['minutes_left']} min left of {s['minutes']}"
+                                              if s["minutes_left"] else "All done for today"))
+    stamp_path = cloud.BASE_DIR / "day75_refresh_stamp.csv"
+    snapshot = _snapshot(stamp_path.read_text() if stamp_path.exists() else "")
+    for item in items:
+        with st.container(border=True):
+            c1, c2, c3 = st.columns([7, 1.4, 1.2], vertical_alignment="center")
+            with c1:
+                st.markdown(f"{'✓' if item['done'] else '○'} **{item['title']}** · {item['minutes']} min — "
+                            f"{item['what']}")
+                if item.get("why"):
+                    st.caption(f"Why: {item['why']}")
+            if not item["done"]:
+                if "tracker_step" in item:
+                    c2.button("Do it", key=f"chk-go-{item['id']}", on_click=_start_step,
+                              args=(item["tracker_step"],), width="stretch", type="primary")
+                    c3.caption("Ticks itself when saved")
+                else:
+                    if item["id"] != dc.MARKET_CHECK:
+                        c2.button("Do it", key=f"chk-go-{item['id']}", on_click=_go, args=(item["page"],),
+                                  width="stretch")
+                    c3.button("Done", key=f"chk-done-{item['id']}", on_click=_tick,
+                              args=(item["id"], bool(item.get("training"))), width="stretch", type="primary")
+            if item["id"] == dc.MARKET_CHECK:
+                if snapshot:
+                    left, right = st.columns(2)
+                    half = (len(snapshot) + 1) // 2
+                    for col, rows in ((left, snapshot[:half]), (right, snapshot[half:])):
+                        col.markdown("  \n".join(f"**{r['section']}** · {r['text']}" for r in rows))
+                    st.caption("From the Investment Analyst agent (every line cites its source on Agent Desk). "
+                               "Prices ~15 min delayed; economic data as of the last release.")
+                else:
+                    st.caption("Market data is not available yet; open Markets after the next refresh.")
+    missed = dc.yesterday_open(progress)
+    if missed:
+        st.caption("Left open yesterday: " + ", ".join(missed) + ". Not added to today — work never piles up.")
 
 
 def render_visitor_welcome() -> None:
@@ -171,9 +225,17 @@ def render_welcome() -> None:
             st.markdown("Getting started: take the guided training below, or open **Job Tracker** for today's plan.")
         else:
             st.markdown("  \n".join(briefing(user)))
-        _today_panel(user)
+        _checklist_panel(user)
     import vittantra_coach
-    vittantra_coach.home_card(st.session_state.get("vt_labels", {}))
+    try:
+        import academy_desk as desk
+        path = cloud.progress_path()
+        progress = desk.load_progress(path) if path else {}
+        training_active = vittantra_coach.day_for_today(progress) is not None
+    except Exception:
+        training_active = False
+    if not training_active:                       # while training runs its steps are in the checklist above
+        vittantra_coach.home_card(st.session_state.get("vt_labels", {}))
 
 
 def briefing_has_portfolio(user: str) -> bool:
