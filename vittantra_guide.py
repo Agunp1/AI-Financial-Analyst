@@ -169,14 +169,14 @@ PAGE_HELP: Dict[str, dict] = {
         "tip": "Practise the Trader desk in Academy for sizing and execution-cost tasks.",
     },
     "Job Tracker": {
-        "what": "Your daily plan across all seven desks and CFA Level II: one desk duty, one item set and one "
+        "what": "Your daily plan across your target desks and CFA Level II: one desk duty, one item set and one "
                 "lesson a day (about 45 minutes), a readiness scorecard and an evidence pack for interviews.",
         "steps": ["Sign in (sidebar) so your work is saved.",
                   "Today: do the three steps in order; each is ticked when the graded work is saved.",
                   "Readiness: see which responsibilities on each desk you have demonstrated (score 70+).",
                   "CFA Level II plan: set your exam date; item sets target your weakest topic.",
                   "Evidence pack: download it before an interview."],
-        "tip": "Seven desks rotate through the week: analyst, research, trader, risk, PM, advisor, PE/VC.",
+        "tip": "Mon–Fri: analyst, research, trader, risk, PM (your US target roles); the weekend catches up your two weakest.",
     },
     "Academy": {
         "what": "Learn by doing: daily desk tasks on live data for seven roles, lessons on demand, CFA Level II "
