@@ -13,15 +13,15 @@ Willingness to take risk 4/5, capacity 5/5. You told us a loss of about 30% in a
 | US equity | 52% | SPY |
 | International developed equity | 30% | EFA |
 | US REITs | 10% | VNQ |
-| Investment-grade credit | 3% | LQD |
 | Emerging-market equity | 3% | EEM |
+| Investment-grade credit | 3% | LQD |
 | Cash (T-bills) | 2% | BIL |
 
 Expected return about **9.3% a year** (before inflation of about 2.3%), with typical swings (volatility) of 13%. In a bad year (about 1 in 20) the portfolio could fall about **12%**.
 
 ## Your goal
-Chance of reaching 600,000 (today's money) in 30 years: **47%**. Median outcome 578,427; poor case (10th percentile) 322,060.
-Saving about **9,765 a year** would raise the chance to 80%.
+Chance of reaching 600,000 (today's money) in 30 years: **47%**. Median outcome 578,734; poor case (10th percentile) 322,223.
+Saving about **9,759 a year** would raise the chance to 80%.
 
 ## Suitability checks
 - ✓ Volatility within the risk profile: 13.0% vs limit 13.0% *(CFA Standard III(C) Suitability)*
@@ -56,8 +56,8 @@ Willingness to take risk 3/5, capacity 4/5. You told us a loss of about 20% in a
 Expected return about **8.1% a year** (before inflation of about 2.3%), with typical swings (volatility) of 10%. In a bad year (about 1 in 20) the portfolio could fall about **8%**.
 
 ## Your goal
-Chance of reaching 220,000 (today's money) in 12 years: **64%**. Median outcome 238,228; poor case (10th percentile) 177,820.
-Saving about **10,807 a year** would raise the chance to 80%.
+Chance of reaching 220,000 (today's money) in 12 years: **64%**. Median outcome 238,269; poor case (10th percentile) 177,849.
+Saving about **10,804 a year** would raise the chance to 80%.
 
 ## Suitability checks
 - ✓ Volatility within the risk profile: 10.0% vs limit 10.0% *(CFA Standard III(C) Suitability)*
@@ -65,7 +65,7 @@ Saving about **10,807 a year** would raise the chance to 80%.
 - ✓ Equity share suits the horizon and profile: equity 63% vs cap 65% (12-year horizon) *(CFA Standard III(C) Suitability)*
 - ✓ No single sleeve above 60%: largest US equity 43% *(CFA Standard III(C) Suitability)*
 - ✓ Complex or speculative holdings only for experienced investors: complex holdings 0%; experience Some *(CFA Standard III(C) Suitability)*
-- ✓ Cash covers the next 12 months' needs: cash 8.7% vs need 4.0% *(CFA Standard III(C) Suitability)*
+- ✓ Cash covers the next 12 months' needs: cash 8.8% vs need 4.0% *(CFA Standard III(C) Suitability)*
 
 ## Important
 - Projections use assumptions (below) and 10,000 simulated market paths. They are estimates, not guarantees; real returns can be worse.
@@ -87,7 +87,7 @@ Willingness to take risk 2/5, capacity 4/5. You told us a loss of about 10% in a
 | International developed equity | 13% | EFA |
 | US REITs | 10% | VNQ |
 | Inflation-linked Treasuries | 8% | TIP |
-| Investment-grade credit | 7% | LQD |
+| Investment-grade credit | 6% | LQD |
 
 Expected return about **7.2% a year** (before inflation of about 2.3%), with typical swings (volatility) of 7%. In a bad year (about 1 in 20) the portfolio could fall about **5%**.
 
@@ -100,7 +100,7 @@ Chance the money lasts 25 years while withdrawing 30,000 a year (rising with inf
 - ✓ Equity share suits the horizon and profile: equity 45% vs cap 45% (25-year horizon) *(CFA Standard III(C) Suitability)*
 - ✓ No single sleeve above 60%: largest US equity 31% *(CFA Standard III(C) Suitability)*
 - ✓ Complex or speculative holdings only for experienced investors: complex holdings 0%; experience Extensive *(CFA Standard III(C) Suitability)*
-- ✓ Cash covers the next 12 months' needs: cash 30.6% vs need 4.6% *(CFA Standard III(C) Suitability)*
+- ✓ Cash covers the next 12 months' needs: cash 30.9% vs need 4.6% *(CFA Standard III(C) Suitability)*
 
 ## Important
 - Projections use assumptions (below) and 10,000 simulated market paths. They are estimates, not guarantees; real returns can be worse.
@@ -120,7 +120,7 @@ Set by the IPS: volatility at most 13%; required return 7.34% (spending/liabilit
 | International developed equity | 30% | EFA |
 | Emerging-market equity | 11% | EEM |
 | High-yield credit | 11% | HYG |
-| Cash (T-bills) | 5% | BIL |
+| Cash (T-bills) | 4% | BIL |
 | US REITs | 3% | VNQ |
 
 Expected return about **9.1% a year** (before inflation of about 2.3%), with typical swings (volatility) of 13%. In a bad year (about 1 in 20) the portfolio could fall about **12%**.
@@ -159,7 +159,7 @@ Set by the IPS: volatility at most 9%; required return 5.00% (spending/liabiliti
 | International developed equity | 14% | EFA |
 | US REITs | 10% | VNQ |
 | Inflation-linked Treasuries | 8% | TIP |
-| Investment-grade credit | 7% | LQD |
+| Investment-grade credit | 6% | LQD |
 
 Expected return about **7.2% a year** (before inflation of about 2.3%), with typical swings (volatility) of 8%. In a bad year (about 1 in 20) the portfolio could fall about **5%**.
 
