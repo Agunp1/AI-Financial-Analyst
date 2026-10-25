@@ -7,7 +7,7 @@ Fixed Income,IEF,"7-10Y Treasury ETF +1.9% over 1 month: interest rates +1.5%, c
 Fixed Income,TIP,"TIPS ETF +1.9% over 1 month: interest rates +1.2%, credit spreads +0.2%; unexplained +0.3% (macro factors explain 87% of daily moves)."
 Fixed Income,LQD,"IG Corporate Bond ETF +1.1% over 1 month: interest rates +1.5%, credit spreads -0.3%; unexplained -0.1% (macro factors explain 86% of daily moves)."
 Fixed Income,HYG,"High Yield Corporate ETF -0.6% over 1 month: credit spreads -0.6%, interest rates +0.6%, equity market -0.1%; unexplained -0.5% (macro factors explain 78% of daily moves)."
-FX,EURUSD=X,"Euro / US dollar -1.6% over 1 month: credit spreads -0.5%, oil -0.3%; unexplained -0.7% (macro factors explain 11% of daily moves)."
+FX,EURUSD=X,"Euro / US dollar -1.4% over 1 month: credit spreads -0.6%, oil -0.3%; unexplained -0.6% (macro factors explain 11% of daily moves)."
 FX,USDJPY=X,"US dollar / Japanese yen -0.9% over 1 month: credit spreads +0.3%, oil +0.2%; unexplained -1.2% (macro factors explain 5% of daily moves)."
 Commodity,GC=F,"Gold -6.8% over 1 month: credit spreads -2.9%, us dollar -0.9%, equity market -0.2%; unexplained -2.9% (macro factors explain 20% of daily moves)."
 Commodity,CL=F,"WTI crude oil +9.4% over 1 month: credit spreads +11.5%, interest rates -1.2%, inflation expectations +0.9%; unexplained -2.6% (macro factors explain 42% of daily moves)."
