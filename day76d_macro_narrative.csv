@@ -11,7 +11,7 @@ FX,EURUSD=X,"Euro / US dollar -1.4% over 1 month: credit spreads -0.6%, oil -0.3
 FX,USDJPY=X,"US dollar / Japanese yen -1.1% over 1 month: credit spreads +0.3%, oil +0.2%; unexplained -1.4% (macro factors explain 5% of daily moves)."
 Commodity,GC=F,"Gold -6.8% over 1 month: credit spreads -2.9%, us dollar -0.9%, equity market -0.2%; unexplained -2.9% (macro factors explain 20% of daily moves)."
 Commodity,CL=F,"WTI crude oil +9.4% over 1 month: credit spreads +11.5%, interest rates -1.2%, inflation expectations +0.9%; unexplained -2.6% (macro factors explain 42% of daily moves)."
-Commodity,HG=F,"Copper -3.0% over 1 month: equity market -0.7%, credit spreads -0.7%, us dollar -0.5%; unexplained -0.9% (macro factors explain 26% of daily moves)."
+Commodity,HG=F,"Copper -3.5% over 1 month: equity market -0.7%, credit spreads -0.7%, us dollar -0.5%; unexplained -1.4% (macro factors explain 26% of daily moves)."
 Commodity,DBC,"Broad Commodity ETF +2.8% over 1 month: oil +2.5%, credit spreads -1.6%, interest rates -0.4%; unexplained +2.6% (macro factors explain 67% of daily moves)."
 Digital Asset,BTC-USD,"Bitcoin -3.8% over 1 month: credit spreads -2.7%, equity market -1.2%, us dollar -0.3%; unexplained +0.6% (macro factors explain 24% of daily moves)."
 Digital Asset,ETH-USD,"Ether -11.6% over 1 month: credit spreads -2.4%, equity market -1.7%, us dollar -0.8%; unexplained -7.0% (macro factors explain 24% of daily moves)."
