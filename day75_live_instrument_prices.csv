@@ -1,11 +1,11 @@
 symbol,price,sample_price,as_of_date,method,source,proxy_ticker,model_yield,status,note
-AAPL,344.2300109863281,200.0,2026-10-26,DIRECT,intraday quote,AAPL,,FRESH,Apple common stock
-SPY,764.4100952148438,550.0,2026-10-26,DIRECT,intraday quote,SPY,,FRESH,SPDR S&P 500 ETF
-ES,7714.75,6000.0,2026-10-26,DIRECT,intraday quote,ES=F,,FRESH,E-mini S&P 500 front-month future
-EURUSD,1.1188185214996338,1.1,2026-10-26,DIRECT,intraday quote,EURUSD=X,,FRESH,EUR/USD spot rate
-GOLD,4032.89990234375,2600.0,2026-10-26,DIRECT,intraday quote,GC=F,,FRESH,COMEX gold front-month future (USD/oz)
-BTC,79760.7421875,100000.0,2026-10-26,DIRECT,intraday quote,BTC-USD,,FRESH,Bitcoin in USD
-REIT,92.9749984741211,100.0,2026-10-26,PROXY,intraday quote,VNQ,,FRESH,Vanguard Real Estate ETF as REIT proxy
+AAPL,343.1300048828125,200.0,2026-10-26,DIRECT,intraday quote,AAPL,,FRESH,Apple common stock
+SPY,765.1799926757812,550.0,2026-10-26,DIRECT,intraday quote,SPY,,FRESH,SPDR S&P 500 ETF
+ES,7716.0,6000.0,2026-10-26,DIRECT,intraday quote,ES=F,,FRESH,E-mini S&P 500 front-month future
+EURUSD,1.1186933517456055,1.1,2026-10-26,DIRECT,intraday quote,EURUSD=X,,FRESH,EUR/USD spot rate
+GOLD,4028.199951171875,2600.0,2026-10-26,DIRECT,intraday quote,GC=F,,FRESH,COMEX gold front-month future (USD/oz)
+BTC,79894.2421875,100000.0,2026-10-26,DIRECT,intraday quote,BTC-USD,,FRESH,Bitcoin in USD
+REIT,93.01499938964844,100.0,2026-10-26,PROXY,intraday quote,VNQ,,FRESH,Vanguard Real Estate ETF as REIT proxy
 CORP_BOND,94.49925614068586,98.5,2026-10-22,MODEL,5Y Treasury + BBB OAS (FRED),LQD,0.0591,FRESH,Priced from 5Y Treasury + BBB spread (FRED); history from LQD returns
-AAPL_CALL,136.1880227560598,8.5,2026-10-26,MODEL,Black-Scholes on AAPL intraday quote,AAPL,,FRESH,Black-Scholes on live AAPL; implied volatility is an assumption
+AAPL_CALL,135.0880761583401,8.5,2026-10-26,MODEL,Black-Scholes on AAPL intraday quote,AAPL,,FRESH,Black-Scholes on live AAPL; implied volatility is an assumption
 USD,1.0,1.0,2026-10-26,CONSTANT,constant,,,FRESH,US dollar cash
