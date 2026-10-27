@@ -9,7 +9,7 @@ Fixed Income,LQD,"IG Corporate Bond ETF +1.1% over 1 month: interest rates +1.2%
 Fixed Income,HYG,"High Yield Corporate ETF -0.6% over 1 month: credit spreads -0.5%, interest rates +0.4%, equity market -0.2%; unexplained -0.3% (macro factors explain 78% of daily moves)."
 FX,EURUSD=X,"Euro / US dollar -1.4% over 1 month: credit spreads -0.4%, oil -0.3%, us dollar -0.2%; unexplained -0.6% (macro factors explain 11% of daily moves)."
 FX,USDJPY=X,"US dollar / Japanese yen -1.2% over 1 month: credit spreads +0.3%, oil +0.2%; unexplained -1.7% (macro factors explain 5% of daily moves)."
-Commodity,GC=F,"Gold -7.0% over 1 month: credit spreads -2.0%, us dollar -2.0%, equity market -0.4%; unexplained -2.7% (macro factors explain 20% of daily moves)."
+Commodity,GC=F,"Gold -7.0% over 1 month: credit spreads -2.0%, us dollar -2.0%, equity market -0.4%; unexplained -2.8% (macro factors explain 20% of daily moves)."
 Commodity,CL=F,"WTI crude oil +9.5% over 1 month: credit spreads +8.8%, interest rates -0.9%, us dollar +0.7%; unexplained +0.2% (macro factors explain 42% of daily moves)."
 Commodity,HG=F,"Copper -1.8% over 1 month: us dollar -1.2%, equity market -1.1%, credit spreads -0.4%; unexplained +1.2% (macro factors explain 25% of daily moves)."
 Commodity,DBC,"Broad Commodity ETF +4.5% over 1 month: oil +2.5%, credit spreads -1.2%, us dollar -0.7%; unexplained +4.2% (macro factors explain 67% of daily moves)."
