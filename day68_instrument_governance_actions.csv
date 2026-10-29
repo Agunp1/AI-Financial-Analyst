@@ -1,11 +1,11 @@
 symbol,asset_class,instrument_type,risk_budget,modeled_risk_contribution,risk_budget_utilization,risk_budget_excess,day66_risk_budget_status,governance_status,governance_action,governance_reason,requires_review,block_incremental_risk
-AAPL_CALL,Option,Option,0.1,0.08035845613346833,0.8035845613346833,0.0,WITHIN_BUDGET,WATCH,MONITOR,Risk-budget utilization 80.36% is elevated. | Day 66 action: UNCHANGED.,True,False
-AAPL,Equity,Equity,0.3,0.24096142783555766,0.8032047594518589,0.0,WITHIN_BUDGET,WATCH,MONITOR,Risk-budget utilization 80.32% is elevated. | Day 66 action: UNCHANGED.,True,False
-ES,Future,Future,0.25,0.19225993940371972,0.7690397576148789,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 76.90% is within policy. | Day 66 action: UNCHANGED.,False,False
-GOLD,Commodity,Commodity,0.2,0.15159196723639298,0.7579598361819648,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 75.80% is within policy. | Day 66 action: UNCHANGED.,False,False
-BTC,Crypto,Crypto,0.1,0.07294354944631128,0.7294354944631127,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 72.94% is within policy. | Day 66 action: UNCHANGED.,False,False
-SPY,ETF/Fund,ETF/Fund,0.3,0.21377897194229578,0.712596573140986,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 71.26% is within policy. | Day 66 action: UNCHANGED.,False,False
-REIT,Real Estate/REIT,Real Estate/REIT,0.15,0.030613112767834686,0.20408741845223125,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 20.41% is within policy. | Day 66 action: UNCHANGED.,False,False
-CORP_BOND,Fixed Income,Fixed Income,0.2,0.013294915343415733,0.06647457671707865,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 6.65% is within policy. | Day 66 action: UNCHANGED.,False,False
-EURUSD,FX,FX,0.15,0.004197659891003933,0.027984399273359557,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 2.80% is within policy. | Day 66 action: UNCHANGED.,False,False
+AAPL_CALL,Option,Option,0.1,0.080406295582728,0.8040629558272799,0.0,WITHIN_BUDGET,WATCH,MONITOR,Risk-budget utilization 80.41% is elevated. | Day 66 action: UNCHANGED.,True,False
+AAPL,Equity,Equity,0.3,0.2411048783515971,0.803682927838657,0.0,WITHIN_BUDGET,WATCH,MONITOR,Risk-budget utilization 80.37% is elevated. | Day 66 action: UNCHANGED.,True,False
+ES,Future,Future,0.25,0.19233212749185039,0.7693285099674015,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 76.93% is within policy. | Day 66 action: UNCHANGED.,False,False
+GOLD,Commodity,Commodity,0.2,0.1516787603332157,0.7583938016660785,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 75.84% is within policy. | Day 66 action: UNCHANGED.,False,False
+BTC,Crypto,Crypto,0.1,0.07254573089525725,0.7254573089525724,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 72.55% is within policy. | Day 66 action: UNCHANGED.,False,False
+SPY,ETF/Fund,ETF/Fund,0.3,0.21380542625040333,0.7126847541680111,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 71.27% is within policy. | Day 66 action: UNCHANGED.,False,False
+REIT,Real Estate/REIT,Real Estate/REIT,0.15,0.030625827352001013,0.20417218234667342,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 20.42% is within policy. | Day 66 action: UNCHANGED.,False,False
+CORP_BOND,Fixed Income,Fixed Income,0.2,0.013300619221411016,0.06650309610705507,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 6.65% is within policy. | Day 66 action: UNCHANGED.,False,False
+EURUSD,FX,FX,0.15,0.0042003345215362925,0.028002230143575283,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 2.80% is within policy. | Day 66 action: UNCHANGED.,False,False
 USD,Cash/Money Market,Cash/Money Market,0.0,0.0,0.0,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 0.00% is within policy. | Day 66 action: UNCHANGED.,False,False

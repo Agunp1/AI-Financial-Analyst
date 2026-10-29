@@ -6,5 +6,5 @@ Credit,High-yield spread change: -9 bp this week,-0.09,pp,day76d_factor_moves.cs
 FX,US dollar index return: +0.4% this week,0.003807,return,day76d_factor_moves.csv,2,ServiceNow’s stock slides as earnings miss overshadows a raised AI outlook (MarketWatch) || October 2026 euro area bank lending survey (European Central Bank)
 Geopolitics,VIX 1-week change: +1.4% this week,0.013788968824940184,return,day76c_price_history.csv,2,"Peltola campaign aides, DSCC officials helped recruit second Dan Sullivan in Alaska race: NYT (CNBC) || Trump is using tariffs as a 'tool for grift,' Raskin says in demand for donor records (CNBC)"
 Real estate,US REITs (VNQ) 1-week return: +0.3% this week,0.0032790797525212856,return,day76c_price_history.csv,1,"Fed leaves rates unchanged: What it means for credit cards, mortgages, auto loans and savings accounts (CNBC)"
-Commodities,Crude oil return: +5.2% this week,0.051906,return,day76d_factor_moves.csv,0,
-Digital assets,Bitcoin 1-week return: -1.2% this week,-0.01203871435623749,return,day76c_price_history.csv,0,
+Commodities,Crude oil return: +5.2% this week,0.051605,return,day76d_factor_moves.csv,0,
+Digital assets,Bitcoin 1-week return: -1.7% this week,-0.016904911476469553,return,day76c_price_history.csv,0,
