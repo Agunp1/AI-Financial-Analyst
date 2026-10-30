@@ -3,40 +3,39 @@ NEM,Thesis,Multi-factor rating: Overweight (IC-weighted score 83/100).,day77_cur
 NEM,Thesis,Strongest pillar: the machine-learning return forecast (score 88).,day77_current_ratings.csv,quant,87.8788
 NEM,Thesis,Weakest pillar: fit with the current macro regime (score 3).,day77_current_ratings.csv,economic,3.0303
 NEM,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-NEM,Valuation,DCF intrinsic value $123.62 vs price $113.93 (+9%): Fairly valued.,day78_valuation.csv,fair_value,123.6248
-NEM,Valuation,"Cross-checks: RI $61.03, DDM $16.47.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-NEM,Valuation,"Discount rates: WACC 12.2%, cost of equity 12.6% (adjusted beta 1.68, synthetic rating BBB).",day78_valuation.csv,wacc,0.1224
-NEM,Valuation,"Reverse DCF: the price implies 3.4% a year growth for five years (then fading), vs 5.0% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.034
-NEM,Risks and limits,The valuation models disagree widely (spread 87% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.8668
+NEM,Valuation,DCF intrinsic value $122.57 vs price $111.78 (+10%): Fairly valued.,day78_valuation.csv,fair_value,122.57
+NEM,Valuation,"Cross-checks: RI $60.80, DDM $16.31.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+NEM,Valuation,"Discount rates: WACC 12.3%, cost of equity 12.7% (adjusted beta 1.69, synthetic rating BBB).",day78_valuation.csv,wacc,0.1232
+NEM,Valuation,"Reverse DCF: the price implies 3.2% a year growth for five years (then fading), vs 5.0% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.0319
+NEM,Risks and limits,The valuation models disagree widely (spread 87% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.867
 NEM,Bull case,Strong fundamentals versus peers: score 81/100.,day77_current_ratings.csv,fundamental,80.8838
-NEM,Bull case,Positive price trend and momentum: score 71/100.,day77_current_ratings.csv,technical,71.2121
 NEM,Bull case,The machine-learning model ranks it near the top for the next 20 days: score 88/100.,day77_current_ratings.csv,quant,87.8788
 NEM,Bear case,Poorly suited to the current macro regime: score 3/100.,day77_current_ratings.csv,economic,3.0303
 NEM,Bear case,More volatile than most peers: risk score 3/100.,day77_current_ratings.csv,risk,3.0303
 NEM,Bull case,Revenue growing 24% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.2373
 NEM,Bull case,High return on equity: 27%.,day76_fundamental_metrics.csv,roe,0.2682
-NEM,Bull case,Free-cash-flow yield 8.5%: cash generation is high relative to price.,day76_fundamental_metrics.csv,fcf_yield,0.0851
-NEM,Bear case,Volatile: 47% annualized volatility over the past year.,day77_current_ratings.csv,volatility_1y,0.4749
+NEM,Bull case,Free-cash-flow yield 8.7%: cash generation is high relative to price.,day76_fundamental_metrics.csv,fcf_yield,0.0867
+NEM,Bear case,Volatile: 48% annualized volatility over the past year.,day77_current_ratings.csv,volatility_1y,0.475
 NEM,Risks and limits,Interest coverage unavailable: BBB credit spread assumed.,day78_valuation.csv,notes,interest coverage unavailable: BBB credit spread assumed
 NEM,Risks and limits,"Cyclical sector: growth capped at 5%, because recent growth mostly reflects commodity prices (professionals value cyclicals on mid-cycle earnings).",day78_valuation.csv,notes,"cyclical sector: growth capped at 5%, because recent growth mostly reflects commodity prices (professionals value cyclicals on mid-cycle earnings)"
 NEM,Risks and limits,"Residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies.",day78_valuation.csv,notes,"residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies"
-NEM,Risks and limits,Market sensitivity: beta 2.02 — a 10% market fall has historically meant about 20% for this stock.,day77_current_ratings.csv,beta,2.0248
+NEM,Risks and limits,Market sensitivity: beta 2.03 — a 10% market fall has historically meant about 20% for this stock.,day77_current_ratings.csv,beta,2.0343
 NEM,Risks and limits,Fundamentals as of the filing dated 2026-10-22; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-10-22
 NEM,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 NVDA,Thesis,Multi-factor rating: Overweight (IC-weighted score 76/100).,day77_current_ratings.csv,rating,Overweight
 NVDA,Thesis,Strongest pillar: the machine-learning return forecast (score 82).,day77_current_ratings.csv,quant,81.8182
-NVDA,Thesis,Weakest pillar: fit with the current macro regime (score 6).,day77_current_ratings.csv,economic,6.0606
+NVDA,Thesis,Weakest pillar: fit with the current macro regime (score 9).,day77_current_ratings.csv,economic,9.0909
 NVDA,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-NVDA,Valuation,DCF intrinsic value $139.96 vs price $215.39 (-35%): Overvalued.,day78_valuation.csv,fair_value,139.9621
-NVDA,Valuation,"Cross-checks: RI $41.52, DDM $4.44.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-NVDA,Valuation,"Discount rates: WACC 12.4%, cost of equity 12.4% (adjusted beta 1.65, synthetic rating AAA).",day78_valuation.csv,wacc,0.1236
-NVDA,Valuation,"Reverse DCF: the price implies 28.6% a year growth for five years (then fading), vs 20.0% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.2861
-NVDA,Bear case,High expectations priced in: the market needs 29% growth vs 20% recently.,day78_valuation.csv,implied_growth,0.2861
-NVDA,Bear case,DCF value is 35% below the price.,day78_valuation.csv,upside,-0.3502
+NVDA,Valuation,DCF intrinsic value $138.84 vs price $213.72 (-35%): Overvalued.,day78_valuation.csv,fair_value,138.8428
+NVDA,Valuation,"Cross-checks: RI $41.39, DDM $4.41.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+NVDA,Valuation,"Discount rates: WACC 12.4%, cost of equity 12.5% (adjusted beta 1.65, synthetic rating AAA).",day78_valuation.csv,wacc,0.1242
+NVDA,Valuation,"Reverse DCF: the price implies 28.6% a year growth for five years (then fading), vs 20.0% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.2862
+NVDA,Bear case,High expectations priced in: the market needs 29% growth vs 20% recently.,day78_valuation.csv,implied_growth,0.2862
+NVDA,Bear case,DCF value is 35% below the price.,day78_valuation.csv,upside,-0.3504
 NVDA,Risks and limits,The valuation models disagree widely (spread 97% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.9683
-NVDA,Bull case,Strong fundamentals versus peers: score 75/100.,day77_current_ratings.csv,fundamental,74.9399
+NVDA,Bull case,Strong fundamentals versus peers: score 75/100.,day77_current_ratings.csv,fundamental,74.7126
 NVDA,Bull case,The machine-learning model ranks it near the top for the next 20 days: score 82/100.,day77_current_ratings.csv,quant,81.8182
-NVDA,Bear case,Poorly suited to the current macro regime: score 6/100.,day77_current_ratings.csv,economic,6.0606
+NVDA,Bear case,Poorly suited to the current macro regime: score 9/100.,day77_current_ratings.csv,economic,9.0909
 NVDA,Bear case,More volatile than most peers: risk score 12/100.,day77_current_ratings.csv,risk,12.1212
 NVDA,Bull case,Revenue growing 83% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.8338
 NVDA,Bull case,High return on equity: 117%.,day76_fundamental_metrics.csv,roe,1.1721
@@ -44,62 +43,61 @@ NVDA,Bull case,Strong operating margin: 65%.,day76_fundamental_metrics.csv,opera
 NVDA,Bull case,Very comfortable interest coverage: 426x.,day76_fundamental_metrics.csv,interest_coverage,425.8168
 NVDA,Bear case,Earnings run ahead of cash flow (accruals 25.4% of assets): an earnings-quality warning.,day76_fundamental_metrics.csv,accruals_ratio,0.2539
 NVDA,Risks and limits,"Residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies.",day78_valuation.csv,notes,"residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies"
-NVDA,Risks and limits,Market sensitivity: beta 1.97 — a 10% market fall has historically meant about 20% for this stock.,day77_current_ratings.csv,beta,1.9741
+NVDA,Risks and limits,Market sensitivity: beta 1.98 — a 10% market fall has historically meant about 20% for this stock.,day77_current_ratings.csv,beta,1.9757
 NVDA,Risks and limits,Fundamentals as of the filing dated 2026-08-26; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-08-26
 NVDA,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
-HON,Thesis,Multi-factor rating: Overweight (IC-weighted score 75/100).,day77_current_ratings.csv,rating,Overweight
+HON,Thesis,Multi-factor rating: Overweight (IC-weighted score 74/100).,day77_current_ratings.csv,rating,Overweight
 HON,Thesis,Strongest pillar: the machine-learning return forecast (score 100).,day77_current_ratings.csv,quant,100.0
 HON,Thesis,Weakest pillar: price trend and momentum (score 29).,day77_current_ratings.csv,technical,28.7879
 HON,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-HON,Valuation,DCF intrinsic value $130.16 vs price $219.27 (-41%): Overvalued.,day78_valuation.csv,fair_value,130.1592
-HON,Valuation,"Cross-checks: RI $185.69, DDM $215.99.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-HON,Valuation,"Discount rates: WACC 8.0%, cost of equity 8.8% (adjusted beta 0.84, synthetic rating BBB).",day78_valuation.csv,wacc,0.0801
-HON,Valuation,"Reverse DCF: the price implies 28.1% a year growth for five years (then fading), vs 20.0% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.281
-HON,Bear case,High expectations priced in: the market needs 28% growth vs 20% recently.,day78_valuation.csv,implied_growth,0.281
-HON,Bear case,DCF value is 41% below the price.,day78_valuation.csv,upside,-0.4064
+HON,Valuation,DCF intrinsic value $128.38 vs price $222.22 (-42%): Overvalued.,day78_valuation.csv,fair_value,128.383
+HON,Valuation,"Cross-checks: RI $185.33, DDM $214.28.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+HON,Valuation,"Discount rates: WACC 8.1%, cost of equity 8.8% (adjusted beta 0.84, synthetic rating BBB).",day78_valuation.csv,wacc,0.0806
+HON,Valuation,"Reverse DCF: the price implies 28.5% a year growth for five years (then fading), vs 20.0% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.2854
+HON,Bear case,High expectations priced in: the market needs 29% growth vs 20% recently.,day78_valuation.csv,implied_growth,0.2854
+HON,Bear case,DCF value is 42% below the price.,day78_valuation.csv,upside,-0.4223
 HON,Bear case,Poor price trend and momentum: score 29/100.,day77_current_ratings.csv,technical,28.7879
 HON,Bull case,The machine-learning model ranks it near the top for the next 20 days: score 100/100.,day77_current_ratings.csv,quant,100.0
 HON,Bull case,Revenue growing 80% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.7964
 HON,Bull case,High return on equity: 36%.,day76_fundamental_metrics.csv,roe,0.3598
-HON,Bear case,Free-cash-flow yield only 1.4%.,day76_fundamental_metrics.csv,fcf_yield,0.0139
+HON,Bear case,Free-cash-flow yield only 1.4%.,day76_fundamental_metrics.csv,fcf_yield,0.0137
 HON,Bear case,Earnings run ahead of cash flow (accruals 7.6% of assets): an earnings-quality warning.,day76_fundamental_metrics.csv,accruals_ratio,0.0762
-HON,Bull case,Cheap on earnings: P/E 10x.,day76_fundamental_metrics.csv,pe_ratio,9.8677
+HON,Bull case,Cheap on earnings: P/E 10x.,day76_fundamental_metrics.csv,pe_ratio,10.0005
 HON,Risks and limits,Interest coverage unavailable: BBB credit spread assumed.,day78_valuation.csv,notes,interest coverage unavailable: BBB credit spread assumed
-HON,Risks and limits,Market sensitivity: beta 0.76 — a 10% market fall has historically meant about 8% for this stock.,day77_current_ratings.csv,beta,0.7609
+HON,Risks and limits,Market sensitivity: beta 0.76 — a 10% market fall has historically meant about 8% for this stock.,day77_current_ratings.csv,beta,0.7554
 HON,Risks and limits,Fundamentals as of the filing dated 2026-10-22; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-10-22
 HON,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 MSFT,Thesis,Multi-factor rating: Overweight (IC-weighted score 71/100).,day77_current_ratings.csv,rating,Overweight
 MSFT,Thesis,Strongest pillar: the machine-learning return forecast (score 76).,day77_current_ratings.csv,quant,75.7576
-MSFT,Thesis,Weakest pillar: low volatility (score 24).,day77_current_ratings.csv,risk,24.2424
+MSFT,Thesis,Weakest pillar: fit with the current macro regime (score 27).,day77_current_ratings.csv,economic,27.2727
 MSFT,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-MSFT,Valuation,DCF intrinsic value $304.12 vs price $531.73 (-43%): Overvalued.,day78_valuation.csv,fair_value,304.118
-MSFT,Valuation,"Cross-checks: RI $165.23, DDM $85.32.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-MSFT,Valuation,"Discount rates: WACC 9.5%, cost of equity 9.5% (adjusted beta 1.00, synthetic rating AAA).",day78_valuation.csv,wacc,0.0946
-MSFT,Valuation,"Reverse DCF: the price implies 28.5% a year growth for five years (then fading), vs 17.9% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.2851
-MSFT,Bear case,High expectations priced in: the market needs 29% growth vs 18% recently.,day78_valuation.csv,implied_growth,0.2851
-MSFT,Bear case,DCF value is 43% below the price.,day78_valuation.csv,upside,-0.4281
+MSFT,Valuation,DCF intrinsic value $300.43 vs price $530.43 (-43%): Overvalued.,day78_valuation.csv,fair_value,300.4331
+MSFT,Valuation,"Cross-checks: RI $164.70, DDM $84.35.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+MSFT,Valuation,"Discount rates: WACC 9.5%, cost of equity 9.6% (adjusted beta 1.01, synthetic rating AAA).",day78_valuation.csv,wacc,0.0953
+MSFT,Valuation,"Reverse DCF: the price implies 28.7% a year growth for five years (then fading), vs 17.9% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.2871
+MSFT,Bear case,High expectations priced in: the market needs 29% growth vs 18% recently.,day78_valuation.csv,implied_growth,0.2871
+MSFT,Bear case,DCF value is 43% below the price.,day78_valuation.csv,upside,-0.4336
 MSFT,Bull case,The machine-learning model ranks it near the top for the next 20 days: score 76/100.,day77_current_ratings.csv,quant,75.7576
 MSFT,Bear case,Poorly suited to the current macro regime: score 27/100.,day77_current_ratings.csv,economic,27.2727
-MSFT,Bear case,More volatile than most peers: risk score 24/100.,day77_current_ratings.csv,risk,24.2424
+MSFT,Bear case,More volatile than most peers: risk score 27/100.,day77_current_ratings.csv,risk,27.2727
 MSFT,Bull case,Revenue growing 18% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.1791
 MSFT,Bull case,High return on equity: 34%.,day76_fundamental_metrics.csv,roe,0.3422
 MSFT,Bull case,Strong operating margin: 47%.,day76_fundamental_metrics.csv,operating_margin,0.471
 MSFT,Bull case,Very comfortable interest coverage: 51x.,day76_fundamental_metrics.csv,interest_coverage,50.6333
-MSFT,Risks and limits,Market sensitivity: beta 1.00 — a 10% market fall has historically meant about 10% for this stock.,day77_current_ratings.csv,beta,1.0045
+MSFT,Risks and limits,Market sensitivity: beta 1.01 — a 10% market fall has historically meant about 10% for this stock.,day77_current_ratings.csv,beta,1.0081
 MSFT,Risks and limits,Fundamentals as of the filing dated 2026-10-28; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-10-28
 MSFT,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
-CAT,Thesis,Multi-factor rating: Overweight (IC-weighted score 70/100).,day77_current_ratings.csv,rating,Overweight
+CAT,Thesis,Multi-factor rating: Overweight (IC-weighted score 71/100).,day77_current_ratings.csv,rating,Overweight
 CAT,Thesis,Strongest pillar: the machine-learning return forecast (score 97).,day77_current_ratings.csv,quant,96.9697
-CAT,Thesis,Weakest pillar: fit with the current macro regime (score 9).,day77_current_ratings.csv,economic,9.0909
+CAT,Thesis,Weakest pillar: fit with the current macro regime (score 6).,day77_current_ratings.csv,economic,6.0606
 CAT,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-CAT,Valuation,DCF intrinsic value $583.37 vs price $714.62 (-18%): Low confidence.,day78_valuation.csv,fair_value,583.3691
-CAT,Valuation,"Cross-checks: RI $154.55, DDM $97.16.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-CAT,Valuation,"Discount rates: WACC 12.4%, cost of equity 12.4% (adjusted beta 1.64, synthetic rating BBB).",day78_valuation.csv,wacc,0.1236
-CAT,Valuation,"Reverse DCF: the price implies 22.5% a year growth for five years (then fading), vs 18.4% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.2246
-CAT,Bear case,DCF value is 18% below the price.,day78_valuation.csv,upside,-0.1837
-CAT,Risks and limits,The valuation models disagree widely (spread 83% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.8334
+CAT,Valuation,DCF intrinsic value $572.96 vs price $647.25 (-11%): Low confidence.,day78_valuation.csv,fair_value,572.9572
+CAT,Valuation,"Cross-checks: RI $153.52, DDM $95.50.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+CAT,Valuation,"Discount rates: WACC 12.5%, cost of equity 12.5% (adjusted beta 1.66, synthetic rating BBB).",day78_valuation.csv,wacc,0.1251
+CAT,Valuation,"Reverse DCF: the price implies 20.8% a year growth for five years (then fading), vs 18.4% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.2082
+CAT,Risks and limits,The valuation models disagree widely (spread 83% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.8333
 CAT,Bull case,The machine-learning model ranks it near the top for the next 20 days: score 97/100.,day77_current_ratings.csv,quant,96.9697
-CAT,Bear case,Poorly suited to the current macro regime: score 9/100.,day77_current_ratings.csv,economic,9.0909
+CAT,Bear case,Poorly suited to the current macro regime: score 6/100.,day77_current_ratings.csv,economic,6.0606
 CAT,Bear case,More volatile than most peers: risk score 9/100.,day77_current_ratings.csv,risk,9.0909
 CAT,Bull case,Revenue growing 18% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.1836
 CAT,Bull case,High return on equity: 57%.,day76_fundamental_metrics.csv,roe,0.5697
@@ -107,63 +105,63 @@ CAT,Risks and limits,"Total debt not found in the filings: value assumes no debt
 CAT,Risks and limits,Interest coverage unavailable: BBB credit spread assumed.,day78_valuation.csv,notes,interest coverage unavailable: BBB credit spread assumed
 CAT,Risks and limits,Debt unknown and the models disagree widely: no under/overvalued call is made.,day78_valuation.csv,notes,debt unknown and the models disagree widely: no under/overvalued call is made
 CAT,Risks and limits,"Residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies.",day78_valuation.csv,notes,"residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies"
-CAT,Risks and limits,Market sensitivity: beta 1.96 — a 10% market fall has historically meant about 20% for this stock.,day77_current_ratings.csv,beta,1.9566
+CAT,Risks and limits,Market sensitivity: beta 1.99 — a 10% market fall has historically meant about 20% for this stock.,day77_current_ratings.csv,beta,1.987
 CAT,Risks and limits,Fundamentals as of the filing dated 2026-08-05; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-08-05
 CAT,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 GOOGL,Thesis,Multi-factor rating: Overweight (IC-weighted score 70/100).,day77_current_ratings.csv,rating,Overweight
 GOOGL,Thesis,Strongest pillar: the machine-learning return forecast (score 73).,day77_current_ratings.csv,quant,72.7273
 GOOGL,Thesis,Weakest pillar: fit with the current macro regime (score 18).,day77_current_ratings.csv,economic,18.1818
 GOOGL,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-GOOGL,Valuation,DCF intrinsic value $156.13 vs price $325.61 (-52%): Overvalued.,day78_valuation.csv,fair_value,156.1301
-GOOGL,Valuation,"Cross-checks: RI $238.93, DDM $16.89.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-GOOGL,Valuation,"Discount rates: WACC 10.3%, cost of equity 10.4% (adjusted beta 1.21, synthetic rating AAA).",day78_valuation.csv,wacc,0.1028
-GOOGL,Valuation,"Reverse DCF: the price implies 34.2% a year growth for five years (then fading), vs 20.0% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.342
-GOOGL,Bear case,High expectations priced in: the market needs 34% growth vs 20% recently.,day78_valuation.csv,implied_growth,0.342
-GOOGL,Bear case,DCF value is 52% below the price.,day78_valuation.csv,upside,-0.5205
-GOOGL,Risks and limits,The valuation models disagree widely (spread 142% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,1.4222
-GOOGL,Bull case,Strong fundamentals versus peers: score 71/100.,day77_current_ratings.csv,fundamental,70.6521
+GOOGL,Valuation,DCF intrinsic value $57.29 vs price $283.75 (-80%): Overvalued.,day78_valuation.csv,fair_value,57.2868
+GOOGL,Valuation,Cross-checks: RI $157.51.,day78_valuation.csv,models_used,"DCF, RI"
+GOOGL,Valuation,"Discount rates: WACC 10.4%, cost of equity 10.6% (adjusted beta 1.24, synthetic rating AAA).",day78_valuation.csv,wacc,0.1039
+GOOGL,Valuation,"Reverse DCF: the price implies 51.2% a year growth for five years (then fading), vs 20.0% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.5117
+GOOGL,Bear case,High expectations priced in: the market needs 51% growth vs 20% recently.,day78_valuation.csv,implied_growth,0.5117
+GOOGL,Bear case,DCF value is 80% below the price.,day78_valuation.csv,upside,-0.7981
+GOOGL,Risks and limits,The valuation models disagree widely (spread 175% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,1.7495
+GOOGL,Bull case,Strong fundamentals versus peers: score 73/100.,day77_current_ratings.csv,fundamental,72.5929
 GOOGL,Bull case,The machine-learning model ranks it near the top for the next 20 days: score 73/100.,day77_current_ratings.csv,quant,72.7273
 GOOGL,Bear case,Poorly suited to the current macro regime: score 18/100.,day77_current_ratings.csv,economic,18.1818
-GOOGL,Bull case,Revenue growing 20% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.2005
-GOOGL,Bull case,High return on equity: 49%.,day76_fundamental_metrics.csv,roe,0.4868
-GOOGL,Bull case,Strong operating margin: 33%.,day76_fundamental_metrics.csv,operating_margin,0.3311
-GOOGL,Bear case,Free-cash-flow yield only 1.3%.,day76_fundamental_metrics.csv,fcf_yield,0.0134
-GOOGL,Bull case,Very comfortable interest coverage: 66x.,day76_fundamental_metrics.csv,interest_coverage,65.5542
-GOOGL,Bear case,Earnings run ahead of cash flow (accruals 8.2% of assets): an earnings-quality warning.,day76_fundamental_metrics.csv,accruals_ratio,0.0822
-GOOGL,Risks and limits,Market sensitivity: beta 1.31 — a 10% market fall has historically meant about 13% for this stock.,day77_current_ratings.csv,beta,1.3143
-GOOGL,Risks and limits,Fundamentals as of the filing dated 2026-07-23; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-07-23
+GOOGL,Bear case,More volatile than most peers: risk score 21/100.,day77_current_ratings.csv,risk,21.2121
+GOOGL,Bull case,Revenue growing 22% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.2221
+GOOGL,Bull case,High return on equity: 44%.,day76_fundamental_metrics.csv,roe,0.4429
+GOOGL,Bull case,Strong operating margin: 33%.,day76_fundamental_metrics.csv,operating_margin,0.3332
+GOOGL,Bear case,Free-cash-flow yield only 0.6%.,day76_fundamental_metrics.csv,fcf_yield,0.0057
+GOOGL,Bull case,Very comfortable interest coverage: 51x.,day76_fundamental_metrics.csv,interest_coverage,51.0325
+GOOGL,Bear case,Earnings run ahead of cash flow (accruals 7.3% of assets): an earnings-quality warning.,day76_fundamental_metrics.csv,accruals_ratio,0.0729
+GOOGL,Risks and limits,Market sensitivity: beta 1.35 — a 10% market fall has historically meant about 14% for this stock.,day77_current_ratings.csv,beta,1.3527
+GOOGL,Risks and limits,Fundamentals as of the filing dated 2026-10-29; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-10-29
 GOOGL,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 GS,Thesis,Multi-factor rating: Overweight (IC-weighted score 67/100).,day77_current_ratings.csv,rating,Overweight
 GS,Thesis,Strongest pillar: the machine-learning return forecast (score 85).,day77_current_ratings.csv,quant,84.8485
 GS,Thesis,Weakest pillar: fit with the current macro regime (score 12).,day77_current_ratings.csv,economic,12.1212
 GS,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-GS,Valuation,RI intrinsic value $518.45 vs price $926.19 (-44%): Overvalued.,day78_valuation.csv,fair_value,518.4547
-GS,Valuation,Cross-checks: DDM $357.57.,day78_valuation.csv,models_used,"RI, DDM"
-GS,Valuation,"Discount rates: WACC 7.5%, cost of equity 11.8% (adjusted beta 1.51, synthetic rating BBB).",day78_valuation.csv,wacc,0.0747
-GS,Bear case,RI value is 44% below the price.,day78_valuation.csv,upside,-0.4402
+GS,Valuation,RI intrinsic value $517.25 vs price $927.52 (-44%): Overvalued.,day78_valuation.csv,fair_value,517.2492
+GS,Valuation,Cross-checks: DDM $355.13.,day78_valuation.csv,models_used,"RI, DDM"
+GS,Valuation,"Discount rates: WACC 7.5%, cost of equity 11.9% (adjusted beta 1.51, synthetic rating BBB).",day78_valuation.csv,wacc,0.0751
+GS,Bear case,RI value is 44% below the price.,day78_valuation.csv,upside,-0.4423
 GS,Bull case,The machine-learning model ranks it near the top for the next 20 days: score 85/100.,day77_current_ratings.csv,quant,84.8485
 GS,Bear case,Poorly suited to the current macro regime: score 12/100.,day77_current_ratings.csv,economic,12.1212
-GS,Bear case,More volatile than most peers: risk score 27/100.,day77_current_ratings.csv,risk,27.2727
 GS,Bull case,Revenue growing 18% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.1777
 GS,Risks and limits,Interest coverage unavailable: BBB credit spread assumed.,day78_valuation.csv,notes,interest coverage unavailable: BBB credit spread assumed
 GS,Risks and limits,"Financial company: DCF not used (debt is operating, not financing); residual income preferred.",day78_valuation.csv,notes,"financial company: DCF not used (debt is operating, not financing); residual income preferred"
-GS,Risks and limits,Market sensitivity: beta 1.77 — a 10% market fall has historically meant about 18% for this stock.,day77_current_ratings.csv,beta,1.7681
+GS,Risks and limits,Market sensitivity: beta 1.77 — a 10% market fall has historically meant about 18% for this stock.,day77_current_ratings.csv,beta,1.7669
 GS,Risks and limits,Fundamentals as of the filing dated 2026-08-03; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-08-03
 GS,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 UNH,Thesis,Multi-factor rating: Overweight (IC-weighted score 65/100).,day77_current_ratings.csv,rating,Overweight
 UNH,Thesis,Strongest pillar: the machine-learning return forecast (score 91).,day77_current_ratings.csv,quant,90.9091
 UNH,Thesis,Weakest pillar: low volatility (score 18).,day77_current_ratings.csv,risk,18.1818
 UNH,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-UNH,Valuation,DCF intrinsic value $839.21 vs price $407.25 (+106%): Undervalued.,day78_valuation.csv,fair_value,839.2103
-UNH,Valuation,"Cross-checks: RI $147.00, DDM $230.28.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-UNH,Valuation,"Discount rates: WACC 7.2%, cost of equity 7.8% (adjusted beta 0.62, synthetic rating A).",day78_valuation.csv,wacc,0.0723
-UNH,Valuation,"Reverse DCF: the price implies -4.5% a year growth for five years (then fading), vs 6.5% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,-0.0452
-UNH,Bull case,Low expectations priced in: the price needs only -5% growth vs 6% recently.,day78_valuation.csv,implied_growth,-0.0452
-UNH,Bull case,DCF value is 106% above the price.,day78_valuation.csv,upside,1.0607
-UNH,Risks and limits,The valuation models disagree widely (spread 82% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.8248
+UNH,Valuation,DCF intrinsic value $826.40 vs price $410.79 (+101%): Undervalued.,day78_valuation.csv,fair_value,826.4016
+UNH,Valuation,"Cross-checks: RI $146.64, DDM $227.37.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+UNH,Valuation,"Discount rates: WACC 7.3%, cost of equity 7.8% (adjusted beta 0.62, synthetic rating A).",day78_valuation.csv,wacc,0.073
+UNH,Valuation,"Reverse DCF: the price implies -4.2% a year growth for five years (then fading), vs 6.5% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,-0.0418
+UNH,Bull case,Low expectations priced in: the price needs only -4% growth vs 6% recently.,day78_valuation.csv,implied_growth,-0.0418
+UNH,Bull case,DCF value is 101% above the price.,day78_valuation.csv,upside,1.0117
+UNH,Risks and limits,The valuation models disagree widely (spread 82% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.8226
 UNH,Bull case,The machine-learning model ranks it near the top for the next 20 days: score 91/100.,day77_current_ratings.csv,quant,90.9091
 UNH,Bear case,More volatile than most peers: risk score 18/100.,day77_current_ratings.csv,risk,18.1818
-UNH,Bull case,Free-cash-flow yield 6.5%: cash generation is high relative to price.,day76_fundamental_metrics.csv,fcf_yield,0.0646
+UNH,Bull case,Free-cash-flow yield 6.4%: cash generation is high relative to price.,day76_fundamental_metrics.csv,fcf_yield,0.0641
 UNH,Risks and limits,"Residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies.",day78_valuation.csv,notes,"residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies"
 UNH,Risks and limits,Market sensitivity: beta 0.43 — a 10% market fall has historically meant about 4% for this stock.,day77_current_ratings.csv,beta,0.43
 UNH,Risks and limits,Fundamentals as of the filing dated 2026-08-10; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-08-10
@@ -172,384 +170,384 @@ COP,Thesis,Multi-factor rating: Overweight (IC-weighted score 65/100).,day77_cur
 COP,Thesis,Strongest pillar: fit with the current macro regime (score 100).,day77_current_ratings.csv,economic,100.0
 COP,Thesis,Weakest pillar: low volatility (score 33).,day77_current_ratings.csv,risk,33.3333
 COP,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-COP,Valuation,RI intrinsic value $82.70 vs price $149.09 (-45%): Overvalued.,day78_valuation.csv,fair_value,82.6994
-COP,Valuation,Cross-checks: DDM $440.99.,day78_valuation.csv,models_used,"RI, DDM"
-COP,Valuation,"Discount rates: WACC 4.2%, cost of equity 4.1% (adjusted beta -0.20, synthetic rating BBB).",day78_valuation.csv,wacc,0.0417
-COP,Bear case,RI value is 45% below the price.,day78_valuation.csv,upside,-0.4453
-COP,Risks and limits,The valuation models disagree widely (spread 433% of the RI value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,4.3325
+COP,Valuation,RI intrinsic value $82.50 vs price $150.01 (-45%): Overvalued.,day78_valuation.csv,fair_value,82.5003
+COP,Valuation,Cross-checks: DDM $420.27.,day78_valuation.csv,models_used,"RI, DDM"
+COP,Valuation,"Discount rates: WACC 4.2%, cost of equity 4.1% (adjusted beta -0.20, synthetic rating BBB).",day78_valuation.csv,wacc,0.0422
+COP,Bear case,RI value is 45% below the price.,day78_valuation.csv,upside,-0.45
+COP,Risks and limits,The valuation models disagree widely (spread 409% of the RI value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,4.0942
 COP,Bull case,Positive price trend and momentum: score 98/100.,day77_current_ratings.csv,technical,98.4848
 COP,Bull case,Well suited to the current macro regime: score 100/100.,day77_current_ratings.csv,economic,100.0
 COP,Risks and limits,Interest coverage unavailable: BBB credit spread assumed.,day78_valuation.csv,notes,interest coverage unavailable: BBB credit spread assumed
 COP,Risks and limits,"Cyclical sector: growth capped at 5%, because recent growth mostly reflects commodity prices (professionals value cyclicals on mid-cycle earnings).",day78_valuation.csv,notes,"cyclical sector: growth capped at 5%, because recent growth mostly reflects commodity prices (professionals value cyclicals on mid-cycle earnings)"
 COP,Risks and limits,Free cash flow not positive: DCF not meaningful.,day78_valuation.csv,notes,free cash flow not positive: DCF not meaningful
-COP,Risks and limits,Market sensitivity: beta -0.80 — a 10% market fall has historically meant about -8% for this stock.,day77_current_ratings.csv,beta,-0.7999
+COP,Risks and limits,Market sensitivity: beta -0.80 — a 10% market fall has historically meant about -8% for this stock.,day77_current_ratings.csv,beta,-0.8022
 COP,Risks and limits,Fundamentals as of the filing dated 2026-08-06; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-08-06
 COP,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 WMT,Thesis,Multi-factor rating: Overweight (IC-weighted score 64/100).,day77_current_ratings.csv,rating,Overweight
 WMT,Thesis,Strongest pillar: the machine-learning return forecast (score 94).,day77_current_ratings.csv,quant,93.9394
-WMT,Thesis,Weakest pillar: price trend and momentum (score 41).,day77_current_ratings.csv,technical,40.9091
+WMT,Thesis,"Weakest pillar: fundamentals (value, growth, quality, balance sheet) (score 42).",day77_current_ratings.csv,fundamental,42.2375
 WMT,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-WMT,Valuation,DCF intrinsic value $68.25 vs price $118.86 (-43%): Overvalued.,day78_valuation.csv,fair_value,68.2498
-WMT,Valuation,"Cross-checks: RI $24.20, DDM $45.83.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-WMT,Valuation,"Discount rates: WACC 6.2%, cost of equity 6.3% (adjusted beta 0.30, synthetic rating AAA).",day78_valuation.csv,wacc,0.0623
-WMT,Valuation,"Reverse DCF: the price implies 15.0% a year growth for five years (then fading), vs 6.2% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.1502
-WMT,Bear case,High expectations priced in: the market needs 15% growth vs 6% recently.,day78_valuation.csv,implied_growth,0.1502
-WMT,Bear case,DCF value is 43% below the price.,day78_valuation.csv,upside,-0.4258
+WMT,Valuation,DCF intrinsic value $67.09 vs price $121.25 (-45%): Overvalued.,day78_valuation.csv,fair_value,67.0945
+WMT,Valuation,"Cross-checks: RI $24.15, DDM $45.14.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+WMT,Valuation,"Discount rates: WACC 6.3%, cost of equity 6.4% (adjusted beta 0.30, synthetic rating AAA).",day78_valuation.csv,wacc,0.0628
+WMT,Valuation,"Reverse DCF: the price implies 15.6% a year growth for five years (then fading), vs 6.2% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.1564
+WMT,Bear case,High expectations priced in: the market needs 16% growth vs 6% recently.,day78_valuation.csv,implied_growth,0.1564
+WMT,Bear case,DCF value is 45% below the price.,day78_valuation.csv,upside,-0.4466
 WMT,Bull case,The machine-learning model ranks it near the top for the next 20 days: score 94/100.,day77_current_ratings.csv,quant,93.9394
 WMT,Bull case,Well suited to the current macro regime: score 76/100.,day77_current_ratings.csv,economic,75.7576
 WMT,Bull case,High return on equity: 23%.,day76_fundamental_metrics.csv,roe,0.2344
-WMT,Bear case,Free-cash-flow yield only 1.4%.,day76_fundamental_metrics.csv,fcf_yield,0.0143
+WMT,Bear case,Free-cash-flow yield only 1.4%.,day76_fundamental_metrics.csv,fcf_yield,0.014
 WMT,Bull case,Very comfortable interest coverage: 17x.,day76_fundamental_metrics.csv,interest_coverage,17.3642
-WMT,Bear case,Expensive on earnings: P/E 43x.,day76_fundamental_metrics.csv,pe_ratio,42.7163
+WMT,Bear case,Expensive on earnings: P/E 44x.,day76_fundamental_metrics.csv,pe_ratio,43.5752
 WMT,Risks and limits,"Residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies.",day78_valuation.csv,notes,"residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies"
-WMT,Risks and limits,Market sensitivity: beta -0.05 — a 10% market fall has historically meant about -1% for this stock.,day77_current_ratings.csv,beta,-0.0532
+WMT,Risks and limits,Market sensitivity: beta -0.06 — a 10% market fall has historically meant about -1% for this stock.,day77_current_ratings.csv,beta,-0.0567
 WMT,Risks and limits,Fundamentals as of the filing dated 2026-08-28; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-08-28
 WMT,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 CVX,Thesis,Multi-factor rating: Neutral (IC-weighted score 62/100).,day77_current_ratings.csv,rating,Neutral
 CVX,Thesis,Strongest pillar: fit with the current macro regime (score 94).,day77_current_ratings.csv,economic,93.9394
 CVX,Thesis,Weakest pillar: the machine-learning return forecast (score 48).,day77_current_ratings.csv,quant,48.4848
 CVX,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-CVX,Valuation,"DCF intrinsic value $1,136.84 vs price $229.29 (+396%): Undervalued.",day78_valuation.csv,fair_value,1136.8446
-CVX,Valuation,"Cross-checks: RI $130.99, DDM $523.15.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-CVX,Valuation,"Discount rates: WACC 4.5%, cost of equity 4.5% (adjusted beta -0.11, synthetic rating BBB).",day78_valuation.csv,wacc,0.0447
-CVX,Valuation,"Reverse DCF: the price implies -18.3% a year growth for five years (then fading), vs 5.0% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,-0.1829
-CVX,Bull case,Low expectations priced in: the price needs only -18% growth vs 5% recently.,day78_valuation.csv,implied_growth,-0.1829
-CVX,Bull case,DCF value is 396% above the price.,day78_valuation.csv,upside,3.9581
-CVX,Risks and limits,The valuation models disagree widely (spread 88% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.8848
+CVX,Valuation,"DCF intrinsic value $1,111.11 vs price $231.43 (+380%): Undervalued.",day78_valuation.csv,fair_value,1111.1063
+CVX,Valuation,"Cross-checks: RI $130.80, DDM $511.28.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+CVX,Valuation,"Discount rates: WACC 4.5%, cost of equity 4.5% (adjusted beta -0.12, synthetic rating BBB).",day78_valuation.csv,wacc,0.0451
+CVX,Valuation,"Reverse DCF: the price implies -17.9% a year growth for five years (then fading), vs 5.0% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,-0.1789
+CVX,Bull case,Low expectations priced in: the price needs only -18% growth vs 5% recently.,day78_valuation.csv,implied_growth,-0.1789
+CVX,Bull case,DCF value is 380% above the price.,day78_valuation.csv,upside,3.801
+CVX,Risks and limits,The valuation models disagree widely (spread 88% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.8823
+CVX,Bull case,Strong fundamentals versus peers: score 70/100.,day77_current_ratings.csv,fundamental,70.1064
 CVX,Bull case,Positive price trend and momentum: score 88/100.,day77_current_ratings.csv,technical,87.8788
 CVX,Bull case,Well suited to the current macro regime: score 94/100.,day77_current_ratings.csv,economic,93.9394
 CVX,Bull case,Revenue growing 10% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.1021
-CVX,Bull case,Free-cash-flow yield 6.0%: cash generation is high relative to price.,day76_fundamental_metrics.csv,fcf_yield,0.0596
+CVX,Bull case,Free-cash-flow yield 5.9%: cash generation is high relative to price.,day76_fundamental_metrics.csv,fcf_yield,0.0591
 CVX,Risks and limits,Interest coverage unavailable: BBB credit spread assumed.,day78_valuation.csv,notes,interest coverage unavailable: BBB credit spread assumed
 CVX,Risks and limits,"Cyclical sector: growth capped at 5%, because recent growth mostly reflects commodity prices (professionals value cyclicals on mid-cycle earnings).",day78_valuation.csv,notes,"cyclical sector: growth capped at 5%, because recent growth mostly reflects commodity prices (professionals value cyclicals on mid-cycle earnings)"
 CVX,Risks and limits,"Residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies.",day78_valuation.csv,notes,"residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies"
-CVX,Risks and limits,Market sensitivity: beta -0.67 — a 10% market fall has historically meant about -7% for this stock.,day77_current_ratings.csv,beta,-0.672
+CVX,Risks and limits,Market sensitivity: beta -0.68 — a 10% market fall has historically meant about -7% for this stock.,day77_current_ratings.csv,beta,-0.6806
 CVX,Risks and limits,Fundamentals as of the filing dated 2026-08-06; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-08-06
 CVX,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
-META,Thesis,Multi-factor rating: Neutral (IC-weighted score 60/100).,day77_current_ratings.csv,rating,Neutral
-META,Thesis,"Strongest pillar: fundamentals (value, growth, quality, balance sheet) (score 67).",day77_current_ratings.csv,fundamental,67.4727
+META,Thesis,Multi-factor rating: Neutral (IC-weighted score 61/100).,day77_current_ratings.csv,rating,Neutral
+META,Thesis,"Strongest pillar: fundamentals (value, growth, quality, balance sheet) (score 67).",day77_current_ratings.csv,fundamental,66.8477
 META,Thesis,Weakest pillar: low volatility (score 6).,day77_current_ratings.csv,risk,6.0606
 META,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-META,Valuation,DCF intrinsic value $421.40 vs price $612.49 (-31%): Overvalued.,day78_valuation.csv,fair_value,421.399
-META,Valuation,"Cross-checks: RI $262.02, DDM $44.09.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-META,Valuation,"Discount rates: WACC 9.9%, cost of equity 10.2% (adjusted beta 1.16, synthetic rating AAA).",day78_valuation.csv,wacc,0.0991
-META,Valuation,"Reverse DCF: the price implies 26.8% a year growth for five years (then fading), vs 20.0% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.2681
-META,Bear case,High expectations priced in: the market needs 27% growth vs 20% recently.,day78_valuation.csv,implied_growth,0.2681
-META,Bear case,DCF value is 31% below the price.,day78_valuation.csv,upside,-0.312
-META,Risks and limits,The valuation models disagree widely (spread 90% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.8954
-META,Bear case,Poor price trend and momentum: score 27/100.,day77_current_ratings.csv,technical,27.2727
+META,Valuation,DCF intrinsic value $416.75 vs price $624.54 (-33%): Overvalued.,day78_valuation.csv,fair_value,416.7476
+META,Valuation,"Cross-checks: RI $261.30, DDM $43.71.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+META,Valuation,"Discount rates: WACC 10.0%, cost of equity 10.3% (adjusted beta 1.16, synthetic rating AAA).",day78_valuation.csv,wacc,0.0997
+META,Valuation,"Reverse DCF: the price implies 27.4% a year growth for five years (then fading), vs 20.0% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.2738
+META,Bear case,High expectations priced in: the market needs 27% growth vs 20% recently.,day78_valuation.csv,implied_growth,0.2738
+META,Bear case,DCF value is 33% below the price.,day78_valuation.csv,upside,-0.3327
+META,Risks and limits,The valuation models disagree widely (spread 90% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.8951
 META,Bear case,Poorly suited to the current macro regime: score 21/100.,day77_current_ratings.csv,economic,21.2121
 META,Bear case,More volatile than most peers: risk score 6/100.,day77_current_ratings.csv,risk,6.0606
 META,Bull case,Revenue growing 28% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.2752
 META,Bull case,High return on equity: 32%.,day76_fundamental_metrics.csv,roe,0.3226
 META,Bull case,Strong operating margin: 33%.,day76_fundamental_metrics.csv,operating_margin,0.3286
 META,Bull case,Very comfortable interest coverage: 31x.,day76_fundamental_metrics.csv,interest_coverage,30.625
-META,Bear case,Volatile: 41% annualized volatility over the past year.,day77_current_ratings.csv,volatility_1y,0.4112
-META,Risks and limits,Market sensitivity: beta 1.24 — a 10% market fall has historically meant about 12% for this stock.,day77_current_ratings.csv,beta,1.2389
+META,Bear case,Volatile: 41% annualized volatility over the past year.,day77_current_ratings.csv,volatility_1y,0.4108
+META,Risks and limits,Market sensitivity: beta 1.24 — a 10% market fall has historically meant about 12% for this stock.,day77_current_ratings.csv,beta,1.2386
 META,Risks and limits,Fundamentals as of the filing dated 2026-10-22; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-10-22
 META,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 AMZN,Thesis,Multi-factor rating: Neutral (IC-weighted score 58/100).,day77_current_ratings.csv,rating,Neutral
-AMZN,Thesis,"Strongest pillar: fundamentals (value, growth, quality, balance sheet) (score 61).",day77_current_ratings.csv,fundamental,61.4904
+AMZN,Thesis,"Strongest pillar: fundamentals (value, growth, quality, balance sheet) (score 62).",day77_current_ratings.csv,fundamental,62.1328
 AMZN,Thesis,Weakest pillar: fit with the current macro regime (score 15).,day77_current_ratings.csv,economic,15.1515
 AMZN,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-AMZN,Valuation,RI intrinsic value $99.60 vs price $254.65 (-61%): Overvalued.,day78_valuation.csv,fair_value,99.5974
-AMZN,Valuation,"Discount rates: WACC 10.5%, cost of equity 10.8% (adjusted beta 1.29, synthetic rating AAA).",day78_valuation.csv,wacc,0.105
-AMZN,Bear case,RI value is 61% below the price.,day78_valuation.csv,upside,-0.6089
+AMZN,Valuation,RI intrinsic value $99.49 vs price $244.23 (-59%): Overvalued.,day78_valuation.csv,fair_value,99.4939
+AMZN,Valuation,"Discount rates: WACC 10.5%, cost of equity 10.8% (adjusted beta 1.28, synthetic rating AAA).",day78_valuation.csv,wacc,0.1052
+AMZN,Bear case,RI value is 59% below the price.,day78_valuation.csv,upside,-0.5926
 AMZN,Bear case,Poorly suited to the current macro regime: score 15/100.,day77_current_ratings.csv,economic,15.1515
-AMZN,Bear case,More volatile than most peers: risk score 21/100.,day77_current_ratings.csv,risk,21.2121
+AMZN,Bear case,More volatile than most peers: risk score 24/100.,day77_current_ratings.csv,risk,24.2424
 AMZN,Bull case,Revenue growing 16% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.1577
 AMZN,Bull case,High return on equity: 31%.,day76_fundamental_metrics.csv,roe,0.3056
-AMZN,Bear case,Free-cash-flow yield only -0.4%.,day76_fundamental_metrics.csv,fcf_yield,-0.0042
+AMZN,Bear case,Free-cash-flow yield only -0.4%.,day76_fundamental_metrics.csv,fcf_yield,-0.0044
 AMZN,Bull case,Very comfortable interest coverage: 28x.,day76_fundamental_metrics.csv,interest_coverage,28.1333
 AMZN,Risks and limits,Free cash flow not positive: DCF not meaningful.,day78_valuation.csv,notes,free cash flow not positive: DCF not meaningful
-AMZN,Risks and limits,Market sensitivity: beta 1.44 — a 10% market fall has historically meant about 14% for this stock.,day77_current_ratings.csv,beta,1.4382
+AMZN,Risks and limits,Market sensitivity: beta 1.43 — a 10% market fall has historically meant about 14% for this stock.,day77_current_ratings.csv,beta,1.4269
 AMZN,Risks and limits,Fundamentals as of the filing dated 2026-07-31; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-07-31
 AMZN,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
-BLK,Thesis,Multi-factor rating: Neutral (IC-weighted score 57/100).,day77_current_ratings.csv,rating,Neutral
-BLK,Thesis,"Strongest pillar: fundamentals (value, growth, quality, balance sheet) (score 62).",day77_current_ratings.csv,fundamental,62.0464
+BLK,Thesis,Multi-factor rating: Neutral (IC-weighted score 56/100).,day77_current_ratings.csv,rating,Neutral
+BLK,Thesis,"Strongest pillar: fundamentals (value, growth, quality, balance sheet) (score 62).",day77_current_ratings.csv,fundamental,61.5255
 BLK,Thesis,Weakest pillar: fit with the current macro regime (score 24).,day77_current_ratings.csv,economic,24.2424
 BLK,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-BLK,Valuation,"RI intrinsic value $405.35 vs price $1,158.12 (-65%): Overvalued.",day78_valuation.csv,fair_value,405.3502
-BLK,Valuation,"Discount rates: WACC 9.8%, cost of equity 10.1% (adjusted beta 1.14, synthetic rating BBB).",day78_valuation.csv,wacc,0.0977
-BLK,Bear case,RI value is 65% below the price.,day78_valuation.csv,upside,-0.65
+BLK,Valuation,"RI intrinsic value $404.46 vs price $1,176.31 (-66%): Overvalued.",day78_valuation.csv,fair_value,404.4564
+BLK,Valuation,"Discount rates: WACC 9.8%, cost of equity 10.2% (adjusted beta 1.14, synthetic rating BBB).",day78_valuation.csv,wacc,0.0982
+BLK,Bear case,RI value is 66% below the price.,day78_valuation.csv,upside,-0.6562
 BLK,Bear case,Poorly suited to the current macro regime: score 24/100.,day77_current_ratings.csv,economic,24.2424
 BLK,Bull case,Revenue growing 27% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.2654
 BLK,Bull case,Strong operating margin: 33%.,day76_fundamental_metrics.csv,operating_margin,0.3257
 BLK,Risks and limits,Interest coverage unavailable: BBB credit spread assumed.,day78_valuation.csv,notes,interest coverage unavailable: BBB credit spread assumed
 BLK,Risks and limits,"Financial company: DCF not used (debt is operating, not financing); residual income preferred.",day78_valuation.csv,notes,"financial company: DCF not used (debt is operating, not financing); residual income preferred"
-BLK,Risks and limits,Market sensitivity: beta 1.21 — a 10% market fall has historically meant about 12% for this stock.,day77_current_ratings.csv,beta,1.2095
+BLK,Risks and limits,Market sensitivity: beta 1.21 — a 10% market fall has historically meant about 12% for this stock.,day77_current_ratings.csv,beta,1.2078
 BLK,Risks and limits,Fundamentals as of the filing dated 2026-08-06; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-08-06
 BLK,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 HD,Thesis,Multi-factor rating: Neutral (IC-weighted score 56/100).,day77_current_ratings.csv,rating,Neutral
 HD,Thesis,Strongest pillar: the machine-learning return forecast (score 79).,day77_current_ratings.csv,quant,78.7879
-HD,Thesis,Weakest pillar: price trend and momentum (score 14).,day77_current_ratings.csv,technical,13.6364
+HD,Thesis,Weakest pillar: price trend and momentum (score 17).,day77_current_ratings.csv,technical,16.6667
 HD,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-HD,Valuation,DCF intrinsic value $281.34 vs price $317.92 (-12%): Fairly valued.,day78_valuation.csv,fair_value,281.3415
-HD,Valuation,"Cross-checks: RI $53.20, DDM $245.69.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-HD,Valuation,"Discount rates: WACC 8.1%, cost of equity 8.8% (adjusted beta 0.84, synthetic rating AAA).",day78_valuation.csv,wacc,0.0813
-HD,Valuation,"Reverse DCF: the price implies 4.3% a year growth for five years (then fading), vs 2.5% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.0428
-HD,Risks and limits,The valuation models disagree widely (spread 81% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.8109
-HD,Bear case,Poor price trend and momentum: score 14/100.,day77_current_ratings.csv,technical,13.6364
+HD,Valuation,DCF intrinsic value $278.34 vs price $328.98 (-15%): Overvalued.,day78_valuation.csv,fair_value,278.3382
+HD,Valuation,"Cross-checks: RI $53.15, DDM $244.50.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+HD,Valuation,"Discount rates: WACC 8.2%, cost of equity 8.8% (adjusted beta 0.83, synthetic rating AAA).",day78_valuation.csv,wacc,0.0818
+HD,Valuation,"Reverse DCF: the price implies 4.9% a year growth for five years (then fading), vs 2.5% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.0495
+HD,Bear case,DCF value is 15% below the price.,day78_valuation.csv,upside,-0.1539
+HD,Risks and limits,The valuation models disagree widely (spread 81% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.8091
+HD,Bear case,Poor price trend and momentum: score 17/100.,day77_current_ratings.csv,technical,16.6667
 HD,Bull case,The machine-learning model ranks it near the top for the next 20 days: score 79/100.,day77_current_ratings.csv,quant,78.7879
 HD,Bull case,High return on equity: 104%.,day76_fundamental_metrics.csv,roe,1.043
 HD,Bear case,High leverage: debt/equity 3.2x.,day76_fundamental_metrics.csv,debt_to_equity,3.1832
 HD,Risks and limits,"Residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies.",day78_valuation.csv,notes,"residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies"
-HD,Risks and limits,Market sensitivity: beta 0.76 — a 10% market fall has historically meant about 8% for this stock.,day77_current_ratings.csv,beta,0.7613
+HD,Risks and limits,Market sensitivity: beta 0.75 — a 10% market fall has historically meant about 8% for this stock.,day77_current_ratings.csv,beta,0.7501
 HD,Risks and limits,Fundamentals as of the filing dated 2026-08-25; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-08-25
 HD,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 DIS,Thesis,Multi-factor rating: Neutral (IC-weighted score 54/100).,day77_current_ratings.csv,rating,Neutral
 DIS,Thesis,Strongest pillar: the machine-learning return forecast (score 64).,day77_current_ratings.csv,quant,63.6364
 DIS,Thesis,Weakest pillar: fit with the current macro regime (score 30).,day77_current_ratings.csv,economic,30.303
 DIS,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-DIS,Valuation,DCF intrinsic value $106.13 vs price $109.07 (-3%): Fairly valued.,day78_valuation.csv,fair_value,106.127
-DIS,Valuation,"Cross-checks: RI $61.12, DDM $27.01.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-DIS,Valuation,"Discount rates: WACC 7.9%, cost of equity 8.8% (adjusted beta 0.85, synthetic rating AAA).",day78_valuation.csv,wacc,0.0791
-DIS,Valuation,"Reverse DCF: the price implies 5.0% a year growth for five years (then fading), vs 4.6% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.0496
-DIS,Risks and limits,Market sensitivity: beta 0.77 — a 10% market fall has historically meant about 8% for this stock.,day77_current_ratings.csv,beta,0.7699
+DIS,Valuation,DCF intrinsic value $104.78 vs price $110.91 (-6%): Fairly valued.,day78_valuation.csv,fair_value,104.7756
+DIS,Valuation,"Cross-checks: RI $61.02, DDM $26.82.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+DIS,Valuation,"Discount rates: WACC 8.0%, cost of equity 8.8% (adjusted beta 0.84, synthetic rating AAA).",day78_valuation.csv,wacc,0.0796
+DIS,Valuation,"Reverse DCF: the price implies 5.4% a year growth for five years (then fading), vs 4.6% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.0537
+DIS,Risks and limits,Market sensitivity: beta 0.76 — a 10% market fall has historically meant about 8% for this stock.,day77_current_ratings.csv,beta,0.7629
 DIS,Risks and limits,Fundamentals as of the filing dated 2026-08-05; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-08-05
 DIS,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 AAPL,Thesis,Multi-factor rating: Neutral (IC-weighted score 52/100).,day77_current_ratings.csv,rating,Neutral
-AAPL,Thesis,Strongest pillar: price trend and momentum (score 77).,day77_current_ratings.csv,technical,77.2727
+AAPL,Thesis,Strongest pillar: price trend and momentum (score 79).,day77_current_ratings.csv,technical,78.7879
 AAPL,Thesis,Weakest pillar: fit with the current macro regime (score 42).,day77_current_ratings.csv,economic,42.4242
 AAPL,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-AAPL,Valuation,DCF intrinsic value $353.23 vs price $343.86 (+3%): Fairly valued.,day78_valuation.csv,fair_value,353.2287
-AAPL,Valuation,"Cross-checks: RI $36.66, DDM $31.72.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-AAPL,Valuation,"Discount rates: WACC 8.2%, cost of equity 8.2% (adjusted beta 0.72, synthetic rating BBB).",day78_valuation.csv,wacc,0.0816
-AAPL,Valuation,"Reverse DCF: the price implies 13.8% a year growth for five years (then fading), vs 14.2% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.1377
+AAPL,Valuation,DCF intrinsic value $349.44 vs price $348.94 (+0%): Fairly valued.,day78_valuation.csv,fair_value,349.4446
+AAPL,Valuation,"Cross-checks: RI $36.57, DDM $31.40.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+AAPL,Valuation,"Discount rates: WACC 8.2%, cost of equity 8.3% (adjusted beta 0.71, synthetic rating BBB).",day78_valuation.csv,wacc,0.0821
+AAPL,Valuation,"Reverse DCF: the price implies 14.2% a year growth for five years (then fading), vs 14.2% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.1422
 AAPL,Risks and limits,The valuation models disagree widely (spread 91% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.9102
-AAPL,Bull case,Positive price trend and momentum: score 77/100.,day77_current_ratings.csv,technical,77.2727
+AAPL,Bull case,Positive price trend and momentum: score 79/100.,day77_current_ratings.csv,technical,78.7879
 AAPL,Bull case,Revenue growing 14% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.1424
 AAPL,Bull case,High return on equity: 149%.,day76_fundamental_metrics.csv,roe,1.4875
 AAPL,Bull case,Strong operating margin: 33%.,day76_fundamental_metrics.csv,operating_margin,0.3317
 AAPL,Risks and limits,Interest coverage unavailable: BBB credit spread assumed.,day78_valuation.csv,notes,interest coverage unavailable: BBB credit spread assumed
 AAPL,Risks and limits,"Residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies.",day78_valuation.csv,notes,"residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies"
-AAPL,Risks and limits,Market sensitivity: beta 0.57 — a 10% market fall has historically meant about 6% for this stock.,day77_current_ratings.csv,beta,0.5746
+AAPL,Risks and limits,Market sensitivity: beta 0.57 — a 10% market fall has historically meant about 6% for this stock.,day77_current_ratings.csv,beta,0.5716
 AAPL,Risks and limits,Fundamentals as of the filing dated 2026-07-31; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-07-31
 AAPL,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 DUK,Thesis,Multi-factor rating: Neutral (IC-weighted score 51/100).,day77_current_ratings.csv,rating,Neutral
 DUK,Thesis,Strongest pillar: low volatility (score 100).,day77_current_ratings.csv,risk,100.0
-DUK,Thesis,Weakest pillar: price trend and momentum (score 26).,day77_current_ratings.csv,technical,25.7576
+DUK,Thesis,Weakest pillar: price trend and momentum (score 27).,day77_current_ratings.csv,technical,27.2727
 DUK,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-DUK,Valuation,RI intrinsic value $83.20 vs price $123.62 (-33%): Overvalued.,day78_valuation.csv,fair_value,83.1957
-DUK,Valuation,"Discount rates: WACC 5.2%, cost of equity 5.6% (adjusted beta 0.14, synthetic rating BBB).",day78_valuation.csv,wacc,0.0523
-DUK,Bear case,RI value is 33% below the price.,day78_valuation.csv,upside,-0.327
-DUK,Bear case,Poor price trend and momentum: score 26/100.,day77_current_ratings.csv,technical,25.7576
+DUK,Valuation,RI intrinsic value $83.02 vs price $125.89 (-34%): Overvalued.,day78_valuation.csv,fair_value,83.0151
+DUK,Valuation,"Discount rates: WACC 5.3%, cost of equity 5.7% (adjusted beta 0.14, synthetic rating BBB).",day78_valuation.csv,wacc,0.0527
+DUK,Bear case,RI value is 34% below the price.,day78_valuation.csv,upside,-0.3406
+DUK,Bear case,Poor price trend and momentum: score 27/100.,day77_current_ratings.csv,technical,27.2727
 DUK,Bull case,Well suited to the current macro regime: score 91/100.,day77_current_ratings.csv,economic,90.9091
 DUK,Bull case,Steadier than most peers (low volatility): score 100/100.,day77_current_ratings.csv,risk,100.0
 DUK,Bull case,Strong operating margin: 28%.,day76_fundamental_metrics.csv,operating_margin,0.277
-DUK,Bear case,Free-cash-flow yield only -3.4%.,day76_fundamental_metrics.csv,fcf_yield,-0.0342
+DUK,Bear case,Free-cash-flow yield only -3.4%.,day76_fundamental_metrics.csv,fcf_yield,-0.0336
 DUK,Risks and limits,Interest coverage unavailable: BBB credit spread assumed.,day78_valuation.csv,notes,interest coverage unavailable: BBB credit spread assumed
 DUK,Risks and limits,Free cash flow not positive: DCF not meaningful.,day78_valuation.csv,notes,free cash flow not positive: DCF not meaningful
-DUK,Risks and limits,Market sensitivity: beta -0.29 — a 10% market fall has historically meant about -3% for this stock.,day77_current_ratings.csv,beta,-0.2884
+DUK,Risks and limits,Market sensitivity: beta -0.29 — a 10% market fall has historically meant about -3% for this stock.,day77_current_ratings.csv,beta,-0.2918
 DUK,Risks and limits,Fundamentals as of the filing dated 2026-05-05; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-05-05
 DUK,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
-XOM,Thesis,Multi-factor rating: Neutral (IC-weighted score 49/100).,day77_current_ratings.csv,rating,Neutral
+XOM,Thesis,Multi-factor rating: Neutral (IC-weighted score 50/100).,day77_current_ratings.csv,rating,Neutral
 XOM,Thesis,Strongest pillar: fit with the current macro regime (score 97).,day77_current_ratings.csv,economic,96.9697
 XOM,Thesis,Weakest pillar: the machine-learning return forecast (score 42).,day77_current_ratings.csv,quant,42.4242
 XOM,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-XOM,Valuation,"Discount rates: WACC 4.3%, cost of equity 4.3% (adjusted beta -0.15, synthetic rating BBB).",day78_valuation.csv,wacc,0.0433
-XOM,Bull case,Positive price trend and momentum: score 89/100.,day77_current_ratings.csv,technical,89.3939
+XOM,Valuation,"Discount rates: WACC 4.4%, cost of equity 4.4% (adjusted beta -0.15, synthetic rating BBB).",day78_valuation.csv,wacc,0.0439
+XOM,Bull case,Positive price trend and momentum: score 92/100.,day77_current_ratings.csv,technical,92.4242
 XOM,Bull case,Well suited to the current macro regime: score 97/100.,day77_current_ratings.csv,economic,96.9697
 XOM,Risks and limits,Interest coverage unavailable: BBB credit spread assumed.,day78_valuation.csv,notes,interest coverage unavailable: BBB credit spread assumed
 XOM,Risks and limits,Free cash flow not positive: DCF not meaningful.,day78_valuation.csv,notes,free cash flow not positive: DCF not meaningful
 XOM,Risks and limits,Book equity or ROE unavailable: residual income not used.,day78_valuation.csv,notes,book equity or ROE unavailable: residual income not used
-XOM,Risks and limits,Market sensitivity: beta -0.73 — a 10% market fall has historically meant about -7% for this stock.,day77_current_ratings.csv,beta,-0.7272
+XOM,Risks and limits,Market sensitivity: beta -0.73 — a 10% market fall has historically meant about -7% for this stock.,day77_current_ratings.csv,beta,-0.7275
 XOM,Risks and limits,Fundamentals as of the filing dated 2026-08-03; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-08-03
 XOM,Risks and limits,"Not available from Vittantra data: intrinsic value, return on equity, revenue growth. No view is given on these.",—,missing,"intrinsic value, return on equity, revenue growth"
 XOM,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
-LLY,Thesis,Multi-factor rating: Neutral (IC-weighted score 46/100).,day77_current_ratings.csv,rating,Neutral
-LLY,Thesis,Strongest pillar: price trend and momentum (score 89).,day77_current_ratings.csv,technical,89.3939
+LLY,Thesis,Multi-factor rating: Neutral (IC-weighted score 47/100).,day77_current_ratings.csv,rating,Neutral
+LLY,Thesis,Strongest pillar: price trend and momentum (score 91).,day77_current_ratings.csv,technical,90.9091
 LLY,Thesis,Weakest pillar: low volatility (score 15).,day77_current_ratings.csv,risk,15.1515
 LLY,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-LLY,Valuation,"RI intrinsic value $170.97 vs price $1,288.93 (-87%): Overvalued.",day78_valuation.csv,fair_value,170.9679
-LLY,Valuation,Cross-checks: DDM $213.20.,day78_valuation.csv,models_used,"RI, DDM"
-LLY,Valuation,"Discount rates: WACC 7.4%, cost of equity 7.5% (adjusted beta 0.55, synthetic rating BBB).",day78_valuation.csv,wacc,0.0737
-LLY,Bear case,RI value is 87% below the price.,day78_valuation.csv,upside,-0.8674
-LLY,Bull case,Positive price trend and momentum: score 89/100.,day77_current_ratings.csv,technical,89.3939
+LLY,Valuation,"RI intrinsic value $203.45 vs price $1,373.00 (-85%): Overvalued.",day78_valuation.csv,fair_value,203.4536
+LLY,Valuation,Cross-checks: DDM $221.27.,day78_valuation.csv,models_used,"RI, DDM"
+LLY,Valuation,"Discount rates: WACC 7.4%, cost of equity 7.5% (adjusted beta 0.54, synthetic rating BBB).",day78_valuation.csv,wacc,0.0737
+LLY,Bear case,RI value is 85% below the price.,day78_valuation.csv,upside,-0.8518
+LLY,Bull case,Positive price trend and momentum: score 91/100.,day77_current_ratings.csv,technical,90.9091
 LLY,Bear case,More volatile than most peers: risk score 15/100.,day77_current_ratings.csv,risk,15.1515
-LLY,Bull case,Revenue growing 50% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.4958
-LLY,Bull case,High return on equity: 102%.,day76_fundamental_metrics.csv,roe,1.0244
-LLY,Bear case,Expensive on earnings: P/E 45x.,day76_fundamental_metrics.csv,pe_ratio,45.4249
+LLY,Bull case,Revenue growing 46% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.4551
+LLY,Bull case,High return on equity: 86%.,day76_fundamental_metrics.csv,roe,0.861
+LLY,Bear case,Expensive on earnings: P/E 47x.,day76_fundamental_metrics.csv,pe_ratio,46.8326
 LLY,Risks and limits,Interest coverage unavailable: BBB credit spread assumed.,day78_valuation.csv,notes,interest coverage unavailable: BBB credit spread assumed
 LLY,Risks and limits,Free cash flow not positive: DCF not meaningful.,day78_valuation.csv,notes,free cash flow not positive: DCF not meaningful
-LLY,Risks and limits,Market sensitivity: beta 0.33 — a 10% market fall has historically meant about 3% for this stock.,day77_current_ratings.csv,beta,0.3303
-LLY,Risks and limits,Fundamentals as of the filing dated 2026-08-05; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-08-05
+LLY,Risks and limits,Market sensitivity: beta 0.31 — a 10% market fall has historically meant about 3% for this stock.,day77_current_ratings.csv,beta,0.3056
+LLY,Risks and limits,Fundamentals as of the filing dated 2026-10-29; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-10-29
 LLY,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 APD,Thesis,Multi-factor rating: Neutral (IC-weighted score 45/100).,day77_current_ratings.csv,rating,Neutral
 APD,Thesis,Strongest pillar: the machine-learning return forecast (score 67).,day77_current_ratings.csv,quant,66.6667
-APD,Thesis,"Weakest pillar: fundamentals (value, growth, quality, balance sheet) (score 25).",day77_current_ratings.csv,fundamental,25.0001
+APD,Thesis,"Weakest pillar: fundamentals (value, growth, quality, balance sheet) (score 25).",day77_current_ratings.csv,fundamental,24.8047
 APD,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-APD,Valuation,RI intrinsic value $45.06 vs price $307.17 (-85%): Overvalued.,day78_valuation.csv,fair_value,45.0569
-APD,Valuation,Cross-checks: DDM $173.98.,day78_valuation.csv,models_used,"RI, DDM"
-APD,Valuation,"Discount rates: WACC 6.5%, cost of equity 6.5% (adjusted beta 0.34, synthetic rating CCC & below).",day78_valuation.csv,wacc,0.0655
-APD,Bear case,RI value is 85% below the price.,day78_valuation.csv,upside,-0.8533
-APD,Risks and limits,The valuation models disagree widely (spread 286% of the RI value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,2.8613
-APD,Bear case,Weak fundamentals versus peers: score 25/100.,day77_current_ratings.csv,fundamental,25.0001
+APD,Valuation,RI intrinsic value $44.94 vs price $311.75 (-86%): Overvalued.,day78_valuation.csv,fair_value,44.9441
+APD,Valuation,Cross-checks: DDM $171.30.,day78_valuation.csv,models_used,"RI, DDM"
+APD,Valuation,"Discount rates: WACC 6.6%, cost of equity 6.6% (adjusted beta 0.34, synthetic rating CCC & below).",day78_valuation.csv,wacc,0.066
+APD,Bear case,RI value is 86% below the price.,day78_valuation.csv,upside,-0.8558
+APD,Risks and limits,The valuation models disagree widely (spread 281% of the RI value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,2.8115
+APD,Bear case,Weak fundamentals versus peers: score 25/100.,day77_current_ratings.csv,fundamental,24.8047
 APD,Bear case,Low return on equity: -0%.,day76_fundamental_metrics.csv,roe,-0.0032
 APD,Bear case,Thin interest coverage: -2.7x.,day76_fundamental_metrics.csv,interest_coverage,-2.6813
 APD,Risks and limits,Free cash flow not positive: DCF not meaningful.,day78_valuation.csv,notes,free cash flow not positive: DCF not meaningful
-APD,Risks and limits,Market sensitivity: beta 0.01 — a 10% market fall has historically meant about 0% for this stock.,day77_current_ratings.csv,beta,0.0136
+APD,Risks and limits,Market sensitivity: beta 0.01 — a 10% market fall has historically meant about 0% for this stock.,day77_current_ratings.csv,beta,0.0124
 APD,Risks and limits,Fundamentals as of the filing dated 2026-07-30; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-07-30
 APD,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 UNP,Thesis,Multi-factor rating: Neutral (IC-weighted score 45/100).,day77_current_ratings.csv,rating,Neutral
 UNP,Thesis,Strongest pillar: price trend and momentum (score 76).,day77_current_ratings.csv,technical,75.7576
 UNP,Thesis,Weakest pillar: the machine-learning return forecast (score 33).,day77_current_ratings.csv,quant,33.3333
 UNP,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-UNP,Valuation,DCF intrinsic value $428.26 vs price $297.77 (+44%): Undervalued.,day78_valuation.csv,fair_value,428.2579
-UNP,Valuation,"Cross-checks: RI $110.16, DDM $214.74.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-UNP,Valuation,"Discount rates: WACC 6.7%, cost of equity 7.0% (adjusted beta 0.46, synthetic rating AA).",day78_valuation.csv,wacc,0.0666
-UNP,Valuation,"Reverse DCF: the price implies 2.1% a year growth for five years (then fading), vs 7.4% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.0211
-UNP,Bull case,Low expectations priced in: the price needs only 2% growth vs 7% recently.,day78_valuation.csv,implied_growth,0.0211
-UNP,Bull case,DCF value is 44% above the price.,day78_valuation.csv,upside,0.4382
+UNP,Valuation,DCF intrinsic value $421.87 vs price $301.94 (+40%): Undervalued.,day78_valuation.csv,fair_value,421.8669
+UNP,Valuation,"Cross-checks: RI $109.94, DDM $212.28.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+UNP,Valuation,"Discount rates: WACC 6.7%, cost of equity 7.1% (adjusted beta 0.45, synthetic rating AA).",day78_valuation.csv,wacc,0.0671
+UNP,Valuation,"Reverse DCF: the price implies 2.5% a year growth for five years (then fading), vs 7.4% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.0252
+UNP,Bull case,DCF value is 40% above the price.,day78_valuation.csv,upside,0.3972
 UNP,Bull case,Positive price trend and momentum: score 76/100.,day77_current_ratings.csv,technical,75.7576
 UNP,Bull case,High return on equity: 39%.,day76_fundamental_metrics.csv,roe,0.3875
 UNP,Bull case,Strong operating margin: 40%.,day76_fundamental_metrics.csv,operating_margin,0.4008
 UNP,Risks and limits,"Residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies.",day78_valuation.csv,notes,"residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies"
-UNP,Risks and limits,Market sensitivity: beta 0.18 — a 10% market fall has historically meant about 2% for this stock.,day77_current_ratings.csv,beta,0.1836
+UNP,Risks and limits,Market sensitivity: beta 0.18 — a 10% market fall has historically meant about 2% for this stock.,day77_current_ratings.csv,beta,0.1786
 UNP,Risks and limits,Fundamentals as of the filing dated 2026-10-22; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-10-22
 UNP,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 JNJ,Thesis,Multi-factor rating: Neutral (IC-weighted score 44/100).,day77_current_ratings.csv,rating,Neutral
 JNJ,Thesis,Strongest pillar: fit with the current macro regime (score 85).,day77_current_ratings.csv,economic,84.8485
 JNJ,Thesis,Weakest pillar: the machine-learning return forecast (score 39).,day77_current_ratings.csv,quant,39.3939
 JNJ,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-JNJ,Valuation,DCF intrinsic value $429.18 vs price $271.19 (+58%): Undervalued.,day78_valuation.csv,fair_value,429.1822
-JNJ,Valuation,"Cross-checks: RI $55.30, DDM $205.22.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-JNJ,Valuation,"Discount rates: WACC 5.8%, cost of equity 5.9% (adjusted beta 0.19, synthetic rating BBB).",day78_valuation.csv,wacc,0.0579
-JNJ,Valuation,"Reverse DCF: the price implies 0.7% a year growth for five years (then fading), vs 7.8% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.0066
-JNJ,Bull case,Low expectations priced in: the price needs only 1% growth vs 8% recently.,day78_valuation.csv,implied_growth,0.0066
-JNJ,Bull case,DCF value is 58% above the price.,day78_valuation.csv,upside,0.5826
-JNJ,Risks and limits,The valuation models disagree widely (spread 87% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.8712
+JNJ,Valuation,DCF intrinsic value $421.27 vs price $275.20 (+53%): Undervalued.,day78_valuation.csv,fair_value,421.2734
+JNJ,Valuation,"Cross-checks: RI $55.19, DDM $201.66.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+JNJ,Valuation,"Discount rates: WACC 5.8%, cost of equity 5.9% (adjusted beta 0.19, synthetic rating BBB).",day78_valuation.csv,wacc,0.0584
+JNJ,Valuation,"Reverse DCF: the price implies 1.2% a year growth for five years (then fading), vs 7.8% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.0116
+JNJ,Bull case,Low expectations priced in: the price needs only 1% growth vs 8% recently.,day78_valuation.csv,implied_growth,0.0116
+JNJ,Bull case,DCF value is 53% above the price.,day78_valuation.csv,upside,0.5308
+JNJ,Risks and limits,The valuation models disagree widely (spread 87% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.869
 JNJ,Bull case,Positive price trend and momentum: score 83/100.,day77_current_ratings.csv,technical,83.3333
 JNJ,Bull case,Well suited to the current macro regime: score 85/100.,day77_current_ratings.csv,economic,84.8485
 JNJ,Bull case,Steadier than most peers (low volatility): score 79/100.,day77_current_ratings.csv,risk,78.7879
 JNJ,Bull case,High return on equity: 20%.,day76_fundamental_metrics.csv,roe,0.2002
-JNJ,Bear case,Expensive on earnings: P/E 41x.,day76_fundamental_metrics.csv,pe_ratio,40.5616
+JNJ,Bear case,Expensive on earnings: P/E 41x.,day76_fundamental_metrics.csv,pe_ratio,41.1613
 JNJ,Risks and limits,Interest coverage unavailable: BBB credit spread assumed.,day78_valuation.csv,notes,interest coverage unavailable: BBB credit spread assumed
 JNJ,Risks and limits,"Residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies.",day78_valuation.csv,notes,"residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies"
-JNJ,Risks and limits,Market sensitivity: beta -0.21 — a 10% market fall has historically meant about -2% for this stock.,day77_current_ratings.csv,beta,-0.2109
+JNJ,Risks and limits,Market sensitivity: beta -0.21 — a 10% market fall has historically meant about -2% for this stock.,day77_current_ratings.csv,beta,-0.2142
 JNJ,Risks and limits,Fundamentals as of the filing dated 2026-10-21; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-10-21
 JNJ,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 MCD,Thesis,Multi-factor rating: Neutral (IC-weighted score 40/100).,day77_current_ratings.csv,rating,Neutral
 MCD,Thesis,Strongest pillar: low volatility (score 85).,day77_current_ratings.csv,risk,84.8485
-MCD,Thesis,Weakest pillar: price trend and momentum (score 6).,day77_current_ratings.csv,technical,6.0606
+MCD,Thesis,Weakest pillar: price trend and momentum (score 8).,day77_current_ratings.csv,technical,7.5758
 MCD,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-MCD,Valuation,DCF intrinsic value $466.43 vs price $250.63 (+86%): Undervalued.,day78_valuation.csv,fair_value,466.4286
-MCD,Valuation,"Discount rates: WACC 6.1%, cost of equity 6.5% (adjusted beta 0.33, synthetic rating AA).",day78_valuation.csv,wacc,0.0609
-MCD,Valuation,"Reverse DCF: the price implies -2.3% a year growth for five years (then fading), vs 6.3% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,-0.0226
-MCD,Bull case,Low expectations priced in: the price needs only -2% growth vs 6% recently.,day78_valuation.csv,implied_growth,-0.0226
-MCD,Bull case,DCF value is 86% above the price.,day78_valuation.csv,upside,0.861
-MCD,Bear case,Poor price trend and momentum: score 6/100.,day77_current_ratings.csv,technical,6.0606
+MCD,Valuation,DCF intrinsic value $457.69 vs price $257.39 (+78%): Undervalued.,day78_valuation.csv,fair_value,457.6881
+MCD,Valuation,"Discount rates: WACC 6.1%, cost of equity 6.5% (adjusted beta 0.32, synthetic rating AA).",day78_valuation.csv,wacc,0.0614
+MCD,Valuation,"Reverse DCF: the price implies -1.7% a year growth for five years (then fading), vs 6.3% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,-0.0166
+MCD,Bull case,Low expectations priced in: the price needs only -2% growth vs 6% recently.,day78_valuation.csv,implied_growth,-0.0166
+MCD,Bull case,DCF value is 78% above the price.,day78_valuation.csv,upside,0.7782
+MCD,Bear case,Poor price trend and momentum: score 8/100.,day77_current_ratings.csv,technical,7.5758
 MCD,Bear case,The machine-learning model ranks it near the bottom for the next 20 days: score 27/100.,day77_current_ratings.csv,quant,27.2727
 MCD,Bull case,Steadier than most peers (low volatility): score 85/100.,day77_current_ratings.csv,risk,84.8485
 MCD,Bull case,Strong operating margin: 46%.,day76_fundamental_metrics.csv,operating_margin,0.4622
 MCD,Risks and limits,Book equity or ROE unavailable: residual income not used.,day78_valuation.csv,notes,book equity or ROE unavailable: residual income not used
-MCD,Risks and limits,Market sensitivity: beta -0.01 — a 10% market fall has historically meant about -0% for this stock.,day77_current_ratings.csv,beta,-0.0088
+MCD,Risks and limits,Market sensitivity: beta -0.01 — a 10% market fall has historically meant about -0% for this stock.,day77_current_ratings.csv,beta,-0.0139
 MCD,Risks and limits,Fundamentals as of the filing dated 2026-08-07; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-08-07
 MCD,Risks and limits,Not available from Vittantra data: return on equity. No view is given on these.,—,missing,return on equity
 MCD,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
-JPM,Thesis,Multi-factor rating: Underweight (IC-weighted score 37/100).,day77_current_ratings.csv,rating,Underweight
-JPM,Thesis,Strongest pillar: low volatility (score 70).,day77_current_ratings.csv,risk,69.697
-JPM,Thesis,Weakest pillar: the machine-learning return forecast (score 9).,day77_current_ratings.csv,quant,9.0909
-JPM,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-JPM,Valuation,RI intrinsic value $204.80 vs price $339.49 (-40%): Overvalued.,day78_valuation.csv,fair_value,204.7963
-JPM,Valuation,Cross-checks: DDM $176.84.,day78_valuation.csv,models_used,"RI, DDM"
-JPM,Valuation,"Discount rates: WACC 8.4%, cost of equity 8.7% (adjusted beta 0.82, synthetic rating BBB).",day78_valuation.csv,wacc,0.0837
-JPM,Bear case,RI value is 40% below the price.,day78_valuation.csv,upside,-0.3968
-JPM,Bear case,The machine-learning model ranks it near the bottom for the next 20 days: score 9/100.,day77_current_ratings.csv,quant,9.0909
-JPM,Bull case,Revenue growing 14% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.1353
-JPM,Risks and limits,Interest coverage unavailable: BBB credit spread assumed.,day78_valuation.csv,notes,interest coverage unavailable: BBB credit spread assumed
-JPM,Risks and limits,"Financial company: DCF not used (debt is operating, not financing); residual income preferred.",day78_valuation.csv,notes,"financial company: DCF not used (debt is operating, not financing); residual income preferred"
-JPM,Risks and limits,Market sensitivity: beta 0.72 — a 10% market fall has historically meant about 7% for this stock.,day77_current_ratings.csv,beta,0.7231
-JPM,Risks and limits,Fundamentals as of the filing dated 2026-08-06; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-08-06
-JPM,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 AMT,Thesis,Multi-factor rating: Underweight (IC-weighted score 37/100).,day77_current_ratings.csv,rating,Underweight
 AMT,Thesis,Strongest pillar: fit with the current macro regime (score 79).,day77_current_ratings.csv,economic,78.7879
-AMT,Thesis,Weakest pillar: price trend and momentum (score 36).,day77_current_ratings.csv,technical,36.3636
+AMT,Thesis,Weakest pillar: price trend and momentum (score 35).,day77_current_ratings.csv,technical,34.8485
 AMT,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-AMT,Valuation,DDM intrinsic value $226.84 vs price $183.82 (+23%): Undervalued.,day78_valuation.csv,fair_value,226.8407
-AMT,Valuation,"Cross-checks: DCF $384.62, RI $21.48.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-AMT,Valuation,"Discount rates: WACC 5.8%, cost of equity 6.3% (adjusted beta 0.28, synthetic rating BBB).",day78_valuation.csv,wacc,0.0582
-AMT,Valuation,"Reverse DCF: the price implies -3.7% a year growth for five years (then fading), vs 5.3% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,-0.0371
-AMT,Bull case,Low expectations priced in: the price needs only -4% growth vs 5% recently.,day78_valuation.csv,implied_growth,-0.0371
-AMT,Bull case,DDM value is 23% above the price.,day78_valuation.csv,upside,0.234
-AMT,Risks and limits,The valuation models disagree widely (spread 160% of the DDM value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,1.6009
+AMT,Valuation,DDM intrinsic value $223.19 vs price $185.84 (+20%): Undervalued.,day78_valuation.csv,fair_value,223.1888
+AMT,Valuation,"Cross-checks: DCF $376.47, RI $21.44.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+AMT,Valuation,"Discount rates: WACC 5.9%, cost of equity 6.3% (adjusted beta 0.28, synthetic rating BBB).",day78_valuation.csv,wacc,0.0587
+AMT,Valuation,"Reverse DCF: the price implies -3.3% a year growth for five years (then fading), vs 5.3% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,-0.0333
+AMT,Bull case,Low expectations priced in: the price needs only -3% growth vs 5% recently.,day78_valuation.csv,implied_growth,-0.0333
+AMT,Bull case,DDM value is 20% above the price.,day78_valuation.csv,upside,0.201
+AMT,Risks and limits,The valuation models disagree widely (spread 159% of the DDM value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,1.5907
 AMT,Bull case,Well suited to the current macro regime: score 79/100.,day77_current_ratings.csv,economic,78.7879
 AMT,Bull case,High return on equity: 91%.,day76_fundamental_metrics.csv,roe,0.906
 AMT,Bull case,Strong operating margin: 45%.,day76_fundamental_metrics.csv,operating_margin,0.4485
 AMT,Bear case,High leverage: debt/equity 10.7x.,day76_fundamental_metrics.csv,debt_to_equity,10.6861
 AMT,Risks and limits,REIT: professionals value REITs on FFO/AFFO; DCF on free cash flow is an approximation.,day78_valuation.csv,notes,REIT: professionals value REITs on FFO/AFFO; DCF on free cash flow is an approximation
-AMT,Risks and limits,Market sensitivity: beta -0.07 — a 10% market fall has historically meant about -1% for this stock.,day77_current_ratings.csv,beta,-0.0745
+AMT,Risks and limits,Market sensitivity: beta -0.08 — a 10% market fall has historically meant about -1% for this stock.,day77_current_ratings.csv,beta,-0.0767
 AMT,Risks and limits,Fundamentals as of the filing dated 2026-10-27; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-10-27
 AMT,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
+JPM,Thesis,Multi-factor rating: Underweight (IC-weighted score 37/100).,day77_current_ratings.csv,rating,Underweight
+JPM,Thesis,Strongest pillar: low volatility (score 70).,day77_current_ratings.csv,risk,69.697
+JPM,Thesis,Weakest pillar: the machine-learning return forecast (score 9).,day77_current_ratings.csv,quant,9.0909
+JPM,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
+JPM,Valuation,RI intrinsic value $204.40 vs price $343.59 (-41%): Overvalued.,day78_valuation.csv,fair_value,204.3992
+JPM,Valuation,Cross-checks: DDM $175.39.,day78_valuation.csv,models_used,"RI, DDM"
+JPM,Valuation,"Discount rates: WACC 8.4%, cost of equity 8.7% (adjusted beta 0.81, synthetic rating BBB).",day78_valuation.csv,wacc,0.0842
+JPM,Bear case,RI value is 41% below the price.,day78_valuation.csv,upside,-0.4051
+JPM,Bear case,The machine-learning model ranks it near the bottom for the next 20 days: score 9/100.,day77_current_ratings.csv,quant,9.0909
+JPM,Bull case,Revenue growing 14% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.1353
+JPM,Risks and limits,Interest coverage unavailable: BBB credit spread assumed.,day78_valuation.csv,notes,interest coverage unavailable: BBB credit spread assumed
+JPM,Risks and limits,"Financial company: DCF not used (debt is operating, not financing); residual income preferred.",day78_valuation.csv,notes,"financial company: DCF not used (debt is operating, not financing); residual income preferred"
+JPM,Risks and limits,Market sensitivity: beta 0.72 — a 10% market fall has historically meant about 7% for this stock.,day77_current_ratings.csv,beta,0.7179
+JPM,Risks and limits,Fundamentals as of the filing dated 2026-08-06; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-08-06
+JPM,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 PG,Thesis,Multi-factor rating: Underweight (IC-weighted score 35/100).,day77_current_ratings.csv,rating,Underweight
 PG,Thesis,Strongest pillar: low volatility (score 76).,day77_current_ratings.csv,risk,75.7576
 PG,Thesis,Weakest pillar: the machine-learning return forecast (score 24).,day77_current_ratings.csv,quant,24.2424
 PG,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-PG,Valuation,DCF intrinsic value $210.79 vs price $158.37 (+33%): Undervalued.,day78_valuation.csv,fair_value,210.7937
-PG,Valuation,"Cross-checks: RI $51.11, DDM $196.56.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-PG,Valuation,"Discount rates: WACC 6.3%, cost of equity 6.5% (adjusted beta 0.35, synthetic rating AAA).",day78_valuation.csv,wacc,0.063
-PG,Valuation,"Reverse DCF: the price implies -0.8% a year growth for five years (then fading), vs 3.5% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,-0.0079
-PG,Bull case,DCF value is 33% above the price.,day78_valuation.csv,upside,0.3311
-PG,Risks and limits,The valuation models disagree widely (spread 76% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.7575
+PG,Valuation,DCF intrinsic value $207.65 vs price $160.60 (+29%): Undervalued.,day78_valuation.csv,fair_value,207.6475
+PG,Valuation,"Cross-checks: RI $51.02, DDM $194.02.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+PG,Valuation,"Discount rates: WACC 6.3%, cost of equity 6.6% (adjusted beta 0.34, synthetic rating AAA).",day78_valuation.csv,wacc,0.0635
+PG,Valuation,"Reverse DCF: the price implies -0.4% a year growth for five years (then fading), vs 3.5% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,-0.0036
+PG,Bull case,DCF value is 29% above the price.,day78_valuation.csv,upside,0.2929
+PG,Risks and limits,The valuation models disagree widely (spread 75% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.7543
 PG,Bear case,The machine-learning model ranks it near the bottom for the next 20 days: score 24/100.,day77_current_ratings.csv,quant,24.2424
 PG,Bull case,Steadier than most peers (low volatility): score 76/100.,day77_current_ratings.csv,risk,75.7576
 PG,Bull case,High return on equity: 29%.,day76_fundamental_metrics.csv,roe,0.2944
 PG,Bull case,Very comfortable interest coverage: 22x.,day76_fundamental_metrics.csv,interest_coverage,21.959
 PG,Risks and limits,"Residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies.",day78_valuation.csv,notes,"residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies"
-PG,Risks and limits,Market sensitivity: beta 0.02 — a 10% market fall has historically meant about 0% for this stock.,day77_current_ratings.csv,beta,0.0181
+PG,Risks and limits,Market sensitivity: beta 0.01 — a 10% market fall has historically meant about 0% for this stock.,day77_current_ratings.csv,beta,0.013
 PG,Risks and limits,Fundamentals as of the filing dated 2026-10-22; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-10-22
 PG,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 O,Thesis,Multi-factor rating: Underweight (IC-weighted score 33/100).,day77_current_ratings.csv,rating,Underweight
 O,Thesis,Strongest pillar: low volatility (score 97).,day77_current_ratings.csv,risk,96.9697
-O,Thesis,Weakest pillar: price trend and momentum (score 21).,day77_current_ratings.csv,technical,21.2121
+O,Thesis,Weakest pillar: the machine-learning return forecast (score 21).,day77_current_ratings.csv,quant,21.2121
 O,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-O,Valuation,DDM intrinsic value $81.00 vs price $56.24 (+44%): Undervalued.,day78_valuation.csv,fair_value,80.9958
-O,Valuation,Cross-checks: RI $36.73.,day78_valuation.csv,models_used,"RI, DDM"
-O,Valuation,"Discount rates: WACC 6.3%, cost of equity 6.3% (adjusted beta 0.30, synthetic rating BBB).",day78_valuation.csv,wacc,0.063
-O,Bull case,DDM value is 44% above the price.,day78_valuation.csv,upside,0.4402
-O,Bear case,Poor price trend and momentum: score 21/100.,day77_current_ratings.csv,technical,21.2121
+O,Valuation,DDM intrinsic value $80.05 vs price $57.20 (+40%): Undervalued.,day78_valuation.csv,fair_value,80.0505
+O,Valuation,Cross-checks: RI $36.67.,day78_valuation.csv,models_used,"RI, DDM"
+O,Valuation,"Discount rates: WACC 6.3%, cost of equity 6.4% (adjusted beta 0.30, synthetic rating BBB).",day78_valuation.csv,wacc,0.0634
+O,Bull case,DDM value is 40% above the price.,day78_valuation.csv,upside,0.3995
+O,Bear case,Poor price trend and momentum: score 23/100.,day77_current_ratings.csv,technical,22.7273
 O,Bear case,The machine-learning model ranks it near the bottom for the next 20 days: score 21/100.,day77_current_ratings.csv,quant,21.2121
 O,Bull case,Well suited to the current macro regime: score 73/100.,day77_current_ratings.csv,economic,72.7273
 O,Bull case,Steadier than most peers (low volatility): score 97/100.,day77_current_ratings.csv,risk,96.9697
 O,Bull case,Revenue growing 11% a year (TTM).,day76_fundamental_metrics.csv,revenue_growth,0.1085
 O,Bear case,Low return on equity: 3%.,day76_fundamental_metrics.csv,roe,0.0333
-O,Bear case,Expensive on earnings: P/E 41x.,day76_fundamental_metrics.csv,pe_ratio,40.5989
+O,Bear case,Expensive on earnings: P/E 41x.,day76_fundamental_metrics.csv,pe_ratio,41.2919
 O,Risks and limits,Interest coverage unavailable: BBB credit spread assumed.,day78_valuation.csv,notes,interest coverage unavailable: BBB credit spread assumed
 O,Risks and limits,Free cash flow not positive: DCF not meaningful.,day78_valuation.csv,notes,free cash flow not positive: DCF not meaningful
 O,Risks and limits,REIT: professionals value REITs on FFO/AFFO; DCF on free cash flow is an approximation.,day78_valuation.csv,notes,REIT: professionals value REITs on FFO/AFFO; DCF on free cash flow is an approximation
-O,Risks and limits,Market sensitivity: beta -0.05 — a 10% market fall has historically meant about -0% for this stock.,day77_current_ratings.csv,beta,-0.0491
+O,Risks and limits,Market sensitivity: beta -0.06 — a 10% market fall has historically meant about -1% for this stock.,day77_current_ratings.csv,beta,-0.0557
 O,Risks and limits,Fundamentals as of the filing dated 2026-08-06; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-08-06
 O,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 LIN,Thesis,Multi-factor rating: Underweight (IC-weighted score 31/100).,day77_current_ratings.csv,rating,Underweight
 LIN,Thesis,Strongest pillar: low volatility (score 91).,day77_current_ratings.csv,risk,90.9091
 LIN,Thesis,Weakest pillar: the machine-learning return forecast (score 12).,day77_current_ratings.csv,quant,12.1212
 LIN,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-LIN,Valuation,DCF intrinsic value $337.89 vs price $508.58 (-34%): Overvalued.,day78_valuation.csv,fair_value,337.8907
-LIN,Valuation,"Cross-checks: RI $136.72, DDM $270.72.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-LIN,Valuation,"Discount rates: WACC 6.4%, cost of equity 6.6% (adjusted beta 0.36, synthetic rating AAA).",day78_valuation.csv,wacc,0.0637
-LIN,Valuation,"Reverse DCF: the price implies 11.1% a year growth for five years (then fading), vs 5.0% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.1108
-LIN,Bear case,High expectations priced in: the market needs 11% growth vs 5% recently.,day78_valuation.csv,implied_growth,0.1108
-LIN,Bear case,DCF value is 34% below the price.,day78_valuation.csv,upside,-0.3356
+LIN,Valuation,DCF intrinsic value $337.52 vs price $503.44 (-33%): Overvalued.,day78_valuation.csv,fair_value,337.5175
+LIN,Valuation,"Cross-checks: RI $134.05, DDM $268.01.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+LIN,Valuation,"Discount rates: WACC 6.5%, cost of equity 6.7% (adjusted beta 0.37, synthetic rating AAA).",day78_valuation.csv,wacc,0.0646
+LIN,Valuation,"Reverse DCF: the price implies 11.0% a year growth for five years (then fading), vs 5.0% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,0.1096
+LIN,Bear case,High expectations priced in: the market needs 11% growth vs 5% recently.,day78_valuation.csv,implied_growth,0.1096
+LIN,Bear case,DCF value is 33% below the price.,day78_valuation.csv,upside,-0.3296
 LIN,Bear case,The machine-learning model ranks it near the bottom for the next 20 days: score 12/100.,day77_current_ratings.csv,quant,12.1212
 LIN,Bull case,Steadier than most peers (low volatility): score 91/100.,day77_current_ratings.csv,risk,90.9091
-LIN,Bull case,Strong operating margin: 26%.,day76_fundamental_metrics.csv,operating_margin,0.2645
-LIN,Bull case,Very comfortable interest coverage: 37x.,day76_fundamental_metrics.csv,interest_coverage,37.3625
+LIN,Bull case,Strong operating margin: 25%.,day76_fundamental_metrics.csv,operating_margin,0.2528
+LIN,Bull case,Very comfortable interest coverage: 36x.,day76_fundamental_metrics.csv,interest_coverage,35.5078
 LIN,Risks and limits,"Cyclical sector: growth capped at 5%, because recent growth mostly reflects commodity prices (professionals value cyclicals on mid-cycle earnings).",day78_valuation.csv,notes,"cyclical sector: growth capped at 5%, because recent growth mostly reflects commodity prices (professionals value cyclicals on mid-cycle earnings)"
 LIN,Risks and limits,"Residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies.",day78_valuation.csv,notes,"residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies"
-LIN,Risks and limits,Market sensitivity: beta 0.04 — a 10% market fall has historically meant about 0% for this stock.,day77_current_ratings.csv,beta,0.0424
-LIN,Risks and limits,Fundamentals as of the filing dated 2026-07-31; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-07-31
+LIN,Risks and limits,Market sensitivity: beta 0.05 — a 10% market fall has historically meant about 1% for this stock.,day77_current_ratings.csv,beta,0.0529
+LIN,Risks and limits,Fundamentals as of the filing dated 2026-10-29; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-10-29
 LIN,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 KO,Thesis,Multi-factor rating: Underweight (IC-weighted score 31/100).,day77_current_ratings.csv,rating,Underweight
 KO,Thesis,Strongest pillar: fit with the current macro regime (score 88).,day77_current_ratings.csv,economic,87.8788
 KO,Thesis,Weakest pillar: the machine-learning return forecast (score 3).,day77_current_ratings.csv,quant,3.0303
 KO,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-KO,Valuation,DCF intrinsic value $172.69 vs price $91.86 (+88%): Undervalued.,day78_valuation.csv,fair_value,172.6948
-KO,Valuation,"Cross-checks: RI $24.75, DDM $145.72.",day78_valuation.csv,models_used,"DCF, RI, DDM"
-KO,Valuation,"Discount rates: WACC 5.7%, cost of equity 5.8% (adjusted beta 0.18, synthetic rating AAA).",day78_valuation.csv,wacc,0.0567
-KO,Valuation,"Reverse DCF: the price implies -2.4% a year growth for five years (then fading), vs 7.1% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,-0.024
-KO,Bull case,Low expectations priced in: the price needs only -2% growth vs 7% recently.,day78_valuation.csv,implied_growth,-0.024
-KO,Bull case,DCF value is 88% above the price.,day78_valuation.csv,upside,0.88
-KO,Risks and limits,The valuation models disagree widely (spread 86% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.8567
+KO,Valuation,DCF intrinsic value $169.12 vs price $92.83 (+82%): Undervalued.,day78_valuation.csv,fair_value,169.119
+KO,Valuation,"Cross-checks: RI $24.70, DDM $142.94.",day78_valuation.csv,models_used,"DCF, RI, DDM"
+KO,Valuation,"Discount rates: WACC 5.7%, cost of equity 5.9% (adjusted beta 0.18, synthetic rating AAA).",day78_valuation.csv,wacc,0.0572
+KO,Valuation,"Reverse DCF: the price implies -1.9% a year growth for five years (then fading), vs 7.1% assumed from recent revenue growth.",day78_valuation.csv,implied_growth,-0.0195
+KO,Bull case,Low expectations priced in: the price needs only -2% growth vs 7% recently.,day78_valuation.csv,implied_growth,-0.0195
+KO,Bull case,DCF value is 82% above the price.,day78_valuation.csv,upside,0.8217
+KO,Risks and limits,The valuation models disagree widely (spread 85% of the DCF value): treat the intrinsic value as low confidence.,day78_valuation.csv,model_dispersion,0.854
 KO,Bull case,Positive price trend and momentum: score 79/100.,day77_current_ratings.csv,technical,78.7879
 KO,Bear case,The machine-learning model ranks it near the bottom for the next 20 days: score 3/100.,day77_current_ratings.csv,quant,3.0303
 KO,Bull case,Well suited to the current macro regime: score 88/100.,day77_current_ratings.csv,economic,87.8788
@@ -557,55 +555,56 @@ KO,Bull case,Steadier than most peers (low volatility): score 88/100.,day77_curr
 KO,Bull case,High return on equity: 43%.,day76_fundamental_metrics.csv,roe,0.4264
 KO,Bull case,Strong operating margin: 30%.,day76_fundamental_metrics.csv,operating_margin,0.3004
 KO,Risks and limits,"Residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies.",day78_valuation.csv,notes,"residual income well below DCF: RI assumes returns above the cost of equity fade within 10 years, so it is conservative for high-ROE or buyback-heavy companies"
-KO,Risks and limits,Market sensitivity: beta -0.22 — a 10% market fall has historically meant about -2% for this stock.,day77_current_ratings.csv,beta,-0.2239
+KO,Risks and limits,Market sensitivity: beta -0.23 — a 10% market fall has historically meant about -2% for this stock.,day77_current_ratings.csv,beta,-0.2261
 KO,Risks and limits,Fundamentals as of the filing dated 2026-10-28; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-10-28
 KO,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 NEE,Thesis,Multi-factor rating: Underweight (IC-weighted score 29/100).,day77_current_ratings.csv,rating,Underweight
 NEE,Thesis,Strongest pillar: low volatility (score 73).,day77_current_ratings.csv,risk,72.7273
-NEE,Thesis,Weakest pillar: price trend and momentum (score 17).,day77_current_ratings.csv,technical,16.6667
+NEE,Thesis,Weakest pillar: the machine-learning return forecast (score 18).,day77_current_ratings.csv,quant,18.1818
 NEE,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-NEE,Valuation,DDM intrinsic value $74.70 vs price $81.06 (-8%): Fairly valued.,day78_valuation.csv,fair_value,74.7022
-NEE,Valuation,Cross-checks: RI $36.91.,day78_valuation.csv,models_used,"RI, DDM"
-NEE,Valuation,"Discount rates: WACC 6.1%, cost of equity 6.9% (adjusted beta 0.43, synthetic rating BBB).",day78_valuation.csv,wacc,0.0611
-NEE,Bear case,Poor price trend and momentum: score 17/100.,day77_current_ratings.csv,technical,16.6667
+NEE,Valuation,DDM intrinsic value $73.72 vs price $82.13 (-10%): Fairly valued.,day78_valuation.csv,fair_value,73.7231
+NEE,Valuation,Cross-checks: RI $36.84.,day78_valuation.csv,models_used,"RI, DDM"
+NEE,Valuation,"Discount rates: WACC 6.2%, cost of equity 7.0% (adjusted beta 0.42, synthetic rating BBB).",day78_valuation.csv,wacc,0.0616
+NEE,Bear case,Poor price trend and momentum: score 20/100.,day77_current_ratings.csv,technical,19.697
 NEE,Bear case,The machine-learning model ranks it near the bottom for the next 20 days: score 18/100.,day77_current_ratings.csv,quant,18.1818
 NEE,Bull case,Steadier than most peers (low volatility): score 73/100.,day77_current_ratings.csv,risk,72.7273
 NEE,Bull case,Strong operating margin: 32%.,day76_fundamental_metrics.csv,operating_margin,0.3178
 NEE,Risks and limits,Interest coverage unavailable: BBB credit spread assumed.,day78_valuation.csv,notes,interest coverage unavailable: BBB credit spread assumed
 NEE,Risks and limits,Free cash flow not positive: DCF not meaningful.,day78_valuation.csv,notes,free cash flow not positive: DCF not meaningful
-NEE,Risks and limits,Market sensitivity: beta 0.14 — a 10% market fall has historically meant about 1% for this stock.,day77_current_ratings.csv,beta,0.1399
+NEE,Risks and limits,Market sensitivity: beta 0.14 — a 10% market fall has historically meant about 1% for this stock.,day77_current_ratings.csv,beta,0.1368
 NEE,Risks and limits,Fundamentals as of the filing dated 2026-04-23; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-04-23
 NEE,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 SO,Thesis,Multi-factor rating: Underweight (IC-weighted score 24/100).,day77_current_ratings.csv,rating,Underweight
 SO,Thesis,Strongest pillar: low volatility (score 94).,day77_current_ratings.csv,risk,93.9394
 SO,Thesis,Weakest pillar: the machine-learning return forecast (score 15).,day77_current_ratings.csv,quant,15.1515
 SO,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-SO,Valuation,DDM intrinsic value $99.16 vs price $91.56 (+8%): Fairly valued.,day78_valuation.csv,fair_value,99.16
-SO,Valuation,Cross-checks: RI $43.87.,day78_valuation.csv,models_used,"RI, DDM"
-SO,Valuation,"Discount rates: WACC 5.4%, cost of equity 5.9% (adjusted beta 0.20, synthetic rating BBB).",day78_valuation.csv,wacc,0.0543
-SO,Bear case,Poor price trend and momentum: score 21/100.,day77_current_ratings.csv,technical,21.2121
+SO,Valuation,DDM intrinsic value $97.31 vs price $93.00 (+5%): Fairly valued.,day78_valuation.csv,fair_value,97.3126
+SO,Valuation,Cross-checks: RI $43.77.,day78_valuation.csv,models_used,"RI, DDM"
+SO,Valuation,"Discount rates: WACC 5.5%, cost of equity 5.9% (adjusted beta 0.20, synthetic rating BBB).",day78_valuation.csv,wacc,0.0548
+SO,Bear case,Poor price trend and momentum: score 24/100.,day77_current_ratings.csv,technical,24.2424
 SO,Bear case,The machine-learning model ranks it near the bottom for the next 20 days: score 15/100.,day77_current_ratings.csv,quant,15.1515
 SO,Bull case,Well suited to the current macro regime: score 82/100.,day77_current_ratings.csv,economic,81.8182
 SO,Bull case,Steadier than most peers (low volatility): score 94/100.,day77_current_ratings.csv,risk,93.9394
-SO,Bear case,Free-cash-flow yield only -3.4%.,day76_fundamental_metrics.csv,fcf_yield,-0.0336
+SO,Bear case,Free-cash-flow yield only -3.3%.,day76_fundamental_metrics.csv,fcf_yield,-0.0331
 SO,Risks and limits,Interest coverage unavailable: BBB credit spread assumed.,day78_valuation.csv,notes,interest coverage unavailable: BBB credit spread assumed
 SO,Risks and limits,Free cash flow not positive: DCF not meaningful.,day78_valuation.csv,notes,free cash flow not positive: DCF not meaningful
-SO,Risks and limits,Market sensitivity: beta -0.20 — a 10% market fall has historically meant about -2% for this stock.,day77_current_ratings.csv,beta,-0.2018
+SO,Risks and limits,Market sensitivity: beta -0.20 — a 10% market fall has historically meant about -2% for this stock.,day77_current_ratings.csv,beta,-0.2036
 SO,Risks and limits,Fundamentals as of the filing dated 2026-04-30; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-04-30
 SO,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
 PLD,Thesis,Multi-factor rating: Underweight (IC-weighted score 23/100).,day77_current_ratings.csv,rating,Underweight
 PLD,Thesis,Strongest pillar: low volatility (score 82).,day77_current_ratings.csv,risk,81.8182
 PLD,Thesis,Weakest pillar: the machine-learning return forecast (score 6).,day77_current_ratings.csv,quant,6.0606
 PLD,Thesis,"The rating weights pillars by past predictive power; statistically meaningful so far: fundamental (IC 0.12, t 2.5), quant (IC 0.10, t 2.8).",day77_ic_summary.csv,mean_ic,0.1175
-PLD,Valuation,DDM intrinsic value $72.85 vs price $125.28 (-42%): Overvalued.,day78_valuation.csv,fair_value,72.8503
-PLD,Valuation,Cross-checks: RI $55.39.,day78_valuation.csv,models_used,"RI, DDM"
-PLD,Valuation,"Discount rates: WACC 7.1%, cost of equity 7.9% (adjusted beta 0.64, synthetic rating A).",day78_valuation.csv,wacc,0.0709
-PLD,Bear case,DDM value is 42% below the price.,day78_valuation.csv,upside,-0.4185
+PLD,Valuation,DDM intrinsic value $72.27 vs price $127.97 (-44%): Overvalued.,day78_valuation.csv,fair_value,72.2673
+PLD,Valuation,Cross-checks: RI $55.31.,day78_valuation.csv,models_used,"RI, DDM"
+PLD,Valuation,"Discount rates: WACC 7.1%, cost of equity 7.9% (adjusted beta 0.63, synthetic rating A).",day78_valuation.csv,wacc,0.0714
+PLD,Bear case,DDM value is 44% below the price.,day78_valuation.csv,upside,-0.4353
+PLD,Bear case,Poor price trend and momentum: score 27/100.,day77_current_ratings.csv,technical,27.2727
 PLD,Bear case,The machine-learning model ranks it near the bottom for the next 20 days: score 6/100.,day77_current_ratings.csv,quant,6.0606
 PLD,Bull case,Steadier than most peers (low volatility): score 82/100.,day77_current_ratings.csv,risk,81.8182
 PLD,Bull case,Strong operating margin: 52%.,day76_fundamental_metrics.csv,operating_margin,0.5242
 PLD,Risks and limits,Free cash flow not positive: DCF not meaningful.,day78_valuation.csv,notes,free cash flow not positive: DCF not meaningful
 PLD,Risks and limits,REIT: professionals value REITs on FFO/AFFO; DCF on free cash flow is an approximation.,day78_valuation.csv,notes,REIT: professionals value REITs on FFO/AFFO; DCF on free cash flow is an approximation
-PLD,Risks and limits,Market sensitivity: beta 0.45 — a 10% market fall has historically meant about 5% for this stock.,day77_current_ratings.csv,beta,0.4545
+PLD,Risks and limits,Market sensitivity: beta 0.45 — a 10% market fall has historically meant about 4% for this stock.,day77_current_ratings.csv,beta,0.4479
 PLD,Risks and limits,Fundamentals as of the filing dated 2026-04-30; later news is not reflected.,day76_fundamental_metrics.csv,latest_filing_date,2026-04-30
 PLD,Risks and limits,Macro regime at rating time: risk-off. A regime change shifts the economic pillar.,day77_current_ratings.csv,regime,risk_off
