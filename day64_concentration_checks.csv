@@ -1,11 +1,11 @@
 symbol,asset_class,instrument_type,capital_weight,capital_limit,capital_policy_applicable,capital_limit_passed,capital_policy_details,notional_weight,notional_limit,notional_limit_passed,risk_weight,risk_limit,risk_limit_passed,overall_passed
-AAPL,Equity,Equity,0.1735403540870554,0.25,True,True,Capital weight 17.3540%; limit 25.0000%.,0.1406520894834152,0.75,True,0.2328434633090079,0.35,True,True
-SPY,ETF/Fund,ETF/Fund,0.2970515902030764,0.25,True,False,Capital weight 29.7052%; limit 25.0000%.,0.24075626136774364,0.75,True,0.2495552655570318,0.35,True,False
-CORP_BOND,Fixed Income,Fixed Income,0.07437985244067817,0.25,True,True,Capital weight 7.4380%; limit 25.0000%.,0.0602838556846637,0.75,True,0.012894507682068415,0.35,True,True
-AAPL_CALL,Option,Option,0.022931378435186417,0.25,False,True,Derivative: capital concentration is reported separately from notional exposure.,0.0469066697057557,0.75,True,0.07765196711043332,0.35,True,True
-ES,Future,Future,0.02209819114529176,0.25,False,True,Derivative: capital concentration is reported separately from notional exposure.,0.1791028245125052,0.75,True,0.18731436495877554,0.35,True,True
-EURUSD,FX,FX,0.08777939892133024,0.25,True,True,Capital weight 8.7779%; limit 25.0000%.,0.0711440053054742,0.75,True,0.003726150360464311,0.35,True,True
-GOLD,Commodity,Commodity,0.1300286569156787,0.25,True,True,Capital weight 13.0029%; limit 25.0000%.,0.10538645252929399,0.75,True,0.13871124364477005,0.35,True,True
-USD,Cash/Money Market,Cash/Money Market,0.07861523112467723,0.25,True,True,Capital weight 7.8615%; limit 25.0000%.,0.0637165723273827,0.75,True,0.0,0.35,True,True
-BTC,Crypto,Crypto,0.03970847628202274,0.25,True,True,Capital weight 3.9708%; limit 25.0000%.,0.032183178308299476,0.75,True,0.0671191822830135,0.35,True,True
-REIT,Real Estate/REIT,Real Estate/REIT,0.07386687044500279,0.25,True,True,Capital weight 7.3867%; limit 25.0000%.,0.05986809077546615,0.75,True,0.030183855094435195,0.35,True,True
+AAPL,Equity,Equity,0.17345776075381325,0.25,True,True,Capital weight 17.3458%; limit 25.0000%.,0.14059931761912373,0.75,True,0.2326672425800707,0.35,True,True
+SPY,ETF/Fund,ETF/Fund,0.296910213973272,0.25,True,False,Capital weight 29.6910%; limit 25.0000%.,0.24066593098730718,0.75,True,0.24941060948154511,0.35,True,False
+CORP_BOND,Fixed Income,Fixed Income,0.07434445272070266,0.25,True,True,Capital weight 7.4344%; limit 25.0000%.,0.06026123752475693,0.75,True,0.012889528571568975,0.35,True,True
+AAPL_CALL,Option,Option,0.02292046466823715,0.25,False,True,Derivative: capital concentration is reported separately from notional exposure.,0.04688907058997173,0.75,True,0.07759319850231719,0.35,True,True
+ES,Future,Future,0.022086223549187715,0.25,False,True,Derivative: capital concentration is reported separately from notional exposure.,0.17902386992107802,0.75,True,0.18720614137385605,0.35,True,True
+EURUSD,FX,FX,0.08773762193415602,0.25,True,True,Capital weight 8.7738%; limit 25.0000%.,0.07111731247917549,0.75,True,0.003731937625287022,0.35,True,True
+GOLD,Commodity,Commodity,0.13043513296874318,0.25,True,True,Capital weight 13.0435%; limit 25.0000%.,0.10572655042511148,0.75,True,0.13896303924621461,0.35,True,True
+USD,Cash/Money Market,Cash/Money Market,0.07857781565427356,0.25,True,True,Capital weight 7.8578%; limit 25.0000%.,0.06369266623170843,0.75,True,0.0,0.35,True,True
+BTC,Crypto,Crypto,0.039698598908260344,0.25,True,True,Capital weight 3.9699%; limit 25.0000%.,0.0321784156135775,0.75,True,0.0673693862231891,0.35,True,True
+REIT,Real Estate/REIT,Real Estate/REIT,0.07383171486935404,0.25,True,True,Capital weight 7.3832%; limit 25.0000%.,0.05984562860818946,0.75,True,0.03016891639595118,0.35,True,True
