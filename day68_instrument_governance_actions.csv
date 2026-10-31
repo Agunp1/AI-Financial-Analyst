@@ -1,11 +1,11 @@
 symbol,asset_class,instrument_type,risk_budget,modeled_risk_contribution,risk_budget_utilization,risk_budget_excess,day66_risk_budget_status,governance_status,governance_action,governance_reason,requires_review,block_incremental_risk
-ES,Future,Future,0.25,0.28277786728661014,1.1311114691464406,0.03277786728661014,BREACH,BREACH,REDUCE_RISK,Risk-budget utilization 113.11% >= 110%. | Modeled risk exceeds budget by 0.032778. | Day 66 action: REDUCE_RISK.,True,False
-USD,Cash/Money Market,Cash/Money Market,0.0,0.01567878979224741,0.0,0.01567878979224741,WITHIN_BUDGET,NORMAL,REDUCE_RISK,Risk-budget utilization 0.00% is within policy. | Modeled risk exceeds budget by 0.015679. | Day 66 action: UNCHANGED.,True,False
-SPY,ETF/Fund,ETF/Fund,0.3,0.21878604203689414,0.7292868067896472,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 72.93% is within policy. | Day 66 action: UNCHANGED.,False,False
-AAPL_CALL,Option,Option,0.1,0.06079870412827494,0.6079870412827494,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 60.80% is within policy. | Day 66 action: UNCHANGED.,False,False
-AAPL,Equity,Equity,0.3,0.18230867216844318,0.6076955738948107,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 60.77% is within policy. | Day 66 action: UNCHANGED.,False,False
-GOLD,Commodity,Commodity,0.2,0.09262046402748787,0.46310232013743935,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 46.31% is within policy. | Day 66 action: UNCHANGED.,False,False
-BTC,Crypto,Crypto,0.1,0.045062430602363514,0.4506243060236351,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 45.06% is within policy. | Day 66 action: UNCHANGED.,False,False
-REIT,Real Estate/REIT,Real Estate/REIT,0.15,0.057244229524816344,0.38162819683210897,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 38.16% is within policy. | Day 66 action: UNCHANGED.,False,False
-EURUSD,FX,FX,0.15,0.022798485247312875,0.1519899016487525,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 15.20% is within policy. | Day 66 action: UNCHANGED.,False,False
-CORP_BOND,Fixed Income,Fixed Income,0.2,0.021924315185549617,0.10962157592774809,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 10.96% is within policy. | Day 66 action: UNCHANGED.,False,False
+AAPL_CALL,Option,Option,0.1,0.08212469611204481,0.8212469611204481,0.0,WITHIN_BUDGET,WATCH,MONITOR,Risk-budget utilization 82.12% is elevated. | Day 66 action: UNCHANGED.,True,False
+AAPL,Equity,Equity,0.3,0.24625516682760226,0.8208505560920075,0.0,WITHIN_BUDGET,WATCH,MONITOR,Risk-budget utilization 82.09% is elevated. | Day 66 action: UNCHANGED.,True,False
+ES,Future,Future,0.25,0.1920366471894234,0.7681465887576936,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 76.81% is within policy. | Day 66 action: UNCHANGED.,False,False
+GOLD,Commodity,Commodity,0.2,0.14629169992583385,0.7314584996291692,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 73.15% is within policy. | Day 66 action: UNCHANGED.,False,False
+SPY,ETF/Fund,ETF/Fund,0.3,0.21504380579798762,0.7168126859932921,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 71.68% is within policy. | Day 66 action: UNCHANGED.,False,False
+BTC,Crypto,Crypto,0.1,0.06942225556251676,0.6942225556251675,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 69.42% is within policy. | Day 66 action: UNCHANGED.,False,False
+REIT,Real Estate/REIT,Real Estate/REIT,0.15,0.03156347588285143,0.21042317255234289,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 21.04% is within policy. | Day 66 action: UNCHANGED.,False,False
+CORP_BOND,Fixed Income,Fixed Income,0.2,0.013293551715160785,0.06646775857580392,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 6.65% is within policy. | Day 66 action: UNCHANGED.,False,False
+EURUSD,FX,FX,0.15,0.0039687009865790514,0.026458006577193677,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 2.65% is within policy. | Day 66 action: UNCHANGED.,False,False
+USD,Cash/Money Market,Cash/Money Market,0.0,0.0,0.0,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 0.00% is within policy. | Day 66 action: UNCHANGED.,False,False

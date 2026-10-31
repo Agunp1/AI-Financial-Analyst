@@ -1,4 +1,4 @@
 scope,identifier,governance_status,governance_action,requires_review,block_incremental_risk,reason
-PORTFOLIO,TOTAL_PORTFOLIO,BREACH,REDUCE_RISK,True,False,"Day 67 portfolio status indicates a breach. | 1 risk-budget breach(es) are present. | 1 position(s) require risk review. | Maximum risk-budget utilization is 113.11%, above the 110% breach threshold."
-INSTRUMENT,ES,BREACH,REDUCE_RISK,True,False,Risk-budget utilization 113.11% >= 110%. | Modeled risk exceeds budget by 0.032778. | Day 66 action: REDUCE_RISK.
-INSTRUMENT,USD,NORMAL,REDUCE_RISK,True,False,Risk-budget utilization 0.00% is within policy. | Modeled risk exceeds budget by 0.015679. | Day 66 action: UNCHANGED.
+PORTFOLIO,TOTAL_PORTFOLIO,WATCH,MONITOR,True,False,"Day 67 portfolio status is WATCH. | Maximum risk-budget utilization is 82.12%, inside the watch zone. | 2 instrument(s) are in watch status."
+INSTRUMENT,AAPL_CALL,WATCH,MONITOR,True,False,Risk-budget utilization 82.12% is elevated. | Day 66 action: UNCHANGED.
+INSTRUMENT,AAPL,WATCH,MONITOR,True,False,Risk-budget utilization 82.09% is elevated. | Day 66 action: UNCHANGED.
