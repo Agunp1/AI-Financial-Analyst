@@ -1,19 +1,19 @@
 factor,label,window,move,unit
-equity_market,Equity market,1 week,-0.005395,return
+equity_market,Equity market,1 week,-0.017291,return
 interest_rates,"Interest rates (10Y yield, pp)",1 week,-0.06,percentage points
-inflation_expectations,"Inflation expectations (10Y breakeven, pp)",1 week,0.0,percentage points
-credit_spreads,"Credit spreads (high yield, pp)",1 week,0.06,percentage points
-us_dollar,US dollar,1 week,0.000698,return
-oil,Oil,1 week,0.009124,return
-equity_market,Equity market,1 month,-0.010339,return
-interest_rates,"Interest rates (10Y yield, pp)",1 month,-0.3,percentage points
-inflation_expectations,"Inflation expectations (10Y breakeven, pp)",1 month,-0.02,percentage points
-credit_spreads,"Credit spreads (high yield, pp)",1 month,0.2,percentage points
-us_dollar,US dollar,1 month,-0.002084,return
-oil,Oil,1 month,0.120154,return
-equity_market,Equity market,3 months,-0.016782,return
+inflation_expectations,"Inflation expectations (10Y breakeven, pp)",1 week,-0.05,percentage points
+credit_spreads,"Credit spreads (high yield, pp)",1 week,0.14,percentage points
+us_dollar,US dollar,1 week,-0.001168,return
+oil,Oil,1 week,-0.047998,return
+equity_market,Equity market,1 month,-0.022525,return
+interest_rates,"Interest rates (10Y yield, pp)",1 month,-0.34,percentage points
+inflation_expectations,"Inflation expectations (10Y breakeven, pp)",1 month,-0.07,percentage points
+credit_spreads,"Credit spreads (high yield, pp)",1 month,0.34,percentage points
+us_dollar,US dollar,1 month,-0.000812,return
+oil,Oil,1 month,0.067361,return
+equity_market,Equity market,3 months,-0.019576,return
 interest_rates,"Interest rates (10Y yield, pp)",3 months,0.31,percentage points
-inflation_expectations,"Inflation expectations (10Y breakeven, pp)",3 months,0.11,percentage points
-credit_spreads,"Credit spreads (high yield, pp)",3 months,0.71,percentage points
-us_dollar,US dollar,3 months,0.019988,return
-oil,Oil,3 months,0.337084,return
+inflation_expectations,"Inflation expectations (10Y breakeven, pp)",3 months,0.07,percentage points
+credit_spreads,"Credit spreads (high yield, pp)",3 months,0.69,percentage points
+us_dollar,US dollar,3 months,0.021597,return
+oil,Oil,3 months,0.272599,return
