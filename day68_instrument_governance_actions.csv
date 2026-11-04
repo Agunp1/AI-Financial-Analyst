@@ -1,11 +1,11 @@
 symbol,asset_class,instrument_type,risk_budget,modeled_risk_contribution,risk_budget_utilization,risk_budget_excess,day66_risk_budget_status,governance_status,governance_action,governance_reason,requires_review,block_incremental_risk
-ES,Future,Future,0.25,0.28331811255161754,1.1332724502064702,0.03331811255161754,BREACH,BREACH,REDUCE_RISK,Risk-budget utilization 113.33% >= 110%. | Modeled risk exceeds budget by 0.033318. | Day 66 action: REDUCE_RISK.,True,False
-USD,Cash/Money Market,Cash/Money Market,0.0,0.015835294888354785,0.0,0.015835294888354785,WITHIN_BUDGET,NORMAL,REDUCE_RISK,Risk-budget utilization 0.00% is within policy. | Modeled risk exceeds budget by 0.015835. | Day 66 action: UNCHANGED.,True,False
-SPY,ETF/Fund,ETF/Fund,0.3,0.22045410990610237,0.7348470330203413,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 73.48% is within policy. | Day 66 action: UNCHANGED.,False,False
-AAPL_CALL,Option,Option,0.1,0.058270956241375224,0.5827095624137522,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 58.27% is within policy. | Day 66 action: UNCHANGED.,False,False
-AAPL,Equity,Equity,0.3,0.17473560131091148,0.582452004369705,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 58.25% is within policy. | Day 66 action: UNCHANGED.,False,False
-GOLD,Commodity,Commodity,0.2,0.09698887079974382,0.48494435399871905,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 48.49% is within policy. | Day 66 action: UNCHANGED.,False,False
-BTC,Crypto,Crypto,0.1,0.04587734166488152,0.45877341664881516,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 45.88% is within policy. | Day 66 action: UNCHANGED.,False,False
-REIT,Real Estate/REIT,Real Estate/REIT,0.15,0.05883367268512813,0.3922244845675209,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 39.22% is within policy. | Day 66 action: UNCHANGED.,False,False
-EURUSD,FX,FX,0.15,0.023507633110442766,0.15671755406961846,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 15.67% is within policy. | Day 66 action: UNCHANGED.,False,False
-CORP_BOND,Fixed Income,Fixed Income,0.2,0.022178406841442386,0.11089203420721193,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 11.09% is within policy. | Day 66 action: UNCHANGED.,False,False
+AAPL_CALL,Option,Option,0.1,0.079199676073412,0.79199676073412,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 79.20% is within policy. | Day 66 action: UNCHANGED.,False,False
+AAPL,Equity,Equity,0.3,0.23749400927954367,0.7916466975984789,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 79.16% is within policy. | Day 66 action: UNCHANGED.,False,False
+ES,Future,Future,0.25,0.19314996922785013,0.7725998769114005,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 77.26% is within policy. | Day 66 action: UNCHANGED.,False,False
+GOLD,Commodity,Commodity,0.2,0.1523144910847045,0.7615724554235224,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 76.16% is within policy. | Day 66 action: UNCHANGED.,False,False
+SPY,ETF/Fund,ETF/Fund,0.3,0.21735004414831577,0.7245001471610526,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 72.45% is within policy. | Day 66 action: UNCHANGED.,False,False
+BTC,Crypto,Crypto,0.1,0.07057573947428351,0.705757394742835,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 70.58% is within policy. | Day 66 action: UNCHANGED.,False,False
+REIT,Real Estate/REIT,Real Estate/REIT,0.15,0.032070467218183,0.21380311478788666,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 21.38% is within policy. | Day 66 action: UNCHANGED.,False,False
+CORP_BOND,Fixed Income,Fixed Income,0.2,0.013627850496507738,0.06813925248253869,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 6.81% is within policy. | Day 66 action: UNCHANGED.,False,False
+EURUSD,FX,FX,0.15,0.004217752997199702,0.028118353314664682,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 2.81% is within policy. | Day 66 action: UNCHANGED.,False,False
+USD,Cash/Money Market,Cash/Money Market,0.0,0.0,0.0,0.0,WITHIN_BUDGET,NORMAL,HOLD,Risk-budget utilization 0.00% is within policy. | Day 66 action: UNCHANGED.,False,False

@@ -1,2 +1,2 @@
 portfolio_remediation_status,instrument_count,critical_count,high_count,medium_count,low_count,requires_review_count,incremental_risk_block_count,risk_reduction_action_count,immediate_priority_count,current_total_modeled_risk,target_total_modeled_risk,required_total_modeled_risk_reduction,portfolio_modeled_risk_reduction_fraction,maximum_current_risk_budget_utilization,maximum_estimated_post_remediation_utilization
-HIGH,10,0,2,0,8,2,2,2,0,1.0,0.9508465925600277,0.049153407439972326,0.049153407439972326,1.1332724502064702,1.0
+NORMAL,10,0,0,0,10,0,0,0,0,1.0,1.0,0.0,0.0,0.79199676073412,0.79199676073412
