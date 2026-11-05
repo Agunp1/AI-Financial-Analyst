@@ -1,19 +1,19 @@
 factor,label,window,move,unit
-equity_market,Equity market,1 week,-0.019904,return
-interest_rates,"Interest rates (10Y yield, pp)",1 week,-0.08,percentage points
-inflation_expectations,"Inflation expectations (10Y breakeven, pp)",1 week,-0.05,percentage points
-credit_spreads,"Credit spreads (high yield, pp)",1 week,0.22,percentage points
-us_dollar,US dollar,1 week,-0.004403,return
-oil,Oil,1 week,-0.035381,return
-equity_market,Equity market,1 month,-0.026276,return
-interest_rates,"Interest rates (10Y yield, pp)",1 month,-0.4,percentage points
-inflation_expectations,"Inflation expectations (10Y breakeven, pp)",1 month,-0.06,percentage points
-credit_spreads,"Credit spreads (high yield, pp)",1 month,0.28,percentage points
-us_dollar,US dollar,1 month,-0.002871,return
-oil,Oil,1 month,0.08014,return
-equity_market,Equity market,3 months,-0.014986,return
-interest_rates,"Interest rates (10Y yield, pp)",3 months,0.22,percentage points
-inflation_expectations,"Inflation expectations (10Y breakeven, pp)",3 months,0.04,percentage points
-credit_spreads,"Credit spreads (high yield, pp)",3 months,0.69,percentage points
-us_dollar,US dollar,3 months,0.019085,return
-oil,Oil,3 months,0.239419,return
+equity_market,Equity market,1 week,-0.00683,return
+interest_rates,"Interest rates (10Y yield, pp)",1 week,-0.1,percentage points
+inflation_expectations,"Inflation expectations (10Y breakeven, pp)",1 week,-0.12,percentage points
+credit_spreads,"Credit spreads (high yield, pp)",1 week,0.26,percentage points
+us_dollar,US dollar,1 week,-0.00702,return
+oil,Oil,1 week,-0.147361,return
+equity_market,Equity market,1 month,-0.015257,return
+interest_rates,"Interest rates (10Y yield, pp)",1 month,-0.32,percentage points
+inflation_expectations,"Inflation expectations (10Y breakeven, pp)",1 month,-0.1,percentage points
+credit_spreads,"Credit spreads (high yield, pp)",1 month,0.37,percentage points
+us_dollar,US dollar,1 month,-0.00343,return
+oil,Oil,1 month,-0.003123,return
+equity_market,Equity market,3 months,-0.004584,return
+interest_rates,"Interest rates (10Y yield, pp)",3 months,0.3,percentage points
+inflation_expectations,"Inflation expectations (10Y breakeven, pp)",3 months,0.01,percentage points
+credit_spreads,"Credit spreads (high yield, pp)",3 months,0.7,percentage points
+us_dollar,US dollar,3 months,0.018898,return
+oil,Oil,3 months,0.144752,return
