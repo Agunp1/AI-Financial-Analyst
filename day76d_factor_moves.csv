@@ -1,19 +1,19 @@
 factor,label,window,move,unit
-equity_market,Equity market,1 week,-0.047102,return
-interest_rates,"Interest rates (10Y yield, pp)",1 week,-0.08,percentage points
+equity_market,Equity market,1 week,-0.026249,return
+interest_rates,"Interest rates (10Y yield, pp)",1 week,-0.1,percentage points
 inflation_expectations,"Inflation expectations (10Y breakeven, pp)",1 week,-0.11,percentage points
-credit_spreads,"Credit spreads (high yield, pp)",1 week,0.22,percentage points
-us_dollar,US dollar,1 week,-0.004805,return
-oil,Oil,1 week,-0.112328,return
-equity_market,Equity market,1 month,-0.056948,return
+credit_spreads,"Credit spreads (high yield, pp)",1 week,0.04,percentage points
+us_dollar,US dollar,1 week,0.003942,return
+oil,Oil,1 week,-0.135101,return
+equity_market,Equity market,1 month,-0.049591,return
 interest_rates,"Interest rates (10Y yield, pp)",1 month,-0.38,percentage points
 inflation_expectations,"Inflation expectations (10Y breakeven, pp)",1 month,-0.12,percentage points
-credit_spreads,"Credit spreads (high yield, pp)",1 month,0.39,percentage points
-us_dollar,US dollar,1 month,-0.006709,return
-oil,Oil,1 month,0.03729,return
-equity_market,Equity market,3 months,-0.048379,return
-interest_rates,"Interest rates (10Y yield, pp)",3 months,0.18,percentage points
-inflation_expectations,"Inflation expectations (10Y breakeven, pp)",3 months,-0.05,percentage points
-credit_spreads,"Credit spreads (high yield, pp)",3 months,0.78,percentage points
-us_dollar,US dollar,3 months,0.017537,return
-oil,Oil,3 months,0.121672,return
+credit_spreads,"Credit spreads (high yield, pp)",1 month,0.33,percentage points
+us_dollar,US dollar,1 month,0.001448,return
+oil,Oil,1 month,-0.00106,return
+equity_market,Equity market,3 months,-0.042059,return
+interest_rates,"Interest rates (10Y yield, pp)",3 months,0.14,percentage points
+inflation_expectations,"Inflation expectations (10Y breakeven, pp)",3 months,-0.04,percentage points
+credit_spreads,"Credit spreads (high yield, pp)",3 months,0.76,percentage points
+us_dollar,US dollar,3 months,0.024616,return
+oil,Oil,3 months,0.106655,return
