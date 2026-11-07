@@ -1,4 +1,4 @@
 run_id,job,started_at_utc,finished_at_utc,status,rows,detail
-90f8efd18d64,macro,2026-11-07T01:56:54Z,2026-11-07T01:56:56Z,OK,69479,failed: none
-90f8efd18d64,latest_quotes,2026-11-07T01:56:53Z,2026-11-07T01:56:54Z,OK,40,
-90f8efd18d64,price_history,2026-11-07T01:56:48Z,2026-11-07T01:56:53Z,OK,49282,from 2022-01-01; missing: none
+213cd0d6e3b9,macro,2026-11-07T13:31:52Z,2026-11-07T13:31:53Z,OK,69479,failed: none
+213cd0d6e3b9,latest_quotes,2026-11-07T13:31:50Z,2026-11-07T13:31:52Z,OK,40,
+213cd0d6e3b9,price_history,2026-11-07T13:31:46Z,2026-11-07T13:31:50Z,OK,49284,from 2022-01-01; missing: none
