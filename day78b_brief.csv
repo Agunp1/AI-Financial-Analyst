@@ -6,5 +6,5 @@ Economy,10Y breakeven inflation change: -11 bp this week,-0.11,pp,day76d_factor_
 Credit,High-yield spread change: +4 bp this week,0.04,pp,day76d_factor_moves.csv,1,"Regulators explore credit union reforms to support growth, innovation and better outcomes for members (Bank of England)"
 FX,US dollar index return: +0.4% this week,0.004149,return,day76d_factor_moves.csv,0,
 Commodities,Crude oil return: -13.0% this week,-0.129688,return,day76d_factor_moves.csv,0,
-Digital assets,Bitcoin 1-week return: -3.3% this week,-0.03285538193187132,return,day76c_price_history.csv,0,
+Digital assets,Bitcoin 1-week return: -3.1% this week,-0.031119125551403615,return,day76c_price_history.csv,0,
 Real estate,US REITs (VNQ) 1-week return: +1.9% this week,0.019054726015441004,return,day76c_price_history.csv,0,
