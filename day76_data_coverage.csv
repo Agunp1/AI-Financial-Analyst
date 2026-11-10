@@ -23,7 +23,7 @@ WMT,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,T
 GOOGL,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,False,True
 META,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True
 DIS,True,True,True,True,True,True,True,True,True,True,False,True,True,True,True,True,True,True
-NEE,True,False,True,True,True,True,True,True,True,True,False,True,True,True,True,False,True,True
+NEE,False,False,False,False,False,True,True,True,True,True,False,True,True,True,True,False,True,True
 DUK,True,True,True,True,True,True,True,True,True,True,False,True,True,True,True,False,True,True
 SO,True,True,True,True,True,True,True,True,True,True,False,True,True,True,True,False,True,True
 PLD,True,False,True,True,True,True,True,True,True,True,False,True,True,True,False,True,True,True

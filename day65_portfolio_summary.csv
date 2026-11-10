@@ -1,2 +1,2 @@
 capital_base,instrument_count,current_gross_exposure,target_gross_exposure,current_net_notional,target_net_notional,current_absolute_notional,target_absolute_notional,current_total_risk_weight,target_total_risk_weight,current_max_capital_weight,target_max_capital_weight,current_max_risk_weight,target_max_risk_weight,one_way_turnover,buy_count,sell_count,hold_count
-126803.17554648904,10,1.0,0.9674918320212819,1.0,0.9674918320212819,1.0,0.9674918320212819,1.0,1.0000000000000002,0.28995331689697146,0.25,0.24707278649738093,0.2414293365357532,0.01997665844848573,0,1,9
+128746.10068585617,10,1.0,0.9656227897840968,1.0,0.9656227897840968,1.0,0.9656227897840968,1.0,0.9999999999999999,0.29228457457828194,0.25,0.24948581601447858,0.24513432794661194,0.02114228728914097,0,1,9
