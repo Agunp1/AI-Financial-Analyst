@@ -11,11 +11,11 @@ max_terminal_growth,0.03,Vittantra policy assumption
 default_retention,0.5,Vittantra policy assumption
 default_risk_free,0.0425,Vittantra policy assumption
 fair_value_band,0.15,Vittantra policy assumption
-risk_free_rate,0.051500000000000004,10Y Treasury (FRED DGS10) on 2026-11-13
-credit_spread_AAA,0.0044,ICE BofA option-adjusted spreads by rating (FRED)
-credit_spread_AA,0.0064,ICE BofA option-adjusted spreads by rating (FRED)
-credit_spread_A,0.0073,ICE BofA option-adjusted spreads by rating (FRED)
-credit_spread_BBB,0.011100000000000002,ICE BofA option-adjusted spreads by rating (FRED)
-credit_spread_BB,0.0186,ICE BofA option-adjusted spreads by rating (FRED)
-credit_spread_B,0.0344,ICE BofA option-adjusted spreads by rating (FRED)
-credit_spread_CCC & below,0.1316,ICE BofA option-adjusted spreads by rating (FRED)
+risk_free_rate,0.0512,10Y Treasury (FRED DGS10) on 2026-11-16
+credit_spread_AAA,0.0045,ICE BofA option-adjusted spreads by rating (FRED)
+credit_spread_AA,0.0065,ICE BofA option-adjusted spreads by rating (FRED)
+credit_spread_A,0.0074,ICE BofA option-adjusted spreads by rating (FRED)
+credit_spread_BBB,0.011200000000000002,ICE BofA option-adjusted spreads by rating (FRED)
+credit_spread_BB,0.0196,ICE BofA option-adjusted spreads by rating (FRED)
+credit_spread_B,0.0357,ICE BofA option-adjusted spreads by rating (FRED)
+credit_spread_CCC & below,0.131,ICE BofA option-adjusted spreads by rating (FRED)
