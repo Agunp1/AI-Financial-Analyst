@@ -1,11 +1,11 @@
 symbol,price,sample_price,as_of_date,method,source,proxy_ticker,model_yield,status,note
-AAPL,351.9200134277344,200.0,2026-11-17,DIRECT,intraday quote,AAPL,,FRESH,Apple common stock
-SPY,732.4000244140625,550.0,2026-11-17,DIRECT,intraday quote,SPY,,FRESH,SPDR S&P 500 ETF
-ES,7385.75,6000.0,2026-11-18,DIRECT,intraday quote,ES=F,,FRESH,E-mini S&P 500 front-month future
-EURUSD,1.0962508916854858,1.1,2026-11-18,DIRECT,intraday quote,EURUSD=X,,FRESH,EUR/USD spot rate
-GOLD,3766.39990234375,2600.0,2026-11-18,DIRECT,intraday quote,GC=F,,FRESH,COMEX gold front-month future (USD/oz)
-BTC,63911.859375,100000.0,2026-11-18,DIRECT,intraday quote,BTC-USD,,FRESH,Bitcoin in USD
-REIT,94.87999725341797,100.0,2026-11-17,PROXY,intraday quote,VNQ,,FRESH,Vanguard Real Estate ETF as REIT proxy
-CORP_BOND,93.97279428279217,98.5,2026-11-16,MODEL,5Y Treasury + BBB OAS (FRED),LQD,0.0605,FRESH,Priced from 5Y Treasury + BBB spread (FRED); history from LQD returns
-AAPL_CALL,143.36329129162476,8.5,2026-11-17,MODEL,Black-Scholes on AAPL intraday quote,AAPL,,FRESH,Black-Scholes on live AAPL; implied volatility is an assumption
+AAPL,354.0267028808594,200.0,2026-11-18,DIRECT,intraday quote,AAPL,,FRESH,Apple common stock
+SPY,733.510009765625,550.0,2026-11-18,DIRECT,intraday quote,SPY,,FRESH,SPDR S&P 500 ETF
+ES,7368.75,6000.0,2026-11-18,DIRECT,intraday quote,ES=F,,FRESH,E-mini S&P 500 front-month future
+EURUSD,1.098056435585022,1.1,2026-11-18,DIRECT,intraday quote,EURUSD=X,,FRESH,EUR/USD spot rate
+GOLD,3743.10009765625,2600.0,2026-11-18,DIRECT,intraday quote,GC=F,,FRESH,COMEX gold front-month future (USD/oz)
+BTC,63176.55078125,100000.0,2026-11-18,DIRECT,intraday quote,BTC-USD,,FRESH,Bitcoin in USD
+REIT,95.41500091552734,100.0,2026-11-18,PROXY,intraday quote,VNQ,,FRESH,Vanguard Real Estate ETF as REIT proxy
+CORP_BOND,93.86043153767564,98.5,2026-11-16,MODEL,5Y Treasury + BBB OAS (FRED),LQD,0.0608,FRESH,Priced from 5Y Treasury + BBB spread (FRED); history from LQD returns
+AAPL_CALL,145.46997879889085,8.5,2026-11-18,MODEL,Black-Scholes on AAPL intraday quote,AAPL,,FRESH,Black-Scholes on live AAPL; implied volatility is an assumption
 USD,1.0,1.0,2026-11-18,CONSTANT,constant,,,FRESH,US dollar cash
