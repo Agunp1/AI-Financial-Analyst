@@ -11,8 +11,8 @@ RSAFS,Retail sales (y/y %),Consumer,6.8234091489905335,6.568952376058723,0.25445
 UMCSENT,Consumer sentiment (University of Michigan),Consumer,48.1,51.7,-3.6000000000000014,55.1,2026-09-01
 FEDFUNDS,Effective fed funds rate (%),Monetary policy,3.88,3.75,0.1299999999999999,4.09,2026-10-01
 MORTGAGE30US,30-year fixed mortgage rate (%),Housing,7.11,7.18,-0.0699999999999994,6.22,2026-11-12
-HOUST,"Housing starts (thousands, annualized)",Housing,1221.0,1288.0,-67.0,1319.0,2026-09-01
+HOUST,"Housing starts (thousands, annualized)",Housing,1309.0,1191.0,118.0,1273.0,2026-10-01
 CUSR0000SEHB,Hotel & lodging prices — CPI lodging away from home (y/y %),Commercial real estate,4.380801874875706,3.176350043641607,1.204451831234099,0.0010750549621851846,2026-09-01
 DRCRELEXFACBS,Delinquency rate on commercial real estate loans at banks (%),Commercial real estate,1.53,1.56,-0.030000000000000027,1.57,2026-04-01
 TLCOMCONS,Commercial construction spending (y/y %),Commercial real estate,-4.019798424557541,-5.18364518364518,1.1638467590876393,-4.006385035634796,2026-09-01
-VIXCLS,VIX equity volatility index,Markets,22.91,19.3,3.6099999999999994,19.83,2026-11-16
+VIXCLS,VIX equity volatility index,Markets,25.46,22.91,2.5500000000000007,22.38,2026-11-17
