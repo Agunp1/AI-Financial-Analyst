@@ -30,5 +30,5 @@ PLD,False,False,False,False,False,True,True,True,True,True,False,True,True,True,
 AMT,True,True,True,True,True,True,True,True,True,True,False,True,True,True,True,True,True,True
 O,True,False,True,True,False,True,True,False,True,True,False,False,True,True,False,False,False,True
 LIN,True,True,True,True,True,True,True,True,True,True,False,True,True,True,True,True,True,True
-APD,True,False,True,True,True,True,True,True,True,True,True,True,False,True,True,True,True,True
+APD,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True
 NEM,True,True,True,True,False,True,True,False,True,True,False,False,True,True,True,False,False,True
