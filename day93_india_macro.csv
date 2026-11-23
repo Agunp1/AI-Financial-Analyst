@@ -3,4 +3,4 @@ INDCPIALLMINMEI,Consumer price inflation,% a year,2.9518,Stale — source last p
 INDIRLTLT01STM,10-year government bond yield,%,7.38,Current,0.898,vs a year earlier,2026-10-01,FRED (OECD / IMF / Federal Reserve)
 INDIR3TIB01STM,3-month interbank rate (policy-rate proxy),%,5.61,Current,0.1569,vs a year earlier,2026-10-01,FRED (OECD / IMF / Federal Reserve)
 INDPROINDMISMEI,Industrial production growth,% a year,5.5526,Stale — source last published Jan 2023,0.2194,vs previous reading,2023-01-01,FRED (OECD / IMF / Federal Reserve)
-DEXINUS,Rupees per US dollar (Fed H.10),INR,94.24,Current,5.58,vs a year earlier,2026-11-13,FRED (OECD / IMF / Federal Reserve)
+DEXINUS,Rupees per US dollar (Fed H.10),INR,92.67,Current,3.98,vs a year earlier,2026-11-20,FRED (OECD / IMF / Federal Reserve)
