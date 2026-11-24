@@ -4,38 +4,38 @@ Alternative,Infrastructure & MLPs,3,-0.00407,0.115764,0.135003,0.362877
 Alternative,Private credit (BDCs),5,0.052376,-0.005608,0.239762,0.573461
 Alternative,Private equity (listed),6,0.005007,-0.119667,0.384416,1.239774
 Alternative,Real assets,4,-0.080769,-0.037325,0.293794,0.592831
-Alternative,Volatility,2,0.314341,-0.120477,1.074917,-6.409433
-Commodity,Commodity ETF,5,-0.147984,0.335541,0.294404,-0.302237
-Commodity,Energy,5,-0.257691,0.354181,0.570369,-1.459039
-Commodity,Grains,5,-0.020493,0.102164,0.215811,-0.083712
-Commodity,Industrial metals,1,-0.150015,0.109331,0.281463,0.973918
-Commodity,Livestock,3,-0.040192,0.047097,0.168074,0.149925
-Commodity,Precious metals,4,-0.161311,-0.160194,0.549655,1.313507
+Alternative,Volatility,2,0.314341,-0.120477,1.074917,-6.409424
+Commodity,Commodity ETF,5,-0.147984,0.335541,0.294404,-0.302236
+Commodity,Energy,5,-0.257878,0.35537,0.570357,-1.459034
+Commodity,Grains,5,-0.020294,0.102801,0.215903,-0.083711
+Commodity,Industrial metals,1,-0.150324,0.108928,0.281492,0.973917
+Commodity,Livestock,3,-0.040192,0.047097,0.168074,0.149924
+Commodity,Precious metals,4,-0.161444,-0.161556,0.549675,1.313507
 Commodity,Softs,4,-0.090132,0.105769,0.346535,0.231424
-Digital Asset,Crypto ETF,3,-0.247274,-0.279029,0.45074,1.563233
-Digital Asset,Cryptocurrency,20,-0.257305,-0.496787,0.663036,1.495376
-Digital Asset,Stablecoin,2,8.6e-05,-0.000328,0.003603,0.004807
+Digital Asset,Crypto ETF,3,-0.247274,-0.279029,0.45074,1.563231
+Digital Asset,Cryptocurrency,20,-0.259272,-0.498861,0.663163,1.495377
+Digital Asset,Stablecoin,2,5.4e-05,-0.00036,0.003601,0.004807
 Equity,International,9,-0.042088,0.102436,0.190055,0.966718
 Equity,US broad,5,-0.047985,0.108494,0.14984,1.0
-FX,Cross,4,-0.00616,-0.025213,0.052883,-0.003401
-FX,Dollar index,1,0.024212,0.041292,0.052249,-0.118777
-FX,Emerging,10,0.015018,0.022072,0.077421,-0.00163
-FX,G10,9,0.017272,0.016013,0.076208,-0.001449
+FX,Cross,4,-0.006394,-0.025349,0.052896,-0.003401
+FX,Dollar index,1,0.024477,0.041562,0.052247,-0.118777
+FX,Emerging,10,0.01537,0.022068,0.07742,-0.00163
+FX,G10,9,0.017227,0.015968,0.076207,-0.001449
 Fixed Income,Aggregate ETF,2,0.006175,-0.002596,0.041478,0.080972
-Fixed Income,High yield ETF,3,-0.001709,0.013707,0.039515,0.203082
+Fixed Income,High yield ETF,3,-0.001709,0.013707,0.039515,0.203081
 Fixed Income,Inflation-linked ETF,1,-0.004805,-0.00916,0.036845,0.030695
-Fixed Income,Investment grade ETF,3,0.004624,-0.008238,0.045603,0.119166
+Fixed Income,Investment grade ETF,3,0.004624,-0.008238,0.045603,0.119167
 Fixed Income,Other bond ETF,5,0.005739,0.001997,0.039109,0.101469
-Fixed Income,Treasury ETF,4,0.006255,-0.000503,0.033212,0.042476
+Fixed Income,Treasury ETF,4,0.006255,-0.000503,0.033212,0.042475
 Real Estate,Apartments & single-family rental,4,-0.043667,-0.061239,0.201799,0.109029
-Real Estate,"CRE debt (mortgage REITs, CMBS)",4,-0.011963,-0.148203,0.209233,0.468719
-Real Estate,Data centers & towers,4,-0.039947,0.067413,0.288004,0.511457
-Real Estate,Healthcare & senior housing,3,0.005688,0.12511,0.227573,-0.087117
-Real Estate,Hotels & lodging,6,0.040573,0.682673,0.24352,0.726045
+Real Estate,"CRE debt (mortgage REITs, CMBS)",4,-0.011963,-0.148204,0.209233,0.46872
+Real Estate,Data centers & towers,4,-0.039947,0.067412,0.288004,0.511456
+Real Estate,Healthcare & senior housing,3,0.005688,0.12511,0.227573,-0.087116
+Real Estate,Hotels & lodging,6,0.040573,0.682673,0.24352,0.726046
 Real Estate,Industrial & logistics,3,-0.01036,0.026066,0.208336,0.456079
 Real Estate,Motels & economy hotel brands,2,0.110014,0.236202,0.34128,0.530038
-Real Estate,Net lease,2,0.015491,0.074336,0.169987,-0.070081
-Real Estate,Office,5,-0.047414,-0.08106,0.324372,0.870818
-Real Estate,REIT ETF,4,0.009162,0.08562,0.143011,0.339703
+Real Estate,Net lease,2,0.015491,0.074336,0.169987,-0.07008
+Real Estate,Office,5,-0.047414,-0.08106,0.324372,0.870821
+Real Estate,REIT ETF,4,0.009162,0.08562,0.143011,0.339704
 Real Estate,Retail (malls & shopping centers),4,0.044849,0.237183,0.17235,0.139076
 Real Estate,Self-storage,3,0.095949,0.276974,0.221491,0.346308

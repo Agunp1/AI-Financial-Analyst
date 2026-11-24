@@ -1,13 +1,13 @@
 check,passed,details,passed_tests,total_tests,pass_rate
-SEC filings loaded,True,33 of 33 companies,12,12,1.0
-Point in time: no filing after as-of date,True,Latest filing used: 2026-11-20 00:00:00; as of 2026-11-21,12,12,1.0
-Filings are recent (within 135 days),True,29 of 33 companies,12,12,1.0
-TTM revenue available,True,97% of loaded companies,12,12,1.0
-Market caps positive,True,30 market caps,12,12,1.0
-Gross margins between 0% and 100%,True,range 25.2% to 88.3%,12,12,1.0
-Scores between 0 and 100,True,All percentile scores,12,12,1.0
-Value score coverage,True,88% of loaded companies,12,12,1.0
-Growth score coverage,True,97% of loaded companies,12,12,1.0
-Quality score coverage,True,97% of loaded companies,12,12,1.0
-Financial Health score coverage,True,94% of loaded companies,12,12,1.0
-Composite score coverage,True,97%,12,12,1.0
+SEC filings loaded,True,33 of 33 companies,11,12,0.9166666666666666
+Point in time: no filing after as-of date,True,Latest filing used: 2026-11-20 00:00:00; as of 2026-11-24,11,12,0.9166666666666666
+Filings are recent (within 135 days),True,29 of 33 companies,11,12,0.9166666666666666
+TTM revenue available,True,97% of loaded companies,11,12,0.9166666666666666
+Market caps positive,False,29 market caps,11,12,0.9166666666666666
+Gross margins between 0% and 100%,True,range 25.2% to 88.3%,11,12,0.9166666666666666
+Scores between 0 and 100,True,All percentile scores,11,12,0.9166666666666666
+Value score coverage,True,85% of loaded companies,11,12,0.9166666666666666
+Growth score coverage,True,97% of loaded companies,11,12,0.9166666666666666
+Quality score coverage,True,97% of loaded companies,11,12,0.9166666666666666
+Financial Health score coverage,True,94% of loaded companies,11,12,0.9166666666666666
+Composite score coverage,True,97%,11,12,0.9166666666666666
