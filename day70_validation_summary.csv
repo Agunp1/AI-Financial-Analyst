@@ -9,7 +9,7 @@ Priority buckets remain valid,True,"Observed: P3_REVIEW, P4_MONITOR",15,15,1.0
 Risk-changing actions require review,True,Risk-changing tickets: 0,15,15,1.0
 Critical remediation requires dual approval,True,Critical tickets: 0,15,15,1.0
 Automatic execution remains disabled,True,No Day 70 ticket authorizes automatic execution.,15,15,1.0
-Approval queue reconciles with pending decisions,True,Pending tickets: 1; queue rows: 1,15,15,1.0
+Approval queue reconciles with pending decisions,True,Pending tickets: 3; queue rows: 3,15,15,1.0
 Every decision ticket receives an audit event,True,Tickets: 10; audit events: 10,15,15,1.0
 Audit hashes are generated,True,Audit events checked: 10,15,15,1.0
 Portfolio approval summary generated,True,Summary rows: 1,15,15,1.0
