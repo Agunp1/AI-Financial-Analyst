@@ -1,5 +1,5 @@
 scope,identifier,governance_status,governance_action,requires_review,block_incremental_risk,reason
-PORTFOLIO,TOTAL_PORTFOLIO,WATCH,MONITOR,True,False,"Day 67 portfolio status is WATCH. | Maximum risk-budget utilization is 81.31%, inside the watch zone. | 3 instrument(s) are in watch status."
-INSTRUMENT,AAPL_CALL,WATCH,MONITOR,True,False,Risk-budget utilization 81.31% is elevated. | Day 66 action: UNCHANGED.
-INSTRUMENT,AAPL,WATCH,MONITOR,True,False,Risk-budget utilization 81.27% is elevated. | Day 66 action: UNCHANGED.
-INSTRUMENT,ES,WATCH,MONITOR,True,False,Risk-budget utilization 81.10% is elevated. | Day 66 action: UNCHANGED.
+PORTFOLIO,TOTAL_PORTFOLIO,WATCH,MONITOR,True,False,"Day 67 portfolio status is WATCH. | Maximum risk-budget utilization is 82.05%, inside the watch zone. | 3 instrument(s) are in watch status."
+INSTRUMENT,AAPL_CALL,WATCH,MONITOR,True,False,Risk-budget utilization 82.05% is elevated. | Day 66 action: UNCHANGED.
+INSTRUMENT,AAPL,WATCH,MONITOR,True,False,Risk-budget utilization 82.01% is elevated. | Day 66 action: UNCHANGED.
+INSTRUMENT,ES,WATCH,MONITOR,True,False,Risk-budget utilization 80.28% is elevated. | Day 66 action: UNCHANGED.
