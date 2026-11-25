@@ -6,7 +6,7 @@ UNRATE,Unemployment rate (%),Labor market,4.1,4.2,-0.10000000000000053,4.4,2026-
 PAYEMS,"Nonfarm payrolls (monthly change, thousands)",Labor market,165.0,60.0,105.0,-140.0,2026-10-01
 ICSA,Initial jobless claims (weekly),Labor market,203000.0,202000.0,1000.0,228000.0,2026-11-14
 GDPC1,Real GDP growth (q/q annualized %),Growth,3.369618941355945,2.2202083203100687,1.1494106210458765,3.880333765437727,2026-07-01
-INDPRO,Industrial production (y/y %),Growth,2.1496845963475453,2.1420702679308956,0.007614328416649663,1.7593332629600056,2026-10-01
+INDPRO,Industrial production (y/y %),Growth,1.6593883857727532,1.67265244931889,-0.01326406354613674,1.2458776108464686,2026-10-01
 RSAFS,Retail sales (y/y %),Consumer,6.8234091489905335,6.568952376058723,0.25445677293181035,2.7308274470231986,2026-10-01
 UMCSENT,Consumer sentiment (University of Michigan),Consumer,48.0,48.1,-0.10000000000000142,53.6,2026-10-01
 FEDFUNDS,Effective fed funds rate (%),Monetary policy,3.88,3.75,0.1299999999999999,4.09,2026-10-01
@@ -15,4 +15,4 @@ HOUST,"Housing starts (thousands, annualized)",Housing,1309.0,1191.0,118.0,1273.
 CUSR0000SEHB,Hotel & lodging prices — CPI lodging away from home (y/y %),Commercial real estate,4.380801874875706,3.176350043641607,1.204451831234099,0.0010750549621851846,2026-09-01
 DRCRELEXFACBS,Delinquency rate on commercial real estate loans at banks (%),Commercial real estate,1.53,1.56,-0.030000000000000027,1.57,2026-04-01
 TLCOMCONS,Commercial construction spending (y/y %),Commercial real estate,-4.019798424557541,-5.18364518364518,1.1638467590876393,-4.006385035634796,2026-09-01
-VIXCLS,VIX equity volatility index,Markets,35.89,28.44,7.449999999999999,26.42,2026-11-20
+VIXCLS,VIX equity volatility index,Markets,26.62,35.89,-9.27,23.43,2026-11-23
