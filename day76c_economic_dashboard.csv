@@ -1,18 +1,18 @@
 series_id,indicator,category,latest,previous,change,year_ago,release_period
 CPIAUCSL,"CPI inflation (headline, y/y %)",Inflation,3.7172508442689933,3.353016322755642,0.36423452151335134,3.0225715847133294,2026-09-01
 CPILFESL,Core CPI inflation (y/y %),Inflation,2.565840844021827,2.4461631786472537,0.11967766537457347,3.0199668258857892,2026-09-01
-PCEPILFE,Core PCE inflation — the Fed's target measure (y/y %),Inflation,3.1211596029620203,3.034442461664799,0.08671714129722119,2.8170611200207363,2026-09-01
+PCEPILFE,Core PCE inflation — the Fed's target measure (y/y %),Inflation,3.26111744583808,3.1424294942492548,0.11868795158882506,2.704820055566337,2026-10-01
 UNRATE,Unemployment rate (%),Labor market,4.1,4.2,-0.10000000000000053,4.4,2026-10-01
 PAYEMS,"Nonfarm payrolls (monthly change, thousands)",Labor market,165.0,60.0,105.0,-140.0,2026-10-01
-ICSA,Initial jobless claims (weekly),Labor market,203000.0,202000.0,1000.0,228000.0,2026-11-14
-GDPC1,Real GDP growth (q/q annualized %),Growth,3.369618941355945,2.2202083203100687,1.1494106210458765,3.880333765437727,2026-07-01
+ICSA,Initial jobless claims (weekly),Labor market,189000.0,202000.0,-13000.0,222000.0,2026-11-21
+GDPC1,Real GDP growth (q/q annualized %),Growth,4.281933367573587,2.2202083203100687,2.0617250472635185,3.880333765437727,2026-07-01
 INDPRO,Industrial production (y/y %),Growth,1.6593883857727532,1.67265244931889,-0.01326406354613674,1.2458776108464686,2026-10-01
 RSAFS,Retail sales (y/y %),Consumer,6.8234091489905335,6.568952376058723,0.25445677293181035,2.7308274470231986,2026-10-01
 UMCSENT,Consumer sentiment (University of Michigan),Consumer,48.0,48.1,-0.10000000000000142,53.6,2026-10-01
 FEDFUNDS,Effective fed funds rate (%),Monetary policy,3.88,3.75,0.1299999999999999,4.09,2026-10-01
-MORTGAGE30US,30-year fixed mortgage rate (%),Housing,7.28,7.11,0.16999999999999993,6.24,2026-11-19
+MORTGAGE30US,30-year fixed mortgage rate (%),Housing,7.21,7.28,-0.07000000000000028,6.26,2026-11-25
 HOUST,"Housing starts (thousands, annualized)",Housing,1309.0,1191.0,118.0,1273.0,2026-10-01
 CUSR0000SEHB,Hotel & lodging prices — CPI lodging away from home (y/y %),Commercial real estate,4.380801874875706,3.176350043641607,1.204451831234099,0.0010750549621851846,2026-09-01
 DRCRELEXFACBS,Delinquency rate on commercial real estate loans at banks (%),Commercial real estate,1.53,1.56,-0.030000000000000027,1.57,2026-04-01
 TLCOMCONS,Commercial construction spending (y/y %),Commercial real estate,-4.019798424557541,-5.18364518364518,1.1638467590876393,-4.006385035634796,2026-09-01
-VIXCLS,VIX equity volatility index,Markets,26.62,35.89,-9.27,23.43,2026-11-23
+VIXCLS,VIX equity volatility index,Markets,26.36,26.62,-0.26000000000000156,20.52,2026-11-24
