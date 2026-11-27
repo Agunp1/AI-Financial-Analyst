@@ -1,5 +1,5 @@
 check,passed,details,passed_tests,total_tests,pass_rate
-Current ratings for the research universe,True,32 of 33 stocks rated,6,6,1.0
+Current ratings for the research universe,True,33 of 33 stocks rated,6,6,1.0
 Scores between 0 and 100,True,All pillar and composite scores,6,6,1.0
 Rating distribution about 30 / 40 / 30,True,"{'Neutral': 0.42, 'Overweight': 0.3, 'Underweight': 0.27}",6,6,1.0
 Enough history for IC testing,True,39 dates,6,6,1.0

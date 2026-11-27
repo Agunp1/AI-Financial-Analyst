@@ -1,10 +1,10 @@
 ticker,price,previous_close,change_pct,as_of,price_source,status,data_source
 AAPL,355.44500732421875,354.07000732421875,0.003883412804126296,2026-11-25 20:55,intraday quote,FRESH,"Yahoo Finance (free, may be delayed)"
 SPY,716.7100219726562,718.780029296875,-0.0028798898687316665,2026-11-25 20:55,intraday quote,FRESH,"Yahoo Finance (free, may be delayed)"
-ES=F,7247.75,,,2026-11-26 04:55,intraday quote,FRESH,"Yahoo Finance (free, may be delayed)"
-EURUSD=X,1.0978153944015503,1.097008466720581,0.0007355710602503507,2026-11-27 04:10,intraday quote,FRESH,"Yahoo Finance (free, may be delayed)"
+ES=F,7247.75,7195.75,0.007226487857415753,2026-11-26 04:55,intraday quote,FRESH,"Yahoo Finance (free, may be delayed)"
+EURUSD=X,1.0978153944015503,1.097008466720581,0.0007355710602503507,2026-11-27 04:15,intraday quote,FRESH,"Yahoo Finance (free, may be delayed)"
 GC=F,3620.39990234375,3535.800048828125,0.023926650926899606,2026-11-26 04:55,intraday quote,FRESH,"Yahoo Finance (free, may be delayed)"
-BTC-USD,61406.26171875,60378.19921875,0.017027048062088435,2026-11-27 04:10,intraday quote,FRESH,"Yahoo Finance (free, may be delayed)"
+BTC-USD,61451.71875,60378.19921875,0.017779919658760246,2026-11-27 04:15,intraday quote,FRESH,"Yahoo Finance (free, may be delayed)"
 VNQ,95.66000366210938,94.77999877929688,0.009284710847714539,2026-11-25 20:55,intraday quote,FRESH,"Yahoo Finance (free, may be delayed)"
 LQD,104.30500030517578,103.79000091552734,0.004961936459250804,2026-11-25 20:55,intraday quote,FRESH,"Yahoo Finance (free, may be delayed)"
 MSFT,489.75,496.1300048828125,-0.012859542498985688,2026-11-25 20:55,intraday quote,FRESH,"Yahoo Finance (free, may be delayed)"
